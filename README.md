@@ -14,17 +14,14 @@ Installation
 To build the C++ lib, you will need:
 
   - cmake (and cmake-curses-gui for easy configuration)
-	- [ndarray][ndarray]
-  - libboost-dev >= 1.37
-  - NVIDIA CUDA (tm), including SDK. We support versions 3.X, 4.X and 5.X
-	- GCC 4.6 or higher
-	- NVIDIA CUDA™ 5.0 or higher
-	- [Vigra Impex][vigra]
-	- Intel TBB
-	-	[Thrust][thrust]
-	- Boost 1.46 or higher
-	- [MDBQ][mdbq] (optional, required for [hyperopt][hyperopt] parameter search)
-  - [thrust library][thrust] - included in CUDA since 4.0
+  - [ndarray][ndarray]
+  - GCC 4.6 or higher
+  - Boost 1.46 or higher
+  - NVIDIA CUDA™ 5.0 or higher
+  - [Vigra Impex][vigra]
+  - Intel TBB
+  - [MDBQ][mdbq] (optional, required for [hyperopt][hyperopt] parameter search)
+  - [Thrust][thrust] - included in CUDA since 4.0
 
 
 ### Building a debug version ###
@@ -137,3 +134,4 @@ TODO: documentation
 [thrust]: http://code.google.com/p/thrust/
 [mdbq]: https://github.com/temporaer/MDBQ
 [hyperopt]: https://github.com/jaberg/hyperopt
+[vigra]: http://hci.iwr.uni-heidelberg.de/vigra/
