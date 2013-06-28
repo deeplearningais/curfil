@@ -5,13 +5,29 @@ This project is an open source implementation with NVIDIA CUDA™ that accelerat
 forest training and prediction for image segmentation applications by using the
 massive parallel computing power offered by GPUs.
 
+Implemented Visual Features
+---------------------------
+
+This project focuses on image segmentation and classification applications.
+
+We implement two types of RGB-D image features.
+
+For a given query pixel, the image feature is calculated as the difference of
+the average value of the image channel in two rectangular regions in the
+neighborhood around the query pixel.
+
+Extent size and relative offset of the rectangular region in the image is
+normalized by the depth of the query pixel.
+
+This leads to the property that smaller regions and offsets are used for
+pixels that have a larger distance (e.g. pixels in the background).
 
 Installation
 ------------
 
 ### Dependencies ###
 
-To build the C++ lib, you will need:
+To build the C++ library and the binaries, you will need:
 
   - cmake (and cmake-curses-gui for easy configuration)
   - [ndarray][ndarray]
@@ -48,24 +64,6 @@ make -j
 ctest                # run tests to see if it went well
 sudo make install
 ```
-
-
-Implemented Visual Features
----------------------------
-
-This project focuses on image segmentation and classification applications.
-
-We implement two types of RGB-D image features.
-
-For a given query pixel, the image feature is calculated as the difference of
-the average value of the image channel in two rectangular regions in the
-neighborhood around the query pixel.
-
-Extent size and relative offset of the rectangular region in the image is
-normalized by the depth of the query pixel.
-
-This leads to the property that smaller regions and offsets are used for
-pixels that have a larger distance (e.g. pixels in the background).
 
 Dataset Format
 --------------
