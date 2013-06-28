@@ -8,7 +8,7 @@ massive parallel computing power offered by GPUs.
 Implemented Visual Features
 ---------------------------
 
-This project focuses on image segmentation and classification applications.
+We currently focus on image segmentation and classification applications.
 
 We implement two types of RGB-D image features.
 
@@ -18,9 +18,6 @@ neighborhood around the query pixel.
 
 Extent size and relative offset of the rectangular region in the image is
 normalized by the depth of the query pixel.
-
-This leads to the property that smaller regions and offsets are used for
-pixels that have a larger distance (e.g. pixels in the background).
 
 Installation
 ------------
