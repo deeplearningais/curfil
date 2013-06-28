@@ -31,10 +31,10 @@ To build the C++ library and the binaries, you will need:
   - GCC 4.6 or higher
   - Boost 1.46 or higher
   - NVIDIA CUDA™ 5.0 or higher
+  - [Thrust][thrust] - included in CUDA since 4.0
   - [Vigra Impex][vigra]
   - Intel TBB
   - [MDBQ][mdbq] (optional, required for [hyperopt][hyperopt] parameter search)
-  - [Thrust][thrust] - included in CUDA since 4.0
 
 
 ### Building a debug version ###
@@ -86,7 +86,7 @@ We expect to find the color image, depth information and the ground truth in thr
 - `<name>_depth.png`
 	A single-channel `uint16` depth image. Each pixel gives
 	the depth in millimeters, with 0 denoting missing depth. The depth image can be
-	read using MATLAB with the standard function (imread), and in OpenCV by loading
+	read using MATLAB with the standard function ([imread][matlab-imread]), and in OpenCV by loading
 	it into an image of type `IPL_DEPTH_16U`.
 - `<name>_ground_truth.png`
 	A three-channel `uint8` RGB image where pixels take on values between 0-255.
@@ -125,3 +125,4 @@ TODO: documentation
 [mdbq]: https://github.com/temporaer/MDBQ
 [hyperopt]: https://github.com/jaberg/hyperopt
 [vigra]: http://hci.iwr.uni-heidelberg.de/vigra/
+[matlab-imread]: http://www.mathworks.de/de/help/matlab/ref/imread.html
