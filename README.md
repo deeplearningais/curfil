@@ -81,19 +81,14 @@ of Kevin Lai et al.][lai-rgbd].
 We expect to find the color image, depth information and the ground truth in three files in the same folder.
 	The filename schema and format is the following:
 
-### Color Image ###
-  - `<name>_colors.png`
+- `<name>_colors.png`
 	A three-channel `uint8` RGB image where pixels take on values between 0-255
-
-### Depth Image ###
-	- `<name>_depth.png`
+- `<name>_depth.png`
 	A single-channel `uint16` depth image. Each pixel gives
 	the depth in millimeters, with 0 denoting missing depth. The depth image can be
 	read using MATLAB with the standard function (imread), and in OpenCV by loading
 	it into an image of type `IPL_DEPTH_16U`.
-
-### Ground Truth ###
-	- `<name>_ground_truth.png`
+- `<name>_ground_truth.png`
 	A three-channel `uint8` RGB image where pixels take on values between 0-255.
 	Each color represents a different class label. Black indicates "void" or
 	"background".
