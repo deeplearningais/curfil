@@ -1,8 +1,8 @@
-Accelerated Random Forests for Object-class Image Segmentation
---------------------------------------------------------------
+CUDA Random Forests for Image Labelling (CURFIL)
+------------------------------------------------
 
 This project is an open source implementation with NVIDIA CUDA™ that accelerates random
-forest training and prediction for image segmentation applications by using the
+forest training and prediction for image labelling by using the
 massive parallel computing power offered by GPUs.
 
 Implemented Visual Features
@@ -79,7 +79,10 @@ To load images from disk, we use a similar format as the [RGB-D object dataset
 of Kevin Lai et al.][lai-rgbd].
 
 We expect to find the color image, depth information and the ground truth in three files in the same folder.
-	The filename schema and format is the following:
+All images must have the same size. Datasets with varying image sizes must be padded manually.
+You can specify to skip the padding color when sampling the dataset by using the `--ignoreColor` parameter.
+
+The filename schema and format is
 
 - `<name>_colors.png`
 	A three-channel `uint8` RGB image where pixels take on values between 0-255
