@@ -43,7 +43,6 @@ To build the C++ library and the binaries, you will need:
 mkdir -p build/debug
 cd build/debug
 cmake -DCMAKE_BUILD_TYPE=Debug ../../
-make
 ccmake .             # adjust paths to your system (cuda, thrust, ...)!
 make -j
 ctest                # run tests to see if it went well
