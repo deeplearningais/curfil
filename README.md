@@ -23,7 +23,7 @@ Installation
 To build the C++ library and the binaries, you will need:
 
   - cmake (and cmake-curses-gui for easy configuration)
-  - [ndarray][ndarray]
+  - [ndarray][ndarray] (included as git submodule)
   - GCC 4.4 or higher
   - Boost 1.46 or higher
   - NVIDIA CUDA™ 5.0 or higher

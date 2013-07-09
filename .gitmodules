@@ -1,0 +1,3 @@
+[submodule "src/ndarray"]
+	path = src/ndarray
+	url = https://github.com/deeplearningais/ndarray
