@@ -81,30 +81,10 @@ The filename schema and format is
 	Each color represents a different class label. Black indicates "void" or
 	"background".
 
-Usage
------
+Examples
+--------
 
-TODO: documentation
-
-### Training ###
-
-#### Parameters ####
-
-### Prediction ###
-
-#### Parameters ####
-
-### As C++ Library ###
-
-### Parameter Search with [Hyperopt][hyperopt] ###
-
-#### Example ####
-
-
-How To Implement New Features
------------------------------
-
-TODO: documentation
+- [Training and Prediction with the NYU Depth v2 Dataset](https://github.com/deeplearningais/curfil/wiki/Training-and-Prediction-with-the-NYU-Depth-v2-Dataset)
 
 
 [lai-rgbd]: http://www.cs.washington.edu/rgbd-dataset/trd5326jglrepxk649ed/rgbd-dataset_full/README.txt
