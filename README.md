@@ -9,9 +9,8 @@ Implemented Visual Features
 ---------------------------
 
 We currently focus on image labelling tasks such as image segmentation or classification applications.
-We implement two types of RGB-D image features.
-
-See the [documentation of the implemented visual features][visual-features] for details.
+We implement two types of image features as described in the
+[documentation of visual features][visual-features] in more detail.
 
 Installation
 ------------
