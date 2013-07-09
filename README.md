@@ -24,7 +24,7 @@ To build the C++ library and the binaries, you will need:
 
   - cmake (and cmake-curses-gui for easy configuration)
   - [ndarray][ndarray]
-  - GCC 4.6 or higher
+  - GCC 4.4 or higher
   - Boost 1.46 or higher
   - NVIDIA CUDA™ 5.0 or higher
   - [Thrust][thrust] - included in CUDA since 4.0

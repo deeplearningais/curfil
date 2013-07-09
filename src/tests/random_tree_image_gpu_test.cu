@@ -50,7 +50,7 @@ static ScoreType scoreOnGPU(const size_t numClasses, const cuv::ndarray<int, cuv
     const cuv::ndarray<int, cuv::dev_memory_space> allClassesDevice(allClasses);
 
     const unsigned int leftRightStride = leftClassesDevice.stride(0);
-    assert(leftRightStride == rightClassesDevice.stride(0));
+    BOOST_REQUIRE_EQUAL(leftRightStride, rightClassesDevice.stride(0));
 
     calculcateScoreKernel<<<1,1>>>(result.ptr(), numClasses, leftClassesDevice.ptr(), rightClassesDevice.ptr(),
             leftRightStride, allClassesDevice.ptr(), totalLeft, totalRight);

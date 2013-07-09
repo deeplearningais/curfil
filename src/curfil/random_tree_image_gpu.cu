@@ -797,8 +797,8 @@ void ImageCache::transferElement(size_t imagePos, const void* imagePtr, cudaStre
 
     assert(image->getColorImage().ndim() == 3);
     assert(image->getColorImage().shape(0) == static_cast<unsigned int>(colorChannels));
-    assert(image->getColorImage().shape(1) == height);
-    assert(image->getColorImage().shape(2) == width);
+    assert(image->getColorImage().shape(1) == static_cast<unsigned int>(height));
+    assert(image->getColorImage().shape(2) == static_cast<unsigned int>(width));
     colorCopyParams.dstPos = make_cudaPos(0, 0, colorChannels * imagePos);
     colorCopyParams.srcPtr = make_cudaPitchedPtr(
             const_cast<void*>(reinterpret_cast<const void*>(image->getColorImage().ptr())),
@@ -807,8 +807,8 @@ void ImageCache::transferElement(size_t imagePos, const void* imagePtr, cudaStre
 
     assert(image->getDepthImage().ndim() == 3);
     assert(image->getDepthImage().shape(0) == static_cast<unsigned int>(depthChannels));
-    assert(image->getDepthImage().shape(1) == height);
-    assert(image->getDepthImage().shape(2) == width);
+    assert(image->getDepthImage().shape(1) == static_cast<unsigned int>(height));
+    assert(image->getDepthImage().shape(2) == static_cast<unsigned int>(width));
     depthCopyParams.dstPos = make_cudaPos(0, 0, depthChannels * imagePos);
     depthCopyParams.srcPtr = make_cudaPitchedPtr(
             const_cast<void*>(reinterpret_cast<const void*>(image->getDepthImage().ptr())),
@@ -1376,8 +1376,8 @@ void classifyImage(int treeCacheSize, cuv::ndarray<float, cuv::dev_memory_space>
     cudaStream_t stream = streams[0];
 
     assert(output.shape(0) == numLabels);
-    assert(output.shape(1) == image.getHeight());
-    assert(output.shape(2) == image.getWidth());
+    assert(output.shape(1) == static_cast<unsigned int>(image.getHeight()));
+    assert(output.shape(2) == static_cast<unsigned int>(image.getWidth()));
 
     const int threadsPerRow = 8;
     const int threadsPerColumn = 16;
@@ -1731,7 +1731,7 @@ std::vector<std::vector<const PixelInstance*> > ImageFeatureEvaluation::prepare(
         assert(sample->getDepth().isValid());
 
         if ((imagesInCurrentBatch.find(sample->getRGBDImage()) == imagesInCurrentBatch.end()
-                && imagesInCurrentBatch.size() >= configuration.getImageCacheSize())
+                && imagesInCurrentBatch.size() >= static_cast<size_t>(configuration.getImageCacheSize()))
                 || currentBatch.size() == configuration.getMaxSamplesPerBatch()) {
             addBatch(node, batches, currentBatch, imagesInCurrentBatch);
         }
