@@ -21,15 +21,22 @@
 using namespace curfil;
 
 static const int NUM_THREADS = 4;
-static const std::string folderTraining("testdata");
 static const std::string folderOutput("test.out");
 
 BOOST_AUTO_TEST_SUITE(RandomTreeImageTest)
 
+static std::string getFolderTraining() {
+    if (boost::unit_test::framework::master_test_suite().argc < 2) {
+        throw std::runtime_error("please specify folder with testdata");
+    }
+    return boost::unit_test::framework::master_test_suite().argv[1];
+}
+
 static void predict(RandomTreeImageEnsemble& randomForest, double& accuracy, double& accuracyNoBackground) {
+
     const bool useCIELab = true;
     const bool useDepthFilling = false;
-    const auto testing = loadImagePair(folderTraining + "/testing1_colors.png", useCIELab, useDepthFilling);
+    const auto testing = loadImagePair(getFolderTraining() + "/testing1_colors.png", useCIELab, useDepthFilling);
     const LabelImage* groundTruth = testing.getLabelImage();
 
     randomForest.normalizeHistograms(0.0);
@@ -58,9 +65,9 @@ BOOST_AUTO_TEST_CASE(trainTest) {
     const bool useDepthFilling = false;
 
     std::vector<LabeledRGBDImage> trainImages;
-    trainImages.push_back(loadImagePair(folderTraining + "/training1_colors.png", useCIELab, useDepthFilling));
-    trainImages.push_back(loadImagePair(folderTraining + "/training2_colors.png", useCIELab, useDepthFilling));
-    trainImages.push_back(loadImagePair(folderTraining + "/training3_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training1_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training2_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training3_colors.png", useCIELab, useDepthFilling));
 
     tbb::task_scheduler_init init(NUM_THREADS);
 
@@ -99,9 +106,9 @@ BOOST_AUTO_TEST_CASE(trainTestGPU) {
     const bool useDepthFilling = false;
 
     std::vector<LabeledRGBDImage> trainImages;
-    trainImages.push_back(loadImagePair(folderTraining + "/training1_colors.png", useCIELab, useDepthFilling));
-    trainImages.push_back(loadImagePair(folderTraining + "/training2_colors.png", useCIELab, useDepthFilling));
-    trainImages.push_back(loadImagePair(folderTraining + "/training3_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training1_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training2_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training3_colors.png", useCIELab, useDepthFilling));
 
     tbb::task_scheduler_init init(NUM_THREADS);
 
@@ -140,9 +147,9 @@ BOOST_AUTO_TEST_CASE(trainTestEnsemble) {
     const bool useDepthFilling = false;
 
     std::vector<LabeledRGBDImage> trainImages;
-    trainImages.push_back(loadImagePair(folderTraining + "/training1_colors.png", useCIELab, useDepthFilling));
-    trainImages.push_back(loadImagePair(folderTraining + "/training2_colors.png", useCIELab, useDepthFilling));
-    trainImages.push_back(loadImagePair(folderTraining + "/training3_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training1_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training2_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(getFolderTraining() + "/training3_colors.png", useCIELab, useDepthFilling));
 
     // Train
 

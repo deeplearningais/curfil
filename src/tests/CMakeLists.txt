@@ -32,12 +32,10 @@ ADD_TEST(random_tree_image_gpu_test "${CMAKE_BINARY_DIR}/src/tests/random_tree_i
 ADD_TEST(image_cache_test "${CMAKE_BINARY_DIR}/src/tests/image_cache_test")
 
 ADD_TEST(NAME import_export_test
-	COMMAND "${CMAKE_BINARY_DIR}/src/tests/import_export_test"
-	WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/src")
+	COMMAND "${CMAKE_BINARY_DIR}/src/tests/import_export_test" "${CMAKE_SOURCE_DIR}/src/testdata")
 
 ADD_TEST(NAME random_tree_image_test
-	COMMAND "${CMAKE_BINARY_DIR}/src/tests/random_tree_image_test"
-	WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/src")
+	COMMAND "${CMAKE_BINARY_DIR}/src/tests/random_tree_image_test" "${CMAKE_SOURCE_DIR}/src/testdata")
 
 IF(MDBQ_FOUND)
 	ADD_EXECUTABLE(hyperopt_test hyperopt_test.cpp)
