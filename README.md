@@ -11,9 +11,7 @@ Implemented Visual Features
 We currently focus on image labelling tasks such as image segmentation or classification applications.
 We implement two types of RGB-D image features.
 
-For a given query pixel, the image feature is calculated as the difference of two rectangular offset
-regions on the image channel in the neighbourhood around the query pixel.
-Extent size and relative offset of the rectangular region in the image is normalized by the depth of the query pixel.
+See the [documentation of the implemented visual features][visual-features] for details.
 
 Installation
 ------------
@@ -87,6 +85,7 @@ Examples
 - [Training and Prediction with the NYU Depth v2 Dataset](https://github.com/deeplearningais/curfil/wiki/Training-and-Prediction-with-the-NYU-Depth-v2-Dataset)
 
 
+[visual-features]: https://github.com/deeplearningais/curfil/wiki/Visual-Features
 [lai-rgbd]: http://www.cs.washington.edu/rgbd-dataset/trd5326jglrepxk649ed/rgbd-dataset_full/README.txt
 [ndarray]: https://github.com/deeplearningais/ndarray
 [thrust]: http://code.google.com/p/thrust/
