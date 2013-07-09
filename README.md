@@ -1,23 +1,19 @@
-CUDA Random Forests for Image Labelling (CURFIL)
-------------------------------------------------
+CUDA Random Forests for Image Labeling (CURFIL)
+-----------------------------------------------
 
 This project is an open source implementation with NVIDIA CUDA™ that accelerates random
-forest training and prediction for image labelling by using the
+forest training and prediction for image labeling by using the
 massive parallel computing power offered by GPUs.
 
 Implemented Visual Features
 ---------------------------
 
-We currently focus on image segmentation and classification applications.
-
+We currently focus on image labelling tasks such as image segmentation or classification applications.
 We implement two types of RGB-D image features.
 
-For a given query pixel, the image feature is calculated as the difference of
-the average value of the image channel in two rectangular regions in the
-neighborhood around the query pixel.
-
-Extent size and relative offset of the rectangular region in the image is
-normalized by the depth of the query pixel.
+For a given query pixel, the image feature is calculated as the difference of two rectangular offset
+regions on the image channel in the neighbourhood around the query pixel.
+Extent size and relative offset of the rectangular region in the image is normalized by the depth of the query pixel.
 
 Installation
 ------------
