@@ -385,6 +385,16 @@ BOOST_AUTO_TEST_CASE(testWriteReadLabelImage) {
 
 }
 
+BOOST_AUTO_TEST_CASE(testLabeledRGBDImage) {
+
+    boost::shared_ptr<RGBDImage> rgbdImage = boost::make_shared<RGBDImage>(300, 200);
+    boost::shared_ptr<LabelImage> labelImage = boost::make_shared<LabelImage>(300, 200);
+
+    LabeledRGBDImage labeledImage(rgbdImage, labelImage);
+
+    BOOST_CHECK_THROW(LabeledRGBDImage(rgbdImage, boost::make_shared<LabelImage>(200, 300)), std::runtime_error);
+}
+
 BOOST_AUTO_TEST_CASE(testDepthFilling) {
 
     RGBDImage image(200, 100);

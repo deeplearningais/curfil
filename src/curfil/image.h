@@ -270,6 +270,10 @@ public:
 
     LabelImage(const std::string& filename);
 
+    const std::string& getFilename() const {
+        return filename;
+    }
+
     bool isInImage(int x, int y) const {
         if (x < 0 || x >= width)
             return false;
@@ -321,9 +325,7 @@ public:
     }
 
     LabeledRGBDImage(const boost::shared_ptr<RGBDImage>& rgbdImage,
-            const boost::shared_ptr<LabelImage>& labelImage) :
-            rgbdImage(rgbdImage), labelImage(labelImage) {
-    }
+            const boost::shared_ptr<LabelImage>& labelImage);
 
     size_t getSizeInMemory() const {
         return rgbdImage->getSizeInMemory() + labelImage->getSizeInMemory();
@@ -335,6 +337,14 @@ public:
 
     const LabelImage* getLabelImage() const {
         return labelImage.get();
+    }
+
+    int getWidth() const {
+        return rgbdImage->getWidth();
+    }
+
+    int getHeight() const {
+        return rgbdImage->getHeight();
     }
 
 };

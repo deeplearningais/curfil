@@ -680,6 +680,20 @@ void LabelImage::write(const std::string& filename) const {
             vigra::ImageExportInfo(filename.c_str()).setPixelType("UINT8"));
 }
 
+LabeledRGBDImage::LabeledRGBDImage(const boost::shared_ptr<RGBDImage>& rgbdImage,
+        const boost::shared_ptr<LabelImage>& labelImage) :
+        rgbdImage(rgbdImage), labelImage(labelImage) {
+    if (rgbdImage->getWidth() != labelImage->getWidth() || rgbdImage->getHeight() != labelImage->getHeight()) {
+        std::ostringstream o;
+        o << "RGB-D image '" << rgbdImage->getFilename();
+        o << "' and label image '" << labelImage->getFilename();
+        o << "' have different sizes: ";
+        o << rgbdImage->getWidth() << "x" << rgbdImage->getHeight();
+        o << " and " << labelImage->getWidth() << "x" << labelImage->getHeight();
+        throw std::runtime_error(o.str());
+    }
+}
+
 LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab, bool useDepthFilling,
         bool calculateIntegralImages) {
     auto pos = filename.find("_colors.png");
@@ -758,6 +772,20 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
 
                 }
             });
+
+    if (!images.empty()) {
+        int imageWidth = images[0].getWidth();
+        int imageHeight = images[0].getHeight();
+        for (const LabeledRGBDImage& image : images) {
+            if (image.getWidth() != imageWidth || image.getHeight() != imageHeight) {
+                std::ostringstream o;
+                o << "Image " << image.getRGBDImage()->getFilename() << " has different size: ";
+                o << image.getWidth() << "x" << image.getHeight();
+                o << ". All images in the dataset ust have the same size (" << imageWidth << "x" << imageHeight << ")";
+                throw std::runtime_error(o.str());
+            }
+        }
+    }
 
     INFO("finished loading " << images.size() << " images. size in memory: "
             << (boost::format("%.2f MB") % (totalSizeInMemory / static_cast<double>(1e6))).str());
