@@ -33,27 +33,17 @@ To build the C++ library and the binaries, you will need:
   - [MDBQ][mdbq] (optional, required for [hyperopt][hyperopt] parameter search)
 
 
-### Building a debug version ###
+### Building ###
 
 ```bash
-mkdir -p build/debug
-cd build/debug
-cmake -DCMAKE_BUILD_TYPE=Debug ../../
-ccmake .             # adjust paths to your system (cuda, thrust, ...)!
+git submodule init
+git submodule update  # fetches 'ndarray' dependency
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+ccmake .              # adjust paths to your system (cuda, thrust, ...)!
 make -j
-ctest                # run tests to see if it went well
-sudo make install
-```
-
-### Building a release version ###
-
-```bash
-mkdir -p build/release
-cd build/release
-cmake -DCMAKE_BUILD_TYPE=Release ../../
-ccmake .             # adjust paths to your system (cuda, thrust, ...)!
-make -j
-ctest                # run tests to see if it went well
+ctest                 # run tests to see if it went well
 sudo make install
 ```
 
