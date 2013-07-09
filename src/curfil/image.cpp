@@ -776,19 +776,27 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
     if (!images.empty()) {
         int imageWidth = images[0].getWidth();
         int imageHeight = images[0].getHeight();
+        size_t imageSizeInMemory = images[0].getSizeInMemory();
         for (const LabeledRGBDImage& image : images) {
             if (image.getWidth() != imageWidth || image.getHeight() != imageHeight) {
                 std::ostringstream o;
                 o << "Image " << image.getRGBDImage()->getFilename() << " has different size: ";
                 o << image.getWidth() << "x" << image.getHeight();
-                o << ". All images in the dataset ust have the same size (" << imageWidth << "x" << imageHeight << ")";
+                o << ". All images in the dataset must have the same size (" << imageWidth << "x" << imageHeight << ")";
+                throw std::runtime_error(o.str());
+            }
+            if (image.getSizeInMemory() != imageSizeInMemory) {
+                std::ostringstream o;
+                o << "Image " << image.getRGBDImage()->getFilename() << " has different size in memory: ";
+                o << image.getSizeInMemory() << " (expected: " << imageSizeInMemory << ").";
+                o << " This must not happen.";
                 throw std::runtime_error(o.str());
             }
         }
     }
 
     INFO("finished loading " << images.size() << " images. size in memory: "
-            << (boost::format("%.2f MB") % (totalSizeInMemory / static_cast<double>(1e6))).str());
+            << (boost::format("%.2f MB") % (totalSizeInMemory / static_cast<double>(1024 * 1024))).str());
 
     return images;
 }

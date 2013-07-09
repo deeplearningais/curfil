@@ -140,6 +140,8 @@ private:
     Timer timer;
 };
 
+size_t getFreeMemoryOnGPU(int deviceId);
+
 }
 }
 

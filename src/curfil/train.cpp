@@ -1,4 +1,5 @@
 #include <boost/program_options.hpp>
+#include <cuda.h>
 #include <iomanip>
 #include <tbb/task_scheduler_init.h>
 
@@ -13,20 +14,12 @@ namespace po = boost::program_options;
 
 using namespace curfil;
 
-static RandomTreeImageEnsemble train(const std::string& folderTraining, size_t trees,
+static RandomTreeImageEnsemble train(std::vector<LabeledRGBDImage>& trainLabelImages, size_t trees,
         const TrainingConfiguration& configuration, bool trainTreesSequentially) {
 
-    INFO("training data from: " << folderTraining);
     INFO("trees: " << trees);
     INFO("training trees sequentially: " << trainTreesSequentially);
     INFO(configuration);
-
-    std::vector<LabeledRGBDImage> trainLabelImages = loadImages(folderTraining, configuration.isUseCIELab(),
-            configuration.isUseDepthFilling());
-    auto filenames = listImageFilenames(folderTraining);
-    if (filenames.empty()) {
-        throw std::runtime_error(std::string("found no files in ") + folderTraining);
-    }
 
     // Train
 
@@ -64,16 +57,15 @@ int main(int argc, char **argv) {
     int numThreads;
     std::string subsamplingType;
     bool profiling;
-    bool useCIELab;
-    bool useDepthFilling;
+    bool useCIELab = true;
+    bool useDepthFilling = false;
     std::vector<int> deviceIds;
-    int maxImages;
-    int imageCacheSize;
-    unsigned int maxSamplesPerBatch;
-    int randomSeed;
-    std::vector<std::string> ignoredColors;
-    bool trainTreesSequentially;
-    bool verboseTree;
+    int maxImages = 0;
+    int randomSeed = 4711;
+    std::vector < std::string > ignoredColors;
+    bool trainTreesSequentially = false;
+    bool verboseTree = false;
+    int imageCacheSizeMB = 0;
 
     // Declare the supported options.
     po::options_description options("options");
@@ -89,29 +81,30 @@ int main(int argc, char **argv) {
     ("boxRadius", po::value<uint16_t>(&boxRadius)->required(), "box radius")
     ("regionSize", po::value<uint16_t>(&regionSize)->required(), "region size")
     ("numThresholds", po::value<uint16_t>(&numThresholds)->required(), "number of thresholds to evaluate")
-    ("outputFolder", po::value<std::string>(&outputFolder)->default_value(""), "folder to output predictions and trees")
+    ("outputFolder", po::value<std::string>(&outputFolder)->default_value(outputFolder),
+            "folder to output predictions and trees")
     ("numThreads", po::value<int>(&numThreads)->default_value(tbb::task_scheduler_init::default_num_threads()),
             "number of threads")
-    ("useCIELab", po::value<bool>(&useCIELab)->implicit_value(true)->default_value(true),
+    ("useCIELab", po::value<bool>(&useCIELab)->implicit_value(true)->default_value(useCIELab),
             "convert images to CIElab color space")
-    ("useDepthFilling", po::value<bool>(&useDepthFilling)->implicit_value(true)->default_value(false),
+    ("useDepthFilling", po::value<bool>(&useDepthFilling)->implicit_value(true)->default_value(useDepthFilling),
             "whether to do simple depth filling")
     ("deviceId", po::value<std::vector<int> >(&deviceIds), "GPU device id (multiple occurence possible)")
     ("subsamplingType", po::value<std::string>(&subsamplingType)->default_value("classUniform"),
             "subsampling type: 'pixelUniform' or 'classUniform'")
-    ("maxImages", po::value<int>(&maxImages)->default_value(0),
+    ("maxImages", po::value<int>(&maxImages)->default_value(maxImages),
             "maximum number of images to load for training. set to 0 if all images should be loaded")
-    ("imageCacheSize", po::value<int>(&imageCacheSize)->default_value(100), "number of images to keep on device")
-    ("maxSamplesPerBatch", po::value<unsigned int>(&maxSamplesPerBatch)->default_value(5000u),
-            "max number of samples per batch")
+    ("imageCacheSize", po::value<int>(&imageCacheSizeMB)->default_value(0),
+            "image cache size on GPU in MB. 0 means automatic adjustment")
     ("mode", po::value<std::string>(&modeString)->default_value("gpu"), "mode: 'gpu' (default), 'cpu' or 'compare'")
     ("profile", po::value<bool>(&profiling)->implicit_value(true)->default_value(false), "profiling")
-    ("randomSeed", po::value<int>(&randomSeed)->default_value(4711), "random seed")
+    ("randomSeed", po::value<int>(&randomSeed)->default_value(randomSeed), "random seed")
     ("ignoreColor", po::value<std::vector<std::string> >(&ignoredColors),
             "do not sample pixels of this color. format: R,G,B where 0 <= R,G,B <= 255")
-    ("verboseTree", po::value<bool>(&verboseTree)->implicit_value(true)->default_value(false),
+    ("verboseTree", po::value<bool>(&verboseTree)->implicit_value(true)->default_value(verboseTree),
             "whether to write verbose tree include profiling and debugging information")
-    ("trainTreesSequentially", po::value<bool>(&trainTreesSequentially)->implicit_value(true)->default_value(false),
+    ("trainTreesSequentially",
+            po::value<bool>(&trainTreesSequentially)->implicit_value(true)->default_value(trainTreesSequentially),
             "whether to train trees sequentially");
     ;
 
@@ -154,6 +147,18 @@ int main(int argc, char **argv) {
         deviceIds.push_back(0);
     }
 
+    size_t freeMemoryOnGPU = 0;
+    for (int deviceId : deviceIds) {
+        size_t freeMemory = utils::getFreeMemoryOnGPU(deviceId);
+        if (freeMemoryOnGPU == 0 || freeMemory < freeMemoryOnGPU) {
+            freeMemoryOnGPU = freeMemory;
+        }
+    }
+
+    if (imageCacheSizeMB == 0) {
+        imageCacheSizeMB = freeMemoryOnGPU * 0.66 / 1024 / 1024;
+    }
+
     INFO("acceleration mode: " << modeString);
     INFO("CIELab: " << useCIELab);
     INFO("DepthFilling: " << useDepthFilling);
@@ -162,13 +167,47 @@ int main(int argc, char **argv) {
 
     tbb::task_scheduler_init init(numThreads);
 
+    std::vector<LabeledRGBDImage> images = loadImages(folderTraining, useCIELab, useDepthFilling);
+    if (images.empty()) {
+        throw std::runtime_error(std::string("found no files in ") + folderTraining);
+    }
+
+    int imageCacheSize = 0;
+    if (images.size() * images[0].getSizeInMemory() <= imageCacheSizeMB * 1024lu * 1024lu) {
+        imageCacheSize = images.size();
+    } else {
+        imageCacheSize = imageCacheSizeMB * 1024lu * 1024lu / images[0].getSizeInMemory();
+    }
+
+    INFO((boost::format("image cache size: %d images (%.1f MB)")
+            % imageCacheSize
+            % (imageCacheSize * images[0].getSizeInMemory() / 1024.0 / 1024.0)).str());
+
+    if (imageCacheSizeMB * 1024lu * 1024lu >= freeMemoryOnGPU) {
+        throw std::runtime_error("image cache size too large");
+    }
+
+    // very defensive estimate to avoid out of memory errors
+    long remainingMemoryOnGPU = (freeMemoryOnGPU - imageCacheSizeMB * 1024lu * 1024lu) / 3;
+    // size for histogram counters
+    remainingMemoryOnGPU -= 10 * (2 * sizeof(WeightType) * featureCount * numThresholds);
+    size_t sizePerSample = 2 * sizeof(FeatureResponseType) * featureCount;
+
+    int maxSamplesPerBatch = remainingMemoryOnGPU / sizePerSample;
+    maxSamplesPerBatch = std::min(maxSamplesPerBatch, 50000);
+
+    if (maxSamplesPerBatch < 1000) {
+        throw std::runtime_error("memory headroom on GPU too low. try to decrease image cache size manually");
+    }
+
+    INFO("max samples per batch: " << maxSamplesPerBatch);
+
     TrainingConfiguration configuration(randomSeed, samplesPerImage, featureCount, minSampleCount,
             maxDepth, boxRadius, regionSize, numThresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
             TrainingConfiguration::parseAccelerationModeString(modeString), useCIELab, useDepthFilling, deviceIds,
             subsamplingType, ignoredColors);
 
-    RandomTreeImageEnsemble forest = train(folderTraining,
-            trees, configuration, trainTreesSequentially);
+    RandomTreeImageEnsemble forest = train(images, trees, configuration, trainTreesSequentially);
 
     if (!outputFolder.empty()) {
         RandomTreeExport treeExport(configuration, outputFolder, folderTraining, verboseTree);

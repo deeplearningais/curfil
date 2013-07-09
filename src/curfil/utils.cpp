@@ -82,5 +82,13 @@ void checkCudaError(const char* msg) {
     throw std::runtime_error(std::string(msg) + ": " + cudaGetErrorString(lastError));
 }
 
+size_t getFreeMemoryOnGPU(int deviceId) {
+    size_t freeMemory = 0;
+    size_t totalMemory = 0;
+    cudaSafeCall(cudaSetDevice(deviceId));
+    cudaSafeCall(cudaMemGetInfo(&freeMemory, &totalMemory));
+    return freeMemory;
+}
+
 }
 }
