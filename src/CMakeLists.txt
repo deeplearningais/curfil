@@ -31,7 +31,7 @@ IF(NOT THRUST_PATH)
 ENDIF(NOT THRUST_PATH)
 
 if ( NOT CUDA_ARCHITECTURE )
-	SET( CUDA_ARCHITECTURE -gencode;arch=compute_13,code=sm_13;-gencode;arch=compute_20,code=sm_20;-gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35 )
+	SET( CUDA_ARCHITECTURE -gencode;arch=compute_20,code=sm_20;-gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35 )
 endif()
 
 SET(CUDA_ARCHITECTURE "" CACHE STRING "The CUDA architecture to compile for, i.e. -gencode;arch=compute_2,code=sm_20")

@@ -28,6 +28,7 @@ To build the C++ library and the binaries, you will need:
   - [Vigra Impex][vigra]
   - Intel TBB
   - [MDBQ][mdbq] (optional, required for [hyperopt][hyperopt] parameter search)
+  - A CUDA capable GPU with compute capability 2.0 or higher
 
 
 ### Building ###
