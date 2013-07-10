@@ -37,7 +37,7 @@ git submodule init
 git submodule update  # fetches 'ndarray' dependency
 mkdir -p build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake -DCMAKE_BUILD_TYPE=Release ..  # change to 'Debug' to build the debugging version
 ccmake .              # adjust paths to your system (cuda, thrust, ...)!
 make -j
 ctest                 # run tests to see if it went well
@@ -77,6 +77,24 @@ The filename schema and format is
 	A three-channel `uint8` RGB image where pixels take on values between 0-255.
 	Each color represents a different class label. Black indicates "void" or
 	"background".
+
+Usage
+-----
+
+## Training ##
+
+Use the binary `curfil_train`.
+Training creates a random forests and serializes the decision trees in compressed JSON files.
+
+See the [documentation of training parameters](https://github.com/deeplearningais/curfil/wiki/Training-Parameters).
+
+## Prediction ##
+
+Use the binary `curfil_predict`.
+The program reads the trees from the compresses JSON files and performs a dense
+pixel-wise classification of the specified input images.
+Prediction is accelerated on GPU and runs in real-time speed even on mobile
+GPUs such as the NVIDIA GeForce GTX 675M.
 
 Examples
 --------
