@@ -116,7 +116,7 @@ if __name__ == "__main__":
         print("using raw depth images")
         depth = h5_file['rawDepths']
     else:
-        print("using impainted depth images")
+        print("using filled depth images")
         depth = h5_file['depths']
 
     print("reading", sys.argv[1])
