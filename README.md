@@ -49,13 +49,13 @@ Dataset Format
 
 Training and prediction requires to load a set of images from a dataset. We
 currently only support datasets that contain RGB-D images, as for example
-obtained from a Microsoft Kinect stereo camera. RGB-D images have three
-channels that encode the color information and one channel for the depth of
-each pixel. Depth is the distance of the object to the camera. Note that
+captured by the Microsoft Kinect or the Asus Xtion PRO LIVE. RGB-D images have
+three channels that encode the color information and one channel for the depth
+of each pixel. Depth is the distance of the object to the camera. Note that
 stereo cameras such as the Kinect do not guarantee to deliver a valid depth
-measure for every pixel in the image. Distance cannot be measured if the
-object is occluded for one of the two cameras. Missing or invalid distance is
-either encoded with a zero value or by using the special floating point value `NaN`.
+measure for every pixel in the image. Distance cannot be measured if the object
+is occluded for one of the two cameras. Missing or invalid distance is either
+encoded with a zero value or by using the special floating point value `NaN`.
 
 To load images from disk, we use a similar format as the [RGB-D object dataset
 of Kevin Lai et al.][lai-rgbd].
