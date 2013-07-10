@@ -2,7 +2,10 @@ build/
 
 *.o
 *.so
+
 *.pyc
+*.pyo
+
 .*.swo
 .*.swp
 .*.swn
