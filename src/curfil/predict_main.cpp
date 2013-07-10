@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     ("folderTesting", po::value<std::string>(&folderTesting)->required(), "folder with test images")
     ("treeFile", po::value<std::vector<std::string> >(&treeFiles)->required(), "serialized tree(s) (JSON)")
     ("maxDepth", po::value<int>(&maxDepth)->default_value(-1), "maximal depth of the tree used for prediction")
-    ("histogramBias", po::value<double>(&histogramBias)->required(), "histogram bias")
+    ("histogramBias", po::value<double>(&histogramBias)->default_value(0.0), "histogram bias")
     ("numThreads", po::value<int>(&numThreads)->default_value(tbb::task_scheduler_init::default_num_threads()),
             "number of threads")
     ("mode", po::value<std::string>(&modeString)->default_value("gpu"), "mode: 'cpu' or 'gpu'")
