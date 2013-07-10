@@ -33,6 +33,8 @@ To build the C++ library and the binaries, you will need:
 ### Building ###
 
 ```bash
+git clone https://github.com/deeplearningais/curfil.git
+cd curfil
 git submodule init
 git submodule update  # fetches 'ndarray' dependency
 mkdir -p build
