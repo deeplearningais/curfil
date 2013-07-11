@@ -87,13 +87,16 @@ Usage
 ### Training ###
 
 Use the binary `curfil_train`.
-Training creates a random forests and serializes the decision trees in compressed JSON files.
+
+The training process produces a random forest consisting of multiple decision trees
+that are serialized in a compressed JSON files, one file per tree.
 
 See the [documentation of training parameters](https://github.com/deeplearningais/curfil/wiki/Training-Parameters).
 
 ### Prediction ###
 
 Use the binary `curfil_predict`.
+
 The program reads the trees from the compresses JSON files and performs a dense
 pixel-wise classification of the specified input images.
 Prediction is accelerated on GPU and runs in real-time speed even on mobile
