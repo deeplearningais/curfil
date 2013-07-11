@@ -10,7 +10,7 @@ ELSE()
 SET (MDBQ_FILES )
 ENDIF()
 
-CUDA_ADD_LIBRARY(curfil SHARED random_tree_image_gpu.cu random_tree.cpp image.cpp utils.cpp ndarray_ops.cpp random_tree_image.cpp random_tree_image_ensemble.cpp import.cpp export.cpp predict.cpp ndarray_ops.cpp ${MDBQ_FILES} "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
+CUDA_ADD_LIBRARY(curfil SHARED random_tree_image_gpu.cu random_tree.cpp image.cpp utils.cpp ndarray_ops.cpp random_tree_image.cpp random_forest_image.cpp import.cpp export.cpp predict.cpp ndarray_ops.cpp ${MDBQ_FILES} "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
 
 TARGET_LINK_LIBRARIES(curfil ndarray ${CUDA_LIBRARIES} ${VIGRA_IMPEX_LIBRARY} ${TBB_LIBRARIES} ${Boost_LIBRARIES} ${MDBQ_LIBRARIES})
 
@@ -18,7 +18,7 @@ INSTALL(TARGETS curfil
 	DESTINATION "lib"
 )
 
-INSTALL(FILES random_tree.h random_tree_image.h random_tree_image_ensemble.h image.h score.h random_tree_image_gpu.h predict.h import.hpp export.hpp utils.h
+INSTALL(FILES random_tree.h random_tree_image.h random_forest_image.h image.h score.h random_tree_image_gpu.h predict.h import.h export.h utils.h
 	DESTINATION "include/curfil"
 )
 

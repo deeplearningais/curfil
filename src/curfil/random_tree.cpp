@@ -11,7 +11,7 @@ bool isScoreBetter(const ScoreType bestScore, const ScoreType score, const int f
 
 #ifndef NDEBUG
     if (diff > 0 && diff < 1e-8) {
-        WARNING(boost::format("close scores: %.15f (feat %d)") % bestScore % featureNr
+        CURFIL_WARNING(boost::format("close scores: %.15f (feat %d)") % bestScore % featureNr
                 << boost::format(" vs %.15f, diff: %.15f") % score % diff);
     }
 #endif

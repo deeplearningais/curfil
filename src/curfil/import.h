@@ -6,7 +6,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <string>
 
-#include "random_tree_image_ensemble.h"
+#include "random_forest_image.h"
 
 namespace curfil {
 
@@ -49,8 +49,7 @@ public:
             boost::filesystem::path& folderTraining,
             boost::posix_time::ptime& date);
 
-}
-;
+};
 
 }
 

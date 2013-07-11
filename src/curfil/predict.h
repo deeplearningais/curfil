@@ -4,7 +4,7 @@
 #include <cuv/ndarray.hpp>
 #include <string>
 
-#include "random_tree_image_ensemble.h"
+#include "random_forest_image.h"
 
 namespace curfil {
 
@@ -12,15 +12,37 @@ class ConfusionMatrix {
 
 private:
     cuv::ndarray<double, cuv::host_memory_space> data;
+    bool normalized;
 
 public:
+
+    explicit ConfusionMatrix() :
+            data(), normalized(false) {
+    }
+
+    explicit ConfusionMatrix(const ConfusionMatrix& other) :
+            data(other.data.copy()), normalized(other.normalized) {
+    }
+
     explicit ConfusionMatrix(size_t numClasses) :
-            data(numClasses, numClasses) {
+            data(numClasses, numClasses), normalized(false) {
         assert(numClasses > 0);
         reset();
     }
 
+    ConfusionMatrix& operator=(const ConfusionMatrix& other) {
+        data = other.data.copy();
+        normalized = other.normalized;
+        return *this;
+    }
+
     void reset();
+
+    void resize(unsigned int numClasses);
+
+    bool isNormalized() const {
+        return normalized;
+    }
 
     void operator+=(const ConfusionMatrix& other);
 
@@ -34,6 +56,9 @@ public:
     }
 
     void increment(int label, int prediction) {
+        if (normalized) {
+            throw std::runtime_error("confusion matrix is already normalized");
+        }
         assert(label < static_cast<int>(getNumClasses()));
         assert(prediction < static_cast<int>(getNumClasses()));
         (data(label, prediction))++;
@@ -49,17 +74,19 @@ public:
 
     double averageClassAccuracy(bool includeVoid = true) const;
 
-};
+}
+;
 
-double calculateAccuracy(const LabelImage& image, const LabelImage* groundTruth,
-        ConfusionMatrix& confusionMatrix);
+/**
+ * Calculates the average pixel accuracy on 'prediction' according to the ground truth.
+ * Predictions where the ground truth contains 'void' (black pixels) are not counted if 'includeVoid' is set to false.
+ * The confusion matrix is stored to 'confusionMatrix' if not NULL.
+ */
+double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& groundTruth,
+        const bool includeVoid = true, ConfusionMatrix* confusionMatrix = 0);
 
-double calculateAccuracyNoBackground(const LabelImage& image, const LabelImage* groundTruth);
-
-double calculateAccuracyNoVoid(const LabelImage& image, const LabelImage* groundTruth);
-
-void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTesting,
-        const std::string& folderPrediction, const double histogramBias, const bool useDepthFilling,
+void test(RandomForestImage& randomForest, const std::string& folderTesting,
+        const std::string& folderPrediction, const bool useDepthFilling,
         const bool writeProbabilityImages, const int maxDepth);
 
 }

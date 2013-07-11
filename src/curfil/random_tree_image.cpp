@@ -226,7 +226,7 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
         }
 
         if (numSkipped > 0) {
-            INFO("randomFeatureGeneration: skipped " << numSkipped << " samples");
+            CURFIL_INFO("randomFeatureGeneration: skipped " << numSkipped << " samples");
         }
 
         const int seed = randomSource.uniformSampler(0xFFFFFF).getNext();
@@ -239,7 +239,7 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
         }
     }
 
-    INFO("generating random features: " << generatingRandomFeaturesTimer.format(2));
+    CURFIL_INFO("generating random features: " << generatingRandomFeaturesTimer.format(2));
 
     tbb::mutex cpuEvaluationMutex;
 
@@ -274,7 +274,7 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
 
                     if (accelerationMode == CPU_ONLY || accelerationMode == GPU_AND_CPU_COMPARE) {
 
-                        LOG_DEBUG("prepare batches");
+                        CURFIL_DEBUG("prepare batches");
 
                         std::vector<std::vector<const PixelInstance*> > batches = prepare(samples, currentNode,
                                 cuv::host_memory_space());
@@ -288,7 +288,7 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
 
                         size_t grainSize = std::max(100ul, samples.size() / numThreads);
 
-                        LOG_DEBUG("start evaluation");
+                        CURFIL_DEBUG("start evaluation");
 
                         cuv::ndarray<WeightType, cuv::host_memory_space> countersCPU(
                                 cuv::extents[numLabels][configuration.getFeatureCount()][configuration.getThresholds()][2]);
@@ -317,7 +317,7 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
                             currentNode.setTimerValue("reaggregateHistograms", reaggregateHistograms.getSeconds());
                         }
 
-                        LOG_DEBUG("calculate scores");
+                        CURFIL_DEBUG("calculate scores");
 
                         {
                             utils::Profile profile("calculateScores");
@@ -414,7 +414,7 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
 
                     SplitFunction<PixelInstance, ImageFeatureFunction> bestFeature(bestFeat, feature, threshold, bestScore);
 
-                    LOG_DEBUG("tree " << currentNode.getTreeId() << ", node " << currentNode.getNodeId() <<
+                    CURFIL_DEBUG("tree " << currentNode.getTreeId() << ", node " << currentNode.getNodeId() <<
                             ", best score: " << bestScore << ", " << feature);
 
                     bestSplits[nodeNr]= bestFeature;
@@ -427,7 +427,7 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
             / static_cast<double>(1e6);
 
     if (transferTime > 0) {
-        INFO((boost::format("image cache transfer time: %.3f s") % transferTime).str());
+        CURFIL_INFO((boost::format("image cache transfer time: %.3f s") % transferTime).str());
     }
 
     return bestSplits;
@@ -701,7 +701,7 @@ void RandomTreeImage::train(const std::vector<LabeledRGBDImage>& trainLabelImage
                 boost::str(boost::format("unknown subsamplingType: %d") % configuration.getSubsamplingType()));
     }
 
-    INFO("sorting " << subsamples.size() << " samples");
+    CURFIL_INFO("sorting " << subsamples.size() << " samples");
 
     utils::Timer sortTimer;
 
@@ -722,15 +722,15 @@ void RandomTreeImage::train(const std::vector<LabeledRGBDImage>& trainLabelImage
             }
 
             // FIXME optimize magic value
-                const int quantisation = 10;
-                if (a.getY()/quantisation != b.getY()/quantisation) {
-                    return (a.getY()/quantisation < b.getY()/quantisation);
-                }
-                if (a.getX()/quantisation != b.getX()/quantisation) {
-                    return (a.getX()/quantisation < b.getX()/quantisation);
-                }
-                return false;
-            });
+            const int quantisation = 10;
+            if (a.getY()/quantisation != b.getY()/quantisation) {
+                return (a.getY()/quantisation < b.getY()/quantisation);
+            }
+            if (a.getX()/quantisation != b.getX()/quantisation) {
+                return (a.getX()/quantisation < b.getX()/quantisation);
+            }
+            return false;
+        });
         iterator += SORT_BLOCK_SIZE;
         end += SORT_BLOCK_SIZE;
         end = std::min(subsamples.end(), end);
@@ -738,7 +738,7 @@ void RandomTreeImage::train(const std::vector<LabeledRGBDImage>& trainLabelImage
 
     sortTimer.stop();
 
-    INFO("sorted in " << sortTimer.format(2));
+    CURFIL_INFO("sorted in " << sortTimer.format(2));
 
     std::vector<const PixelInstance*> subsamplePointers;
     subsamplePointers.reserve(subsamples.size());
@@ -756,7 +756,7 @@ void RandomTreeImage::train(const std::vector<LabeledRGBDImage>& trainLabelImage
     assert(tree != NULL);
     finishedTraining = true;
 
-    INFO("trained tree " << getId() << " in " << trainTimer.format(2));
+    CURFIL_INFO("trained tree " << getId() << " in " << trainTimer.format(2));
 }
 
 void RandomTreeImage::test(const RGBDImage* image, LabelImage& prediction) const {
@@ -788,23 +788,23 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataPixelUniform(
         // Sample a random (x,y) coordinate for the image
         const auto image = trainLabelImages[image_id].getLabelImage();
 
-        auto rgen_x = randomSource.uniformSampler(image->getWidth());
-        auto rgen_y = randomSource.uniformSampler(image->getHeight());
+        auto rgen_x = randomSource.uniformSampler(image.getWidth());
+        auto rgen_y = randomSource.uniformSampler(image.getHeight());
 
         do {
             uint16_t x = static_cast<uint16_t>(rgen_x.getNext());
             uint16_t y = static_cast<uint16_t>(rgen_y.getNext());
-            assert(x < image->getWidth());
-            assert(y < image->getHeight());
+            assert(x < image.getWidth());
+            assert(y < image.getHeight());
 
-            LabelType label = image->getLabel(x, y);
+            LabelType label = image.getLabel(x, y);
 
             if (shouldIgnoreLabel(label)) {
                 continue;
             }
 
             // Append to sample list
-            subsamples.push_back(PixelInstance(trainLabelImages[image_id].getRGBDImage(), label, x, y));
+            subsamples.push_back(PixelInstance(&(trainLabelImages[image_id].getRGBDImage()), label, x, y));
             break;
         } while (true);
     }
@@ -813,17 +813,15 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataPixelUniform(
 }
 
 void RandomTreeImage::calculateLabelPriorDistribution(const std::vector<LabeledRGBDImage>& trainLabelImages) {
-    // Get set of unique class labels
 
     std::map<LabelType, size_t> priorDistribution;
     for (const auto& trainLabelImage : trainLabelImages) {
 
         const auto& img = trainLabelImage.getLabelImage();
 
-        assert(img != NULL);
-        for (int y = 0; y < img->getHeight(); ++y) {
-            for (int x = 0; x < img->getWidth(); ++x) {
-                LabelType label = img->getLabel(x, y);
+        for (int y = 0; y < img.getHeight(); ++y) {
+            for (int x = 0; x < img.getWidth(); ++x) {
+                LabelType label = img.getLabel(x, y);
                 assert(label >= 0);
                 priorDistribution[label]++;
             }
@@ -871,7 +869,7 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
 
     std::vector<PixelInstance> allSubsamples;
 
-    INFO("sampling " << numLabels << " classes. " << samplesPerClass << " samples per class with "
+    CURFIL_INFO("sampling " << numLabels << " classes. " << samplesPerClass << " samples per class with "
             << configuration.getNumThreads() << " threads from " << trainLabelImages.size() << " images");
 
     tbb::concurrent_vector<std::map<LabelType, ReservoirSampler<PixelInstance> > > samplersPerLabel;
@@ -913,15 +911,15 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
             for(unsigned int imageNr = range.begin(); imageNr != range.end(); imageNr++) {
 
                 const auto image = trainLabelImages[imageNr].getLabelImage();
-                for(int y=0; y<image->getHeight(); y++) {
-                    for(int x=0; x<image->getWidth(); x++) {
-                        const LabelType label = image->getLabel(x, y);
+                for(int y=0; y < image.getHeight(); y++) {
+                    for(int x=0; x < image.getWidth(); x++) {
+                        const LabelType label = image.getLabel(x, y);
 
                         if (labelsToIgnore.find(label) != labelsToIgnore.end()) {
                             continue;
                         }
 
-                        PixelInstance sample(trainLabelImages[imageNr].getRGBDImage(), label, x, y);
+                        PixelInstance sample(&(trainLabelImages[imageNr].getRGBDImage()), label, x, y);
                         if (!sample.getDepth().isValid()) {
                             continue;
                         }
@@ -961,7 +959,7 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
         const std::vector<PixelInstance>& reservoir = reservoirSampler.getReservoir();
 
         auto color = LabelImage::decodeLabel(label);
-        INFO((boost::format("sampled %d pixels of class '%d' RGB(%s)")
+        CURFIL_INFO((boost::format("sampled %d pixels of class '%d' RGB(%s)")
                 % reservoir.size()
                 % static_cast<int>(label)
                 % color.toString()).str());
@@ -971,7 +969,7 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
 
     samplingTimer.stop();
 
-    INFO("sampled " << allSubsamples.size() << " pixels for "
+    CURFIL_INFO("sampled " << allSubsamples.size() << " pixels for "
             << numLabels << " classes (" << samplesPerClass << " samples/class)"
             << " in " << samplingTimer.format(4));
 

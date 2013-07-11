@@ -52,10 +52,10 @@ int main(int argc, char **argv) {
             "whether to do simple depth filling")
     ("randomSeed", po::value<int>(&randomSeed)->default_value(4711), "random seed")
     ("profile", po::value<bool>(&profiling)->implicit_value(true)->default_value(false), "profiling")
-    ("ignoredColors", po::value<std::vector<std::string> >(&ignoredColors), "do not sample pixels of this color. Format: R,G,B in the range 0-255.")
+    ("ignoreColor", po::value<std::vector<std::string> >(&ignoredColors), "do not sample pixels of this color. Format: R,G,B in the range 0-255.")
 
     ("lossFunction", po::value<std::string>(&lossFunction),
-            "measure the loss function should be based on. one of 'classAccuracy', 'classAccuracyNoVoid', 'pixelAccuracy', 'pixelAccuracyNoBackground', 'pixelAccuracyNoVoid'")
+            "measure the loss function should be based on. one of 'classAccuracy', 'classAccuracyWithoutVoid', 'pixelAccuracy', 'pixelAccuracyWithoutVoid'")
     ("numThreads", po::value<int>(&numThreads)->default_value(tbb::task_scheduler_init::default_num_threads()),
             "number of threads")
             ;
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
 
     utils::Profile::setEnabled(profiling);
 
-    INFO("used loss function is " << lossFunction);
+    CURFIL_INFO("used loss function is " << lossFunction);
 
     tbb::task_scheduler_init init(numThreads);
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
             BSON("exp_key" << experiment));
     client.run();
 
-    INFO("finished");
+    CURFIL_INFO("finished");
     return EXIT_SUCCESS;
 }
 

@@ -74,7 +74,7 @@ static void checkMeanStddevMinMax(const std::string key, const std::vector<T>& v
 
     double actualMin, actualMax, actualMean, actualStddev;
     const std::string msg = meanStddevMinMax(values, actualMin, actualMax, actualMean, actualStddev);
-    INFO(key << ": " << msg);
+    CURFIL_INFO(key << ": " << msg);
 
     BOOST_CHECK_LE(abs(mean - actualMean), meanTolerance);
     BOOST_CHECK_LE(abs(stddev - actualStddev), stddevTolerance);
@@ -254,7 +254,7 @@ static size_t analyzeFeatures(const TrainingConfiguration& configuration,
     double max = 0.0;
     double mean = 0.0;
     double stddev = 0.0;
-    INFO("thresholds: " << meanStddevMinMax(thresholds, min, max, mean, stddev));
+    CURFIL_INFO("thresholds: " << meanStddevMinMax(thresholds, min, max, mean, stddev));
 
     BOOST_CHECK_LT(abs(0.0 - mean), 10.0);
     BOOST_CHECK_GT(stddev, 50.0);

@@ -184,8 +184,8 @@ BOOST_AUTO_TEST_CASE(testColorIntegralLargeRandomImage) {
             }
         }
 
-        LOG_DEBUG("actual sum: " << regionSum);
-        LOG_DEBUG("expected sum: " << expectedSum);
+        CURFIL_DEBUG("actual sum: " << regionSum);
+        CURFIL_DEBUG("expected sum: " << expectedSum);
 
         BOOST_CHECK_CLOSE(regionSum, expectedSum, 0.05f);
     }
@@ -275,11 +275,11 @@ BOOST_AUTO_TEST_CASE(testWriteReadRGBDImage) {
     }
 
     BOOST_REQUIRE(!fs::exists(temporaryColorFile));
-    image.writeColor(temporaryColorFile.native());
+    image.saveColor(temporaryColorFile.native());
     BOOST_REQUIRE(fs::exists(temporaryColorFile));
 
     BOOST_REQUIRE(!fs::exists(temporaryDepthFile));
-    image.writeDepth(temporaryDepthFile.native());
+    image.saveDepth(temporaryDepthFile.native());
     BOOST_REQUIRE(fs::exists(temporaryDepthFile));
 
     RGBDImage readImage(temporaryColorFile.native(), temporaryDepthFile.native(), false, false, false);
@@ -323,11 +323,11 @@ BOOST_AUTO_TEST_CASE(testWriteIntegratedRGBDImage) {
     image.calculateIntegral();
 
     BOOST_REQUIRE(!fs::exists(temporaryColorFile));
-    image.writeColor(temporaryColorFile.native());
+    image.saveColor(temporaryColorFile.native());
     BOOST_REQUIRE(fs::exists(temporaryColorFile));
 
     BOOST_REQUIRE(!fs::exists(temporaryDepthFile));
-    image.writeDepth(temporaryDepthFile.native());
+    image.saveDepth(temporaryDepthFile.native());
     BOOST_REQUIRE(fs::exists(temporaryDepthFile));
 
     RGBDImage readImage(temporaryColorFile.native(), temporaryDepthFile.native(), false, false, false);
@@ -370,7 +370,7 @@ BOOST_AUTO_TEST_CASE(testWriteReadLabelImage) {
         }
     }
 
-    image.write(temporaryColorFile.native());
+    image.save(temporaryColorFile.native());
 
     LabelImage readImage(temporaryColorFile.native());
 

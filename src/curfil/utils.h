@@ -83,27 +83,27 @@ private:
 
 void logMessage(const std::string& message, std::ostream& os);
 
-#define LOG(level, message, os) { \
+#define CURFIL_LOG(level, message, os) { \
         std::ostringstream o; \
         o << boost::format("%-8s") % level; \
         o << message; \
         curfil::utils::logMessage(o.str(), os); \
     }
 
-#define INFO(x) LOG("INFO", x, std::cout)
+#define CURFIL_INFO(x) CURFIL_LOG("INFO", x, std::cout)
 
-#define WARNING(x) LOG("WARNING", x, std::cout)
+#define CURFIL_WARNING(x) CURFIL_LOG("WARNING", x, std::cout)
 
-#define ERROR(x) LOG("ERROR", x, std::cout)
+#define CURFIL_ERROR(x) CURFIL_LOG("ERROR", x, std::cout)
 
-#ifdef LOG_DEBUG
-#undef LOG_DEBUG
+#ifdef CURFIL_DEBUG
+#undef CURFIL_DEBUG
 #endif
 
 #ifdef NDEBUG
-#define LOG_DEBUG(x) {}
+#define CURFIL_DEBUG(x) {}
 #else
-#define LOG_DEBUG(x) LOG("DEBUG", x, std::cout)
+#define CURFIL_DEBUG(x) CURFIL_LOG("DEBUG", x, std::cout)
 #endif
 
 class Profile {
@@ -113,9 +113,9 @@ public:
     }
 
     ~Profile() {
-        if (enabled) {
+        if (isEnabled()) {
             timer.stop();
-            INFO("PROFILING  " << name << ": " << timer.format(3));
+            CURFIL_INFO("PROFILING('" << name << "'): " << timer.format(3));
         }
     }
 
@@ -123,13 +123,13 @@ public:
         return timer.getSeconds();
     }
 
-    bool isEnabled() const {
+    static bool isEnabled() {
         return enabled;
     }
 
     static void setEnabled(bool enable) {
         enabled = enable;
-        INFO("profiling " << ((enabled) ? "enabled" : "disabled"));
+        CURFIL_INFO("profiling " << ((enabled) ? "enabled" : "disabled"));
     }
 
 private:

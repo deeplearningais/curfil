@@ -380,7 +380,7 @@ BOOST_AUTO_TEST_CASE(testDepthFeatureSimple) {
     images[0].calculateIntegral();
 
 #if DUMP_IMAGE
-    INFO("integral:");
+    CURFIL_INFO("integral:");
     image.dumpDepth(std::cout);
 #endif
 
@@ -1258,7 +1258,7 @@ BOOST_AUTO_TEST_CASE(testRecallLargeForest) {
         BOOST_CHECK_EQUAL(rootNode->countNodes(), static_cast<size_t>(treeData->numNodes()));
         BOOST_CHECK_EQUAL(rootNode->getNumClasses(), static_cast<size_t>(treeData->numLabels()));
 
-        INFO("checking nodes");
+        CURFIL_INFO("checking nodes");
 
         assert(nodes.size() == numNodes[treeId] + 1);
 
@@ -1271,7 +1271,7 @@ BOOST_AUTO_TEST_CASE(testRecallLargeForest) {
             }
         }
 
-        INFO("checked " << numNodes[treeId] << " nodes of tree " << treeId);
+        CURFIL_INFO("checked " << numNodes[treeId] << " nodes of tree " << treeId);
     }
 
 }

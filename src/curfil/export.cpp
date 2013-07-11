@@ -1,4 +1,4 @@
-#include "export.hpp"
+#include "export.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -276,6 +276,6 @@ void RandomTreeExport::writeJSON(const RandomTreeImage& tree, size_t treeNr) con
     ostream.strict_sync();
 
     double filesize = (boost::filesystem::file_size(filename)) / static_cast<double>(1024 * 1024);
-    INFO("wrote " << filename << (boost::format(" (%.2f MB)") % filesize).str());
+    CURFIL_INFO("wrote " << filename << (boost::format(" (%.2f MB)") % filesize).str());
 }
 }

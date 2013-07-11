@@ -11,7 +11,7 @@
 #include <tbb/parallel_for_each.h>
 #include <tbb/parallel_for.h>
 
-#include "export.hpp"
+#include "export.h"
 #include "ndarray_ops.h"
 #include "predict.h"
 #include "utils.h"
@@ -24,13 +24,13 @@ bool continueSearching(const std::vector<double>& currentBestLosses,
     static const size_t MIN_SAMPLES = 3;
 
     if (currentBestLosses.empty()) {
-        INFO("current best is empty. continue searching");
+        CURFIL_INFO("current best is empty. continue searching");
         return true;
     }
 
     // we want a minimum of three samples
     if (currentRunLosses.size() < MIN_SAMPLES) {
-        INFO("too few elements in current run: " << currentRunLosses.size()
+        CURFIL_INFO("too few elements in current run: " << currentRunLosses.size()
                 << ". continue searching");
         return true;
     }
@@ -53,7 +53,7 @@ bool continueSearching(const std::vector<double>& currentBestLosses,
 
     // continue if any loss is at least as good as the worst loss of the currently best
     if (bestOfCurrentLosses <= worstCurrentBest) {
-        INFO("best run of current parameters is at least as good as the worst run with the best parameters: "
+        CURFIL_INFO("best run of current parameters is at least as good as the worst run with the best parameters: "
                 << bestOfCurrentLosses << " <= " << worstCurrentBest
                 << ". continue searching");
         return true;
@@ -82,9 +82,9 @@ bool continueSearching(const std::vector<double>& currentBestLosses,
     boost::math::students_t dist(v);
     double q = boost::math::cdf(boost::math::complement(dist, fabs(t_stat)));
 
-    INFO("Sm1: " << Sm1 << ", Sd1: " << Sd1 << ", Sn1: " << Sn1);
-    INFO("Sm2: " << Sm2 << ", Sd2: " << Sd2 << ", Sn2: " << Sn2);
-    INFO("q: " << q << ", alpha: " << alpha);
+    CURFIL_INFO("Sm1: " << Sm1 << ", Sd1: " << Sd1 << ", Sn1: " << Sn1);
+    CURFIL_INFO("Sm2: " << Sm2 << ", Sd2: " << Sd2 << ", Sn2: " << Sn2);
+    CURFIL_INFO("q: " << q << ", alpha: " << alpha);
 
     // continue if we reject hypothesis that sample 1 mean loss is less than sample 2 mean loss. then we do not know and need to continue searching
     return (q > alpha);
@@ -96,17 +96,14 @@ double Result::getLoss() const {
         case LossFunctionType::CLASS_ACCURACY:
             accuracy = getClassAccuracy();
             break;
-        case LossFunctionType::CLASS_ACCURACY_NO_VOID:
-            accuracy = getClassAccuracyNoVoid();
+        case LossFunctionType::CLASS_ACCURACY_WITHOUT_VOID:
+            accuracy = getClassAccuracyWithoutVoid();
             break;
         case LossFunctionType::PIXEL_ACCURACY:
             accuracy = getPixelAccuracy();
             break;
-        case LossFunctionType::PIXEL_ACCURACY_NO_BACKGROUND:
-            accuracy = getPixelAccuracyNoBackground();
-            break;
-        case LossFunctionType::PIXEL_ACCURACY_NO_VOID:
-            accuracy = getPixelAccuracyNoVoid();
+        case LossFunctionType::PIXEL_ACCURACY_WITHOUT_VOID:
+            accuracy = getPixelAccuracyWithoutVoid();
             break;
         default:
             throw std::runtime_error("unknown type of loss function");
@@ -121,10 +118,9 @@ mongo::BSONObj Result::toBSON() const {
     o << "randomSeed" << getRandomSeed();
     o << "loss" << getLoss();
     o << "classAccuracy" << getClassAccuracy();
-    o << "classAccuracyNoVoid" << getClassAccuracyNoVoid();
+    o << "classAccuracyWithoutVoid" << getClassAccuracyWithoutVoid();
     o << "pixelAccuracy" << getPixelAccuracy();
-    o << "pixelAccuracyNoBackground" << getPixelAccuracyNoBackground();
-    o << "pixelAccuracyNoVoid" << getPixelAccuracyNoVoid();
+    o << "pixelAccuracyWithoutVoid" << getPixelAccuracyWithoutVoid();
 
     mongo::BSONArrayBuilder confusionMatrixArray;
     for (size_t label = 0; label < confusionMatrix.getNumClasses(); label++) {
@@ -143,29 +139,25 @@ mongo::BSONObj Result::toBSON() const {
 LossFunctionType HyperoptClient::parseLossFunction(const std::string& lossFunctionString) {
     if (lossFunctionString == "classAccuracy") {
         return LossFunctionType::CLASS_ACCURACY;
-    } else if (lossFunctionString == "classAccuracyNoVoid") {
-        return LossFunctionType::CLASS_ACCURACY_NO_VOID;
+    } else if (lossFunctionString == "classAccuracyWithoutVoid") {
+        return LossFunctionType::CLASS_ACCURACY_WITHOUT_VOID;
     }
     else if (lossFunctionString == "pixelAccuracy") {
         return LossFunctionType::PIXEL_ACCURACY;
     }
-    else if (lossFunctionString == "pixelAccuracyNoBackground") {
-        return LossFunctionType::PIXEL_ACCURACY_NO_BACKGROUND;
-    }
-    else if (lossFunctionString == "pixelAccuracyNoVoid") {
-        return LossFunctionType::PIXEL_ACCURACY_NO_VOID;
+    else if (lossFunctionString == "pixelAccuracyWithoutVoid") {
+        return LossFunctionType::PIXEL_ACCURACY_WITHOUT_VOID;
     } else {
         throw std::runtime_error(std::string("unknown type of loss function: ") + lossFunctionString);
     }
 }
 
-const Result HyperoptClient::test(const RandomTreeImageEnsemble& randomForest,
+const Result HyperoptClient::test(const RandomForestImage& randomForest,
         const std::vector<LabeledRGBDImage>& testImages) {
 
     tbb::mutex totalMutex;
     utils::Average averageAccuracy;
-    utils::Average averageAccuracyNoBackground;
-    utils::Average averageAccuracyNoVoid;
+    utils::Average averageAccuracyWithoutVoid;
 
     std::vector<int> indices(testImages.size(), 0);
     for (size_t i = 0; i < testImages.size(); i++) {
@@ -174,54 +166,47 @@ const Result HyperoptClient::test(const RandomTreeImageEnsemble& randomForest,
 
     const LabelType numClasses = randomForest.getNumClasses();
 
-    INFO("testing " << testImages.size() << " images with " << static_cast<int>(numClasses) << " classes");
+    CURFIL_INFO("testing " << testImages.size() << " images with " << static_cast<int>(numClasses) << " classes");
 
     ConfusionMatrix totalConfusionMatrix(numClasses);
 
     tbb::parallel_for_each(indices.begin(), indices.end(), [&](const int& i) {
-        const RGBDImage* image = testImages[i].getRGBDImage();
-        const LabelImage* groundTruth = testImages[i].getLabelImage();
-        LabelImage prediction(image->getWidth(), image->getHeight());
+        const RGBDImage& image = testImages[i].getRGBDImage();
+        const LabelImage& groundTruth = testImages[i].getLabelImage();
 
-        randomForest.test(image, prediction);
+        LabelImage prediction = randomForest.predict(image);
 
         tbb::mutex::scoped_lock lock(totalMutex);
 
-        ConfusionMatrix confusionMatrix(numClasses);
-
-        double accuracy = calculateAccuracy(prediction, groundTruth, confusionMatrix);
-        double accuracyNoBackground = calculateAccuracyNoBackground(prediction, groundTruth);
-        double accuracyNoVoid = calculateAccuracyNoVoid(prediction, groundTruth);
+        ConfusionMatrix confusionMatrix;
+        double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, &confusionMatrix);
+        double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false);
 
         totalConfusionMatrix += confusionMatrix;
 
         averageAccuracy.addValue(accuracy);
-        averageAccuracyNoBackground.addValue(accuracyNoBackground);
-        averageAccuracyNoVoid.addValue(accuracyNoVoid);
+        averageAccuracyWithoutVoid.addValue(accuracyWithoutVoid);
     });
 
     tbb::mutex::scoped_lock lock(totalMutex);
     double accuracy = averageAccuracy.getAverage();
-    double accuracyNoBackground = averageAccuracyNoBackground.getAverage();
-    double accuracyNoVoid = averageAccuracyNoVoid.getAverage();
+    double accuracyWithoutVoid = averageAccuracyWithoutVoid.getAverage();
 
-    INFO("accuracy: " << accuracy
-            << ", accuracyNoBg: " << accuracyNoBackground
-            << ", accuracyNoVoid: " << accuracyNoVoid);
+    CURFIL_INFO("accuracy (no void): " << accuracy << " (" << accuracyWithoutVoid << ")");
 
-    return Result(totalConfusionMatrix, accuracy, accuracyNoBackground, accuracyNoVoid, lossFunction);
+    return Result(totalConfusionMatrix, accuracy, accuracyWithoutVoid, lossFunction);
 }
 
-RandomTreeImageEnsemble HyperoptClient::train(size_t trees,
+RandomForestImage HyperoptClient::train(size_t trees,
         const TrainingConfiguration& configuration,
         const std::vector<LabeledRGBDImage>& trainImages) {
 
-    INFO("trees: " << trees);
-    INFO(configuration);
+    CURFIL_INFO("trees: " << trees);
+    CURFIL_INFO(configuration);
 
     // Train
 
-    RandomTreeImageEnsemble randomForest(trees, configuration);
+    RandomForestImage randomForest(trees, configuration);
 
     static const bool trainTreesSequentially = true;
 
@@ -229,7 +214,7 @@ RandomTreeImageEnsemble HyperoptClient::train(size_t trees,
     randomForest.train(trainImages, trainTreesSequentially);
     trainTimer.stop();
 
-    INFO("training took " << trainTimer.format(2) <<
+    CURFIL_INFO("training took " << trainTimer.format(2) <<
             " (" << std::setprecision(3) << trainTimer.getSeconds() / 60.0 << " min)");
 
     mongo::BSONObjBuilder featureBuilder(64);
@@ -255,25 +240,25 @@ double HyperoptClient::measureTrueLoss(unsigned int numTrees, TrainingConfigurat
 
     static const size_t TRUE_LOSS_RUNS = 2;
 
-    INFO("measuring true loss");
+    CURFIL_INFO("measuring true loss");
 
     Sampler sampler(randomSeed, 1, 100000);
 
     for (size_t run = 0; run < TRUE_LOSS_RUNS; run++) {
 
-        INFO("true loss run " << (run + 1) << "/" << TRUE_LOSS_RUNS);
+        CURFIL_INFO("true loss run " << (run + 1) << "/" << TRUE_LOSS_RUNS);
 
         const int seedOfRun = sampler.getNext();
 
         configuration.setRandomSeed(seedOfRun);
 
-        RandomTreeImageEnsemble forest = train(numTrees, configuration, allRGBDImages);
+        RandomForestImage forest = train(numTrees, configuration, allRGBDImages);
         forest.normalizeHistograms(histogramBias);
         Result result = test(forest, allTestImages);
 
         result.setRandomSeed(seedOfRun);
 
-        INFO(result.getConfusionMatrix());
+        CURFIL_INFO(result.getConfusionMatrix());
 
         log(2, BSON("trueLossRun" << static_cast<int>(run)
                 << "result" << result.toBSON()));
@@ -285,7 +270,7 @@ double HyperoptClient::measureTrueLoss(unsigned int numTrees, TrainingConfigurat
 
     double trueLoss = boost::accumulators::mean(acc);
 
-    INFO("true loss: " << trueLoss);
+    CURFIL_INFO("true loss: " << trueLoss);
 
     return trueLoss;
 }
@@ -326,14 +311,14 @@ void HyperoptClient::randomSplit(const int randomSeed, const double testRatio,
         }
     }
 
-    INFO("random split of " << testRatio <<
+    CURFIL_INFO("random split of " << testRatio <<
             ". train images: " << trainImages.size() <<
             ", test images: " << testImages.size());
 }
 
 void HyperoptClient::handle_task(const mongo::BSONObj& task) {
     try {
-        INFO("got task object: " << task.toString());
+        CURFIL_INFO("got task object: " << task.toString());
 
         const unsigned int numTrees = getParameterDouble(task, "numTrees");
         const unsigned int samplesPerImage = getParameterDouble(task, "samplesPerImage");
@@ -357,7 +342,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
 
         for (int run = 0; run < RUNS; run++) {
 
-            INFO("starting run " << (run + 1) << "/" << RUNS);
+            CURFIL_INFO("starting run " << (run + 1) << "/" << RUNS);
 
             const int seedOfRun = sampler.getNext();
 
@@ -378,7 +363,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
             log(3, msg);
             checkpoint();
 
-            RandomTreeImageEnsemble forest = train(numTrees, configuration, trainImages);
+            RandomForestImage forest = train(numTrees, configuration, trainImages);
             forest.normalizeHistograms(histogramBias);
             Result result = test(forest, testImages);
             result.setRandomSeed(seedOfRun);
@@ -393,7 +378,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
             mongo::BSONObj bestTask;
             if (get_best_task(bestTask)) {
 
-                INFO("best task so far: " << bestTask.getObjectField("result").toString());
+                CURFIL_INFO("best task so far: " << bestTask.getObjectField("result").toString());
 
                 std::vector<double> currentBestLosses;
 
@@ -409,13 +394,13 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
                             << "run" << run
                             << "currentBestLosses" << currentBestLosses
                             << "currentRunLosses" << currentRunLosses ));
-                    INFO("stop searching");
+                    CURFIL_INFO("stop searching");
                     break;
                 } else {
-                    INFO("continue searching");
+                    CURFIL_INFO("continue searching");
                 }
             } else {
-                INFO("no finished task so far");
+                CURFIL_INFO("no finished task so far");
             }
 
         }
@@ -446,7 +431,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
         finish(builder.obj(), true);
 
     } catch (const std::runtime_error& e) {
-        ERROR(e.what());
+        CURFIL_ERROR(e.what());
         finish(BSON("status" << "fail" << "why" << e.what()), false);
         throw e;
     }
@@ -467,18 +452,18 @@ void HyperoptClient::run() {
 
     mongo::BSONObj result;
     if (get_best_task(result)) {
-        INFO("best result so far: " << result["result"].toString());
+        CURFIL_INFO("best result so far: " << result["result"].toString());
     } else {
-        INFO("no best result so far");
+        CURFIL_INFO("no best result so far");
     }
 
-    INFO("running client");
+    CURFIL_INFO("running client");
     bool log_when_waiting = true;
     while (true) {
         mongo::BSONObj task;
         if (!get_next_task(task)) {
             if (log_when_waiting)
-                INFO("no task in queue. waiting...");
+                CURFIL_INFO("no task in queue. waiting...");
             log_when_waiting = false;
             sleep(1);
         } else {

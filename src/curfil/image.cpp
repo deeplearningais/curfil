@@ -504,7 +504,7 @@ void RGBDImage::calculateDerivative() {
 }
 
 // http://www.cs.washington.edu/rgbd-dataset/trd5326jglrepxk649ed/rgbd-dataset_full/README.txt
-void RGBDImage::writeDepth(const std::string& filename) const {
+void RGBDImage::saveDepth(const std::string& filename) const {
 
     cuv::ndarray<int, cuv::host_memory_space> tempDepthData = depthImage.copy();
 
@@ -533,7 +533,7 @@ void RGBDImage::writeDepth(const std::string& filename) const {
             vigra::ImageExportInfo(filename.c_str()).setPixelType("UINT16"));
 }
 
-void RGBDImage::writeColor(const std::string& filename) const {
+void RGBDImage::saveColor(const std::string& filename) const {
 
     vigra::DVector3Image image(getWidth(), getHeight());
 
@@ -664,7 +664,7 @@ LabelImage::LabelImage(const std::string& filename) :
     }
 }
 
-void LabelImage::write(const std::string& filename) const {
+void LabelImage::save(const std::string& filename) const {
     vigra::UInt8RGBImage labelImage(width, height);
 
     for (int x = 0; x < width; ++x) {
@@ -747,7 +747,7 @@ std::vector<std::string> listImageFilenames(const std::string& path) {
 std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthFilling) {
 
     std::vector<std::string> filenames = listImageFilenames(folder);
-    INFO("going to load " << filenames.size() << " images from " << folder);
+    CURFIL_INFO("going to load " << filenames.size() << " images from " << folder);
 
     size_t totalSizeInMemory = 0;
 
@@ -765,7 +765,7 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
                     {
                         tbb::mutex::scoped_lock lock(imageCounterMutex);
                         if (++numImages % 50 == 0) {
-                            INFO("loaded " << numImages << "/" << images.size() << " images");
+                            CURFIL_INFO("loaded " << numImages << "/" << images.size() << " images");
                         }
                         totalSizeInMemory += images[i].getSizeInMemory();
                     }
@@ -780,14 +780,14 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
         for (const LabeledRGBDImage& image : images) {
             if (image.getWidth() != imageWidth || image.getHeight() != imageHeight) {
                 std::ostringstream o;
-                o << "Image " << image.getRGBDImage()->getFilename() << " has different size: ";
+                o << "Image " << image.getRGBDImage().getFilename() << " has different size: ";
                 o << image.getWidth() << "x" << image.getHeight();
                 o << ". All images in the dataset must have the same size (" << imageWidth << "x" << imageHeight << ")";
                 throw std::runtime_error(o.str());
             }
             if (image.getSizeInMemory() != imageSizeInMemory) {
                 std::ostringstream o;
-                o << "Image " << image.getRGBDImage()->getFilename() << " has different size in memory: ";
+                o << "Image " << image.getRGBDImage().getFilename() << " has different size in memory: ";
                 o << image.getSizeInMemory() << " (expected: " << imageSizeInMemory << ").";
                 o << " This must not happen.";
                 throw std::runtime_error(o.str());
@@ -795,7 +795,7 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
         }
     }
 
-    INFO("finished loading " << images.size() << " images. size in memory: "
+    CURFIL_INFO("finished loading " << images.size() << " images. size in memory: "
             << (boost::format("%.2f MB") % (totalSizeInMemory / static_cast<double>(1024 * 1024))).str());
 
     return images;

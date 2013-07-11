@@ -135,12 +135,15 @@ private:
     static void calculateIntegral(cuv::ndarray_view<float, cuv::host_memory_space>& data);
     static void calculateDerivative(cuv::ndarray_view<float, cuv::host_memory_space>& data);
 
-    RGBDImage& operator=(const RGBDImage& other);
-
 public:
 
+    explicit RGBDImage(const std::string& filename, const std::string& depthFilename,
+            bool convertToCIELab = true,
+            bool useDepthFilling = false,
+            bool calculateIntegralImage = true);
+
     // for the test case
-    RGBDImage(int width, int height) :
+    explicit RGBDImage(int width, int height) :
             filename(""), depthFilename(""),
                     width(width), height(height),
                     colorImage(cuv::extents[COLOR_CHANNELS][height][width], boost::make_shared<cuv::cuda_allocator>()),
@@ -172,10 +175,6 @@ public:
         return depthImage;
     }
 
-    RGBDImage(const std::string& filename, const std::string& depthFilename, bool convertToCIELab,
-            bool useDepthFilling = false,
-            bool calculateIntegralImage = true);
-
     // public for test case
     void calculateDerivative();
     void calculateIntegral();
@@ -184,8 +183,8 @@ public:
     void dumpDepth(std::ostream& out) const;
     void dumpDepthValid(std::ostream& out) const;
 
-    void writeColor(const std::string& filename) const;
-    void writeDepth(const std::string& filename) const;
+    void saveColor(const std::string& filename) const;
+    void saveDepth(const std::string& filename) const;
 
     // GETTERS / SETTERS
     const std::string& getFilename() const {
@@ -283,7 +282,7 @@ public:
         return true;
     }
 
-    void write(const std::string& filename) const;
+    void save(const std::string& filename) const;
 
     static RGBColor decodeLabel(const LabelType& v);
 
@@ -331,12 +330,12 @@ public:
         return rgbdImage->getSizeInMemory() + labelImage->getSizeInMemory();
     }
 
-    const RGBDImage* getRGBDImage() const {
-        return rgbdImage.get();
+    const RGBDImage& getRGBDImage() const {
+        return *(rgbdImage.get());
     }
 
-    const LabelImage* getLabelImage() const {
-        return labelImage.get();
+    const LabelImage& getLabelImage() const {
+        return *(labelImage.get());
     }
 
     int getWidth() const {

@@ -22,6 +22,9 @@ static const int depthValidChannel = 1;
 static const unsigned int NODES_PER_TREE_LAYER = 2048;
 static const unsigned int LAYERS_PER_TREE = 16;
 
+/**
+ * helper class to map random forest data to texture cache on GPU
+ */
 class TreeNodes {
 
 private:
@@ -240,6 +243,7 @@ private:
 
 class RandomTreeImage;
 
+// helper class for the unit test
 class TreeNodeData {
 
 public:

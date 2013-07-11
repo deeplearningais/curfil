@@ -371,7 +371,7 @@ Samples<cuv::dev_memory_space> ImageFeatureEvaluation::copySamplesToDevice(
 }
 
 void clearImageCache() {
-    INFO("clearing image cache");
+    CURFIL_INFO("clearing image cache");
     imageCache.clear();
 }
 
@@ -419,7 +419,7 @@ void TreeNodes::setValue(size_t node, size_t offset, const T& value) {
             + layer * NODES_PER_TREE_LAYER * m_sizePerNode
             + nodeOffset * m_sizePerNode + offset);
 
-    // LOG_DEBUG("setting value for node " << node << " at pos (" << layer << "," << nodeOffset << "," << offset << ") to " << static_cast<double>(value));
+    // CURFIL_DEBUG("setting value for node " << node << " at pos (" << layer << "," << nodeOffset << "," << offset << ") to " << static_cast<double>(value));
 
     *ptr = value;
 }
@@ -604,13 +604,13 @@ void DeviceCache::copyElements(size_t cacheSize, const std::set<const void*>& el
             elementPos = elementIdMap[element];
             // update LRU vector time
             elementTimes[elementPos] = currentTime;
-            LOG_DEBUG(getElementName(element) << " already in device cache");
+            CURFIL_DEBUG(getElementName(element) << " already in device cache");
             continue;
         }
 
         // element does not exist yet. transfer it
 
-        LOG_DEBUG(getElementName(element) << " not yet on device. transferring");
+        CURFIL_DEBUG(getElementName(element) << " not yet on device. transferring");
 
         if (elementIdMap.size() < cacheSize) {
             elementPos = elementIdMap.size();
@@ -628,14 +628,14 @@ void DeviceCache::copyElements(size_t cacheSize, const std::set<const void*>& el
 
             assert(oldestTime < currentTime);
 
-            LOG_DEBUG("replacing " << getElementName(element)
+            CURFIL_DEBUG("replacing " << getElementName(element)
                     << " (time: " << oldestTime << ", current: " << currentTime << ")");
 
             {
                 std::map<const void*, size_t>::iterator it;
                 for (it = elementIdMap.begin(); it != elementIdMap.end(); it++) {
                     if (it->second == elementPos) {
-                        LOG_DEBUG("removing " << getElementName(it->first) << " at pos " << elementPos);
+                        CURFIL_DEBUG("removing " << getElementName(it->first) << " at pos " << elementPos);
                         elementIdMap.erase(it);
                         break;
                     }
@@ -647,7 +647,7 @@ void DeviceCache::copyElements(size_t cacheSize, const std::set<const void*>& el
         elementIdMap[element] = elementPos;
         elementTimes[elementPos] = currentTime;
 
-        LOG_DEBUG("transfer " << getElementName(element) << " to pos " << elementPos);
+        CURFIL_DEBUG("transfer " << getElementName(element) << " to pos " << elementPos);
 
         if (bound) {
             unbind();
@@ -658,7 +658,7 @@ void DeviceCache::copyElements(size_t cacheSize, const std::set<const void*>& el
     }
 
     if (numTransferred > 0) {
-        LOG_DEBUG("transferred " << numTransferred << "/" << elements.size() << " "
+        CURFIL_DEBUG("transferred " << numTransferred << "/" << elements.size() << " "
                 << getElementsName() << " from host to device");
 
         cudaSafeCall(cudaStreamSynchronize(streams[0]));
@@ -679,7 +679,7 @@ void DeviceCache::updateCacheSize(size_t cacheSize) {
 }
 
 ImageCache::~ImageCache() {
-    LOG_DEBUG("destroying image cache " << this);
+    CURFIL_DEBUG("destroying image cache " << this);
     clear();
 }
 
@@ -733,7 +733,6 @@ void ImageCache::copyImages(size_t cacheSize, const std::vector<const PixelInsta
     std::set<const RGBDImage*> images;
     for (size_t sample = 0; sample < samples.size(); sample++) {
         const RGBDImage* image = samples[sample]->getRGBDImage();
-        assert(image != NULL);
         images.insert(image);
     }
 
@@ -863,7 +862,7 @@ void ImageCache::unbind() {
 }
 
 TreeCache::~TreeCache() {
-    LOG_DEBUG("destroying tree cache " << this);
+    CURFIL_DEBUG("destroying tree cache " << this);
     clear();
 }
 
@@ -887,7 +886,7 @@ void TreeCache::allocArray() {
     assert(numLabels > 0);
     assert(getCacheSize() > 0);
 
-    INFO("tree cache: allocating " << getCacheSize() << " x " << LAYERS_PER_TREE << " x "
+    CURFIL_INFO("tree cache: allocating " << getCacheSize() << " x " << LAYERS_PER_TREE << " x "
             << NODES_PER_TREE_LAYER << " x " << sizePerNode << " bytes");
 
     {
@@ -968,7 +967,7 @@ void TreeCache::transferElement(size_t elementPos, const void* element, cudaStre
     copyParams.extent = make_cudaExtent(sizePerNode / sizeof(float), NODES_PER_TREE_LAYER, layers);
     void* ptr = const_cast<void*>(reinterpret_cast<const void*>(tree->data().ptr()));
 
-    INFO("transfer " << getElementName(element) << " to pos " << elementPos
+    CURFIL_INFO("transfer " << getElementName(element) << " to pos " << elementPos
             << " (layer " << elementPos * LAYERS_PER_TREE << ")"
             << " with " << tree->numNodes() << " nodes in " << layers << " layers");
 
@@ -1635,7 +1634,7 @@ void ImageFeatureEvaluation::selectDevice() {
     const int targetDeviceId = deviceIds[treeId % deviceIds.size()];
 
     if (currentDeviceId != targetDeviceId) {
-        INFO("tree " << treeId << ": switching from device " << currentDeviceId << " to " << targetDeviceId);
+        CURFIL_INFO("tree " << treeId << ": switching from device " << currentDeviceId << " to " << targetDeviceId);
         cudaSafeCall(cudaSetDevice(targetDeviceId));
         cudaSafeCall(cudaGetDevice(&currentDeviceId));
         if (currentDeviceId != targetDeviceId) {
@@ -1652,7 +1651,7 @@ void ImageFeatureEvaluation::initDevice() {
     int currentDeviceId;
     cudaSafeCall(cudaGetDevice(&currentDeviceId));
     cudaSafeCall(cudaGetDeviceProperties(&prop, currentDeviceId));
-    INFO("GPU Device " << currentDeviceId << ": " << prop.name);
+    CURFIL_INFO("GPU Device " << currentDeviceId << ": " << prop.name);
 
     {
         tbb::mutex::scoped_lock initLock(initMutex);
@@ -1661,7 +1660,7 @@ void ImageFeatureEvaluation::initDevice() {
                 cudaSafeCall(cudaStreamCreate(&streams[i]));
             }
             initialized = true;
-            LOG_DEBUG("created " << NUM_STREAMS << " streams");
+            CURFIL_DEBUG("created " << NUM_STREAMS << " streams");
         }
     }
 }
@@ -1683,8 +1682,8 @@ static void addBatch(RandomTree<PixelInstance, ImageFeatureFunction>& node,
     node.setTimerAnnotation((boost::format("batch%d.numImages") % batchNr).str(), imagesInCurrentBatch.size());
     node.setTimerAnnotation((boost::format("batch%d.numLabels") % batchNr).str(), labels.size());
 
-    LOG_DEBUG((boost::format("batch%d.numSamples: %d") % batchNr % currentBatch.size()).str());
-    LOG_DEBUG((boost::format("batch%d.numImages: %d") % batchNr % imagesInCurrentBatch.size()).str());
+    CURFIL_DEBUG((boost::format("batch%d.numSamples: %d") % batchNr % currentBatch.size()).str());
+    CURFIL_DEBUG((boost::format("batch%d.numImages: %d") % batchNr % imagesInCurrentBatch.size()).str());
 
     batches.push_back(currentBatch);
 
@@ -1884,8 +1883,8 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
             }
         }
         if (numLabelsCheck > numLabels) {
-            LOG_DEBUG("numLabelsCheck: " << numLabelsCheck);
-            LOG_DEBUG("numLabels:      " << numLabels);
+            CURFIL_DEBUG("numLabelsCheck: " << numLabelsCheck);
+            CURFIL_DEBUG("numLabels:      " << numLabels);
             assert(false);
         }
     }
@@ -1937,7 +1936,7 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
             dim3 blockSize(featureBlocks, sampleBlocks);
             dim3 threads(samplesPerBlock, featuresPerBlock);
 
-            LOG_DEBUG("feature response kernel: launching " << blockSize.x << "x" <<blockSize.y
+            CURFIL_DEBUG("feature response kernel: launching " << blockSize.x << "x" <<blockSize.y
                     << " blocks with " << threads.x << "x" << threads.y << " threads");
 
             cudaSafeCall(cudaStreamSynchronize(streams[0]));

@@ -92,22 +92,19 @@ BOOST_AUTO_TEST_CASE(testResultToBSON) {
     confusionMatrix(2, 2) = 0.75;
 
     double pixelAccuracy = 0.95;
-    double pixelAccuracyNoBg = 0.90;
-    double pixelAccuracyNoVoid = 0.85;
+    double pixelAccuracyWithoutVoid = 0.85;
 
-    Result result(confusionMatrix, pixelAccuracy, pixelAccuracyNoBg, pixelAccuracyNoVoid,
-            LossFunctionType::CLASS_ACCURACY);
+    Result result(confusionMatrix, pixelAccuracy, pixelAccuracyWithoutVoid, LossFunctionType::CLASS_ACCURACY);
     result.setRandomSeed(4711);
 
     const mongo::BSONObj obj = result.toBSON();
-    INFO(obj.jsonString(mongo::JsonStringFormat::Strict, 1));
+    CURFIL_INFO(obj.jsonString(mongo::JsonStringFormat::Strict, 1));
 
     BOOST_REQUIRE_EQUAL(obj.getIntField("randomSeed"), 4711);
     BOOST_REQUIRE_EQUAL(obj.getField("loss").Double(), 0.25);
     BOOST_REQUIRE_EQUAL(obj.getField("classAccuracy").Double(), 0.75);
     BOOST_REQUIRE_EQUAL(obj.getField("pixelAccuracy").Double(), pixelAccuracy);
-    BOOST_REQUIRE_EQUAL(obj.getField("pixelAccuracyNoBackground").Double(), pixelAccuracyNoBg);
-    BOOST_REQUIRE_EQUAL(obj.getField("pixelAccuracyNoVoid").Double(), pixelAccuracyNoVoid);
+    BOOST_REQUIRE_EQUAL(obj.getField("pixelAccuracyWithoutVoid").Double(), pixelAccuracyWithoutVoid);
     BOOST_REQUIRE_EQUAL(obj.getField("confusionMatrix").toString(false),
             "[ [ 1.0, 0.0, 0.0 ], [ 0.0, 0.5, 0.5 ], [ 0.0, 0.25, 0.75 ] ]");
 }
@@ -126,25 +123,20 @@ BOOST_AUTO_TEST_CASE(testResultGetLoss) {
     confusionMatrix(2, 2) = 0.75;
 
     double pixelAccuracy = 0.95;
-    double pixelAccuracyNoBg = 0.90;
-    double pixelAccuracyNoVoid = 0.85;
+    double pixelAccuracyWithoutVoid = 0.85;
 
-    Result result(confusionMatrix, pixelAccuracy, pixelAccuracyNoBg, pixelAccuracyNoVoid,
-            LossFunctionType::CLASS_ACCURACY);
+    Result result(confusionMatrix, pixelAccuracy, pixelAccuracyWithoutVoid, LossFunctionType::CLASS_ACCURACY);
 
     BOOST_CHECK_EQUAL(result.getLoss(), 1.0 - (1.0 + 0.5 + 0.75) / 3.0);
 
-    result.setLossFunctionType(LossFunctionType::CLASS_ACCURACY_NO_VOID);
+    result.setLossFunctionType(LossFunctionType::CLASS_ACCURACY_WITHOUT_VOID);
     BOOST_CHECK_EQUAL(result.getLoss(), 1.0 - (0.5 + 0.75) / 2.0);
 
     result.setLossFunctionType(LossFunctionType::PIXEL_ACCURACY);
     BOOST_CHECK_EQUAL(result.getLoss(), 1.0 - pixelAccuracy);
 
-    result.setLossFunctionType(LossFunctionType::PIXEL_ACCURACY_NO_BACKGROUND);
-    BOOST_CHECK_EQUAL(result.getLoss(), 1.0 - pixelAccuracyNoBg);
-
-    result.setLossFunctionType(LossFunctionType::PIXEL_ACCURACY_NO_VOID);
-    BOOST_CHECK_EQUAL(result.getLoss(), 1.0 - pixelAccuracyNoVoid);
+    result.setLossFunctionType(LossFunctionType::PIXEL_ACCURACY_WITHOUT_VOID);
+    BOOST_CHECK_EQUAL(result.getLoss(), 1.0 - pixelAccuracyWithoutVoid);
 
 }
 BOOST_AUTO_TEST_SUITE_END()

@@ -3,9 +3,9 @@
 #include <iomanip>
 #include <tbb/task_scheduler_init.h>
 
-#include "export.hpp"
+#include "export.h"
 #include "image.h"
-#include "random_tree_image_ensemble.h"
+#include "random_forest_image.h"
 #include "random_tree_image.h"
 #include "utils.h"
 #include "version.h"
@@ -14,28 +14,28 @@ namespace po = boost::program_options;
 
 using namespace curfil;
 
-static RandomTreeImageEnsemble train(std::vector<LabeledRGBDImage>& trainLabelImages, size_t trees,
+static RandomForestImage train(std::vector<LabeledRGBDImage>& trainLabelImages, size_t trees,
         const TrainingConfiguration& configuration, bool trainTreesInParallel) {
 
-    INFO("trees: " << trees);
-    INFO("training trees in parallel: " << trainTreesInParallel);
-    INFO(configuration);
+    CURFIL_INFO("trees: " << trees);
+    CURFIL_INFO("training trees in parallel: " << trainTreesInParallel);
+    CURFIL_INFO(configuration);
 
     // Train
 
-    RandomTreeImageEnsemble randomForest(trees, configuration);
+    RandomForestImage randomForest(trees, configuration);
 
     utils::Timer trainTimer;
     randomForest.train(trainLabelImages, !trainTreesInParallel);
     trainTimer.stop();
 
-    INFO("training took " << trainTimer.format(2) <<
+    CURFIL_INFO("training took " << trainTimer.format(2) <<
             " (" << std::setprecision(3) << trainTimer.getSeconds() / 60.0 << " min)");
 
     std::cout << randomForest;
     for (const auto& featureCount : randomForest.countFeatures()) {
         const std::string featureType = featureCount.first;
-        INFO("feature " << featureType << ": " << featureCount.second);
+        CURFIL_INFO("feature " << featureType << ": " << featureCount.second);
     }
 
     return randomForest;
@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     logVersionInfo();
 
     if (deviceIds.empty()) {
-        INFO("no GPU device ID specified. using device 0.");
+        CURFIL_INFO("no GPU device ID specified. using device 0.");
         deviceIds.push_back(0);
     }
 
@@ -159,9 +159,9 @@ int main(int argc, char **argv) {
         imageCacheSizeMB = freeMemoryOnGPU * 0.66 / 1024 / 1024;
     }
 
-    INFO("acceleration mode: " << modeString);
-    INFO("CIELab: " << useCIELab);
-    INFO("DepthFilling: " << useDepthFilling);
+    CURFIL_INFO("acceleration mode: " << modeString);
+    CURFIL_INFO("CIELab: " << useCIELab);
+    CURFIL_INFO("DepthFilling: " << useDepthFilling);
 
     utils::Profile::setEnabled(profiling);
 
@@ -179,7 +179,7 @@ int main(int argc, char **argv) {
         imageCacheSize = imageCacheSizeMB * 1024lu * 1024lu / images[0].getSizeInMemory();
     }
 
-    INFO((boost::format("image cache size: %d images (%.1f MB)")
+    CURFIL_INFO((boost::format("image cache size: %d images (%.1f MB)")
             % imageCacheSize
             % (imageCacheSize * images[0].getSizeInMemory() / 1024.0 / 1024.0)).str());
 
@@ -200,23 +200,23 @@ int main(int argc, char **argv) {
         throw std::runtime_error("memory headroom on GPU too low. try to decrease image cache size manually");
     }
 
-    INFO("max samples per batch: " << maxSamplesPerBatch);
+    CURFIL_INFO("max samples per batch: " << maxSamplesPerBatch);
 
     TrainingConfiguration configuration(randomSeed, samplesPerImage, featureCount, minSampleCount,
             maxDepth, boxRadius, regionSize, numThresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
             TrainingConfiguration::parseAccelerationModeString(modeString), useCIELab, useDepthFilling, deviceIds,
             subsamplingType, ignoredColors);
 
-    RandomTreeImageEnsemble forest = train(images, trees, configuration, trainTreesInParallel);
+    RandomForestImage forest = train(images, trees, configuration, trainTreesInParallel);
 
     if (!outputFolder.empty()) {
         RandomTreeExport treeExport(configuration, outputFolder, folderTraining, verboseTree);
         treeExport.writeJSON(forest);
     } else {
-        WARNING("no output folder given. skipping JSON export");
+        CURFIL_WARNING("no output folder given. skipping JSON export");
     }
 
-    INFO("finished");
+    CURFIL_INFO("finished");
     return EXIT_SUCCESS;
 }
 

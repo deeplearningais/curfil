@@ -1,4 +1,4 @@
-#include "import.hpp"
+#include "import.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -144,6 +144,10 @@ TrainingConfiguration RandomTreeImport::readJSON(const std::string& filename,
         std::string& hostname,
         boost::filesystem::path& folderTraining,
         boost::posix_time::ptime& date) {
+
+    if (!boost::filesystem::is_regular_file(filename)) {
+        throw std::runtime_error(std::string("failed to read tree file: '") + filename + "' is not a regular file");
+    }
 
     boost::property_tree::ptree pt;
 

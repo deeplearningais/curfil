@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(testImageCacheSimple) {
     samples.push_back(PixelInstance(&images[2], 0, Depth(1.0), 0, 0));
     samples.push_back(PixelInstance(&images[3], 0, Depth(1.0), 0, 0));
 
-    INFO("now, image 0 must be dropped. image 3 must be transferred");
+    CURFIL_INFO("now, image 0 must be dropped. image 3 must be transferred");
 
     imageCache.copyImages(imageCacheSize, getPointers(samples));
 
@@ -90,6 +90,6 @@ BOOST_AUTO_TEST_CASE(testImageCacheSimple) {
     BOOST_CHECK(map.find(&images[3]) != map.end());
     BOOST_CHECK(map.find(&images[4]) != map.end());
 
-    INFO("done");
+    CURFIL_INFO("done");
 }
 BOOST_AUTO_TEST_SUITE_END()

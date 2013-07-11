@@ -4,7 +4,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <string>
 
-#include "random_tree_image_ensemble.h"
+#include "random_forest_image.h"
 
 namespace curfil {
 
@@ -48,13 +48,13 @@ public:
     template<class TreeEnsemble>
     void writeJSON(const TreeEnsemble& ensemble) const {
 
-        INFO("writing tree files to " << outputFolder << " (verbose: " << verbose << ")");
+        CURFIL_INFO("writing tree files to " << outputFolder << " (verbose: " << verbose << ")");
 
         for (size_t treeNr = 0; treeNr < ensemble.getTrees().size(); treeNr++) {
             writeJSON(*(ensemble.getTree(treeNr)), treeNr);
         }
 
-        INFO("wrote JSON files to " << outputFolder);
+        CURFIL_INFO("wrote JSON files to " << outputFolder);
     }
 
 private:

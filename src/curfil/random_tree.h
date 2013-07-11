@@ -109,6 +109,28 @@ private:
 class TrainingConfiguration {
 
 public:
+
+    explicit TrainingConfiguration() :
+            randomSeed(0),
+                    samplesPerImage(0),
+                    featureCount(0),
+                    minSampleCount(0),
+                    maxDepth(0),
+                    boxRadius(0),
+                    regionSize(0),
+                    thresholds(0),
+                    numThreads(0),
+                    maxImages(0),
+                    imageCacheSize(0),
+                    maxSamplesPerBatch(0),
+                    accelerationMode(GPU_ONLY),
+                    useCIELab(0),
+                    useDepthFilling(0),
+                    deviceIds(),
+                    subsamplingType(),
+                    ignoredColors() {
+    }
+
     TrainingConfiguration(const TrainingConfiguration& other);
 
     TrainingConfiguration(int randomSeed,
@@ -516,7 +538,7 @@ public:
                 sum += normalizedHistogram[i];
             }
             if (sum == 0) {
-                INFO("normalized histogram of node " << getNodeId() << ", level " << getLevel() << " has zero sum");
+                CURFIL_INFO("normalized histogram of node " << getNodeId() << ", level " << getLevel() << " has zero sum");
             }
         } else {
             left->normalizeHistograms(priorDistribution, histogramBias);
@@ -524,9 +546,9 @@ public:
         }
 
         if (normalizedHistogram.shape() != histogram.shape()) {
-            ERROR("node: " << nodeId << " (level " << level << ")");
-            ERROR("histogram: " << histogram);
-            ERROR("normalized histogram: " << normalizedHistogram);
+            CURFIL_ERROR("node: " << nodeId << " (level " << level << ")");
+            CURFIL_ERROR("histogram: " << histogram);
+            CURFIL_ERROR("normalized histogram: " << normalizedHistogram);
             throw std::runtime_error("failed to normalize histogram");
         }
     }
@@ -537,9 +559,9 @@ public:
 
     const cuv::ndarray<double, cuv::host_memory_space>& getNormalizedHistogram() const {
         if (normalizedHistogram.shape() != histogram.shape()) {
-            ERROR("node: " << nodeId << " (level " << level << ")");
-            ERROR("histogram: " << histogram);
-            ERROR("normalized histogram: " << normalizedHistogram);
+            CURFIL_ERROR("node: " << nodeId << " (level " << level << ")");
+            CURFIL_ERROR("histogram: " << histogram);
+            CURFIL_ERROR("normalized histogram: " << normalizedHistogram);
             throw std::runtime_error("histogram not normalized");
         }
         return normalizedHistogram;
@@ -800,7 +822,7 @@ public:
             return;
         }
 
-        INFO("training level " << currentLevel << ". nodes: " << samplesPerNode.size());
+        CURFIL_INFO("training level " << currentLevel << ". nodes: " << samplesPerNode.size());
 
         utils::Timer trainTimer;
 
@@ -851,13 +873,13 @@ public:
 #endif
 
             if (samplesLeft.empty() || samplesRight.empty()) {
-                ERROR("best split score: " << bestSplit.getScore());
-                ERROR("samples: " << samples.size());
-                ERROR("threshold: " << bestSplit.getThreshold());
-                ERROR("feature: " << bestSplit.getFeature());
-                ERROR("histogram: " << currentNode->getHistogram());
-                ERROR("samplesLeft: " << samplesLeft.size());
-                ERROR("samplesRight: " << samplesRight.size());
+                CURFIL_ERROR("best split score: " << bestSplit.getScore());
+                CURFIL_ERROR("samples: " << samples.size());
+                CURFIL_ERROR("threshold: " << bestSplit.getThreshold());
+                CURFIL_ERROR("feature: " << bestSplit.getFeature());
+                CURFIL_ERROR("histogram: " << currentNode->getHistogram());
+                CURFIL_ERROR("samplesLeft: " << samplesLeft.size());
+                CURFIL_ERROR("samplesRight: " << samplesRight.size());
 
                 compareHistograms(currentNode, leftNode, rightNode, bestSplit);
 
@@ -880,7 +902,7 @@ public:
             }
         }
 
-        INFO("training level " << currentLevel << " took " << trainTimer.format(3));
+        CURFIL_INFO("training level " << currentLevel << " took " << trainTimer.format(3));
         if (!samplesPerNodeNextLevel.empty()) {
             train(featureEvaluation, randomSource, samplesPerNodeNextLevel, idNode, currentLevel + 1);
         }

@@ -1,5 +1,5 @@
-#ifndef CURFIL_RANDOMTREEIMAGEENSEMBLE_H
-#define CURFIL_RANDOMTREEIMAGEENSEMBLE_H
+#ifndef CURFIL_RANDOM_FOREST_IMAGE_H
+#define CURFIL_RANDOM_FOREST_IMAGE_H
 
 #include <boost/shared_ptr.hpp>
 #include <vector>
@@ -10,20 +10,30 @@ namespace curfil {
 
 class TreeNodes;
 
-class RandomTreeImageEnsemble {
+class RandomForestImage {
 public:
-    RandomTreeImageEnsemble(unsigned int treeCount,
+
+    explicit RandomForestImage(const std::vector<std::string>& treeFiles,
+            const std::vector<int>& deviceIds = std::vector<int>(1, 0),
+            const AccelerationMode accelerationMode = GPU_ONLY,
+            const double histogramBias = 0.0);
+
+    explicit RandomForestImage(unsigned int treeCount,
             const TrainingConfiguration& configuration);
 
-    RandomTreeImageEnsemble(const std::vector<boost::shared_ptr<RandomTreeImage> >& ensemble,
+    explicit RandomForestImage(const std::vector<boost::shared_ptr<RandomTreeImage> >& ensemble,
             const TrainingConfiguration& configuration);
 
     void train(const std::vector<LabeledRGBDImage>& trainLabelImages, bool trainTreesSequentially = false);
 
-    cuv::ndarray<float, cuv::host_memory_space> test(const RGBDImage* image, LabelImage& prediction,
+    /**
+     * @param image the image which should be classified
+     * @param if not null, probabilities per class in a C×H×W matrix for C classes and an image of size W×H
+     * @return prediction image which has the same size as 'image'
+     */
+    LabelImage predict(const RGBDImage& image,
+            cuv::ndarray<float, cuv::host_memory_space>* prediction = 0,
             const bool onGPU = true) const;
-
-    void normalizeHistograms(const double histogramBias);
 
     std::map<std::string, size_t> countFeatures() const;
 
@@ -49,9 +59,11 @@ public:
 
     std::map<LabelType, RGBColor> getLabelColorMap() const;
 
+    void normalizeHistograms(const double histogramBias);
+
 private:
 
-    const TrainingConfiguration configuration;
+    TrainingConfiguration configuration;
 
     std::vector<boost::shared_ptr<RandomTreeImage> > ensemble;
     std::vector<boost::shared_ptr<const TreeNodes> > treeData;
@@ -60,6 +72,6 @@ private:
 
 }
 
-std::ostream& operator<<(std::ostream& os, const curfil::RandomTreeImageEnsemble& ensemble);
+std::ostream& operator<<(std::ostream& os, const curfil::RandomForestImage& ensemble);
 
 #endif

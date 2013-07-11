@@ -9,7 +9,7 @@
 
 #include "image.h"
 #include "ndarray_ops.h"
-#include "random_tree_image_ensemble.h"
+#include "random_forest_image.h"
 #include "random_tree_image.h"
 #include "utils.h"
 
@@ -20,9 +20,20 @@ void ConfusionMatrix::reset() {
     for (size_t i = 0; i < data.size(); i++) {
         p[i] = 0.0;
     }
+    normalized = false;
+}
+
+void ConfusionMatrix::resize(unsigned int numClasses) {
+    data.resize(numClasses, numClasses);
+    reset();
 }
 
 void ConfusionMatrix::operator+=(const ConfusionMatrix& other) {
+
+    if (normalized) {
+        throw std::runtime_error("confusion matrix is already normalized");
+    }
+
     if (other.getNumClasses() != getNumClasses()) {
         throw std::runtime_error("different number of classes");
     }
@@ -31,6 +42,14 @@ void ConfusionMatrix::operator+=(const ConfusionMatrix& other) {
 }
 
 double ConfusionMatrix::averageClassAccuracy(bool includeVoid) const {
+
+    if (!normalized) {
+        ConfusionMatrix normalizedConfusionMatrix(*this);
+        normalizedConfusionMatrix.normalize();
+        assert(normalizedConfusionMatrix.isNormalized());
+        return normalizedConfusionMatrix.averageClassAccuracy(includeVoid);
+    }
+
     utils::Average averageClassAccuracy;
 
     for (unsigned int label = 0; label < getNumClasses(); label++) {
@@ -45,6 +64,10 @@ double ConfusionMatrix::averageClassAccuracy(bool includeVoid) const {
 }
 
 void ConfusionMatrix::normalize() {
+
+    if (normalized) {
+        throw std::runtime_error("confusion matrix is already normalized");
+    }
 
     cuv::ndarray<double, cuv::host_memory_space> sums(getNumClasses());
 
@@ -78,90 +101,63 @@ void ConfusionMatrix::normalize() {
     }
 #endif
 
+    normalized = true;
+
 }
 
-double calculateAccuracy(const LabelImage& image, const LabelImage* groundTruth,
-        ConfusionMatrix& confusionMatrix) {
-    assert(groundTruth != NULL);
+double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& groundTruth,
+        const bool includeVoid, ConfusionMatrix* confusionMatrix) {
 
-    size_t correct = 0;
-    confusionMatrix.reset();
-
-    for (int y = 0; y < image.getHeight(); ++y) {
-        for (int x = 0; x < image.getWidth(); ++x) {
-            const LabelType label = groundTruth->getLabel(x, y);
-            const LabelType prediction = image.getLabel(x, y);
-
-            if (prediction == label) {
-                correct++;
-            }
-
-            confusionMatrix.increment(label, prediction);
-        }
-    }
-
-    return static_cast<double>(correct) / (image.getWidth() * image.getHeight());
-}
-
-double calculateAccuracyNoBackground(const LabelImage& image, const LabelImage* groundTruth) {
-    assert(groundTruth != NULL);
-    size_t truePositives = 0;
-    size_t trueNegatives = 0;
-    size_t falseNegatives = 0;
-    size_t falsePositives = 0;
-
-    for (int y = 0; y < image.getHeight(); ++y) {
-        for (int x = 0; x < image.getWidth(); ++x) {
-            const LabelType label = groundTruth->getLabel(x, y);
-            const LabelType prediction = image.getLabel(x, y);
-
-            if (prediction == label) {
-                if (prediction == 0) {
-                    trueNegatives++;
-                } else {
-                    truePositives++;
-                }
-            } else {
-                if (prediction == 0) {
-                    falseNegatives++;
-                } else {
-                    falsePositives++;
-                }
-            }
-        }
-    }
-
-    return static_cast<double>(truePositives) / (truePositives + falseNegatives + falsePositives);
-}
-
-double calculateAccuracyNoVoid(const LabelImage& image, const LabelImage* groundTruth) {
-    assert(groundTruth != NULL);
     size_t correct = 0;
     size_t wrong = 0;
 
-    for (int y = 0; y < image.getHeight(); ++y) {
-        for (int x = 0; x < image.getWidth(); ++x) {
-            const LabelType label = groundTruth->getLabel(x, y);
+    if (confusionMatrix) {
+        LabelType numClasses = 0;
+        for (int y = 0; y < groundTruth.getHeight(); ++y) {
+            for (int x = 0; x < groundTruth.getWidth(); ++x) {
+                numClasses = std::max(numClasses, groundTruth.getLabel(x, y));
+            }
+        }
+        numClasses++;
+        confusionMatrix->resize(numClasses);
+        confusionMatrix->reset();
+    }
 
-            if (label == 0) {
+    for (int y = 0; y < prediction.getHeight(); ++y) {
+        for (int x = 0; x < prediction.getWidth(); ++x) {
+            const LabelType label = groundTruth.getLabel(x, y);
+
+            if (!includeVoid && label == 0) {
                 // skip void
                 continue;
             }
 
-            const LabelType prediction = image.getLabel(x, y);
-            if (prediction == label) {
+            const LabelType predictedClass = prediction.getLabel(x, y);
+
+            if (predictedClass == label) {
                 correct++;
             } else {
                 wrong++;
             }
+
+            if (confusionMatrix) {
+                confusionMatrix->increment(label, predictedClass);
+            }
         }
     }
 
-    return static_cast<double>(correct) / (correct + wrong);
+    size_t numPixels;
+
+    if (includeVoid) {
+        numPixels = prediction.getWidth() * prediction.getHeight();
+    } else {
+        numPixels = correct + wrong;
+    }
+    return static_cast<double>(correct) / numPixels;
 }
 
-void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTesting,
-        const std::string& folderPrediction, const double histogramBias, const bool useDepthFilling,
+void test(RandomForestImage& randomForest, const std::string& folderTesting,
+        const std::string& folderPrediction, const bool useDepthFilling,
         const bool writeProbabilityImages, const int maxDepth) {
 
     auto filenames = listImageFilenames(folderTesting);
@@ -169,13 +165,13 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
         throw std::runtime_error(std::string("found no files in ") + folderTesting);
     }
 
-    INFO("got " << filenames.size() << " files for prediction");
+    CURFIL_INFO("got " << filenames.size() << " files for prediction");
 
-    INFO("label/color map:");
+    CURFIL_INFO("label/color map:");
     const auto labelColorMap = randomForest.getLabelColorMap();
     for (const auto& labelColor : labelColorMap) {
         const auto color = LabelImage::decodeLabel(labelColor.first);
-        INFO("label: " << static_cast<int>(labelColor.first) << ", color: RGB(" << color << ")");
+        CURFIL_INFO("label: " << static_cast<int>(labelColor.first) << ", color: RGB(" << color << ")");
     }
 
     if (maxDepth > 0) {
@@ -184,8 +180,7 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
 
     tbb::mutex totalMutex;
     utils::Average averageAccuracy;
-    utils::Average averageAccuracyNoBackground;
-    utils::Average averageAccuracyNoVoid;
+    utils::Average averageAccuracyWithoutVoid;
 
     const LabelType numClasses = randomForest.getNumClasses();
     ConfusionMatrix totalConfusionMatrix(numClasses);
@@ -193,10 +188,8 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
     size_t i = 0;
 
     const bool useCIELab = randomForest.getConfiguration().isUseCIELab();
-    INFO("CIELab: " << useCIELab);
-    INFO("DepthFilling: " << useDepthFilling);
-
-    randomForest.normalizeHistograms(histogramBias);
+    CURFIL_INFO("CIELab: " << useCIELab);
+    CURFIL_INFO("DepthFilling: " << useDepthFilling);
 
     bool onGPU = randomForest.getConfiguration().getAccelerationMode() == GPU_ONLY;
 
@@ -207,7 +200,7 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
 
     bool writeImages = true;
     if (folderPrediction.empty()) {
-        WARNING("no prediction folder given. will not write images");
+        CURFIL_WARNING("no prediction folder given. will not write images");
         writeImages = false;
     }
 
@@ -216,13 +209,13 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
                 for(size_t fileNr = range.begin(); fileNr != range.end(); fileNr++) {
                     const std::string& filename = filenames[fileNr];
                     const auto imageLabelPair = loadImagePair(filename, useCIELab, useDepthFilling);
-                    const RGBDImage* testImage = imageLabelPair.getRGBDImage();
-                    const LabelImage* groundTruth = imageLabelPair.getLabelImage();
-                    LabelImage prediction(testImage->getWidth(), testImage->getHeight());
+                    const RGBDImage& testImage = imageLabelPair.getRGBDImage();
+                    const LabelImage& groundTruth = imageLabelPair.getLabelImage();
+                    LabelImage prediction(testImage.getWidth(), testImage.getHeight());
 
-                    for(int y = 0; y < groundTruth->getHeight(); y++) {
-                        for(int x = 0; x < groundTruth->getWidth(); x++) {
-                            const LabelType label = groundTruth->getLabel(x, y);
+                    for(int y = 0; y < groundTruth.getHeight(); y++) {
+                        for(int x = 0; x < groundTruth.getWidth(); x++) {
+                            const LabelType label = groundTruth.getLabel(x, y);
                             if (label >= numClasses) {
                                 const auto msg = (boost::format("illegal label in ground truth image '%s' at pixel (%d,%d): %d RGB(%3d,%3d,%3d) (numClasses: %d)")
                                         % filename
@@ -238,10 +231,12 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
                         }
                     }
 
-                    boost::filesystem::path fn(testImage->getFilename());
+                    boost::filesystem::path fn(testImage.getFilename());
                     const std::string basepath = folderPrediction + "/" + boost::filesystem::basename(fn);
 
-                    const cuv::ndarray<float, cuv::host_memory_space> probabilities = randomForest.test(testImage, prediction, onGPU);
+                    cuv::ndarray<float, cuv::host_memory_space> probabilities;
+
+                    prediction = randomForest.predict(testImage, &probabilities, onGPU);
 
 #ifndef NDEBUG
             for(LabelType label = 0; label < randomForest.getNumClasses(); label++) {
@@ -261,7 +256,7 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
 
             if (writeImages && writeProbabilityImages) {
                 utils::Profile profile("writeProbabilityImages");
-                RGBDImage probabilityImage(testImage->getWidth(), testImage->getHeight());
+                RGBDImage probabilityImage(testImage.getWidth(), testImage.getHeight());
                 for(LabelType label = 0; label< randomForest.getNumClasses(); label++) {
 
                     if (!randomForest.shouldIgnoreLabel(label)) {
@@ -277,7 +272,7 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
                         }
                     }
                     const std::string filename = boost::str(boost::format("%s_label_%d.png") % basepath % static_cast<int>(label));
-                    probabilityImage.writeColor(filename);
+                    probabilityImage.saveColor(filename);
                 }
             }
 
@@ -290,57 +285,56 @@ void test(RandomTreeImageEnsemble& randomForest, const std::string& folderTestin
 
             if (writeImages) {
                 utils::Profile profile("writeImages");
-                testImage->writeColor(basepath + ".png");
-                testImage->writeDepth(basepath + "_depth.png");
-                groundTruth->write(basepath + "_ground_truth.png");
-                prediction.write(basepath + "_prediction.png");
+                testImage.saveColor(basepath + ".png");
+                testImage.saveDepth(basepath + "_depth.png");
+                groundTruth.save(basepath + "_ground_truth.png");
+                prediction.save(basepath + "_prediction.png");
             }
 
-            ConfusionMatrix confusionMatrix(numClasses);
-
-            double accuracy = calculateAccuracy(prediction, groundTruth, confusionMatrix);
-            double accuracyNoBackground = calculateAccuracyNoBackground(prediction, groundTruth);
-            double accuracyNoVoid = calculateAccuracyNoVoid(prediction, groundTruth);
+            ConfusionMatrix confusionMatrix;
+            double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, &confusionMatrix);
+            double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false);
 
             tbb::mutex::scoped_lock lock(totalMutex);
 
-            INFO("prediction " << (thisNumber+1) << "/" << filenames.size() << " (" << testImage->getFilename() << "): pixel accuracy, without background, no void: " << 100 * accuracy
-                    << ", " << 100 * accuracyNoBackground << ", " << 100 * accuracyNoVoid);
+            CURFIL_INFO("prediction " << (thisNumber + 1) << "/" << filenames.size()
+                    << " (" << testImage.getFilename() << "): pixel accuracy (without void): " << 100 * accuracy
+                    << " (" << 100 * accuracyWithoutVoid << ")");
 
             averageAccuracy.addValue(accuracy);
-            averageAccuracyNoBackground.addValue(accuracyNoBackground);
-            averageAccuracyNoVoid.addValue(accuracyNoVoid);
+            averageAccuracyWithoutVoid.addValue(accuracyWithoutVoid);
 
             totalConfusionMatrix += confusionMatrix;
 
             accuracy = averageAccuracy.getAverage();
-            accuracyNoBackground = averageAccuracyNoBackground.getAverage();
-            accuracyNoVoid = averageAccuracyNoVoid.getAverage();
-            INFO("average accuracy: " << 100 * accuracy);
-            INFO("average accuracy without background: " << 100 * accuracyNoBackground);
-            INFO("average accuracy no void: " << 100 * accuracyNoVoid);
+            accuracyWithoutVoid = averageAccuracyWithoutVoid.getAverage();
+            CURFIL_INFO("average accuracy: " << 100 * accuracy);
+            CURFIL_INFO("average accuracy without void: " << 100 * accuracyWithoutVoid);
         }
 
     });
 
     tbb::mutex::scoped_lock lock(totalMutex);
     double accuracy = averageAccuracy.getAverage();
-    double accuracyNoBackground = averageAccuracyNoBackground.getAverage();
-    double accuracyNoVoid = averageAccuracyNoVoid.getAverage();
+    double accuracyWithoutVoid = averageAccuracyWithoutVoid.getAverage();
 
     totalConfusionMatrix.normalize();
 
-    INFO(totalConfusionMatrix);
+    CURFIL_INFO(totalConfusionMatrix);
 
-    INFO("total accuracy: " << 100 * accuracy);
-    INFO("total accuracy without background: " << 100 * accuracyNoBackground);
-    INFO("total accuracy no void: " << 100 * accuracyNoVoid);
+    CURFIL_INFO("total accuracy: " << 100 * accuracy);
+    CURFIL_INFO("total accuracy no void: " << 100 * accuracyWithoutVoid);
 }
 
 }
 
 std::ostream& operator<<(std::ostream& o, const curfil::ConfusionMatrix& confusionMatrix) {
     const unsigned int numClasses = confusionMatrix.getNumClasses();
+
+    curfil::ConfusionMatrix normalizedConfusionMatrix(confusionMatrix);
+    normalizedConfusionMatrix.normalize();
+
+    assert(numClasses == normalizedConfusionMatrix.getNumClasses());
 
     o << numClasses << "x" << numClasses << " confusion matrix (y: labels, x: predictions):" << std::endl;
 
@@ -351,7 +345,7 @@ std::ostream& operator<<(std::ostream& o, const curfil::ConfusionMatrix& confusi
         o << " class " << static_cast<int>(label) << " RGB(" << std::setw(3 * 3 + 2) << color << std::flush << ") : ";
 
         for (curfil::LabelType prediction = 0; prediction < numClasses; prediction++) {
-            double probability = static_cast<double>(confusionMatrix(label, prediction));
+            double probability = static_cast<double>(normalizedConfusionMatrix(label, prediction));
             o << (boost::format("%7.3f") % probability).str();
         }
         o << std::endl;
@@ -359,8 +353,8 @@ std::ostream& operator<<(std::ostream& o, const curfil::ConfusionMatrix& confusi
 
     o << std::endl;
 
-    o << "average class accuracy (incl void): " << 100 * confusionMatrix.averageClassAccuracy(true) << std::endl;
-    o << "average class accuracy (no void): " << 100 * confusionMatrix.averageClassAccuracy(false) << std::endl;
+    o << "average class accuracy (incl void): " << 100 * normalizedConfusionMatrix.averageClassAccuracy(true) << std::endl;
+    o << "average class accuracy (no void): " << 100 * normalizedConfusionMatrix.averageClassAccuracy(false) << std::endl;
 
     return o;
 }

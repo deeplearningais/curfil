@@ -6,8 +6,8 @@
 #include <iomanip>
 #include <tbb/task_scheduler_init.h>
 
-#include "import.hpp"
-#include "random_tree_image_ensemble.h"
+#include "import.h"
+#include "random_forest_image.h"
 #include "random_tree_image.h"
 #include "utils.h"
 #include "version.h"
@@ -22,12 +22,12 @@ static void initDevice() {
     int deviceId;
     cudaGetDevice(&deviceId);
     if (deviceId != 0) {
-        INFO("switching from device " << deviceId << " to " << 0)
+        CURFIL_INFO("switching from device " << deviceId << " to " << 0)
         deviceId = 0;
         cudaSafeCall(cudaSetDevice(deviceId));
     }
     cudaSafeCall(cudaGetDeviceProperties(&prop, deviceId));
-    INFO("GPU Device: " << prop.name);
+    CURFIL_INFO("GPU Device: " << prop.name);
 }
 
 int main(int argc, char **argv) {
@@ -97,81 +97,24 @@ int main(int argc, char **argv) {
         throw std::runtime_error(boost::str(boost::format("illegal histogram bias: %lf") % histogramBias));
     }
 
-    INFO("histogramBias: " << histogramBias);
+    CURFIL_INFO("histogramBias: " << histogramBias);
 
     utils::Profile::setEnabled(profiling);
 
     tbb::task_scheduler_init init(numThreads);
 
-    tbb::concurrent_vector<boost::shared_ptr<RandomTreeImage>> trees;
-    tbb::concurrent_vector<TrainingConfiguration> configurations;
-
-    tbb::parallel_for(tbb::blocked_range<size_t>(0, treeFiles.size(), 1),
-            [&](const tbb::blocked_range<size_t>& range) {
-
-                for(size_t tree = range.begin(); tree != range.end(); tree++) {
-                    INFO("reading tree " << tree << " from " << treeFiles[tree]);
-
-                    boost::shared_ptr<RandomTreeImage> randomTree;
-
-                    std::string hostname;
-                    boost::filesystem::path folderTraining;
-                    boost::posix_time::ptime date;
-
-                    TrainingConfiguration configuration = RandomTreeImport::readJSON(treeFiles[tree], randomTree, hostname,
-                            folderTraining, date);
-
-                    INFO("trained " << date << " on " << hostname);
-                    INFO("training folder: " << folderTraining);
-
-                    assert(randomTree);
-                    trees.push_back(randomTree);
-                    configurations.push_back(configuration);
-
-                    INFO(*randomTree);
-                }
-
-            });
-
-    for (size_t i = 1; i < treeFiles.size(); i++) {
-        bool strict = false;
-        if (!configurations[0].equals(configurations[i], strict)) {
-            ERROR("configuration of tree 0: " << configurations[0]);
-            ERROR("configuration of tree " << i << ": " << configurations[i]);
-            throw std::runtime_error("different configurations");
-        }
-
-        if (trees[0]->getTree()->getNumClasses() != trees[i]->getTree()->getNumClasses()) {
-            ERROR("number of classes of tree 0: " << trees[0]->getTree()->getNumClasses());
-            ERROR("number of classes of tree " << i << ": " << trees[i]->getTree()->getNumClasses());
-            throw std::runtime_error("different number of classes in trees");
-        }
-    }
-
-    INFO("training configuration " << configurations[0]);
-
     initDevice();
 
-    TrainingConfiguration configuration = configurations[0];
+    AccelerationMode mode = TrainingConfiguration::parseAccelerationModeString(modeString);
+    RandomForestImage randomForest(treeFiles, deviceIds, mode, histogramBias);
 
-    configuration.setDeviceIds(deviceIds);
-    configuration.setAccelerationMode(TrainingConfiguration::parseAccelerationModeString(modeString));
-
-    std::vector<boost::shared_ptr<RandomTreeImage>> treeVector;
-    for (auto& tree : trees) {
-        treeVector.push_back(tree);
-    }
-    assert(treeVector.size() == trees.size());
-
-    RandomTreeImageEnsemble ensemble(treeVector, configuration);
-
-    bool useDepthFilling = configuration.isUseDepthFilling();
+    bool useDepthFilling = randomForest.getConfiguration().isUseDepthFilling();
     if (vm.count("useDepthFilling")) {
         if (useDepthFillingOption != useDepthFilling) {
             if (useDepthFilling) {
-                WARNING("random forest was trained with depth filling. but prediction is performed without!");
+                CURFIL_WARNING("random forest was trained with depth filling. but prediction is performed without!");
             } else {
-                WARNING(
+                CURFIL_WARNING(
                         "random forest was NOT trained with depth filling. but prediction is performed with depth filling!");
             }
         }
@@ -179,9 +122,9 @@ int main(int argc, char **argv) {
         useDepthFilling = useDepthFillingOption;
     }
 
-    test(ensemble, folderTesting, folderPrediction, histogramBias, useDepthFilling, writeProbabilityImages, maxDepth);
+    test(randomForest, folderTesting, folderPrediction, useDepthFilling, writeProbabilityImages, maxDepth);
 
-    INFO("finished");
+    CURFIL_INFO("finished");
     return EXIT_SUCCESS;
 }
 

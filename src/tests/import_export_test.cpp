@@ -13,10 +13,10 @@
 #include <vigra/stdimage.hxx>
 #include <vigra/transformimage.hxx>
 
-#include "export.hpp"
+#include "export.h"
 #include "image.h"
-#include "import.hpp"
-#include "random_tree_image_ensemble.h"
+#include "import.h"
+#include "random_forest_image.h"
 #include "random_tree_image.h"
 #include "test_common.h"
 
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE(testExportImport) {
             regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch, accelerationMode,
             true, false, deviceIds, "classUniform", ignoredColors);
 
-    RandomTreeImageEnsemble randomForest(trees, configuration);
+    RandomForestImage randomForest(trees, configuration);
     randomForest.train(trainImages);
 
     for (const bool verbose : { true, false }) {

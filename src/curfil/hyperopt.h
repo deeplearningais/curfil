@@ -7,7 +7,7 @@
 
 #include "image.h"
 #include "predict.h"
-#include "random_tree_image_ensemble.h"
+#include "random_forest_image.h"
 #include "random_tree_image.h"
 
 namespace curfil {
@@ -17,10 +17,9 @@ bool continueSearching(const std::vector<double>& currentBestAccuracies,
 
 enum LossFunctionType {
     CLASS_ACCURACY, //
-    CLASS_ACCURACY_NO_VOID, //
+    CLASS_ACCURACY_WITHOUT_VOID, //
     PIXEL_ACCURACY, //
-    PIXEL_ACCURACY_NO_BACKGROUND, //
-    PIXEL_ACCURACY_NO_VOID //
+    PIXEL_ACCURACY_WITHOUT_VOID //
 };
 
 class Result {
@@ -28,22 +27,18 @@ class Result {
 private:
     ConfusionMatrix confusionMatrix;
     double pixelAccuracy;
-    double pixelAccuracyNoBg;
-    double pixelAccuracyNoVoid;
+    double pixelAccuracyWithoutVoid;
     LossFunctionType lossFunctionType;
     int randomSeed;
 
 public:
     Result(const ConfusionMatrix& confusionMatrix, double pixelAccuracy,
-            double pixelAccuracyNoBg, double pixelAccuracyNoVoid, const LossFunctionType lossFunctionType) :
+            double pixelAccuracyWithoutVoid, const LossFunctionType lossFunctionType) :
             confusionMatrix(confusionMatrix),
                     pixelAccuracy(pixelAccuracy),
-                    pixelAccuracyNoBg(pixelAccuracyNoBg),
-                    pixelAccuracyNoVoid(pixelAccuracyNoVoid),
+                    pixelAccuracyWithoutVoid(pixelAccuracyWithoutVoid),
                     lossFunctionType(lossFunctionType),
                     randomSeed(0) {
-
-        this->confusionMatrix.normalize();
     }
 
     mongo::BSONObj toBSON() const;
@@ -62,7 +57,7 @@ public:
         return confusionMatrix.averageClassAccuracy(true);
     }
 
-    double getClassAccuracyNoVoid() const {
+    double getClassAccuracyWithoutVoid() const {
         return confusionMatrix.averageClassAccuracy(false);
     }
 
@@ -70,12 +65,8 @@ public:
         return pixelAccuracy;
     }
 
-    double getPixelAccuracyNoBackground() const {
-        return pixelAccuracyNoBg;
-    }
-
-    double getPixelAccuracyNoVoid() const {
-        return pixelAccuracyNoVoid;
+    double getPixelAccuracyWithoutVoid() const {
+        return pixelAccuracyWithoutVoid;
     }
 
     void setRandomSeed(int randomSeed) {
@@ -109,7 +100,7 @@ private:
 
     boost::asio::io_service ios;
 
-    RandomTreeImageEnsemble train(size_t trees,
+    RandomForestImage train(size_t trees,
             const TrainingConfiguration& configuration,
             const std::vector<LabeledRGBDImage>& trainImages);
 
@@ -120,7 +111,7 @@ private:
     double measureTrueLoss(unsigned int numTrees, TrainingConfiguration configuration,
             const double histogramBias, double& variance);
 
-    const Result test(const RandomTreeImageEnsemble& randomForest,
+    const Result test(const RandomForestImage& randomForest,
             const std::vector<LabeledRGBDImage>& testImages);
 
     double getParameterDouble(const mongo::BSONObj& task, const std::string& field);

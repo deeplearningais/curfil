@@ -10,15 +10,15 @@ namespace curfil {
 
 void logVersionInfo() {
 #ifdef NDEBUG
-    INFO("release version " << getVersion());
+    CURFIL_INFO("release version " << getVersion());
 #else
-    WARNING("this is the debugging version " << getVersion());
+    CURFIL_WARNING("this is the debugging version " << getVersion());
 #endif
 }
 
 namespace utils {
 
-bool Profile::enabled = true;
+bool Profile::enabled = false;
 
 void Timer::reset() {
     stop();

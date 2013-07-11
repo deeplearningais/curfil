@@ -12,10 +12,10 @@
 #include <vigra/stdimage.hxx>
 #include <vigra/transformimage.hxx>
 
-#include "export.hpp"
+#include "export.h"
 #include "image.h"
 #include "predict.h"
-#include "random_tree_image_ensemble.h"
+#include "random_forest_image.h"
 #include "random_tree_image.h"
 
 using namespace curfil;
@@ -32,32 +32,29 @@ static std::string getFolderTraining() {
     return boost::unit_test::framework::master_test_suite().argv[1];
 }
 
-static void predict(RandomTreeImageEnsemble& randomForest, double& accuracy, double& accuracyNoBackground) {
+static double predict(RandomForestImage& randomForest) {
 
     const bool useCIELab = true;
     const bool useDepthFilling = false;
     const auto testing = loadImagePair(getFolderTraining() + "/testing1_colors.png", useCIELab, useDepthFilling);
-    const LabelImage* groundTruth = testing.getLabelImage();
+    const LabelImage& groundTruth = testing.getLabelImage();
 
     randomForest.normalizeHistograms(0.0);
 
-    LabelImage prediction(groundTruth->getWidth(), groundTruth->getHeight());
-    randomForest.test(testing.getRGBDImage(), prediction);
+    LabelImage prediction = randomForest.predict(testing.getRGBDImage());
 
     boost::filesystem::create_directory(folderOutput);
 
-    groundTruth->write(folderOutput + "/testing1_groundTruth.png");
-    prediction.write(folderOutput + "/testing1_prediction_singletree_cpu_gpu.png");
+    groundTruth.save(folderOutput + "/testing1_groundTruth.png");
+    prediction.save(folderOutput + "/testing1_prediction_singletree_cpu_gpu.png");
 
-    ConfusionMatrix confusionMatrix(randomForest.getNumClasses());
+    ConfusionMatrix confusionMatrix;
+    double accuracy = 100 * calculatePixelAccuracy(prediction, groundTruth, true, &confusionMatrix);
+    double accuracyWithoutVoid = 100 * calculatePixelAccuracy(prediction, groundTruth, false);
 
-    accuracy = 100 * calculateAccuracy(prediction, groundTruth, confusionMatrix);
-    accuracyNoBackground = 100 * calculateAccuracyNoBackground(prediction, groundTruth);
-    double accuracyNoVoid = 100 * calculateAccuracyNoVoid(prediction, groundTruth);
+    CURFIL_INFO("accuracy (no void): " << accuracy << " (" << accuracyWithoutVoid << ")");
 
-    INFO("accuracy: " << accuracy);
-    INFO("accuracy without background: " << accuracyNoBackground);
-    INFO("accuracy no void: " << accuracyNoVoid);
+    return accuracy;
 }
 
 BOOST_AUTO_TEST_CASE(trainTest) {
@@ -91,14 +88,12 @@ BOOST_AUTO_TEST_CASE(trainTest) {
     TrainingConfiguration configuration(SEED, samplesPerImage, featureCount, minSampleCount, maxDepth, boxRadius,
             regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch, accelerationMode);
 
-    RandomTreeImageEnsemble randomForest(1, configuration);
+    RandomForestImage randomForest(1, configuration);
     randomForest.train(trainImages);
 
-    double accuracy, accuracyNoBackground;
-    predict(randomForest, accuracy, accuracyNoBackground);
+    double accuracy = predict(randomForest);
 
     BOOST_CHECK_CLOSE_FRACTION(73, accuracy, 10.0);
-    BOOST_CHECK_CLOSE_FRACTION(16, accuracyNoBackground, 10.0);
 }
 
 BOOST_AUTO_TEST_CASE(trainTestGPU) {
@@ -131,14 +126,12 @@ BOOST_AUTO_TEST_CASE(trainTestGPU) {
     TrainingConfiguration configuration(SEED, samplesPerImage, featureCount, minSampleCount, maxDepth, boxRadius,
             regionSize, thresholds, NUM_THREADS, maxImages, imageCacheSize, maxSamplesPerBatch, accelerationMode);
 
-    RandomTreeImageEnsemble randomForest(1, configuration);
+    RandomForestImage randomForest(1, configuration);
     randomForest.train(trainImages);
 
-    double accuracy, accuracyNoBackground;
-    predict(randomForest, accuracy, accuracyNoBackground);
+    double accuracy = predict(randomForest);
 
     BOOST_CHECK_CLOSE_FRACTION(73, accuracy, 10.0);
-    BOOST_CHECK_CLOSE_FRACTION(16, accuracyNoBackground, 10.0);
 }
 
 BOOST_AUTO_TEST_CASE(trainTestEnsemble) {
@@ -172,43 +165,37 @@ BOOST_AUTO_TEST_CASE(trainTestEnsemble) {
 
     size_t trees = 3;
 
-    RandomTreeImageEnsemble randomForest(trees, configuration);
+    RandomForestImage randomForest(trees, configuration);
     randomForest.train(trainImages);
 
-    double accuracy, accuracyNoBackground;
-    predict(randomForest, accuracy, accuracyNoBackground);
+    double accuracy = predict(randomForest);
 
     BOOST_CHECK_CLOSE_FRACTION(76, accuracy, 5.0);
-    BOOST_CHECK_CLOSE_FRACTION(18, accuracyNoBackground, 5.0);
 
     // 2nd attempt on GPU
     accelerationMode = AccelerationMode::GPU_ONLY;
     double accuracy2;
-    double accuracyNoBackground2;
     {
         TrainingConfiguration configuration(SEED, samplesPerImage, featureCount, minSampleCount, maxDepth, boxRadius,
                 regionSize, thresholds, NUM_THREADS, maxImages, imageCacheSize, maxSamplesPerBatch, accelerationMode);
-        RandomTreeImageEnsemble randomForest(trees, configuration);
+        RandomForestImage randomForest(trees, configuration);
         randomForest.train(trainImages);
 
-        predict(randomForest, accuracy2, accuracyNoBackground2);
+        accuracy2 = predict(randomForest);
 
         BOOST_CHECK_CLOSE_FRACTION(accuracy, accuracy2, 2.5);
-        BOOST_CHECK_CLOSE_FRACTION(accuracyNoBackground, accuracyNoBackground2, 2.5);
     }
 
     // 3rd attempt on GPU
     {
         TrainingConfiguration configuration(SEED, samplesPerImage, featureCount, minSampleCount, maxDepth, boxRadius,
                 regionSize, thresholds, NUM_THREADS, maxImages, imageCacheSize, maxSamplesPerBatch, accelerationMode);
-        RandomTreeImageEnsemble randomForest(trees, configuration);
+        RandomForestImage randomForest(trees, configuration);
         randomForest.train(trainImages);
 
-        double accuracy3, accuracyNoBackground3;
-        predict(randomForest, accuracy3, accuracyNoBackground3);
+        double accuracy3 = predict(randomForest);
 
         BOOST_CHECK_CLOSE_FRACTION(accuracy2, accuracy3, 1.0);
-        BOOST_CHECK_CLOSE_FRACTION(accuracyNoBackground2, accuracyNoBackground3, 1.0);
     }
 
 }
