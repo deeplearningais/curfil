@@ -15,10 +15,10 @@ namespace po = boost::program_options;
 using namespace curfil;
 
 static RandomTreeImageEnsemble train(std::vector<LabeledRGBDImage>& trainLabelImages, size_t trees,
-        const TrainingConfiguration& configuration, bool trainTreesSequentially) {
+        const TrainingConfiguration& configuration, bool trainTreesInParallel) {
 
     INFO("trees: " << trees);
-    INFO("training trees sequentially: " << trainTreesSequentially);
+    INFO("training trees in parallel: " << trainTreesInParallel);
     INFO(configuration);
 
     // Train
@@ -26,7 +26,7 @@ static RandomTreeImageEnsemble train(std::vector<LabeledRGBDImage>& trainLabelIm
     RandomTreeImageEnsemble randomForest(trees, configuration);
 
     utils::Timer trainTimer;
-    randomForest.train(trainLabelImages, trainTreesSequentially);
+    randomForest.train(trainLabelImages, !trainTreesInParallel);
     trainTimer.stop();
 
     INFO("training took " << trainTimer.format(2) <<
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
     int maxImages = 0;
     int randomSeed = 4711;
     std::vector < std::string > ignoredColors;
-    bool trainTreesSequentially = false;
+    bool trainTreesInParallel = true; // parallel tree training on GPU is considered to be an experimental feature
     bool verboseTree = false;
     int imageCacheSizeMB = 0;
 
@@ -103,9 +103,9 @@ int main(int argc, char **argv) {
             "do not sample pixels of this color. format: R,G,B where 0 <= R,G,B <= 255")
     ("verboseTree", po::value<bool>(&verboseTree)->implicit_value(true)->default_value(verboseTree),
             "whether to write verbose tree include profiling and debugging information")
-    ("trainTreesSequentially",
-            po::value<bool>(&trainTreesSequentially)->implicit_value(true)->default_value(trainTreesSequentially),
-            "whether to train trees sequentially");
+    ("trainTreesInParallel",
+            po::value<bool>(&trainTreesInParallel)->implicit_value(true)->default_value(trainTreesInParallel),
+            "whether to train multiple trees sequentially (default) or in parallel (experimental)");
     ;
 
     po::positional_options_description pod;
@@ -207,7 +207,7 @@ int main(int argc, char **argv) {
             TrainingConfiguration::parseAccelerationModeString(modeString), useCIELab, useDepthFilling, deviceIds,
             subsamplingType, ignoredColors);
 
-    RandomTreeImageEnsemble forest = train(images, trees, configuration, trainTreesSequentially);
+    RandomTreeImageEnsemble forest = train(images, trees, configuration, trainTreesInParallel);
 
     if (!outputFolder.empty()) {
         RandomTreeExport treeExport(configuration, outputFolder, folderTraining, verboseTree);
