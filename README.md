@@ -84,14 +84,14 @@ The filename schema and format is
 Usage
 -----
 
-## Training ##
+### Training ###
 
 Use the binary `curfil_train`.
 Training creates a random forests and serializes the decision trees in compressed JSON files.
 
 See the [documentation of training parameters](https://github.com/deeplearningais/curfil/wiki/Training-Parameters).
 
-## Prediction ##
+### Prediction ###
 
 Use the binary `curfil_predict`.
 The program reads the trees from the compresses JSON files and performs a dense
