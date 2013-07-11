@@ -89,7 +89,7 @@ Usage
 Use the binary `curfil_train`.
 
 The training process produces a random forest consisting of multiple decision trees
-that are serialized in a compressed JSON files, one file per tree.
+that are serialized to compressed JSON files, one file per tree.
 
 See the [documentation of training parameters](https://github.com/deeplearningais/curfil/wiki/Training-Parameters).
 
