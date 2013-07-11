@@ -1,33 +1,38 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf-8 :
-# written by Benedikt Waldvogel
+#
+# Helper script to convert the NYU Depth v2 dataset Matlab file into a set of
+# PNG images in the CURFIL dataset format.
+#
+# See https://github.com/deeplearningais/curfil/wiki/Training-and-Prediction-with-the-NYU-Depth-v2-Dataset
 
 from __future__ import print_function
 
 from joblib import Parallel, delayed
-from scipy.misc import imsave
+from skimage import exposure
+from skimage.io import imsave
 import h5py
 import numpy as np
 import os
+import png
 import scipy.io
 import sys
-from PIL import Image, ImageOps
 
 from _structure_classes import get_structure_classes
 import _solarized
 
 
-def processLabelImage(labelImage):
+def process_ground_truth(ground_truth):
     colors = dict()
     colors["structure"] = _solarized.colors[5]
     colors["prop"] = _solarized.colors[8]
     colors["furniture"] = _solarized.colors[9]
     colors["floor"] = _solarized.colors[1]
-    shape = list(labelImage.shape) + [3]
+    shape = list(ground_truth.shape) + [3]
     img = np.ndarray(shape=shape, dtype=np.uint8)
     for i in xrange(shape[0]):
         for j in xrange(shape[1]):
-            l = labelImage[i, j]
+            l = ground_truth[i, j]
             if (l == 0):
                 img[i, j] = (0, 0, 0)  # background
             else:
@@ -37,12 +42,34 @@ def processLabelImage(labelImage):
     return img
 
 
-def decodeImage(i, scene, img_depth, image, label):
+def visualize_depth_image(data):
 
-    img_depth = np.asfortranarray(img_depth)
+    data[data == 0.0] = np.nan
 
-    # replace values 0.0 with NaN
-    img_depth[img_depth == 0.0] = np.nan
+    maxdepth = np.nanmax(data)
+    mindepth = np.nanmin(data)
+    data = data.copy()
+    data -= mindepth
+    data /= (maxdepth - mindepth)
+
+    gray = np.zeros(list(data.shape) + [3], dtype=data.dtype)
+    data = (1.0 - data)
+    gray[..., :3] = np.dstack((data, data, data))
+
+    # use a greenish color to visualize missing depth
+    gray[np.isnan(data), :] = (97, 160, 123)
+    gray[np.isnan(data), :] /= 255
+
+    gray = exposure.equalize_hist(gray)
+
+    # set alpha channel
+    gray = np.dstack((gray, np.ones(data.shape[:2])))
+    gray[np.isnan(data), -1] = 0.5
+
+    return gray * 255
+
+
+def convert_image(i, scene, img_depth, image, label):
 
     idx = int(i) + 1
     if idx in train_images:
@@ -55,36 +82,24 @@ def decodeImage(i, scene, img_depth, image, label):
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    with open("%s/%05d_depth_image.data" % (folder, i), "w") as f:
-        shape = img_depth.shape
-        shape = np.array(shape, dtype=np.uint16)
-        shape.tofile(f)
-        f.write(img_depth)
+    img_depth *= 1000.0
 
-        imsave("%s/%05d_depth_image.bmp" % (folder, i), getDepthImage(img_depth))
+    png.from_array(img_depth, 'L;16').save("%s/%05d_depth.png" % (folder, i))
 
-    imsave("%s/%05d_lab_image.png" % (folder, i), image)
+    depth_visualization = visualize_depth_image(img_depth)
 
-    labelImg = processLabelImage(label)
+    # workaround for a bug in the png module
+    depth_visualization = depth_visualization.copy()  # makes in contiguous
+    shape = depth_visualization.shape
+    depth_visualization.shape = (shape[0], np.prod(shape[1:]))
 
-    imsave("%s/%05d_color_image.png" % (folder, i), labelImg)
+    depth_image = png.from_array(depth_visualization, "RGBA;8")
+    depth_image.save("%s/%05d_depth_visualization.png" % (folder, i))
 
+    imsave("%s/%05d_colors.png" % (folder, i), image)
 
-def getDepthImage(image):
-    width, height = image.shape
-    b = np.frombuffer(image.data, dtype=np.float32).copy()
-
-    maxdepth = np.nanmax(b) * 1.0
-    b /= maxdepth
-    b *= 256.0
-    b = 256 - b
-    b = np.nan_to_num(b)
-    b = np.maximum(b, 0)
-    b = b.astype(np.uint8)
-    size = (width, height)
-    img = Image.frombuffer("L", size, b, "raw", "L", 0, 1)
-    img = ImageOps.equalize(img)
-    return img
+    ground_truth = process_ground_truth(label)
+    imsave("%s/%05d_ground_truth.png" % (folder, i), ground_truth)
 
 
 if __name__ == "__main__":
@@ -135,8 +150,8 @@ if __name__ == "__main__":
         print("single-threaded mode")
         for i, image in enumerate(images):
             print("image", i + 1, "/", len(images))
-            decodeImage(i, scenes[i], depth[i, :, :], image.T, labels[i, :, :].T)
+            convert_image(i, scenes[i], depth[i, :, :].T, image.T, labels[i, :, :].T)
     else:
-        Parallel(num_threads, 5)(delayed(decodeImage)(i, scenes[i], depth[i, :, :], images[i, :, :].T, labels[i, :, :].T) for i in range(len(images)))
+        Parallel(num_threads, 5)(delayed(convert_image)(i, scenes[i], depth[i, :, :].T, images[i, :, :].T, labels[i, :, :].T) for i in range(len(images)))
 
     print("finished")
