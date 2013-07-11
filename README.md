@@ -102,6 +102,10 @@ pixel-wise classification of the specified input images.
 Prediction is accelerated on GPU and runs in real-time speed even on mobile
 GPUs such as the NVIDIA GeForce GTX 675M.
 
+### As a `C++` Library ###
+
+See [the example in the wiki](https://github.com/deeplearningais/curfil/wiki/Usage-as-a-Library).
+
 Examples
 --------
 
