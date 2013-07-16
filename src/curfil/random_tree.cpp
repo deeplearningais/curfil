@@ -139,6 +139,10 @@ bool TrainingConfiguration::equals(const TrainingConfiguration& other,
         return false;
     if (strict && deviceIds != other.deviceIds)
         return false;
+    if (strict && imageCacheSize != other.imageCacheSize)
+        return false;
+    if (strict && maxSamplesPerBatch != other.maxSamplesPerBatch)
+        return false;
 
     if (samplesPerImage != other.samplesPerImage)
         return false;
@@ -157,10 +161,6 @@ bool TrainingConfiguration::equals(const TrainingConfiguration& other,
     if (numThreads != other.numThreads)
         return false;
     if (maxImages != other.maxImages)
-        return false;
-    if (imageCacheSize != other.imageCacheSize)
-        return false;
-    if (maxSamplesPerBatch != other.maxSamplesPerBatch)
         return false;
     if (accelerationMode != other.accelerationMode)
         return false;
