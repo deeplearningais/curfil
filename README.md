@@ -46,6 +46,7 @@ make -j
 ctest                 # run tests to see if it went well
 sudo make install
 ```
+Refer to your local Unix expert if you do not know what to do with this instruction.
 
 Dataset Format
 --------------
@@ -101,6 +102,27 @@ The program reads the trees from the compresses JSON files and performs a dense
 pixel-wise classification of the specified input images.
 Prediction is accelerated on GPU and runs in real-time speed even on mobile
 GPUs such as the NVIDIA GeForce GTX 675M.
+
+### Hyperopt Parameter Search ###
+
+Use the binary `curfil_hyperopt`.
+
+This [Hyperopt][hyperopt] client is only built if [MDBQ][MDBQ] is installed.
+The client fetches hyperopt trials (jobs) from a MongoDB database and performs 5-fold cross-validation to evaluate the loss.
+You can run the hyperopt client in parallel on as many machines as desired.
+
+The trials need to be inserted into the database in advance.
+We include sample python scripts in [scripts/](scripts/).
+Note that there is only one *new* trial in the database at any given point in time.
+Thus, the python script needs to be running during the entire parameter search.
+
+The procedure:
+
+ 1. Make sure the MongoDB database is up an running.
+ 2. Run the python script that inserts new trials. Example: `scripts/NYU/hyperopt_search.py`
+ 3. Run `curfil_hyperopt` on as many machine as desired.
+
+Also see [the hyperopt example in the wiki](http://github.com/deeplearningais/curfile/wiki/Hyperopt-Search-Example).
 
 ### As a `C++` Library ###
 
