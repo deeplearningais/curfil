@@ -44,7 +44,6 @@ void determineImageCacheSizeAndSamplesPerBatch(const std::vector<LabeledRGBDImag
 
     CURFIL_INFO("max samples per batch: " << maxSamplesPerBatch);
 
-    imageCacheSizeMB = 0;
     if (images.size() * images[0].getSizeInMemory() <= imageCacheSizeMB * 1024lu * 1024lu) {
         imageCacheSize = images.size();
     } else {
