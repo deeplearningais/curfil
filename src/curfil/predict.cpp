@@ -260,7 +260,7 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
                 RGBDImage probabilityImage(testImage.getWidth(), testImage.getHeight());
                 for(LabelType label = 0; label< randomForest.getNumClasses(); label++) {
 
-                    if (!randomForest.shouldIgnoreLabel(label)) {
+                    if (randomForest.shouldIgnoreLabel(label)) {
                         continue;
                     }
 
