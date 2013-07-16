@@ -1634,7 +1634,7 @@ void ImageFeatureEvaluation::selectDevice() {
     const int targetDeviceId = deviceIds[treeId % deviceIds.size()];
 
     if (currentDeviceId != targetDeviceId) {
-        CURFIL_INFO("tree " << treeId << ": switching from device " << currentDeviceId << " to " << targetDeviceId);
+        CURFIL_DEBUG("tree " << treeId << ": switching from device " << currentDeviceId << " to " << targetDeviceId);
         cudaSafeCall(cudaSetDevice(targetDeviceId));
         cudaSafeCall(cudaGetDevice(&currentDeviceId));
         if (currentDeviceId != targetDeviceId) {
