@@ -35,7 +35,10 @@ void ConfusionMatrix::operator+=(const ConfusionMatrix& other) {
     }
 
     if (other.getNumClasses() != getNumClasses()) {
-        throw std::runtime_error("different number of classes");
+        std::ostringstream o;
+        o << "different number of classes in confusion matrix: " << this->getNumClasses() << " and "
+                << other.getNumClasses();
+        throw std::runtime_error(o.str());
     }
 
     data += other.data;
