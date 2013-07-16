@@ -119,8 +119,10 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
             }
         }
         numClasses++;
-        confusionMatrix->resize(numClasses);
-        confusionMatrix->reset();
+        if (confusionMatrix->getNumClasses() < numClasses) {
+            confusionMatrix->resize(numClasses);
+            confusionMatrix->reset();
+        }
     }
 
     for (int y = 0; y < prediction.getHeight(); ++y) {
@@ -267,7 +269,7 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
                             }
                         }
                     }
-                    const std::string filename = boost::str(boost::format("%s_label_%d.png") % basepath % static_cast<int>(label));
+                    const std::string filename = (boost::format("%s_label_%d.png") % basepath % static_cast<int>(label)).str();
                     probabilityImage.saveColor(filename);
                 }
             }
@@ -287,7 +289,7 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
                 prediction.save(basepath + "_prediction.png");
             }
 
-            ConfusionMatrix confusionMatrix;
+            ConfusionMatrix confusionMatrix(numClasses);
             double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, &confusionMatrix);
             double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false);
 
@@ -301,11 +303,6 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
             averageAccuracyWithoutVoid.addValue(accuracyWithoutVoid);
 
             totalConfusionMatrix += confusionMatrix;
-
-            accuracy = averageAccuracy.getAverage();
-            accuracyWithoutVoid = averageAccuracyWithoutVoid.getAverage();
-            CURFIL_INFO("average accuracy: " << 100 * accuracy);
-            CURFIL_INFO("average accuracy without void: " << 100 * accuracyWithoutVoid);
         }
 
     });
@@ -318,8 +315,8 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
 
     CURFIL_INFO(totalConfusionMatrix);
 
-    CURFIL_INFO("total accuracy: " << 100 * accuracy);
-    CURFIL_INFO("total accuracy no void: " << 100 * accuracyWithoutVoid);
+    CURFIL_INFO("pixel accuracy: " << 100 * accuracy);
+    CURFIL_INFO("pixel accuracy without void: " << 100 * accuracyWithoutVoid);
 }
 
 }

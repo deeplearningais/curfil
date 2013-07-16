@@ -101,6 +101,7 @@ int main(int argc, char **argv) {
     }
 
     CURFIL_INFO("histogramBias: " << histogramBias);
+    CURFIL_INFO("writeProbabilityImages: " << writeProbabilityImages);
 
     utils::Profile::setEnabled(profiling);
 
