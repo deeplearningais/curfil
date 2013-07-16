@@ -100,7 +100,10 @@ boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> > RandomTreeIm
         assert(label < numClasses);
 
         if (histogram[label] != 0) {
-            throw std::runtime_error("illegal histogram state");
+            std::ostringstream o;
+            o << "node: " << id << ": ";
+            o << "illegal histogram state for " << key <<" (label: " << label << "): " << histogram[label];
+            throw std::runtime_error(o.str());
         }
 
         const WeightType num = histogramChild.get<WeightType>(key);
