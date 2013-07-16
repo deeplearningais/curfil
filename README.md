@@ -124,7 +124,7 @@ The procedure:
  2. Run the python script that inserts new trials. Example: `scripts/NYU/hyperopt_search.py`
  3. Run `curfil_hyperopt` on as many machine as desired.
 
-Also see [the hyperopt example in the wiki](http://github.com/deeplearningais/curfil/wiki/Hyperopt-Search-Example).
+Also see [documentation of hyperopt parameter search in the wiki](http://github.com/deeplearningais/curfil/wiki/Hyperopt-Parameter-Search).
 
 ### As a `C++` Library ###
 
