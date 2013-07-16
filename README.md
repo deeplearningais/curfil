@@ -34,10 +34,8 @@ To build the C++ library and the binaries, you will need:
 ### Building ###
 
 ```bash
-git clone https://github.com/deeplearningais/curfil.git
+git clone --recursive https://github.com/deeplearningais/curfil.git  # --recursive will also init the submodules
 cd curfil
-git submodule init
-git submodule update  # fetches 'ndarray' dependency
 mkdir -p build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..  # change to 'Debug' to build the debugging version
