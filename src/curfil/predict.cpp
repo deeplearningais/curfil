@@ -158,7 +158,7 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
 
 void test(RandomForestImage& randomForest, const std::string& folderTesting,
         const std::string& folderPrediction, const bool useDepthFilling,
-        const bool writeProbabilityImages, const int maxDepth) {
+        const bool writeProbabilityImages) {
 
     auto filenames = listImageFilenames(folderTesting);
     if (filenames.empty()) {
@@ -172,10 +172,6 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
     for (const auto& labelColor : labelColorMap) {
         const auto color = LabelImage::decodeLabel(labelColor.first);
         CURFIL_INFO("label: " << static_cast<int>(labelColor.first) << ", color: RGB(" << color << ")");
-    }
-
-    if (maxDepth > 0) {
-        throw std::runtime_error("setting maxDepth is currently not implemented");
     }
 
     tbb::mutex totalMutex;

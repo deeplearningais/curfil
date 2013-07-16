@@ -87,7 +87,7 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
 
 void test(RandomForestImage& randomForest, const std::string& folderTesting,
         const std::string& folderPrediction, const bool useDepthFilling,
-        const bool writeProbabilityImages, const int maxDepth);
+        const bool writeProbabilityImages);
 
 }
 

@@ -16,14 +16,13 @@ namespace po = boost::program_options;
 
 using namespace curfil;
 
-static void initDevice() {
+static void initDevice(int deviceId) {
     cudaDeviceProp prop;
 
-    int deviceId;
-    cudaGetDevice(&deviceId);
-    if (deviceId != 0) {
-        CURFIL_INFO("switching from device " << deviceId << " to " << 0)
-        deviceId = 0;
+    int currentDeviceId;
+    cudaGetDevice(&currentDeviceId);
+    if (deviceId != currentDeviceId) {
+        CURFIL_INFO("switching from device " << currentDeviceId << " to " << deviceId)
         cudaSafeCall(cudaSetDevice(deviceId));
     }
     cudaSafeCall(cudaGetDeviceProperties(&prop, deviceId));
@@ -32,38 +31,38 @@ static void initDevice() {
 
 int main(int argc, char **argv) {
 
-    std::string folderPrediction;
+    std::string folderPrediction = "";
     std::string folderTesting;
     std::vector<std::string> treeFiles;
-    int maxDepth;
     int numThreads;
-    double histogramBias;
-    bool profiling;
-    std::string modeString;
-    std::vector<int> deviceIds;
-    bool useDepthFillingOption;
-    bool writeProbabilityImages;
+    double histogramBias = 0.0;
+    bool profiling = false;
+    std::string modeString = "gpu";
+    int deviceId = 0;
+    bool useDepthFillingOption = false;
+    bool writeProbabilityImages = false;
 
     // Declare the supported options.
     po::options_description options("options");
     options.add_options()
     ("help", "produce help message")
     ("version", "show version and exit")
-    ("folderPrediction", po::value<std::string>(&folderPrediction)->default_value(""),
+    ("folderPrediction", po::value<std::string>(&folderPrediction)->default_value(folderPrediction),
             "folder to output prediction images. leave it empty to suppress writing of prediction images")
     ("folderTesting", po::value<std::string>(&folderTesting)->required(), "folder with test images")
     ("treeFile", po::value<std::vector<std::string> >(&treeFiles)->required(), "serialized tree(s) (JSON)")
-    ("maxDepth", po::value<int>(&maxDepth)->default_value(-1), "maximal depth of the tree used for prediction")
-    ("histogramBias", po::value<double>(&histogramBias)->default_value(0.0), "histogram bias")
+    ("histogramBias", po::value<double>(&histogramBias)->default_value(histogramBias), "histogram bias")
     ("numThreads", po::value<int>(&numThreads)->default_value(tbb::task_scheduler_init::default_num_threads()),
             "number of threads")
-    ("mode", po::value<std::string>(&modeString)->default_value("gpu"), "mode: 'cpu' or 'gpu'")
-    ("deviceId", po::value<std::vector<int> >(&deviceIds), "GPU device id (multiple occurrences possible)")
-    ("profile", po::value<bool>(&profiling)->implicit_value(true)->default_value(false), "profiling")
-    ("useDepthFilling", po::value<bool>(&useDepthFillingOption)->implicit_value(true),
+    ("mode", po::value<std::string>(&modeString)->default_value(modeString), "mode: 'cpu' or 'gpu'")
+    ("deviceId", po::value<int>(&deviceId)->default_value(deviceId), "GPU device id")
+    ("profile", po::value<bool>(&profiling)->implicit_value(true)->default_value(profiling), "profiling")
+    ("useDepthFilling",
+            po::value<bool>(&useDepthFillingOption)->implicit_value(true)->default_value(useDepthFillingOption),
             "whether to do simple depth filling")
-    ("writeProbabilityImages", po::value<bool>(&writeProbabilityImages)->implicit_value(true)->default_value(false),
-            "whether to write out probability PNGs")
+    ("writeProbabilityImages",
+            po::value<bool>(&writeProbabilityImages)->implicit_value(true)->default_value(writeProbabilityImages),
+            "whether to write probability PNGs of the prediction")
             ;
 
     po::positional_options_description pod;
@@ -97,13 +96,19 @@ int main(int argc, char **argv) {
         throw std::runtime_error(boost::str(boost::format("illegal histogram bias: %lf") % histogramBias));
     }
 
+    if (writeProbabilityImages && folderPrediction.empty()) {
+        throw std::runtime_error("specified to write probability images but prediction folder was not set");
+    }
+
     CURFIL_INFO("histogramBias: " << histogramBias);
 
     utils::Profile::setEnabled(profiling);
 
     tbb::task_scheduler_init init(numThreads);
 
-    initDevice();
+    std::vector<int> deviceIds(1, deviceId);
+
+    initDevice(deviceId);
 
     AccelerationMode mode = TrainingConfiguration::parseAccelerationModeString(modeString);
     RandomForestImage randomForest(treeFiles, deviceIds, mode, histogramBias);
@@ -122,7 +127,7 @@ int main(int argc, char **argv) {
         useDepthFilling = useDepthFillingOption;
     }
 
-    test(randomForest, folderTesting, folderPrediction, useDepthFilling, writeProbabilityImages, maxDepth);
+    test(randomForest, folderTesting, folderPrediction, useDepthFilling, writeProbabilityImages);
 
     CURFIL_INFO("finished");
     return EXIT_SUCCESS;
