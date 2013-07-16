@@ -17,17 +17,16 @@ int main(int argc, char **argv) {
     std::string experiment;
     std::string trainingFolder;
     std::string testingFolder;
-    int maxImages;
-    int imageCacheSize;
-    unsigned int maxSamplesPerBatch;
-    int randomSeed;
+    int maxImages = 0;
+    int imageCacheSizeMB = 0;
+    int randomSeed = 4711;
     int numThreads;
     std::string subsamplingType;
     std::vector<std::string> ignoredColors;
-    bool useCIELab;
-    bool useDepthFilling;
-    std::vector<int> deviceIds;
-    bool profiling;
+    bool useCIELab = true;
+    bool useDepthFilling = false;
+    int deviceId = 0;
+    bool profiling = false;
     std::string lossFunction;
 
     // Declare the supported options.
@@ -37,24 +36,24 @@ int main(int argc, char **argv) {
     ("version", "show version and exit")
     ("url", po::value<std::string>(&url)->required(), "MongoDB url")
     ("db", po::value<std::string>(&db)->required(), "database name")
-    ("deviceId", po::value<std::vector<int> >(&deviceIds), "GPU device id (multiple occurrences possible)")
+    ("deviceId", po::value<int>(&deviceId)->default_value(deviceId), "GPU device id")
     ("experiment", po::value<std::string>(&experiment)->required(), "experiment name")
     ("trainingFolder", po::value<std::string>(&trainingFolder)->required(), "folder with training images")
     ("testingFolder", po::value<std::string>(&testingFolder)->required(), "folder with testing images")
-    ("maxImages", po::value<int>(&maxImages)->default_value(0),
+    ("maxImages", po::value<int>(&maxImages)->default_value(maxImages),
             "maximum number of images to load for training. set to 0 if all images should be loaded")
-    ("imageCacheSize", po::value<int>(&imageCacheSize)->default_value(100), "number of images to keep on device")
+    ("imageCacheSize", po::value<int>(&imageCacheSizeMB)->default_value(imageCacheSizeMB),
+            "image cache size on GPU in MB. 0 means automatic adjustment")
     ("subsamplingType", po::value<std::string>(&subsamplingType), "subsampling type: 'pixelUniform' or 'classUniform'")
-    ("maxSamplesPerBatch", po::value<unsigned int>(&maxSamplesPerBatch)->default_value(5000u),
-            "max number of samples per batch")
-    ("useCIELab", po::value<bool>(&useCIELab)->implicit_value(true)->required(), "convert images to CIE lab space")
-    ("useDepthFilling", po::value<bool>(&useDepthFilling)->implicit_value(true)->default_value(false),
+    ("useCIELab", po::value<bool>(&useCIELab)->default_value(useCIELab), "convert images to CIE lab space")
+    ("useDepthFilling", po::value<bool>(&useDepthFilling)->implicit_value(true)->default_value(useDepthFilling),
             "whether to do simple depth filling")
-    ("randomSeed", po::value<int>(&randomSeed)->default_value(4711), "random seed")
-    ("profile", po::value<bool>(&profiling)->implicit_value(true)->default_value(false), "profiling")
-    ("ignoreColor", po::value<std::vector<std::string> >(&ignoredColors), "do not sample pixels of this color. Format: R,G,B in the range 0-255.")
+    ("randomSeed", po::value<int>(&randomSeed)->default_value(randomSeed), "random seed")
+    ("profile", po::value<bool>(&profiling)->implicit_value(true)->default_value(profiling), "profiling")
+    ("ignoreColor", po::value<std::vector<std::string> >(&ignoredColors),
+            "do not sample pixels of this color. Format: R,G,B in the range 0-255.")
 
-    ("lossFunction", po::value<std::string>(&lossFunction),
+    ("lossFunction", po::value<std::string>(&lossFunction)->required(),
             "measure the loss function should be based on. one of 'classAccuracy', 'classAccuracyWithoutVoid', 'pixelAccuracy', 'pixelAccuracyWithoutVoid'")
     ("numThreads", po::value<int>(&numThreads)->default_value(tbb::task_scheduler_init::default_num_threads()),
             "number of threads")
@@ -91,8 +90,11 @@ int main(int argc, char **argv) {
     const auto trainImages = loadImages(trainingFolder, useCIELab, useDepthFilling);
     const auto testImages = loadImages(testingFolder, useCIELab, useDepthFilling);
 
-    HyperoptClient client(trainImages, testImages, useCIELab, useDepthFilling, deviceIds, maxImages, imageCacheSize,
-            maxSamplesPerBatch, randomSeed, numThreads, subsamplingType, ignoredColors, lossFunction, url, db,
+    // currently training on only on GPU is tested
+    std::vector<int> deviceIds(1, deviceId);
+
+    HyperoptClient client(trainImages, testImages, useCIELab, useDepthFilling, deviceIds, maxImages, imageCacheSizeMB,
+            randomSeed, numThreads, subsamplingType, ignoredColors, lossFunction, url, db,
             BSON("exp_key" << experiment));
     client.run();
 

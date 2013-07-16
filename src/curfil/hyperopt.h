@@ -90,8 +90,7 @@ private:
     bool useDepthFilling;
     std::vector<int> deviceIds;
     int maxImages;
-    int imageCacheSize;
-    int maxSamplesPerBatch;
+    int imageCacheSizeMB;
     int randomSeed;
     int numThreads;
     std::string subsamplingType;
@@ -129,8 +128,7 @@ public:
             bool useDepthFilling,
             const std::vector<int>& deviceIds,
             int maxImages,
-            int imageCacheSize,
-            int maxSamplesPerBatch,
+            int imageCacheSizeMB,
             int randomSeed,
             int numThreads,
             const std::string& subsamplingType,
@@ -144,8 +142,7 @@ public:
                     useDepthFilling(useDepthFilling),
                     deviceIds(deviceIds),
                     maxImages(maxImages),
-                    imageCacheSize(imageCacheSize),
-                    maxSamplesPerBatch(maxSamplesPerBatch),
+                    imageCacheSizeMB(imageCacheSizeMB),
                     randomSeed(randomSeed),
                     numThreads(numThreads),
                     subsamplingType(subsamplingType),

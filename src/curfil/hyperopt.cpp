@@ -14,6 +14,7 @@
 #include "export.h"
 #include "ndarray_ops.h"
 #include "predict.h"
+#include "train.h"
 #include "utils.h"
 
 namespace curfil {
@@ -208,6 +209,7 @@ RandomForestImage HyperoptClient::train(size_t trees,
 
     RandomForestImage randomForest(trees, configuration);
 
+    // parallel training is not thoroughly tested yet
     static const bool trainTreesSequentially = true;
 
     utils::Timer trainTimer;
@@ -346,18 +348,24 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
 
             const int seedOfRun = sampler.getNext();
 
-            TrainingConfiguration configuration(seedOfRun, samplesPerImage, featureCount, minSampleCount, maxDepth,
-                    boxRadius, regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
-                    accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors);
-
             std::vector<LabeledRGBDImage> trainImages;
             std::vector<LabeledRGBDImage> testImages;
 
             randomSplit(seedOfRun, testRatio, trainImages, testImages);
 
+            unsigned int imageCacheSize = 0;
+            unsigned int maxSamplesPerBatch = 0;
+
+            determineImageCacheSizeAndSamplesPerBatch(trainImages, deviceIds, featureCount, thresholds,
+                    imageCacheSizeMB, imageCacheSize, maxSamplesPerBatch);
+
+            TrainingConfiguration configuration(seedOfRun, samplesPerImage, featureCount, minSampleCount, maxDepth,
+                    boxRadius, regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
+                    accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors);
+
             mongo::BSONObj msg = BSON("run" << run
                     << "randomSeed" << seedOfRun
-                    << "numRGBDImages" << static_cast<int>(trainImages.size())
+                    << "numTrainImages" << static_cast<int>(trainImages.size())
                     << "numTestImages" << static_cast<int>(testImages.size()));
 
             log(3, msg);
@@ -407,6 +415,12 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
 
         double lossVariance;
         double loss = getAverageLossAndVariance(results, lossVariance);
+
+        unsigned int imageCacheSize = 0;
+        unsigned int maxSamplesPerBatch = 0;
+
+        determineImageCacheSizeAndSamplesPerBatch(allRGBDImages, deviceIds, featureCount, thresholds,
+                imageCacheSizeMB, imageCacheSize, maxSamplesPerBatch);
 
         TrainingConfiguration configuration(randomSeed, samplesPerImage, featureCount, minSampleCount, maxDepth,
                 boxRadius, regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
