@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
     int maxImages = 0;
     int randomSeed = 4711;
     std::vector < std::string > ignoredColors;
-    bool trainTreesInParallel = true; // parallel tree training on GPU is considered to be an experimental feature
+    bool trainTreesInParallel = false; // parallel tree training on GPU is considered to be an experimental feature
     bool verboseTree = false;
     int imageCacheSizeMB = 0;
 
