@@ -103,6 +103,8 @@ pixel-wise classification of the specified input images.
 Prediction is accelerated on GPU and runs in real-time speed even on mobile
 GPUs such as the NVIDIA GeForce GTX 675M.
 
+Also see [documentation of prediction parameters](http://github.com/deeplearningais/curfil/wiki/Prediction-Parameters).
+
 ### Hyperopt Parameter Search ###
 
 Use the binary `curfil_hyperopt`.
@@ -122,7 +124,7 @@ The procedure:
  2. Run the python script that inserts new trials. Example: `scripts/NYU/hyperopt_search.py`
  3. Run `curfil_hyperopt` on as many machine as desired.
 
-Also see [the hyperopt example in the wiki](http://github.com/deeplearningais/curfile/wiki/Hyperopt-Search-Example).
+Also see [the hyperopt example in the wiki](http://github.com/deeplearningais/curfil/wiki/Hyperopt-Search-Example).
 
 ### As a `C++` Library ###
 
