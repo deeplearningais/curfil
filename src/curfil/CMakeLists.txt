@@ -7,7 +7,8 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/version.cpp.in" "${CMAKE_CURRENT_BIN
 IF(MDBQ_FOUND)
 	SET (MDBQ_FILES hyperopt.cpp)
 ELSE()
-SET (MDBQ_FILES )
+	SET (MDBQ_FILES )
+	SET (MDBQ_LIBRARIES )
 ENDIF()
 
 CUDA_ADD_LIBRARY(curfil SHARED random_tree_image_gpu.cu random_tree.cpp image.cpp utils.cpp ndarray_ops.cpp random_tree_image.cpp random_forest_image.cpp import.cpp export.cpp predict.cpp ndarray_ops.cpp train.cpp ${MDBQ_FILES} "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
