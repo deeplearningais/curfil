@@ -1,9 +1,13 @@
 CUDA Random Forests for Image Labeling (CURFIL)
 -----------------------------------------------
 
-This project is an open source implementation with NVIDIA CUDA™ that accelerates random
+This project is an open source implementation with NVIDIA CUDA that accelerates random
 forest training and prediction for image labeling by using the
 massive parallel computing power offered by GPUs.
+
+CURFIL is the result of Benedikt Waldvogel’s master thesis
+"[Accelerating Random Forests on CPUs and GPUs for Object-Class Image Segmentation][master-thesis]"
+at the University of Bonn, [Autonomous Intelligent Systems][ais-bonn].
 
 Implemented Visual Features
 ---------------------------
@@ -134,6 +138,8 @@ Examples
 - [Training and Prediction with the NYU Depth v2 Dataset](https://github.com/deeplearningais/curfil/wiki/Training-and-Prediction-with-the-NYU-Depth-v2-Dataset)
 
 
+[master-thesis]: http://www.ais.uni-bonn.de/theses/Benedikt_Waldvogel_Master_Thesis_07_2013.pdf
+[ais-bonn]: http://www.ais.uni-bonn.de
 [visual-features]: https://github.com/deeplearningais/curfil/wiki/Visual-Features
 [lai-rgbd]: http://www.cs.washington.edu/rgbd-dataset/trd5326jglrepxk649ed/rgbd-dataset_full/README.txt
 [ndarray]: https://github.com/deeplearningais/ndarray
