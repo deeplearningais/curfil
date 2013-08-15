@@ -5,8 +5,8 @@
 #  MDBQ_INCLUDE_DIRS   - MDBQ include directories
 #  MDBQ_LIBRARIES      - MDBQ libraries
 
-FIND_PATH(MDBQ_INCLUDE_DIR mdbq/client.hpp NO_DEFAULT_PATH PATHS ${MDBQ_ROOT}/src /usr/local/include /usr/include)
-FIND_LIBRARY(MDBQ_LIBRARY mdbq NO_DEFAULT_PATH PATHS ${MDBQ_ROOT}/build/src/mdbq /usr/local/lib /usr/lib)
+FIND_PATH(MDBQ_INCLUDE_DIR mdbq/client.hpp PATHS ${MDBQ_ROOT}/src /usr/local/include /usr/include)
+FIND_LIBRARY(MDBQ_LIBRARY mdbq PATHS ${MDBQ_ROOT}/build/src/mdbq /usr/local/lib /usr/lib)
 
 FIND_PATH(BSON_INCLUDE_DIR mongo/bson/bson.h)
 
