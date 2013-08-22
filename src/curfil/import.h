@@ -10,7 +10,23 @@
 
 namespace curfil {
 
+/**
+ * Helper class to import a random tree or random forest from disk in compressed (gzip) JSON format.
+ *
+ * @see RandomTreeExport
+ */
 class RandomTreeImport {
+
+
+public:
+
+	/**
+	 * load (deserialize) a random tree from disk, stored in compressed JSON format
+	 */
+    static TrainingConfiguration readJSON(const std::string& filename, boost::shared_ptr<RandomTreeImage>& tree,
+            std::string& hostname,
+            boost::filesystem::path& folderTraining,
+            boost::posix_time::ptime& date);
 
 private:
 
@@ -41,13 +57,6 @@ private:
 
     static cuv::ndarray<WeightType, cuv::host_memory_space> readClassLabelPriorDistribution(
             const boost::property_tree::ptree& p);
-
-public:
-
-    static TrainingConfiguration readJSON(const std::string& filename, boost::shared_ptr<RandomTreeImage>& tree,
-            std::string& hostname,
-            boost::filesystem::path& folderTraining,
-            boost::posix_time::ptime& date);
 
 };
 
