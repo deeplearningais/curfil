@@ -1,5 +1,3 @@
-#include "random_features.h"
-
 #include <curand_kernel.h>
 
 namespace curfil {
