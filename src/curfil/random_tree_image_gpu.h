@@ -23,9 +23,57 @@ static const unsigned int NODES_PER_TREE_LAYER = 2048;
 static const unsigned int LAYERS_PER_TREE = 16;
 
 /**
- * helper class to map random forest data to texture cache on GPU
+ * Helper class to map random forest data to texture cache on GPU.
  */
 class TreeNodes {
+
+public:
+
+    TreeNodes(const TreeNodes& other);
+
+    /**
+     * Prepare the random forest data from the given tree such that it can be transferred to the GPU.
+     */
+    TreeNodes(const boost::shared_ptr<const RandomTree<PixelInstance, ImageFeatureFunction> >& tree);
+
+    /**
+     * @return The of the tree in random forest.
+     */
+    size_t getTreeId() const {
+        return m_treeId;
+    }
+
+    /**
+     * @return The total number of nodes in the tree.
+     */
+    size_t numNodes() const {
+        return m_numNodes;
+    }
+
+    /**
+     * @return the number of labels (classes) that existed in the training dataset.
+     */
+    size_t numLabels() const {
+        return m_numLabels;
+    }
+
+    /**
+     * @return the per-node size in bytes
+     */
+    size_t sizePerNode() const {
+        return m_sizePerNode;
+    }
+
+    /**
+     * @return a reference to the n-d array of the internal data structure that can be transferred to the GPU.
+     */
+    cuv::ndarray<int8_t, cuv::host_memory_space>& data() {
+        return m_data;
+    }
+
+    const cuv::ndarray<int8_t, cuv::host_memory_space>& data() const {
+        return m_data;
+    }
 
 private:
 
@@ -64,61 +112,50 @@ private:
 
     TreeNodes& operator=(const TreeNodes& other);
 
-public:
-
-    TreeNodes(const TreeNodes& other);
-
-    TreeNodes(const boost::shared_ptr<const RandomTree<PixelInstance, ImageFeatureFunction> >& tree);
-
-    size_t getTreeId() const {
-        return m_treeId;
-    }
-
-    size_t numNodes() const {
-        return m_numNodes;
-    }
-
-    size_t numLabels() const {
-        return m_numLabels;
-    }
-
-    size_t sizePerNode() const {
-        return m_sizePerNode;
-    }
-
-    cuv::ndarray<int8_t, cuv::host_memory_space>& data() {
-        return m_data;
-    }
-
-    const cuv::ndarray<int8_t, cuv::host_memory_space>& data() const {
-        return m_data;
-    }
-
 };
 
+/**
+ * Abstract base class that implements a simple LRU cache on GPU.
+ */
 class DeviceCache {
-
-private:
-    DeviceCache(const DeviceCache& other);
-    DeviceCache& operator=(const DeviceCache& other);
 
 public:
 
     virtual ~DeviceCache();
 
+    /**
+     * @return a mapping of the in-cache elements to their according positions
+     */
     std::map<const void*, size_t>& getIdMap() {
         return elementIdMap;
     }
 
+    /**
+     * @return true if and only if the given element is in cache.
+     */
     bool containsElement(const void* element) const;
 
+    /**
+     * @return the position in cache of the given element
+     * @throws runtime_exception if the given element is not in cache
+     */
     size_t getElementPos(const void* element) const;
 
+    /**
+     * Clear the entire cache.
+     */
     void clear();
 
+    /**
+     * @return the total elapsed time in microseconds that was spent to transfer data to the cache
+     */
     size_t getTotalTransferTimeMircoseconds() const {
         return totalTransferTimeMicroseconds;
     }
+
+private:
+    DeviceCache(const DeviceCache& other);
+    DeviceCache& operator=(const DeviceCache& other);
 
 protected:
 
@@ -167,11 +204,10 @@ private:
 
 };
 
+/**
+ * A simple LRU cache of RGB-D images on GPU
+ */
 class ImageCache: public DeviceCache {
-
-private:
-    ImageCache(const ImageCache& other);
-    ImageCache& operator=(const ImageCache& other);
 
 public:
 
@@ -179,9 +215,19 @@ public:
 
     virtual ~ImageCache();
 
+    /**
+     * Resize the cache and explicitly transfer the given images to the GPU.
+     */
     void copyImages(size_t imageCacheSize, const std::set<const RGBDImage*>& images);
 
+    /**
+     * Collect the images for the given samples, resize the cache and transfer the collected images to the GPU.
+     */
     void copyImages(size_t imageCacheSize, const std::vector<const PixelInstance*>& samples);
+
+private:
+    ImageCache(const ImageCache& other);
+    ImageCache& operator=(const ImageCache& other);
 
 protected:
 
@@ -207,19 +253,25 @@ private:
 
 class TreeCache: public DeviceCache {
 
-private:
-    TreeCache(const TreeCache& other);
-    TreeCache& operator=(const TreeCache& other);
-
 public:
 
     TreeCache();
 
     virtual ~TreeCache();
 
+    /**
+     * Resize the cache and transfer the given tree to the GPU.
+     */
     void copyTree(size_t cacheSize, const TreeNodes* tree);
 
+    /**
+     * Resize the cache and transfer the given trees to the GPU.
+     */
     void copyTrees(size_t cacheSize, const std::set<const TreeNodes*>& trees);
+
+private:
+    TreeCache(const TreeCache& other);
+    TreeCache& operator=(const TreeCache& other);
 
 protected:
 
@@ -243,7 +295,9 @@ private:
 
 class RandomTreeImage;
 
-// helper class for the unit test
+/**
+ * Helper class for the unit test
+ */
 class TreeNodeData {
 
 public:
@@ -256,16 +310,34 @@ public:
     cuv::ndarray<float, cuv::host_memory_space> histogram;
 };
 
-// for the unit test
+/**
+ * Public for the unit test
+ */
 TreeNodeData getTreeNode(const int nodeNr, const boost::shared_ptr<const TreeNodes>& treeData);
 
+/**
+ * Convert a random forest for RGB-D images to the TreeNodes structure that can be used to be transferred to the GPU.
+ * Not intended to be called by a client.
+ */
 boost::shared_ptr<const TreeNodes> convertTree(const boost::shared_ptr<const RandomTreeImage>& randomTreeImage);
 
+/**
+ * Helper function to normalize an array of probabilities on GPU.
+ * Not intended to be called by a client.
+ */
 void normalizeProbabilities(cuv::ndarray<float, cuv::dev_memory_space>& probabilities);
 
+/**
+ * Helper function to determine the per-row label with maximal probability, on GPU.
+ * Not intended to be called by a client.
+ */
 void determineMaxProbabilities(const cuv::ndarray<float, cuv::dev_memory_space>& probabilities,
         cuv::ndarray<LabelType, cuv::dev_memory_space>& output);
 
+/**
+ * Helper function to classify (predict) the given RGB-D image on GPU.
+ * Not intended to be called by a client.
+ */
 void classifyImage(int treeCacheSize, cuv::ndarray<float, cuv::dev_memory_space>& output, const RGBDImage& image,
         LabelType numLabels, const boost::shared_ptr<const TreeNodes>& treeData);
 

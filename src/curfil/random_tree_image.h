@@ -14,7 +14,14 @@
 
 namespace curfil {
 
+/**
+ * A simple 2D tuple.
+ * Instances of this classes can be used as point (in two-dimensional) space or offset.
+ *
+ * Can be normalized (scaled) according to a given depth.
+ */
 class XY {
+
 public:
     XY() :
             x(0), y(0) {
@@ -32,6 +39,9 @@ public:
         return (*this);
     }
 
+    /**
+     * Normalize the x and y coordindate such that x ← x/depth and y ← y/depth
+     */
     XY normalize(const Depth& depth) const {
         assert(depth.isValid());
         int newX = static_cast<int>(x / depth.getFloatValue());
@@ -63,9 +73,19 @@ typedef XY Region;
 typedef XY Offset;
 typedef XY Point;
 
+/**
+ * Represents a single-pixel sample in a RGB-D image.
+ */
 class PixelInstance {
+
 public:
 
+    /**
+     * @param image the RGB-D image that contains this pixel. Must not be null/
+     * @param label the ground-truth labeleing of this pixel.
+     * @param x the x-coordinate of the pixel in the RGB-D image
+     * @param y the y-coordinate of the pixel in the RGB-D image
+     */
     PixelInstance(const RGBDImage* image, const LabelType& label, uint16_t x, uint16_t y) :
             image(image), label(label), point(x, y), depth(Depth::INVALID) {
         assert(image != NULL);
@@ -93,6 +113,13 @@ public:
         }
     }
 
+    /**
+     * @param image the RGB-D image that contains this pixel. Must not be null/
+     * @param label the ground-truth labeleing of this pixel.
+     * @param depth the depth of the pixel in the RGB-D image
+     * @param x the x-coordinate of the pixel in the RGB-D image
+     * @param y the y-coordinate of the pixel in the RGB-D image
+     */
     PixelInstance(const RGBDImage* image, const LabelType& label, const Depth& depth,
             uint16_t x, uint16_t y) :
             image(image), label(label), point(x, y), depth(depth) {
@@ -101,26 +128,45 @@ public:
         assert(depth.isValid());
     }
 
+    /**
+     * @return pointer to the RGB-D image which contains this pixel
+     */
     const RGBDImage* getRGBDImage() const {
         return image;
     }
 
+    /**
+     * @return width in pixels of the RGB-D image which contains this pixel
+     */
     int width() const {
         return image->getWidth();
     }
 
+    /**
+     * @return height in pixels of the RGB-D image which contains this pixel
+     */
     int height() const {
         return image->getHeight();
     }
 
+    /**
+     * @return the x-coordinate of the pixel in the RGB-D image which contains this pixel
+     */
     uint16_t getX() const {
         return static_cast<uint16_t>(point.getX());
     }
 
+    /**
+     * @return the x-coordinate of the pixel in the RGB-D image which contains this pixel
+     */
     uint16_t getY() const {
         return static_cast<uint16_t>(point.getY());
     }
 
+    /**
+     * Calculate the average value for the given region at the offset and the given color channel, on CPU.
+     * See https://github.com/deeplearningais/curfil/wiki/Visual-Features for details.
+     */
     FeatureResponseType averageRegionColor(const Offset& offset, const Region& region, uint8_t channel) const {
 
         assert(region.getX() >= 0);
@@ -160,6 +206,10 @@ public:
         return sum;
     }
 
+    /**
+     * Calculate the average depth for the given region at the offset, on CPU.
+     * See https://github.com/deeplearningais/curfil/wiki/Visual-Features for details.
+     */
     FeatureResponseType averageRegionDepth(const Offset& offset, const Region& region) const {
         assert(region.getX() >= 0);
         assert(region.getY() >= 0);
@@ -210,14 +260,23 @@ public:
         return (feat / numValid);
     }
 
+    /**
+     * @return the ground-truth labeling of this pixel
+     */
     LabelType getLabel() const {
         return label;
     }
 
+    /**
+     * @return the according depth of this pixel in the RGB-D image
+     */
     const Depth getDepth() const {
         return depth;
     }
 
+    /**
+     * Currently not used and always returns 1.
+     */
     WeightType getWeight() const {
         return 1;
     }
@@ -264,10 +323,24 @@ enum FeatureType {
     DEPTH = 0, COLOR = 1
 };
 
+/**
+ * Parametrized visual image feature.
+ *
+ * See https://github.com/deeplearningais/curfil/wiki/Visual-Features for details.
+ */
 class ImageFeatureFunction {
 
 public:
 
+    /**
+     * @param featureType either COLOR of DEPTH
+     * @param offset1 the offset of the first region
+     * @param region1 the extent size of the first region
+     * @param channel1 the image channel that the first region belongs to. Only used for COLOR features.
+     * @param offset2 the offset of the second region
+     * @param region2 the extent size of the second region
+     * @param channel2 the image channel that the second region belongs to. Only used for COLOR features.
+     */
     ImageFeatureFunction(FeatureType featureType,
             const Offset& offset1,
             const Region& region1,
@@ -292,6 +365,9 @@ public:
             featureType(), offset1(), region1(), channel1(), offset2(), region2(), channel2() {
     }
 
+    /**
+     * @return a 32-bit key that is used to sort the features for performance reasons (improve cache-hit rate).
+     */
     int getSortKey() const {
         int32_t sortKey = 0;
         sortKey |= static_cast<uint8_t>(getType() & 0x03) << 30; // 2 bit for the type
@@ -302,10 +378,16 @@ public:
         return sortKey;
     }
 
+    /**
+     * @return the feature type. e.g. COLOR or DEPTH
+     */
     FeatureType getType() const {
         return featureType;
     }
 
+    /**
+     * @return the feature type as string in lowercase. e.g. "color" or "depth".
+     */
     std::string getTypeString() const {
         switch (featureType) {
             case COLOR:
@@ -317,10 +399,16 @@ public:
         }
     }
 
+    /**
+     * @return true if and only if the parameters of this feature are valid
+     */
     bool isValid() const {
         return (offset1 != offset2);
     }
 
+    /**
+     * @return the feature response as documented on https://github.com/deeplearningais/curfil/wiki/Visual-Features.
+     */
     FeatureResponseType calculateFeatureResponse(const PixelInstance& instance) const {
         assert(isValid());
         switch (featureType) {
@@ -335,26 +423,44 @@ public:
         return 0;
     }
 
+    /**
+     * @return the x/y offset in pixels of the first region.
+     */
     const Offset& getOffset1() const {
         return offset1;
     }
 
+    /**
+     * @return the x/y size (extent) in pixels of the first region.
+     */
     const Region& getRegion1() const {
         return region1;
     }
 
+    /**
+     * @return the channel that is used for the first region. only used for color featurse.
+     */
     uint8_t getChannel1() const {
         return channel1;
     }
 
+    /**
+     * @return the x/y offset in pixels of the second region.
+     */
     const Offset& getOffset2() const {
         return offset2;
     }
 
+    /**
+     * @return the x/y size (extent) in pixels of the second region.
+     */
     const Region& getRegion2() const {
         return region2;
     }
 
+    /**
+     * @return the channel that is used for the second region. only used for color featurse.
+     */
     uint8_t getChannel2() const {
         return channel2;
     }
@@ -421,6 +527,12 @@ private:
 
 };
 
+/**
+ * Helper class to store a list of features and a list of threshold per feature in a compact manner
+ * such that it can be transferred between CPU and GPU.
+ *
+ * Clients are not intended to use this class directly.
+ */
 template<class memory_space>
 class ImageFeaturesAndThresholds {
 
@@ -601,6 +713,12 @@ public:
 
 };
 
+/**
+ * Helper class to store a list of pixel instances in a compact manner
+ * such that it can be transferred between CPU and GPU.
+ *
+ * Clients are not intended to use this class directly.
+ */
 template<class memory_space>
 class Samples {
 
@@ -648,6 +766,13 @@ public:
 
 };
 
+/**
+ * Helper class for the four phases in the cost-intensive best-split evaluation during random forest training.
+ * See the Master’s thesis "Accelerating Random Forests on CPUs and GPUs for Object-Class Image Segmentation"
+ * for more details on this implementation.
+ *
+ * Clients are not intended to use this class directly.
+ */
 class ImageFeatureEvaluation {
 public:
     // box_radius: > 0, half the box side length to uniformly sample
@@ -730,20 +855,38 @@ private:
     boost::shared_ptr<cuv::allocator> featureResponsesAllocator;
 };
 
+/**
+ * A random tree in a random forest, for RGB-D images.
+ */
 class RandomTreeImage {
 public:
 
+    /**
+     * @param id tree number
+     * @param configuration training configuration of the tree
+     */
     RandomTreeImage(int id, const TrainingConfiguration& configuration);
 
     RandomTreeImage(boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> > tree,
             const TrainingConfiguration& configuration,
             const cuv::ndarray<WeightType, cuv::host_memory_space>& classLabelPriorDistribution);
 
+    /**
+     * Trains the tree from the given training images
+     */
     void train(const std::vector<LabeledRGBDImage>& trainLabelImages,
             RandomSource& randomSource, size_t subsampleCount);
 
+    /**
+     * Predicts the given image and outputs the prediction.
+     */
     void test(const RGBDImage* image, LabelImage& prediction) const;
 
+    /**
+     * Normalize the leaf-node histograms in the tree
+     *
+     * @param histogramBias the histogram bias for the normalization
+     */
     void normalizeHistograms(const double histogramBias);
 
     const boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> >& getTree() const {
