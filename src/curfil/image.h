@@ -158,7 +158,8 @@ public:
 	 * Load the RGB color image and the according depth from two files on disk.
 	 * See the README file for the required file format.
 	 */
-    explicit RGBDImage(const std::string& filename, const std::string& depthFilename,
+
+    explicit RGBDImage(const std::string& filename, const std::string& depthFilename, bool useDepthImages,
             bool convertToCIELab = true,
             bool useDepthFilling = false,
             bool calculateIntegralImage = true);
@@ -525,7 +526,7 @@ public:
 /**
  * Convenience function to load and convert a RGBD image and the according label image
  */
-LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab, bool useDepthFilling,
+LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab, bool useDepthImages,  bool useDepthFilling,
         bool calculateIntegralImages = true);
 
 /**

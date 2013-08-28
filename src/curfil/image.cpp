@@ -34,15 +34,15 @@ RGBColor::RGBColor(uint8_t r, uint8_t g, uint8_t b) :
 }
 
 RGBColor::RGBColor(const std::string& colorString) :
-        std::vector<uint8_t>(3, 0) {
-    std::vector<std::string> strs;
-    // key is in the format: "255,255,255"
-    boost::split(strs, colorString, boost::is_any_of(","));
+		std::vector<uint8_t>(3, 0) {
+	std::vector<std::string> strs;
+	// key is in the format: "255,255,255"
+	boost::split(strs, colorString, boost::is_any_of(","));
 
-    try {
-        int r = boost::lexical_cast<int>(strs[0]);
-        int g = boost::lexical_cast<int>(strs[1]);
-        int b = boost::lexical_cast<int>(strs[2]);
+	try {
+		int r = boost::lexical_cast<int>(strs[0]);
+		int g = boost::lexical_cast<int>(strs[1]);
+		int b = boost::lexical_cast<int>(strs[2]);
 
         if (r < std::numeric_limits<uint8_t>::min() || r > std::numeric_limits<uint8_t>::max()
                 || g < std::numeric_limits<uint8_t>::min() || g > std::numeric_limits<uint8_t>::max()
