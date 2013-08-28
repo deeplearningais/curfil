@@ -1,4 +1,6 @@
+doc/
 build/
+debug/
 
 *.o
 *.so
