@@ -162,7 +162,7 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
 }
 
 void test(RandomForestImage& randomForest, const std::string& folderTesting,
-        const std::string& folderPrediction, const bool useDepthFilling,
+        const std::string& folderPrediction,const bool useDepthImages, const bool useDepthFilling,
         const bool writeProbabilityImages) {
 
     auto filenames = listImageFilenames(folderTesting);
@@ -209,7 +209,7 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
             [&](const tbb::blocked_range<size_t>& range) {
                 for(size_t fileNr = range.begin(); fileNr != range.end(); fileNr++) {
                     const std::string& filename = filenames[fileNr];
-                    const auto imageLabelPair = loadImagePair(filename, useCIELab, useDepthFilling);
+                    const auto imageLabelPair = loadImagePair(filename, useCIELab, useDepthImages, useDepthFilling);
                     const RGBDImage& testImage = imageLabelPair.getRGBDImage();
                     const LabelImage& groundTruth = imageLabelPair.getLabelImage();
                     LabelImage prediction(testImage.getWidth(), testImage.getHeight());

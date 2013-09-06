@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
     bool trainTreesInParallel = false; // parallel tree training on GPU is considered to be an experimental feature
     bool verboseTree = false;
     int imageCacheSizeMB = 0;
+    bool useDepthImages = true;
 
     // Declare the supported options.
     po::options_description options("options");
@@ -74,7 +75,9 @@ int main(int argc, char **argv) {
             "whether to write verbose tree include profiling and debugging information")
     ("trainTreesInParallel",
             po::value<bool>(&trainTreesInParallel)->implicit_value(true)->default_value(trainTreesInParallel),
-            "whether to train multiple trees sequentially (default) or in parallel (experimental)");
+            "whether to train multiple trees sequentially (default) or in parallel (experimental)")
+    ("useDepthImages", po::value<bool>(&useDepthImages)->implicit_value(true)->default_value(useDepthImages),
+                       "whether to use depth images");
     ;
 
     po::positional_options_description pod;
@@ -119,7 +122,7 @@ int main(int argc, char **argv) {
 
     tbb::task_scheduler_init init(numThreads);
 
-    std::vector<LabeledRGBDImage> images = loadImages(folderTraining, useCIELab, useDepthFilling);
+    std::vector<LabeledRGBDImage> images = loadImages(folderTraining, useCIELab, useDepthImages, useDepthFilling, ignoredColors);
     if (images.empty()) {
         throw std::runtime_error(std::string("found no files in ") + folderTraining);
     }
@@ -136,7 +139,7 @@ int main(int argc, char **argv) {
     TrainingConfiguration configuration(randomSeed, samplesPerImage, featureCount, minSampleCount,
             maxDepth, boxRadius, regionSize, numThresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
             TrainingConfiguration::parseAccelerationModeString(modeString), useCIELab, useDepthFilling, deviceIds,
-            subsamplingType, ignoredColors);
+            subsamplingType, ignoredColors, useDepthImages);
 
     RandomForestImage forest = train(images, trees, configuration, trainTreesInParallel);
 

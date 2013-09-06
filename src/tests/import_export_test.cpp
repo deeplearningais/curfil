@@ -77,13 +77,14 @@ BOOST_AUTO_TEST_CASE(testExportImport) {
     std::vector<LabeledRGBDImage> trainImages;
     const bool useCIELab = true;
     const bool useDepthFilling = false;
+    const bool useDepthImages = true;
 
     if (boost::unit_test::framework::master_test_suite().argc < 2) {
         throw std::runtime_error("please specify folder with testdata");
     }
     const std::string folderTraining(boost::unit_test::framework::master_test_suite().argv[1]);
 
-    trainImages.push_back(loadImagePair(folderTraining + "/training1_colors.png", useCIELab, useDepthFilling));
+    trainImages.push_back(loadImagePair(folderTraining + "/training1_colors.png", useCIELab, useDepthImages,useDepthFilling));
 
     // Train
 

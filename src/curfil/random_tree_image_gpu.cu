@@ -125,6 +125,9 @@ FeatureResponseType averageRegionColor(int imageNr,
     FeatureResponseType lowerRightPixel = getColorChannelValue(rightX, lowerY, imageNr, channel);
     FeatureResponseType lowerLeftPixel = getColorChannelValue(leftX, lowerY, imageNr, channel);
 
+    if (isnan(lowerRightPixel) || isnan(lowerLeftPixel) || isnan(upperRightPixel) || isnan(upperLeftPixel))
+    	  return nan("");
+
     FeatureResponseType sum = (lowerRightPixel - upperRightPixel) + (upperLeftPixel - lowerLeftPixel);
 
     return sum;
@@ -237,7 +240,8 @@ void generateRandomFeaturesKernel(int seed,
         float* depths,
         int* sampleX,
         int* sampleY,
-        uint8_t* sampleLabel) {
+        uint8_t* sampleLabel,
+        bool isUseDepthImages) {
     int feat = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (feat >= numFeatures) {
@@ -254,7 +258,11 @@ void generateRandomFeaturesKernel(int seed,
     int8_t region2X, region2Y;
     uint8_t channel1, channel2;
 
-    type = static_cast<uint8_t>(feat >= numFeatures / 2);
+	if (isUseDepthImages)
+		type = static_cast<uint8_t>(feat >= numFeatures / 2);
+	else
+		type = COLOR;
+
     types[feat] = type;
 
     randomOffset(&localState, &offset1X, &offset1Y, boxRadius);
@@ -269,11 +277,21 @@ void generateRandomFeaturesKernel(int seed,
         // chan1=MOD(INT(A2/(100/2)*3);3)
         // chan2=MOD(INT(A2/(100/2/3)*3);3)
 
+    	if (isUseDepthImages) {
         channel1 = feat / (numFeatures / 2.0) * 3;
         channel1 %= 3;
 
         channel2 = feat / (numFeatures / 2.0 / 3) * 3;
         channel2 %= 3;
+    	}
+    	else
+    	{
+    	channel1 = feat / (numFeatures) * 3;
+        channel1 %= 3;
+
+        channel2 = feat / (numFeatures / 3) * 3;
+        channel2 %= 3;
+    	}
 
         // channel1 = curand_uniform(&localState) * 3;
         // channel2 = curand_uniform(&localState) * 3;
@@ -1845,7 +1863,8 @@ ImageFeaturesAndThresholds<cuv::dev_memory_space> ImageFeatureEvaluation::genera
                 samplesOnDevice.depths,
                 samplesOnDevice.sampleX,
                 samplesOnDevice.sampleY,
-                samplesOnDevice.labels
+                samplesOnDevice.labels,
+                configuration.isUseDepthImages()
         );
         if (profile.isEnabled()) {
             cudaSafeCall(cudaStreamSynchronize(streams[0]));

@@ -34,15 +34,15 @@ RGBColor::RGBColor(uint8_t r, uint8_t g, uint8_t b) :
 }
 
 RGBColor::RGBColor(const std::string& colorString) :
-		std::vector<uint8_t>(3, 0) {
-	std::vector<std::string> strs;
-	// key is in the format: "255,255,255"
-	boost::split(strs, colorString, boost::is_any_of(","));
+                std::vector<uint8_t>(3, 0) {
+            std::vector<std::string> strs;
+            // key is in the format: "255,255,255"
+            boost::split(strs, colorString, boost::is_any_of(","));
 
-	try {
-		int r = boost::lexical_cast<int>(strs[0]);
-		int g = boost::lexical_cast<int>(strs[1]);
-		int b = boost::lexical_cast<int>(strs[2]);
+            try {
+                int r = boost::lexical_cast<int>(strs[0]);
+                int g = boost::lexical_cast<int>(strs[1]);
+                int b = boost::lexical_cast<int>(strs[2]);
 
         if (r < std::numeric_limits<uint8_t>::min() || r > std::numeric_limits<uint8_t>::max()
                 || g < std::numeric_limits<uint8_t>::min() || g > std::numeric_limits<uint8_t>::max()
@@ -91,7 +91,7 @@ static void loadImage(const std::string& filename, T& image) {
     vigra::importImage(info, vigra::destImage(image));
 }
 
-RGBDImage::RGBDImage(const std::string& filename, const std::string& depthFilename, bool convertToCIELab,
+RGBDImage::RGBDImage(const std::string& filename, const std::string& depthFilename, bool useDepthImages, bool convertToCIELab,
         bool useDepthFilling, bool calculateIntegralImage) :
         filename(filename), depthFilename(depthFilename),
                 colorImage(boost::make_shared<cuv::cuda_allocator>()),
@@ -126,11 +126,16 @@ RGBDImage::RGBDImage(const std::string& filename, const std::string& depthFilena
 
         inCIELab = true;
 
-        try {
-            loadDepthImage(depthFilename);
-        } catch (const std::exception& e) {
-            throw std::runtime_error(std::string("failed to load depth image '") + depthFilename + "': " + e.what());
-        }
+		if (useDepthImages) {
+			try {
+				loadDepthImage(depthFilename);
+			} catch (const std::exception& e) {
+				throw std::runtime_error(
+						std::string("failed to load depth image '")
+								+ depthFilename + "': " + e.what());
+			}
+		} else
+			loadDummyDepthValues();
 
     }
 
@@ -344,6 +349,23 @@ void RGBDImage::fillDepthFromBottom() {
     }
 }
 
+void RGBDImage::loadDummyDepthValues() {
+
+	depthImage.resize(cuv::extents[DEPTH_CHANNELS][getHeight()][getWidth()]);
+
+	int* depths = depthImage.ptr();
+	int* depthValid = depthImage.ptr() + getWidth() * getHeight();
+
+	for (int y = 0; y < getHeight(); y++) {
+		const size_t rowOffset = y * getWidth();
+		for (int x = 0; x < getWidth(); x++) {
+			depths[rowOffset + x] = 1000;
+			depthValid[rowOffset + x] = 1;
+		}
+	}
+
+}
+
 void RGBDImage::loadDepthImage(const std::string& depthFilename) {
 
     vigra::ImageImportInfo info(depthFilename.c_str());
@@ -396,6 +418,67 @@ void RGBDImage::loadDepthImage(const std::string& depthFilename) {
     if (depthAvg < 0.01 || depthAvg > 10.0) {
         throw std::runtime_error((boost::format("illegal average depth of '%s': %e") % depthFilename % depthAvg).str());
     }
+}
+
+void RGBDImage::resizeImage(int newWidth, int newHeight)
+{
+	int originalWidth = getWidth();
+	int originalHeight = getHeight();
+	using namespace cuv;
+	ndarray<float, host_memory_space>  ci(extents[COLOR_CHANNELS][newHeight][newWidth]);
+	ndarray<int, host_memory_space>  di(extents[DEPTH_CHANNELS][newHeight][newWidth]);
+
+	ci = std::numeric_limits<float>::quiet_NaN();
+
+	for (unsigned int c = 0; c < COLOR_CHANNELS; ++c) {
+		ci[indices[c][index_range(0, originalHeight)][index_range(0, originalWidth)]]  = colorImage[indices[c][index_range()][index_range()]];
+	}
+	colorImage = ci;
+
+	//di = std::numeric_limits<int>::quiet_NaN();
+	di = 0;
+
+	for (unsigned int d = 0; d < DEPTH_CHANNELS; ++d) {
+		di[indices[d][index_range(0, originalHeight)][index_range(0, originalWidth)]] = depthImage[indices[d][index_range()][index_range()]];
+	}
+	depthImage = di;
+
+	width = newWidth;
+	height = newHeight;
+
+	/*int* depths = depthImage.ptr();
+	int* depthValid = depthImage.ptr() + getWidth() * getHeight();
+
+	for (int y = 0; y < newHeight; y++) {
+		const size_t rowOffset = y * newWidth;
+		for (int x = 0; x < newWidth; x++) {
+		//	depths[rowOffset + x] = std::numeric_limits<int>::quiet_NaN();
+			depthValid[rowOffset + x] = static_cast<int>(depths[rowOffset + x] > 0);
+		}
+	}*/
+
+	//TODO This should be moved because for images that don't need resizing, it will not execute
+	//calculateIntegral();
+
+
+	/*
+	for (int y = originalHeight; y < newHeight; y++) {
+		const size_t rowOffset = y * newWidth;
+		for (int x = 0; x < newWidth; x++) {
+		//	depths[rowOffset + x] = std::numeric_limits<int>::quiet_NaN();
+			depthValid[rowOffset + x] = 0;
+		}
+	}
+
+	for (int y = 0; y < newHeight; y++) {
+		const size_t rowOffset = y * newWidth;
+		for (int x = originalWidth; x < newWidth; x++) {
+		//	depths[rowOffset + x] = std::numeric_limits<int>::quiet_NaN();
+			depthValid[rowOffset + x] = 0;
+		}
+	}*/
+
+	//TODO should add an assert that checks the size! - can check image.shape(1) and image.shape(2)
 }
 
 void RGBDImage::dump(std::ostream& out) const {
@@ -613,6 +696,17 @@ static LabelType encodeColor(const vigra::UInt8RGBImage& labelImage, int x, int 
     return id;
 }
 
+static LabelType encodeColor(RGBColor color) {
+	std::map<RGBColor, LabelType>::iterator it = colors.find(color);
+	if (it != colors.end()) {
+		return it->second;
+	}
+
+	LabelType id = static_cast<LabelType>(colors.size());
+	addColorId(color, id);
+	return id;
+}
+
 RGBColor LabelImage::decodeLabel(const LabelType& v) {
 
     tbb::mutex::scoped_lock lock(colorsMutex);
@@ -680,6 +774,27 @@ void LabelImage::save(const std::string& filename) const {
             vigra::ImageExportInfo(filename.c_str()).setPixelType("UINT8"));
 }
 
+void LabelImage::resizeImage(int newWidth, int newHeight, LabelType paddingLabel)
+{
+	int originalWidth = getWidth();
+	int originalHeight = getHeight();
+
+	//TODO again should write an assert statement that checks the size - can check image.shape(0) and image.shape(1)
+
+	using namespace cuv;
+	ndarray<LabelType, host_memory_space>  Li(extents[newHeight][newWidth]);
+
+	Li = paddingLabel;
+
+	Li[indices[index_range(0, originalHeight)][index_range(0, originalWidth)]] = image;
+
+	image = Li;
+
+	width = newWidth;
+	height = newHeight;
+
+}
+
 LabeledRGBDImage::LabeledRGBDImage(const boost::shared_ptr<RGBDImage>& rgbdImage,
         const boost::shared_ptr<LabelImage>& labelImage) :
         rgbdImage(rgbdImage), labelImage(labelImage) {
@@ -694,7 +809,18 @@ LabeledRGBDImage::LabeledRGBDImage(const boost::shared_ptr<RGBDImage>& rgbdImage
     }
 }
 
-LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab, bool useDepthFilling,
+void LabeledRGBDImage::resizeImage(int newWidth, int newHeight, LabelType paddingLabel) const
+{
+	rgbdImage->resizeImage(newWidth, newHeight);
+	labelImage->resizeImage(newWidth, newHeight, paddingLabel);
+}
+
+void LabeledRGBDImage::calculateIntegral() const
+{
+	rgbdImage->calculateIntegral();
+}
+
+LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab,bool useDepthImages, bool useDepthFilling,
         bool calculateIntegralImages) {
     auto pos = filename.find("_colors.png");
     std::string labelFilename = filename;
@@ -705,13 +831,15 @@ LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab, bool
         throw std::runtime_error(std::string("illegal label image filename: ") + labelFilename);
     }
 
-    try {
-        depthFilename.replace(pos, depthFilename.length(), "_depth.png");
-    } catch (const std::exception& e) {
-        throw std::runtime_error(std::string("illegal depth image filename: ") + depthFilename);
-    }
+	if (useDepthImages) {
+		try {
+			depthFilename.replace(pos, depthFilename.length(), "_depth.png");
+		} catch (const std::exception& e) {
+			throw std::runtime_error(std::string("illegal depth image filename: ") + depthFilename);
+		}
+	}
 
-    const auto rgbdImage = boost::make_shared<RGBDImage>(filename, depthFilename, useCIELab, useDepthFilling,
+    const auto rgbdImage = boost::make_shared<RGBDImage>(filename, depthFilename, useDepthImages, useCIELab, useDepthFilling,
             calculateIntegralImages);
     const auto labelImage = boost::make_shared<LabelImage>(labelFilename);
     return LabeledRGBDImage(rgbdImage, labelImage);
@@ -744,15 +872,32 @@ std::vector<std::string> listImageFilenames(const std::string& path) {
     return filenames;
 }
 
-std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthFilling) {
+LabelType getPaddingLabel(const std::vector<std::string>& ignoredColors) {
+	RGBColor color;
+	if (!ignoredColors.empty())
+		color = RGBColor(ignoredColors[0]);
+	else
+		//TODO: add assert that we shouldn't get here (unless all images have the same size) or maybe just display a warning
+		color = RGBColor(0,0,0);
+
+	return encodeColor(color);
+}
+
+std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthImages, bool useDepthFilling,  const std::vector<std::string>& ignoredColors) {
 
     std::vector<std::string> filenames = listImageFilenames(folder);
     CURFIL_INFO("going to load " << filenames.size() << " images from " << folder);
 
+	//filenames.erase(filenames.begin()+100, filenames.end());
+
     size_t totalSizeInMemory = 0;
+	int maxWidth = 0;
+	int maxHeight = 0;
 
     LabeledRGBDImage emptyImage;
     std::vector<LabeledRGBDImage> images(filenames.size(), emptyImage);
+
+	LabelType paddingLabel = getPaddingLabel(ignoredColors);
 
     tbb::mutex imageCounterMutex;
     size_t numImages = 0;
@@ -761,11 +906,17 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
                 for(size_t i = range.begin(); i != range.end(); i++) {
 
                     const auto& filename = filenames[i];
-                    images[i] = loadImagePair(filename, useCIELab, useDepthFilling);
+                    images[i] = loadImagePair(filename, useCIELab, useDepthImages, useDepthFilling);
                     {
                         tbb::mutex::scoped_lock lock(imageCounterMutex);
-                        if (++numImages % 50 == 0) {
+                        {
+							if (images[i].getWidth() > maxWidth)
+								maxWidth = images[i].getWidth();
+							if (images[i].getHeight() > maxHeight)
+								maxHeight = images[i].getHeight();
+							if (++numImages % 50 == 0) {
                             CURFIL_INFO("loaded " << numImages << "/" << images.size() << " images");
+							}
                         }
                         totalSizeInMemory += images[i].getSizeInMemory();
                     }
@@ -774,11 +925,25 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
             });
 
     if (!images.empty()) {
-        int imageWidth = images[0].getWidth();
-        int imageHeight = images[0].getHeight();
+       // int imageWidth = images[0].getWidth();
+       // int imageHeight = images[0].getHeight();
         size_t imageSizeInMemory = images[0].getSizeInMemory();
         for (const LabeledRGBDImage& image : images) {
-            if (image.getWidth() != imageWidth || image.getHeight() != imageHeight) {
+			if (image.getWidth() != maxWidth || image.getHeight() != maxHeight)
+				image.resizeImage(maxWidth, maxHeight, paddingLabel);
+				if (image.getWidth() != maxWidth || image.getHeight() != maxHeight) {
+					std::ostringstream o;
+					o << "Image " << image.getRGBDImage().getFilename()
+							<< " has different size: ";
+					o << image.getWidth() << "x" << image.getHeight();
+					o << ". All images in the dataset should be resized to the maximum size("
+							<< maxWidth << "x" << maxHeight << ")";
+					throw std::runtime_error(o.str());
+				}
+
+		//	if (calculateIntegralImages)
+			//image.calculateIntegral();
+          /*  if (image.getWidth() != imageWidth || image.getHeight() != imageHeight) {
                 std::ostringstream o;
                 o << "Image " << image.getRGBDImage().getFilename() << " has different size: ";
                 o << image.getWidth() << "x" << image.getHeight();
@@ -791,7 +956,7 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
                 o << image.getSizeInMemory() << " (expected: " << imageSizeInMemory << ").";
                 o << " This must not happen.";
                 throw std::runtime_error(o.str());
-            }
+            }*/
         }
     }
 

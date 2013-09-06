@@ -41,6 +41,7 @@ int main(int argc, char **argv) {
     int deviceId = 0;
     bool useDepthFillingOption = false;
     bool writeProbabilityImages = false;
+    bool useDepthImages = true;
 
     // Declare the supported options.
     po::options_description options("options");
@@ -63,6 +64,9 @@ int main(int argc, char **argv) {
     ("writeProbabilityImages",
             po::value<bool>(&writeProbabilityImages)->implicit_value(true)->default_value(writeProbabilityImages),
             "whether to write probability PNGs of the prediction")
+    ("useDepthImages",
+                    po::value<bool>(&useDepthImages)->implicit_value(true)->default_value(useDepthImages),
+                    "whether to use depth images")
             ;
 
     po::positional_options_description pod;
@@ -128,7 +132,7 @@ int main(int argc, char **argv) {
         useDepthFilling = useDepthFillingOption;
     }
 
-    test(randomForest, folderTesting, folderPrediction, useDepthFilling, writeProbabilityImages);
+    test(randomForest, folderTesting, folderPrediction, useDepthImages, useDepthFilling, writeProbabilityImages);
 
     CURFIL_INFO("finished");
     return EXIT_SUCCESS;

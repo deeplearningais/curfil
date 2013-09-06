@@ -584,6 +584,7 @@ const ImageFeatureFunction ImageFeatureEvaluation::sampleFeature(RandomSource& r
 
     uint16_t boxRadius = configuration.getBoxRadius();
     uint16_t regionSize = configuration.getRegionSize();
+    bool useDepthImages = configuration.isUseDepthImages();
 
     // (x,y) offsets
     Sampler rgen_xy = randomSource.uniformSampler(-boxRadius, boxRadius);
@@ -611,27 +612,22 @@ const ImageFeatureFunction ImageFeatureEvaluation::sampleFeature(RandomSource& r
     assert(region2.getX() >= 0);
     assert(region2.getY() >= 0);
 
-    switch (rgen_ft.getNext()) {
-        case 0:
-            return ImageFeatureFunction(DEPTH,
-                    offset1,
-                    region1,
-                    0,
-                    offset2,
-                    region2,
-                    0);
-        case 1:
-            return ImageFeatureFunction(COLOR,
-                    offset1,
-                    region1,
-                    rgen_cc.getNext(),
-                    offset2,
-                    region2,
-                    rgen_cc.getNext());
-        default:
-            assert(false);
-            break;
-    }
+	if (useDepthImages) {
+		switch (rgen_ft.getNext()) {
+		case 0:
+			return ImageFeatureFunction(DEPTH, offset1, region1, 0, offset2,
+					region2, 0);
+		case 1:
+			return ImageFeatureFunction(COLOR, offset1, region1,
+					rgen_cc.getNext(), offset2, region2, rgen_cc.getNext());
+		default:
+			assert(false);
+			break;
+		}
+	} else
+		return ImageFeatureFunction(COLOR, offset1, region1, rgen_cc.getNext(),
+				offset2, region2, rgen_cc.getNext());
+
     throw std::runtime_error("");
 }
 

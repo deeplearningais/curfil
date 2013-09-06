@@ -152,6 +152,7 @@ private:
  */
 class RGBDImage {
 
+
 public:
 
 	/**
@@ -354,6 +355,8 @@ public:
         return colorImage.ptr()[channel * getWidth() * getHeight() + y * getWidth() + x];
     }
 
+    void resizeImage(int newWidth, int newHeight);
+
 private:
 
     std::string filename;
@@ -371,7 +374,7 @@ private:
     static const unsigned int DEPTH_CHANNELS = 2;
 
     void loadDepthImage(const std::string& depthFilename);
-
+    void loadDummyDepthValues();
     void fillDepthFromRight();
     void fillDepthFromLeft();
     void fillDepthFromBottom();
@@ -478,7 +481,11 @@ public:
         return image(y, x);
     }
 
-};
+
+    void resizeImage(int newWidth, int newHeight, LabelType paddingLabel);
+
+}
+;
 
 /**
  * A tuple of a RGBD image and an according labeling.
@@ -521,7 +528,12 @@ public:
         return rgbdImage->getHeight();
     }
 
+    void resizeImage(int newWidth, int newHeight, LabelType paddingLabel) const;
+
+    void calculateIntegral() const;
+
 };
+
 
 /**
  * Convenience function to load and convert a RGBD image and the according label image
@@ -539,7 +551,7 @@ std::vector<std::string> listImageFilenames(const std::string& folder);
  * Convenience function to find all files in the given folder that match the required filename schema.
  * See the README for the filename schema.
  */
-std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthFilling);
+std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthImages, bool useDepthFilling, const std::vector<std::string>& ignoredColors);
 
 }
 

@@ -128,6 +128,7 @@ TrainingConfiguration& TrainingConfiguration::operator=(const TrainingConfigurat
     deviceIds = other.deviceIds;
     subsamplingType = other.subsamplingType;
     ignoredColors = other.ignoredColors;
+    useDepthImages = other.useDepthImages;
     assert(*this == other);
     return *this;
 }
@@ -172,6 +173,8 @@ bool TrainingConfiguration::equals(const TrainingConfiguration& other,
         return false;
     if (useDepthFilling != other.useDepthFilling)
         return false;
+    if (useDepthImages != other.useDepthImages)
+    	return false;
 
     return true;
 }
@@ -206,5 +209,6 @@ std::ostream& operator<<(std::ostream& os, const curfil::TrainingConfiguration& 
     os << "useDepthFilling: " << configuration.isUseDepthFilling() << std::endl;
     os << "deviceIds: " << joinToString(configuration.getDeviceIds()) << std::endl;
     os << "ignoredColors: " << joinToString(configuration.getIgnoredColors()) << std::endl;
+    os << "useDepthImages: " << configuration.isUseDepthImages() << std::endl;
     return os;
 }

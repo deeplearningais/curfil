@@ -201,6 +201,9 @@ public:
         FeatureResponseType upperRightPixel = getColor(upperRight, channel);
         FeatureResponseType upperLeftPixel = getColor(upperLeft, channel);
 
+        if (isnan(lowerRightPixel) || isnan(lowerLeftPixel) || isnan(upperRightPixel) || isnan(upperLeftPixel))
+        	   return std::numeric_limits<double>::quiet_NaN();
+
         FeatureResponseType sum = (lowerRightPixel - upperRightPixel) + (upperLeftPixel - lowerLeftPixel);
 
         return sum;

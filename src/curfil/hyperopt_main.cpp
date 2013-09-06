@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
     bool useDepthFilling = false;
     int deviceId = 0;
     bool profiling = false;
+    bool useDepthImages = true;
     std::string lossFunction;
 
     // Declare the supported options.
@@ -57,6 +58,8 @@ int main(int argc, char **argv) {
             "measure the loss function should be based on. one of 'classAccuracy', 'classAccuracyWithoutVoid', 'pixelAccuracy', 'pixelAccuracyWithoutVoid'")
     ("numThreads", po::value<int>(&numThreads)->default_value(tbb::task_scheduler_init::default_num_threads()),
             "number of threads")
+    ("useDepthImages", po::value<bool>(&useDepthImages)->implicit_value(true)->default_value(useDepthImages),
+                    "whether to use depth images")
             ;
 
     po::variables_map vm;
@@ -87,8 +90,8 @@ int main(int argc, char **argv) {
 
     tbb::task_scheduler_init init(numThreads);
 
-    const auto trainImages = loadImages(trainingFolder, useCIELab, useDepthFilling);
-    const auto testImages = loadImages(testingFolder, useCIELab, useDepthFilling);
+    const auto trainImages = loadImages(trainingFolder, useCIELab, useDepthImages, useDepthFilling, ignoredColors);
+    const auto testImages = loadImages(testingFolder, useCIELab, useDepthImages, useDepthFilling, ignoredColors);
 
     // currently training on only on GPU is tested
     std::vector<int> deviceIds(1, deviceId);

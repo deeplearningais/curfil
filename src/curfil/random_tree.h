@@ -128,7 +128,8 @@ public:
                     useDepthFilling(0),
                     deviceIds(),
                     subsamplingType(),
-                    ignoredColors() {
+                    ignoredColors(),
+                    useDepthImages(0) {
     }
 
     TrainingConfiguration(const TrainingConfiguration& other);
@@ -150,7 +151,8 @@ public:
             bool useDepthFilling = false,
             const std::vector<int> deviceIds = std::vector<int>(1, 0),
             const std::string subsamplingType = "classUniform",
-            const std::vector<std::string>& ignoredColors = std::vector<std::string>()) :
+            const std::vector<std::string>& ignoredColors = std::vector<std::string>(),
+            bool useDepthImages = true) :
             randomSeed(randomSeed),
                     samplesPerImage(samplesPerImage),
                     featureCount(featureCount),
@@ -168,7 +170,8 @@ public:
                     useDepthFilling(useDepthFilling),
                     deviceIds(deviceIds),
                     subsamplingType(subsamplingType),
-                    ignoredColors(ignoredColors)
+                    ignoredColors(ignoredColors),
+                    useDepthImages(useDepthImages)
     {
         for (size_t c = 0; c < ignoredColors.size(); c++) {
             if (ignoredColors[c].empty()) {
@@ -266,6 +269,11 @@ public:
         return useDepthFilling;
     }
 
+    bool isUseDepthImages() const {
+    	return useDepthImages;
+    }
+
+
     const std::vector<std::string>& getIgnoredColors() const {
         return ignoredColors;
     }
@@ -303,6 +311,7 @@ private:
     std::vector<int> deviceIds;
     std::string subsamplingType;
     std::vector<std::string> ignoredColors;
+    bool useDepthImages;
 };
 
 template<class Instance, class FeatureFunction>
