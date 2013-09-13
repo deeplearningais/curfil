@@ -182,6 +182,7 @@ void RandomTreeExport::writeTree(boost::property_tree::ptree& pt, const RandomTr
     pt.put("subsamplingType", configuration.getSubsamplingType());
     pt.put("useCIELab", configuration.isUseCIELab());
     pt.put("useDepthFilling", configuration.isUseDepthFilling());
+    pt.put("useDepthImages", configuration.isUseDepthImages());
     pt.put_child("ignoredColors", toPropertyTree(configuration.getIgnoredColors()));
 
     const cuv::ndarray<WeightType, cuv::host_memory_space>& priorDistribution = tree.getClassLabelPriorDistribution();

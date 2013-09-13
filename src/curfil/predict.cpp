@@ -237,7 +237,7 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
 
                     cuv::ndarray<float, cuv::host_memory_space> probabilities;
 
-                    prediction = randomForest.predict(testImage, &probabilities, onGPU);
+                    prediction = randomForest.predict(testImage, &probabilities, onGPU, useDepthImages);
 
 #ifndef NDEBUG
             for(LabelType label = 0; label < randomForest.getNumClasses(); label++) {
@@ -287,7 +287,8 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
             if (writeImages) {
                 utils::Profile profile("writeImages");
                 testImage.saveColor(basepath + ".png");
-                testImage.saveDepth(basepath + "_depth.png");
+                if (useDepthImages){
+                	testImage.saveDepth(basepath + "_depth.png");}
                 groundTruth.save(basepath + "_ground_truth.png");
                 prediction.save(basepath + "_prediction.png");
             }

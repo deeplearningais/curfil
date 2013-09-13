@@ -213,10 +213,19 @@ TrainingConfiguration RandomTreeImport::readJSON(const std::string& filename,
 
     const std::vector<int> deviceIds = fromPropertyTree(pt.get_child_optional("deviceIds"), std::vector<int>(1, 0));
 
+    bool useDepthImages = true;
+    const boost::optional<bool> useDepthImagesValue = pt.get_optional<bool>("useDepthImages");
+    if (useDepthImagesValue) {
+    	useDepthImages = useDepthImagesValue.get();
+    }
+
+    //TODO: remove
+    //useDepthImages = false;
+
     TrainingConfiguration configuration(randomSeed, samplesPerImage, featureCount, minSampleCount, maxDepth, boxRadius,
             regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
             TrainingConfiguration::parseAccelerationModeString(accelerationModeString), useCIELab, useDepthFilling,
-            deviceIds, subsamplingType, ignoredColors);
+            deviceIds, subsamplingType, ignoredColors, useDepthImages);
 
     boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> > randomTree = readTree(pt.get_child("tree"));
     assert(randomTree->isRoot());

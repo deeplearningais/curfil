@@ -1209,7 +1209,7 @@ TreeNodeData getTreeNode(const int nodeNr, const boost::shared_ptr<const TreeNod
 __global__ void classifyKernel(
         float* output, int tree,
         const int16_t imageWidth, const int16_t imageHeight,
-        const LabelType numLabels) {
+        const LabelType numLabels, bool useDepthImages) {
 
     const unsigned int x = blockIdx.x * blockDim.x + threadIdx.x;
     if (x >= imageWidth) {
@@ -1221,9 +1221,13 @@ __global__ void classifyKernel(
         return;
     }
 
-    float depth = averageRegionDepth(0, imageWidth, imageHeight, x, x + 1, y, y + 1);
+    float depth;
 
     // depth might be nan here
+    if (useDepthImages)
+    	depth = averageRegionDepth(0, imageWidth, imageHeight, x, x + 1, y, y + 1);
+    else
+    	depth = 1;
 
     int currentNodeOffset = 0;
     while (true) {
@@ -1268,6 +1272,7 @@ __global__ void classifyKernel(
             }
                 break;
             case DEPTH:
+            	assert(false);
                 featureResponse = calculateDepthFeature(0,
                         imageWidth, imageHeight,
                         offset1X, offset1Y,
@@ -1379,7 +1384,7 @@ void determineMaxProbabilities(const cuv::ndarray<float, cuv::dev_memory_space>&
 }
 
 void classifyImage(int treeCacheSize, cuv::ndarray<float, cuv::dev_memory_space>& output, const RGBDImage& image,
-        LabelType numLabels, const boost::shared_ptr<const TreeNodes>& treeData) {
+        LabelType numLabels, const boost::shared_ptr<const TreeNodes>& treeData, bool useDepthImages) {
 
     std::set<const RGBDImage*> images;
     images.insert(&image);
@@ -1414,7 +1419,7 @@ void classifyImage(int treeCacheSize, cuv::ndarray<float, cuv::dev_memory_space>
 
     classifyKernel<<<blockSize, threads, 0, stream>>>(output.ptr(), tree,
             image.getWidth(), image.getHeight(),
-            numLabels);
+            numLabels, useDepthImages);
 
     cudaSafeCall(cudaStreamSynchronize(stream));
 }

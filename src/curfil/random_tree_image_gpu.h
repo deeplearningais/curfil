@@ -339,7 +339,7 @@ void determineMaxProbabilities(const cuv::ndarray<float, cuv::dev_memory_space>&
  * Not intended to be called by a client.
  */
 void classifyImage(int treeCacheSize, cuv::ndarray<float, cuv::dev_memory_space>& output, const RGBDImage& image,
-        LabelType numLabels, const boost::shared_ptr<const TreeNodes>& treeData);
+        LabelType numLabels, const boost::shared_ptr<const TreeNodes>& treeData, bool useDepthImages = true);
 
 // for the unit test
 void clearImageCache();

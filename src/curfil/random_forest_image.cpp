@@ -154,7 +154,7 @@ void RandomForestImage::train(const std::vector<LabeledRGBDImage>& trainLabelIma
 }
 
 LabelImage RandomForestImage::predict(const RGBDImage& image,
-         cuv::ndarray<float, cuv::host_memory_space>* probabilities, const bool onGPU) const {
+         cuv::ndarray<float, cuv::host_memory_space>* probabilities, const bool onGPU, bool useDepthImages) const {
 
     LabelImage prediction(image.getWidth(), image.getHeight());
 
@@ -178,7 +178,7 @@ LabelImage RandomForestImage::predict(const RGBDImage& image,
         {
             utils::Profile profile("classifyImagesGPU");
             for (const boost::shared_ptr<const TreeNodes>& data : treeData) {
-                classifyImage(treeData.size(), deviceProbabilities, image, numClasses, data);
+                classifyImage(treeData.size(), deviceProbabilities, image, numClasses, data, useDepthImages);
             }
         }
 
