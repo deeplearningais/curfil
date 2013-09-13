@@ -246,8 +246,8 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
                 }
 
                 // ignored classes must not be predicted as we did not sample them
-                for(size_t y = 0; y < probabilities.shape(0); y++) {
-                    for(size_t x = 0; x < probabilities.shape(1); x++) {
+                for(size_t y = 0; y < probabilities.shape(1); y++) {
+                    for(size_t x = 0; x < probabilities.shape(2); x++) {
                         const float& probability = probabilities(label, y, x);
                         assert(probability == 0.0);
                     }
@@ -314,7 +314,7 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
     double accuracy = averageAccuracy.getAverage();
     double accuracyWithoutVoid = averageAccuracyWithoutVoid.getAverage();
 
-    totalConfusionMatrix.normalize();
+  //  totalConfusionMatrix.normalize();
 
     CURFIL_INFO(totalConfusionMatrix);
 
