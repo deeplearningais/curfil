@@ -368,11 +368,20 @@ std::ostream& operator<<(std::ostream& o, const curfil::ConfusionMatrix& confusi
 
     o << numClasses << "x" << numClasses << " confusion matrix (y: labels, x: predictions):" << std::endl;
 
+    o << "                               ";
+
+    for (curfil::LabelType label = 0; label < numClasses; label++) {
+        const curfil::RGBColor color = curfil::LabelImage::decodeLabel(label);
+        o << "cl " << std::left << std::setw(2) << static_cast<int>(label) << "  ";
+    }
+
+    o << std::endl;
+
     for (curfil::LabelType label = 0; label < numClasses; label++) {
 
         const curfil::RGBColor color = curfil::LabelImage::decodeLabel(label);
 
-        o << " class " << static_cast<int>(label) << " RGB(" << std::setw(3 * 3 + 2) << color << std::flush << ") : ";
+        o << " class " << std::setw(2) << static_cast<int>(label) << " RGB(" << std::setw(3 * 3 + 2) << color << std::flush << ") : ";
 
         for (curfil::LabelType prediction = 0; prediction < numClasses; prediction++) {
             double probability = static_cast<double>(normalizedConfusionMatrix(label, prediction));
