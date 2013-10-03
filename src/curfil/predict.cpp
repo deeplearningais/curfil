@@ -58,9 +58,21 @@ double ConfusionMatrix::averageClassAccuracy(bool includeVoid) const {
     for (unsigned int label = 0; label < getNumClasses(); label++) {
         double classAccuracy = data(label, label);
         assertProbability(classAccuracy);
-        if (includeVoid || label > 0) {
+       /* if (includeVoid || label > 0) {
             averageClassAccuracy.addValue(classAccuracy);
-        }
+        }*/
+        bool ignore = false;
+        if (!includeVoid && !ignoredLabels.empty())
+        	for (LabelType ID: ignoredLabels)
+        		if (ID == label)
+       			{
+       				ignore = true;
+       				break;
+       			}
+        if (ignore)
+        	continue;
+        else
+        	averageClassAccuracy.addValue(classAccuracy);
     }
 
     return averageClassAccuracy.getAverage();
@@ -199,9 +211,6 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
     utils::Average averageAccuracy;
     utils::Average averageAccuracyWithoutVoid;
 
-    const LabelType numClasses = randomForest.getNumClasses();
-    ConfusionMatrix totalConfusionMatrix(numClasses);
-
     size_t i = 0;
 
     const bool useCIELab = randomForest.getConfiguration().isUseCIELab();
@@ -225,6 +234,9 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
     for (const std::string colorString : randomForest.getConfiguration().getIgnoredColors()) {
     	ignoredLabels.push_back(LabelImage::encodeColor(RGBColor(colorString)));
     }
+
+    const LabelType numClasses = randomForest.getNumClasses();
+    ConfusionMatrix totalConfusionMatrix(numClasses, ignoredLabels);
 
     tbb::parallel_for(tbb::blocked_range<size_t>(0, filenames.size(), grainSize),
             [&](const tbb::blocked_range<size_t>& range) {

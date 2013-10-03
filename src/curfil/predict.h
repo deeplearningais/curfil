@@ -28,7 +28,7 @@ public:
     }
 
     explicit ConfusionMatrix(const ConfusionMatrix& other) :
-            data(other.data.copy()), normalized(other.normalized) {
+            data(other.data.copy()), normalized(other.normalized), ignoredLabels(other.ignoredLabels) {
     }
 
     /**
@@ -40,9 +40,16 @@ public:
         reset();
     }
 
+    explicit ConfusionMatrix(size_t numClasses, std::vector<LabelType> ignoredLabels) :
+            data(numClasses, numClasses), normalized(false), ignoredLabels(ignoredLabels) {
+        assert(numClasses > 0);
+        reset();
+    }
+
     ConfusionMatrix& operator=(const ConfusionMatrix& other) {
         data = other.data.copy();
         normalized = other.normalized;
+        ignoredLabels = other.ignoredLabels;
         return *this;
     }
 
@@ -114,6 +121,7 @@ public:
 private:
     cuv::ndarray<double, cuv::host_memory_space> data;
     bool normalized;
+    std::vector<LabelType> ignoredLabels;
 
 };
 

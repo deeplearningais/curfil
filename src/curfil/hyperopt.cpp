@@ -169,12 +169,12 @@ const Result HyperoptClient::test(const RandomForestImage& randomForest,
 
     CURFIL_INFO("testing " << testImages.size() << " images with " << static_cast<int>(numClasses) << " classes");
 
-    ConfusionMatrix totalConfusionMatrix(numClasses);
-
     std::vector<LabelType> ignoredLabels;
     for (const std::string colorString : randomForest.getConfiguration().getIgnoredColors()) {
     	ignoredLabels.push_back(LabelImage::encodeColor(RGBColor(colorString)));
     }
+
+    ConfusionMatrix totalConfusionMatrix(numClasses, ignoredLabels);
 
     tbb::parallel_for_each(indices.begin(), indices.end(), [&](const int& i) {
         const RGBDImage& image = testImages[i].getRGBDImage();
