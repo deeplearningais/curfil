@@ -682,21 +682,7 @@ void addColorId(const RGBColor& color, const LabelType& id) {
     }
 }
 
-static LabelType encodeColor(const vigra::UInt8RGBImage& labelImage, int x, int y) {
-    const vigra::RGBValue<vigra::UInt8> c = labelImage(x, y);
-    RGBColor color(c[0], c[1], c[2]);
-
-    std::map<RGBColor, LabelType>::iterator it = colors.find(color);
-    if (it != colors.end()) {
-        return it->second;
-    }
-
-    LabelType id = static_cast<LabelType>(colors.size());
-    addColorId(color, id);
-    return id;
-}
-
-static LabelType encodeColor(RGBColor color) {
+LabelType LabelImage::encodeColor(RGBColor color) {
 	std::map<RGBColor, LabelType>::iterator it = colors.find(color);
 	if (it != colors.end()) {
 		return it->second;
@@ -705,6 +691,13 @@ static LabelType encodeColor(RGBColor color) {
 	LabelType id = static_cast<LabelType>(colors.size());
 	addColorId(color, id);
 	return id;
+}
+
+static LabelType getLabelType(const vigra::UInt8RGBImage& labelImage, int x, int y) {
+    const vigra::RGBValue<vigra::UInt8> c = labelImage(x, y);
+    RGBColor color(c[0], c[1], c[2]);
+
+    return LabelImage::encodeColor(color);
 }
 
 RGBColor LabelImage::decodeLabel(const LabelType& v) {
@@ -753,7 +746,7 @@ LabelImage::LabelImage(const std::string& filename) :
 
     for (int x = 0; x < labelImage.width(); ++x) {
         for (int y = 0; y < labelImage.height(); ++y) {
-            setLabel(x, y, encodeColor(labelImage, x, y));
+            setLabel(x, y, getLabelType(labelImage, x, y));
         }
     }
 }
@@ -880,7 +873,7 @@ LabelType getPaddingLabel(const std::vector<std::string>& ignoredColors) {
 		//TODO: add assert that we shouldn't get here (unless all images have the same size) or maybe just display a warning
 		color = RGBColor(0,0,0);
 
-	return encodeColor(color);
+	return LabelImage::encodeColor(color);
 }
 
 std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthImages, bool useDepthFilling,  const std::vector<std::string>& ignoredColors) {

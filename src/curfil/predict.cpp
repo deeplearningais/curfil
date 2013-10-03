@@ -109,7 +109,7 @@ void ConfusionMatrix::normalize() {
 }
 
 double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& groundTruth,
-        const bool includeVoid, ConfusionMatrix* confusionMatrix) {
+        const bool includeVoid, const std::vector<LabelType> ignoredLabels,  ConfusionMatrix* confusionMatrix) {
 
     size_t correct = 0;
     size_t wrong = 0;
@@ -132,10 +132,26 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
         for (int x = 0; x < prediction.getWidth(); ++x) {
             const LabelType label = groundTruth.getLabel(x, y);
 
-            if (!includeVoid && label == 0) {
+          /*  if (!includeVoid && label == 0) {
                 // skip void
                 continue;
-            }
+            }*/
+
+           /* if (!includeVoid && randomForest.shouldIgnoreLabel(label)) {
+                continue;
+            }*/
+
+            bool ignore = false;
+            if (!includeVoid && !ignoredLabels.empty())
+            	for (LabelType ID: ignoredLabels)
+            		if (ID == label)
+           			{
+           				ignore = true;
+           				break;
+           			}
+            if (ignore)
+            	continue;
+
 
             const LabelType predictedClass = prediction.getLabel(x, y);
 
@@ -203,6 +219,11 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
     if (folderPrediction.empty()) {
         CURFIL_WARNING("no prediction folder given. will not write images");
         writeImages = false;
+    }
+
+    std::vector<LabelType> ignoredLabels;
+    for (const std::string colorString : randomForest.getConfiguration().getIgnoredColors()) {
+    	ignoredLabels.push_back(LabelImage::encodeColor(RGBColor(colorString)));
     }
 
     tbb::parallel_for(tbb::blocked_range<size_t>(0, filenames.size(), grainSize),
@@ -294,8 +315,8 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
             }
 
             ConfusionMatrix confusionMatrix(numClasses);
-            double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, &confusionMatrix);
-            double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false);
+            double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, ignoredLabels);
+            double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false,  ignoredLabels, &confusionMatrix);
 
             tbb::mutex::scoped_lock lock(totalMutex);
 

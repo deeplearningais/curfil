@@ -49,9 +49,14 @@ static double predict(RandomForestImage& randomForest) {
     groundTruth.save(folderOutput + "/testing1_groundTruth.png");
     prediction.save(folderOutput + "/testing1_prediction_singletree_cpu_gpu.png");
 
+    std::vector<LabelType> ignoredLabels;
+    for (const std::string colorString : randomForest.getConfiguration().getIgnoredColors()) {
+    	ignoredLabels.push_back(LabelImage::encodeColor(RGBColor(colorString)));
+    }
+
     ConfusionMatrix confusionMatrix;
-    double accuracy = 100 * calculatePixelAccuracy(prediction, groundTruth, true, &confusionMatrix);
-    double accuracyWithoutVoid = 100 * calculatePixelAccuracy(prediction, groundTruth, false);
+    double accuracy = 100 * calculatePixelAccuracy(prediction, groundTruth, true, ignoredLabels);
+    double accuracyWithoutVoid = 100 * calculatePixelAccuracy(prediction, groundTruth, false, ignoredLabels, &confusionMatrix);
 
     CURFIL_INFO("accuracy (no void): " << accuracy << " (" << accuracyWithoutVoid << ")");
 

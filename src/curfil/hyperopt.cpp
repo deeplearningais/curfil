@@ -171,6 +171,11 @@ const Result HyperoptClient::test(const RandomForestImage& randomForest,
 
     ConfusionMatrix totalConfusionMatrix(numClasses);
 
+    std::vector<LabelType> ignoredLabels;
+    for (const std::string colorString : randomForest.getConfiguration().getIgnoredColors()) {
+    	ignoredLabels.push_back(LabelImage::encodeColor(RGBColor(colorString)));
+    }
+
     tbb::parallel_for_each(indices.begin(), indices.end(), [&](const int& i) {
         const RGBDImage& image = testImages[i].getRGBDImage();
         const LabelImage& groundTruth = testImages[i].getLabelImage();
@@ -180,8 +185,8 @@ const Result HyperoptClient::test(const RandomForestImage& randomForest,
         tbb::mutex::scoped_lock lock(totalMutex);
 
         ConfusionMatrix confusionMatrix;
-        double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, &confusionMatrix);
-        double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false);
+        double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, ignoredLabels);
+        double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false, ignoredLabels, &confusionMatrix);
 
         totalConfusionMatrix += confusionMatrix;
 

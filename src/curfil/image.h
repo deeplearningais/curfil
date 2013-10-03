@@ -481,6 +481,7 @@ public:
         return image(y, x);
     }
 
+    static LabelType encodeColor(RGBColor color);
 
     void resizeImage(int newWidth, int newHeight, LabelType paddingLabel);
 
