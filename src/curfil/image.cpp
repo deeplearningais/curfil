@@ -911,47 +911,61 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
                             CURFIL_INFO("loaded " << numImages << "/" << images.size() << " images");
 							}
                         }
-                        totalSizeInMemory += images[i].getSizeInMemory();
+                     //   totalSizeInMemory += images[i].getSizeInMemory();
                     }
 
                 }
             });
 
-    if (!images.empty()) {
-       // int imageWidth = images[0].getWidth();
-       // int imageHeight = images[0].getHeight();
-        size_t imageSizeInMemory = images[0].getSizeInMemory();
-        for (const LabeledRGBDImage& image : images) {
-			if (image.getWidth() != maxWidth || image.getHeight() != maxHeight)
-				image.resizeImage(maxWidth, maxHeight, paddingLabel);
-				if (image.getWidth() != maxWidth || image.getHeight() != maxHeight) {
-					std::ostringstream o;
-					o << "Image " << image.getRGBDImage().getFilename()
-							<< " has different size: ";
-					o << image.getWidth() << "x" << image.getHeight();
-					o << ". All images in the dataset should be resized to the maximum size("
-							<< maxWidth << "x" << maxHeight << ")";
-					throw std::runtime_error(o.str());
-				}
 
-		//	if (calculateIntegralImages)
-			//image.calculateIntegral();
-          /*  if (image.getWidth() != imageWidth || image.getHeight() != imageHeight) {
-                std::ostringstream o;
-                o << "Image " << image.getRGBDImage().getFilename() << " has different size: ";
-                o << image.getWidth() << "x" << image.getHeight();
-                o << ". All images in the dataset must have the same size (" << imageWidth << "x" << imageHeight << ")";
-                throw std::runtime_error(o.str());
-            }
-            if (image.getSizeInMemory() != imageSizeInMemory) {
-                std::ostringstream o;
-                o << "Image " << image.getRGBDImage().getFilename() << " has different size in memory: ";
-                o << image.getSizeInMemory() << " (expected: " << imageSizeInMemory << ").";
-                o << " This must not happen.";
-                throw std::runtime_error(o.str());
-            }*/
-        }
-    }
+    bool firstResize = true;
+	tbb::mutex firstresizeMutex;
+	size_t imageSizeInMemory = 0;
+	if (!images.empty()) {
+		tbb::parallel_for(tbb::blocked_range<size_t>(0, images.size()),
+				[&](const tbb::blocked_range<size_t>& range) {
+					for(size_t i = range.begin(); i != range.end(); i++) {
+						const LabeledRGBDImage& image = images[i];
+						if (image.getWidth() != maxWidth || image.getHeight() != maxHeight)
+						{
+							if (firstResize){
+								//added twice so that the lock is only performed the first time (1st),
+								//and the message isn't displayed multiple times after a thread has acquired the lock (2nd)
+								tbb::mutex::scoped_lock lock(firstresizeMutex);
+								{
+									if (firstResize)
+									{	CURFIL_INFO("resizing images to " << maxWidth << "x" << maxHeight);
+										firstResize = false;
+									}
+								}
+							}
+						image.resizeImage(maxWidth, maxHeight, paddingLabel);
+						if (image.getWidth() != maxWidth || image.getHeight() != maxHeight) {
+							std::ostringstream o;
+							o << "Image " << image.getRGBDImage().getFilename()
+							<< " has different size: ";
+							o << image.getWidth() << "x" << image.getHeight();
+							o << ". All images in the dataset should be resized to the maximum size("
+							<< maxWidth << "x" << maxHeight << ")";
+							throw std::runtime_error(o.str());
+							}
+						}
+						if (imageSizeInMemory == 0)
+						{
+							imageSizeInMemory = image.getSizeInMemory();
+						}
+						totalSizeInMemory += image.getSizeInMemory();
+			            if (image.getSizeInMemory() != imageSizeInMemory) {
+			                std::ostringstream o;
+			                o << "Image " << image.getRGBDImage().getFilename() << " has different size in memory: ";
+			                o << image.getSizeInMemory() << " (expected: " << imageSizeInMemory << ").";
+			                o << " This must not happen.";
+			                throw std::runtime_error(o.str());
+			            }
+					}
+				});
+
+	}
 
     CURFIL_INFO("finished loading " << images.size() << " images. size in memory: "
             << (boost::format("%.2f MB") % (totalSizeInMemory / static_cast<double>(1024 * 1024))).str());
