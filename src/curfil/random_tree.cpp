@@ -65,7 +65,8 @@ cuv::ndarray<double, cuv::host_memory_space> normalizeHistogram(
 
     if (sum > 0) {
         for (int i = 0; i < numLabels; i++) {
-            normalizedHistogram[i] = normalizedHistogram[i] / sum * labelWeights[i];
+          //  normalizedHistogram[i] = normalizedHistogram[i] / sum * labelWeights[i];
+            normalizedHistogram[i] = normalizedHistogram[i] / sum ;
         }
     }
 
