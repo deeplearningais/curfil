@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
     std::vector<int> deviceIds(1, deviceId);
 
     HyperoptClient client(trainImages, testImages, useCIELab, useDepthFilling, deviceIds, maxImages, imageCacheSizeMB,
-            randomSeed, numThreads, subsamplingType, ignoredColors, lossFunction, url, db,
+            randomSeed, numThreads, subsamplingType, ignoredColors, useDepthImages, lossFunction, url, db,
             BSON("exp_key" << experiment));
     client.run();
 

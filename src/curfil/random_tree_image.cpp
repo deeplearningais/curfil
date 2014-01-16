@@ -667,8 +667,8 @@ void RandomTreeImage::normalizeHistograms(const double histogramBias) {
 
 bool RandomTreeImage::shouldIgnoreLabel(const LabelType& label) const {
     const RGBColor color = LabelImage::decodeLabel(label);
-    for (const std::string colorString : configuration.getIgnoredColors()) {
-        if (color == RGBColor(colorString)) {
+    for (const std::string colorString : configuration.getIgnoredColors()){  
+   if (color == RGBColor(colorString)) {
             return true;
         }
     }
@@ -747,7 +747,6 @@ void RandomTreeImage::train(const std::vector<LabeledRGBDImage>& trainLabelImage
     assert(tree == NULL);
 
     const size_t numClasses = classLabelPriorDistribution.size();
-
     doTrain(randomSource, numClasses, subsamplePointers);
     assert(tree != NULL);
     finishedTraining = true;
@@ -824,8 +823,9 @@ void RandomTreeImage::calculateLabelPriorDistribution(const std::vector<LabeledR
         }
     }
 
-    classLabelPriorDistribution.resize(priorDistribution.size());
-    for (LabelType label = 0; label < priorDistribution.size(); label++) {
+  //  classLabelPriorDistribution.resize(priorDistribution.size());
+      classLabelPriorDistribution.resize(24);
+       for (LabelType label = 0; label < priorDistribution.size(); label++) {
         classLabelPriorDistribution[label] = priorDistribution[label];
     }
 

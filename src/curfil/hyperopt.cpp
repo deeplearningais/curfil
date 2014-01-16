@@ -167,6 +167,8 @@ const Result HyperoptClient::test(const RandomForestImage& randomForest,
 
     const LabelType numClasses = randomForest.getNumClasses();
 
+    bool useDepthImages = randomForest.getConfiguration().isUseDepthImages();
+
     CURFIL_INFO("testing " << testImages.size() << " images with " << static_cast<int>(numClasses) << " classes");
 
     std::vector<LabelType> ignoredLabels;
@@ -180,11 +182,11 @@ const Result HyperoptClient::test(const RandomForestImage& randomForest,
         const RGBDImage& image = testImages[i].getRGBDImage();
         const LabelImage& groundTruth = testImages[i].getLabelImage();
 
-        LabelImage prediction = randomForest.predict(image);
+        LabelImage prediction = randomForest.predict(image,0,true,useDepthImages);
 
         tbb::mutex::scoped_lock lock(totalMutex);
 
-        ConfusionMatrix confusionMatrix;
+        ConfusionMatrix confusionMatrix(numClasses);
         double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, ignoredLabels);
         double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false, ignoredLabels, &confusionMatrix);
 
@@ -366,7 +368,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
 
             TrainingConfiguration configuration(seedOfRun, samplesPerImage, featureCount, minSampleCount, maxDepth,
                     boxRadius, regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
-                    accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors);
+                    accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors, useDepthImages);
 
             mongo::BSONObj msg = BSON("run" << run
                     << "randomSeed" << seedOfRun
@@ -429,7 +431,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
 
         TrainingConfiguration configuration(randomSeed, samplesPerImage, featureCount, minSampleCount, maxDepth,
                 boxRadius, regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
-                accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors);
+                accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors, useDepthImages);
 
         double trueLossVariance;
         double trueLoss = measureTrueLoss(numTrees, configuration, histogramBias, trueLossVariance);
