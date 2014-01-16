@@ -22,7 +22,7 @@ void determineImageCacheSizeAndSamplesPerBatch(const std::vector<LabeledRGBDImag
  * @param trainTreeInParallel whether to train each tree in sequential order or in parallel.
  */
 RandomForestImage train(std::vector<LabeledRGBDImage>& images, size_t trees,
-        const TrainingConfiguration& configuration, bool trainTreesInParallel);
+        const TrainingConfiguration& configuration, size_t numLabels, bool trainTreesInParallel);
 
 }
 

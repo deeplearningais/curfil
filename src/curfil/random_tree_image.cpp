@@ -676,13 +676,14 @@ bool RandomTreeImage::shouldIgnoreLabel(const LabelType& label) const {
 }
 
 void RandomTreeImage::train(const std::vector<LabeledRGBDImage>& trainLabelImages,
-        RandomSource& randomSource, size_t subsampleCount) {
+        RandomSource& randomSource, size_t subsampleCount, size_t numLabels) {
 
     assert(subsampleCount > 0);
     assert(finishedTraining == false);
     assert(tree == NULL);
     assert(!trainLabelImages.empty());
 
+    classLabelPriorDistribution.resize(numLabels);
     calculateLabelPriorDistribution(trainLabelImages);
 
     // Subsample training set
@@ -823,10 +824,12 @@ void RandomTreeImage::calculateLabelPriorDistribution(const std::vector<LabeledR
         }
     }
 
-  //  classLabelPriorDistribution.resize(priorDistribution.size());
-      classLabelPriorDistribution.resize(24);
-       for (LabelType label = 0; label < priorDistribution.size(); label++) {
-        classLabelPriorDistribution[label] = priorDistribution[label];
+	if (classLabelPriorDistribution.size() < priorDistribution.size()) {
+		classLabelPriorDistribution.resize(priorDistribution.size());
+	}
+
+	for (LabelType label = 0; label < priorDistribution.size(); label++) {
+		classLabelPriorDistribution[label] = priorDistribution[label];
     }
 
 }

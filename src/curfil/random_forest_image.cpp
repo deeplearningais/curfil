@@ -101,7 +101,7 @@ RandomForestImage::RandomForestImage(const std::vector<boost::shared_ptr<RandomT
 }
 
 // Usage identical to RandomTreeImage class
-void RandomForestImage::train(const std::vector<LabeledRGBDImage>& trainLabelImages,
+void RandomForestImage::train(const std::vector<LabeledRGBDImage>& trainLabelImages, size_t numLabels,
         bool trainTreesSequentially) {
 
     if (trainLabelImages.empty()) {
@@ -142,7 +142,7 @@ void RandomForestImage::train(const std::vector<LabeledRGBDImage>& trainLabelIma
                     sampledTrainLabelImages = reservoirSampler.getReservoir();
                 }
 
-                tree->train(sampledTrainLabelImages, randomSource, configuration.getSamplesPerImage() / treeCount);
+                tree->train(sampledTrainLabelImages, randomSource, configuration.getSamplesPerImage() / treeCount, numLabels);
                 CURFIL_INFO("finished tree " << tree->getId() << " with random seed " << seed << " in " << timer.format(3));
             };
 

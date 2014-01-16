@@ -54,7 +54,7 @@ public:
      * @param trainLabelImages the list of labeled images to train the random forest from
      * @param trainTreesSequentially whether to train the trees in the random forest in parallel or sequentially.
      */
-    void train(const std::vector<LabeledRGBDImage>& trainLabelImages, bool trainTreesSequentially = false);
+    void train(const std::vector<LabeledRGBDImage>& trainLabelImages, size_t numLabels = 0, bool trainTreesSequentially = false);
 
     /**
      * @param image the image which should be classified

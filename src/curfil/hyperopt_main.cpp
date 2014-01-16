@@ -90,14 +90,17 @@ int main(int argc, char **argv) {
 
     tbb::task_scheduler_init init(numThreads);
 
-    const auto trainImages = loadImages(trainingFolder, useCIELab, useDepthImages, useDepthFilling, ignoredColors);
-    const auto testImages = loadImages(testingFolder, useCIELab, useDepthImages, useDepthFilling, ignoredColors);
+    size_t numLabels;
+    size_t numLabelsTesting;
+
+    const auto trainImages = loadImages(trainingFolder, useCIELab, useDepthImages, useDepthFilling, ignoredColors, numLabels);
+    const auto testImages = loadImages(testingFolder, useCIELab, useDepthImages, useDepthFilling, ignoredColors, numLabelsTesting);
 
     // currently training on only on GPU is tested
     std::vector<int> deviceIds(1, deviceId);
 
     HyperoptClient client(trainImages, testImages, useCIELab, useDepthFilling, deviceIds, maxImages, imageCacheSizeMB,
-            randomSeed, numThreads, subsamplingType, ignoredColors, useDepthImages, lossFunction, url, db,
+            randomSeed, numThreads, subsamplingType, ignoredColors, useDepthImages, numLabels, lossFunction, url, db,
             BSON("exp_key" << experiment));
     client.run();
 

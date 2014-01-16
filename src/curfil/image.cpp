@@ -876,7 +876,7 @@ LabelType getPaddingLabel(const std::vector<std::string>& ignoredColors) {
 	return LabelImage::encodeColor(color);
 }
 
-std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthImages, bool useDepthFilling,  const std::vector<std::string>& ignoredColors) {
+std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthImages, bool useDepthFilling,  const std::vector<std::string>& ignoredColors, size_t& numLabels) {
 
     std::vector<std::string> filenames = listImageFilenames(folder);
     CURFIL_INFO("going to load " << filenames.size() << " images from " << folder);
@@ -969,6 +969,8 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
 
     CURFIL_INFO("finished loading " << images.size() << " images. size in memory: "
             << (boost::format("%.2f MB") % (totalSizeInMemory / static_cast<double>(1024 * 1024))).str());
+
+    numLabels = colors.size();
 
     return images;
 }

@@ -96,6 +96,7 @@ private:
     std::string subsamplingType;
     std::vector<std::string> ignoredColors;
     bool useDepthImages;
+    size_t numLabels;
     LossFunctionType lossFunction;
 
     boost::asio::io_service ios;
@@ -135,6 +136,7 @@ public:
             const std::string& subsamplingType,
             const std::vector<std::string>& ignoredColors,
             bool useDepthImages,
+            size_t numLabels,
             const std::string& lossFunction,
             const std::string& url, const std::string& db, const mongo::BSONObj& jobSelector) :
             Client(url, db, jobSelector),
@@ -149,7 +151,8 @@ public:
                     numThreads(numThreads),
                     subsamplingType(subsamplingType),
                     ignoredColors(ignoredColors),
-		    useDepthImages(useDepthImages),
+                    useDepthImages(useDepthImages),
+                    numLabels(numLabels),
                     lossFunction(parseLossFunction(lossFunction))
     {
     }

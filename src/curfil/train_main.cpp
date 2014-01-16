@@ -122,7 +122,9 @@ int main(int argc, char **argv) {
 
     tbb::task_scheduler_init init(numThreads);
 
-    std::vector<LabeledRGBDImage> images = loadImages(folderTraining, useCIELab, useDepthImages, useDepthFilling, ignoredColors);
+    size_t numLabels; //added because otherwise when hyperopt randomly splits the training images, the number of classes is wrong
+
+    std::vector<LabeledRGBDImage> images = loadImages(folderTraining, useCIELab, useDepthImages, useDepthFilling, ignoredColors, numLabels);
     if (images.empty()) {
         throw std::runtime_error(std::string("found no files in ") + folderTraining);
     }
@@ -141,7 +143,7 @@ int main(int argc, char **argv) {
             TrainingConfiguration::parseAccelerationModeString(modeString), useCIELab, useDepthFilling, deviceIds,
             subsamplingType, ignoredColors, useDepthImages);
 
-    RandomForestImage forest = train(images, trees, configuration, trainTreesInParallel);
+    RandomForestImage forest = train(images, trees, configuration, numLabels, trainTreesInParallel);
 
     if (!outputFolder.empty()) {
         RandomTreeExport treeExport(configuration, outputFolder, folderTraining, verboseTree);

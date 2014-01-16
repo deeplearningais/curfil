@@ -878,7 +878,7 @@ public:
      * Trains the tree from the given training images
      */
     void train(const std::vector<LabeledRGBDImage>& trainLabelImages,
-            RandomSource& randomSource, size_t subsampleCount);
+            RandomSource& randomSource, size_t subsampleCount, size_t numLabels);
 
     /**
      * Predicts the given image and outputs the prediction.

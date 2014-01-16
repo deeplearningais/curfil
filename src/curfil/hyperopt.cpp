@@ -220,7 +220,7 @@ RandomForestImage HyperoptClient::train(size_t trees,
     static const bool trainTreesSequentially = true;
 
     utils::Timer trainTimer;
-    randomForest.train(trainImages, trainTreesSequentially);
+    randomForest.train(trainImages, numLabels, trainTreesSequentially);
     trainTimer.stop();
 
     CURFIL_INFO("training took " << trainTimer.format(2) <<

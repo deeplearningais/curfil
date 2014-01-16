@@ -552,7 +552,7 @@ std::vector<std::string> listImageFilenames(const std::string& folder);
  * Convenience function to find all files in the given folder that match the required filename schema.
  * See the README for the filename schema.
  */
-std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthImages, bool useDepthFilling, const std::vector<std::string>& ignoredColors);
+std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIELab, bool useDepthImages, bool useDepthFilling, const std::vector<std::string>& ignoredColors, size_t& numLabels);
 
 }
 

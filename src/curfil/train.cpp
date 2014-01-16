@@ -60,7 +60,7 @@ void determineImageCacheSizeAndSamplesPerBatch(const std::vector<LabeledRGBDImag
 }
 
 RandomForestImage train(std::vector<LabeledRGBDImage>& images, size_t trees,
-        const TrainingConfiguration& configuration, bool trainTreesInParallel) {
+        const TrainingConfiguration& configuration, size_t numLabels, bool trainTreesInParallel) {
 
     CURFIL_INFO("trees: " << trees);
     CURFIL_INFO("training trees in parallel: " << trainTreesInParallel);
@@ -71,7 +71,7 @@ RandomForestImage train(std::vector<LabeledRGBDImage>& images, size_t trees,
     RandomForestImage randomForest(trees, configuration);
 
     utils::Timer trainTimer;
-    randomForest.train(images, !trainTreesInParallel);
+    randomForest.train(images, numLabels, !trainTreesInParallel);
     trainTimer.stop();
 
     CURFIL_INFO("training took " << trainTimer.format(2) <<
