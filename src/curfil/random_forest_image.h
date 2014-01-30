@@ -65,6 +65,9 @@ public:
             cuv::ndarray<float, cuv::host_memory_space>* prediction = 0,
             const bool onGPU = true, bool useDepthImages = true) const;
 
+	LabelImage improveHistograms(const RGBDImage& trainingImage, const LabelImage& labelImage, const bool onGPU = true, bool useDepthImages  = true) const;
+
+	void updateTreesHistograms();
     /**
      * @return a recursive sum of per-feature type count
      */

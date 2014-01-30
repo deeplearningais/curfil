@@ -112,7 +112,8 @@ boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> > RandomTreeIm
         sumHistogram += num;
     }
 
-    if (sumHistogram != numSamples) {
+   // TODO: change it back to lte
+    if (sumHistogram < numSamples) {
         throw std::runtime_error("incorrect histogram sum");
     }
 

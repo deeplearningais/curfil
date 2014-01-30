@@ -324,12 +324,13 @@ public:
             const boost::shared_ptr<RandomTree<Instance, FeatureFunction> >& parent = boost::shared_ptr<
                     RandomTree<Instance, FeatureFunction> >()) :
             nodeId(nodeId), level(level), parent(parent), leaf(true), trainSamples(),
-                    numClasses(numClasses), histogram(numClasses), timers(),
+                    numClasses(numClasses), histogram(numClasses), allPixelsHistogram(numClasses), timers(),
                     split(), left(), right() {
 
         assert(histogram.ndim() == 1);
         for (size_t label = 0; label < numClasses; label++) {
             histogram[label] = 0;
+            allPixelsHistogram[label] = 0;
         }
 
         for (size_t i = 0; i < samples.size(); i++) {
@@ -395,6 +396,18 @@ public:
         assert(node != NULL);
         node->collectNodeIndices(instance, nodeSet, includeRoot);
     }
+
+    void collectLeafNodes(std::vector<size_t> &leafSet) {
+     	if (isLeaf())
+     	{
+         	leafSet.push_back(this->getNodeId());
+     	}
+         else
+         {
+         	left->collectLeafNodes(leafSet);
+         	right->collectLeafNodes(leafSet);
+         }
+     }
 
     // Classify an instance by traversing the tree and returning the tree leaf
     // nodes leaf class.
@@ -580,6 +593,63 @@ public:
         return trainSamples;
     }
 
+    void setAllPixelsHistogram(size_t label, double value) {
+
+         allPixelsHistogram[label] += value;
+     }
+
+    const RandomTree<Instance, FeatureFunction>* setAllPixelsHistogram2(const Instance& instance) {
+           if (isLeaf())
+           {
+        	   size_t label = instance.getLabel();
+        	   allPixelsHistogram[label] += 1;
+        	//   CURFIL_INFO("tttttttto"<<label<<" "<<allPixelsHistogram[label])
+           return this;
+           }
+
+                assert(left.get());
+                assert(right.get());
+
+                if (split.split(instance) == LEFT) {
+                    return left->setAllPixelsHistogram2(instance);
+                } else {
+                    return right->setAllPixelsHistogram2(instance);
+                }
+       }
+
+     void updateHistograms()
+     {
+
+    	 if (isLeaf()) {
+     	  for (size_t label = 0; label < numClasses; label++) {
+     		// CURFIL_INFO(label<<" histogram[label] "<<histogram[label]<<" allPixelsHistogram[label] "<<allPixelsHistogram[label]);
+     		 if (histogram[label] != 0)
+     		 { histogram[label] = allPixelsHistogram[label];}
+     	   }
+    	 return;
+    	 }
+     	left->updateHistograms();
+     	right->updateHistograms();
+
+     }
+
+
+
+
+     const RandomTree<Instance, FeatureFunction>* traverseToLeaf(const Instance& instance) const {
+         if (isLeaf())
+             return this;
+
+         assert(left.get());
+         assert(right.get());
+
+         if (split.split(instance) == LEFT) {
+             return left->traverseToLeaf(instance);
+         } else {
+             return right->traverseToLeaf(instance);
+         }
+     }
+
 private:
     // A unique node identifier within this tree
     const size_t nodeId;
@@ -600,6 +670,7 @@ private:
     size_t numClasses;
 
     cuv::ndarray<WeightType, cuv::host_memory_space> histogram;
+    cuv::ndarray<WeightType, cuv::host_memory_space> allPixelsHistogram;
 
     cuv::ndarray<double, cuv::host_memory_space> normalizedHistogram;
 
@@ -626,20 +697,6 @@ private:
             }
         }
         return maxClass;
-    }
-
-    const RandomTree<Instance, FeatureFunction>* traverseToLeaf(const Instance& instance) const {
-        if (isLeaf())
-            return this;
-
-        assert(left.get());
-        assert(right.get());
-
-        if (split.split(instance) == LEFT) {
-            return left->traverseToLeaf(instance);
-        } else {
-            return right->traverseToLeaf(instance);
-        }
     }
 
 };

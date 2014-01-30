@@ -153,6 +153,157 @@ void RandomForestImage::train(const std::vector<LabeledRGBDImage>& trainLabelIma
     }
 }
 
+void RandomForestImage::updateTreesHistograms()
+{
+	for (size_t treeNr = 0; treeNr < ensemble.size(); treeNr++) {
+		const boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> >& tree = ensemble[treeNr]->getTree();
+
+		tree->updateHistograms();
+	}
+}
+
+
+LabelImage RandomForestImage::improveHistograms(const RGBDImage& image, const LabelImage& labelImage, const bool onGPU, bool useDepthImages) const {
+
+    LabelImage prediction(image.getWidth(), image.getHeight());
+
+    const LabelType numClasses = getNumClasses();
+
+    if (treeData.size() != ensemble.size()) {
+        throw std::runtime_error((boost::format("tree data size: %d, ensemble size: %d. histograms normalized?")
+                % treeData.size() % ensemble.size()).str());
+    }
+
+    cuv::ndarray<float, cuv::host_memory_space> hostProbabilities(
+            cuv::extents[numClasses][image.getHeight()][image.getWidth()],
+            m_predictionAllocator);
+
+	cuv::ndarray<uint8_t, cuv::dev_memory_space> nodeOffsets(
+			cuv::extents[image.getHeight()][image.getWidth()],
+			m_predictionAllocator);
+
+	cuv::ndarray<unsigned int, cuv::dev_memory_space> nodeOffsets2(
+			cuv::extents[image.getHeight()][image.getWidth()],
+			m_predictionAllocator);
+
+    if (onGPU) {
+        cuv::ndarray<float, cuv::dev_memory_space> deviceProbabilities(
+                cuv::extents[numClasses][image.getHeight()][image.getWidth()],
+                m_predictionAllocator);
+        cudaSafeCall(cudaMemset(deviceProbabilities.ptr(), 0, static_cast<size_t>(deviceProbabilities.size() * sizeof(float))));
+
+        {
+            utils::Profile profile("classifyImagesGPU");
+            for (const boost::shared_ptr<const TreeNodes>& data : treeData) {
+                classifyImage2(treeData.size(), deviceProbabilities, image, numClasses, data, useDepthImages, nodeOffsets2);
+
+                bool found_tree = false;
+				//TODO should be change to parallel for and add lock
+				for (size_t treeNr = 0; treeNr < ensemble.size(); treeNr++) {
+					if (data->getTreeId() == ensemble[treeNr]->getId()) {
+						found_tree  =true;
+						const boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> >& tree = ensemble[treeNr]->getTree();
+
+						std::vector<size_t> leafSet;
+
+						//[should be done before trying to classify the images]
+					//	tree->collectLeafNodes(leafSet);
+
+					//	CURFIL_INFO("tree id: "<<tree->getTreeId());
+
+					//	CURFIL_INFO(nodeOffsets2.shape(0) << "  " << nodeOffsets2.shape(1) << "  " << image.getWidth()<< "  " << image.getHeight() << " " <<nodeOffsets2.size());
+							for (int y = 0; y < image.getHeight(); y++)
+							for (int x = 0; x < image.getWidth(); x++) {
+
+									//	PixelInstance pixel(&image, 0, x, y);
+							//	size_t offset_CPU =
+							//			tree->traverseToLeaf(pixel)->getNodeId();
+							//	unsigned int offset = nodeOffsets2(y,x);
+								//unsigned int offset = nodeOffsets2[image.getWidth() * image.getHeight() + y * image.getWidth() + x];
+						//		unsigned int offset = nodeOffsets2[320 * 320 + y * 320 + x];
+							//	  	if (offset != offset_CPU)
+							//	 	 	CURFIL_INFO("calculated offset: "<<offset<<", CPU offset: "<<offset_CPU);
+
+
+							/*	bool found = false;
+								for (unsigned int i= 0; i < leafSet.size();
+										i++) {
+									if (leafSet[i] == offset_CPU) {	//CURFIL_INFO("found id");
+										found = true;
+
+										LabelType label = labelImage.getLabel(x,y);
+
+										//if the sample weight is changed from 1, it should be changed here as well
+										tree->setAllPixelsHistogram(label, 1);
+									}
+
+								}
+								if (found == false) {
+									CURFIL_INFO("not found!!!!!");
+									//	CURFIL_INFO("calculated offset: "<<offset<<", CPU offset: "<<offset_CPU);
+								}*/
+										LabelType label = labelImage.getLabel(x,y);
+									//	 const RandomTree<PixelInstance, ImageFeatureFunction> * tree2 = tree->traverseToLeaf(pixel);
+
+										  if (!shouldIgnoreLabel(label)) {
+											  PixelInstance pixel(&image, label, x, y);
+											  tree->setAllPixelsHistogram2(pixel);
+					                    }
+
+							}
+					}
+					if (found_tree)
+						break;
+
+				}
+            }
+        }
+
+
+    } else {
+        utils::Profile profile("classifyImagesCPU");
+
+        tbb::parallel_for(tbb::blocked_range<size_t>(0, image.getHeight()),
+                [&](const tbb::blocked_range<size_t>& range) {
+                    for(size_t y = range.begin(); y != range.end(); y++) {
+                        for(int x=0; x < image.getWidth(); x++) {
+
+                            for (LabelType label = 0; label < numClasses; label++) {
+                                hostProbabilities(label, y, x) = 0.0f;
+                            }
+
+                            for (const auto& tree : ensemble) {
+                                const auto& t = tree->getTree();
+                                PixelInstance pixel(&image, 0, x, y);
+                                const auto& hist = t->classifySoft(pixel);
+                                assert(hist.size() == numClasses);
+                                for(LabelType label = 0; label<hist.size(); label++) {
+                                    hostProbabilities(label, y, x) += hist[label];
+                                }
+                            }
+
+                            double sum = 0.0f;
+                            for (LabelType label = 0; label < numClasses; label++) {
+                                sum += hostProbabilities(label, y, x);
+                            }
+                            float bestProb = -1.0f;
+                            for (LabelType label = 0; label < numClasses; label++) {
+                                hostProbabilities(label, y, x) /= sum;
+                                float prob = hostProbabilities(label, y, x);
+                                if (prob > bestProb) {
+                                    prediction.setLabel(x, y, label);
+                                    bestProb = prob;
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    return prediction;
+}
+
+
 LabelImage RandomForestImage::predict(const RGBDImage& image,
          cuv::ndarray<float, cuv::host_memory_space>* probabilities, const bool onGPU, bool useDepthImages) const {
 
