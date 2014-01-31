@@ -112,7 +112,9 @@ boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> > RandomTreeIm
         sumHistogram += num;
     }
 
-   // TODO: change it back to lte
+   // TODO: This was changed from lte because the histogram sum is larger since at the end of
+    // training, all pixels were classified. Should check if numSamples should be changed to reflect
+    // all pixels count, and then can use lte
     if (sumHistogram < numSamples) {
         throw std::runtime_error("incorrect histogram sum");
     }

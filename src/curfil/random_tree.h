@@ -598,7 +598,7 @@ public:
          allPixelsHistogram[label] += value;
      }
 
-    const RandomTree<Instance, FeatureFunction>* setAllPixelsHistogram2(const Instance& instance) {
+    const RandomTree<Instance, FeatureFunction>* setAllPixelsHistogram(const Instance& instance) {
            if (isLeaf())
            {
         	   size_t label = instance.getLabel();
@@ -611,9 +611,9 @@ public:
                 assert(right.get());
 
                 if (split.split(instance) == LEFT) {
-                    return left->setAllPixelsHistogram2(instance);
+                    return left->setAllPixelsHistogram(instance);
                 } else {
-                    return right->setAllPixelsHistogram2(instance);
+                    return right->setAllPixelsHistogram(instance);
                 }
        }
 
@@ -622,7 +622,7 @@ public:
 
     	 if (isLeaf()) {
      	  for (size_t label = 0; label < numClasses; label++) {
-     		// CURFIL_INFO(label<<" histogram[label] "<<histogram[label]<<" allPixelsHistogram[label] "<<allPixelsHistogram[label]);
+     		 CURFIL_INFO(label<<" histogram[label] "<<histogram[label]<<" allPixelsHistogram[label] "<<allPixelsHistogram[label]);
      		 if (histogram[label] != 0)
      		 { histogram[label] = allPixelsHistogram[label];}
      	   }
@@ -631,23 +631,6 @@ public:
      	left->updateHistograms();
      	right->updateHistograms();
 
-     }
-
-
-
-
-     const RandomTree<Instance, FeatureFunction>* traverseToLeaf(const Instance& instance) const {
-         if (isLeaf())
-             return this;
-
-         assert(left.get());
-         assert(right.get());
-
-         if (split.split(instance) == LEFT) {
-             return left->traverseToLeaf(instance);
-         } else {
-             return right->traverseToLeaf(instance);
-         }
      }
 
 private:
@@ -699,6 +682,19 @@ private:
         return maxClass;
     }
 
+    const RandomTree<Instance, FeatureFunction>* traverseToLeaf(const Instance& instance) const {
+        if (isLeaf())
+            return this;
+
+        assert(left.get());
+        assert(right.get());
+
+        if (split.split(instance) == LEFT) {
+            return left->traverseToLeaf(instance);
+        } else {
+            return right->traverseToLeaf(instance);
+        }
+    }
 };
 
 class Sampler {
