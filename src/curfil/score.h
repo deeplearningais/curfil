@@ -77,7 +77,7 @@ public:
             totalRightTest += rightValue;
 #endif
 
-            const ScoreType classProb = allClasses[label] / total;
+           const ScoreType classProb = allClasses[label] / total;
             assertProbability(classProb);
 
             if (leftValue > 0) {
@@ -123,7 +123,6 @@ protected:
         for (size_t label = 0; label < numLabels; label++) {
             const W& value = allClasses[label];
             assert(value <= total);
-
             if (value > 0) {
                 H_c += entropy(value);
             }

@@ -379,6 +379,7 @@ Samples<cuv::dev_memory_space> ImageFeatureEvaluation::copySamplesToDevice(
         samplesOnHost.sampleX[i] = sample->getX();
         samplesOnHost.sampleY[i] = sample->getY();
         samplesOnHost.labels[i] = sample->getLabel();
+        samplesOnHost.useFlipping[i] = sample->getFlipping();
     }
 
     utils::Timer copySamplesAssignTimer;
@@ -1285,8 +1286,8 @@ __global__ void classifyKernel(
 
         float threshold = getThreshold(currentNodeOffset, tree);
         assert(!isnan(threshold));
-        int value = static_cast<int>(!(featureResponse <= threshold));
 
+		int value = static_cast<int>(!(featureResponse <= threshold));
         currentNodeOffset += leftNodeOffset + value;
     }
 
@@ -1425,7 +1426,8 @@ void classifyImage(int treeCacheSize, cuv::ndarray<float, cuv::dev_memory_space>
 }
 
 __global__ void featureResponseKernel(
-        FeatureResponseType* featureResponses,
+        FeatureResponseType* featureResponses1,
+        FeatureResponseType* featureResponses2,
         const int8_t* types,
         const int16_t imageWidth, const int16_t imageHeight,
         const int8_t* offsets1X, const int8_t* offsets1Y,
@@ -1434,7 +1436,7 @@ __global__ void featureResponseKernel(
         const int8_t* regions2X, const int8_t* regions2Y,
         const int8_t* channels1, const int8_t* channels2,
         const int* samplesX, const int* samplesY, const float* depths,
-        const int* imageNumbers, unsigned int numFeatures, unsigned int numSamples) {
+        const int* imageNumbers,  const bool* sampleFlipping, unsigned int numFeatures, unsigned int numSamples) {
 
     unsigned int feature = blockIdx.x * blockDim.y + threadIdx.y;
     unsigned int sample = blockIdx.y * blockDim.x + threadIdx.x;
@@ -1457,11 +1459,14 @@ __global__ void featureResponseKernel(
 
     int imageNr = imageNumbers[sample];
 
-    FeatureResponseType featureResponse;
+    FeatureResponseType featureResponse1;
+    FeatureResponseType featureResponse2 = 0;
+
+    bool useFlipping = sampleFlipping[sample];
 
     switch (type) {
         case COLOR:
-            featureResponse = calculateColorFeature(imageNr,
+        { featureResponse1 = calculateColorFeature(imageNr,
                     imageWidth, imageHeight,
                     offset1X, offset1Y,
                     offset2X, offset2Y,
@@ -1469,22 +1474,40 @@ __global__ void featureResponseKernel(
                     region2X, region2Y,
                     channels1[feature], channels2[feature],
                     samplesX[sample], samplesY[sample], depths[sample]);
+          if (useFlipping) {
+            featureResponse2 = calculateColorFeature(imageNr,
+                     imageWidth, imageHeight,
+                     -offset1X, offset1Y,
+                     -offset2X, offset2Y,
+                     region1X, region1Y,
+                     region2X, region2Y,
+                     channels1[feature], channels2[feature],
+                     samplesX[sample], samplesY[sample], depths[sample]);}}
             break;
         case DEPTH:
-            featureResponse = calculateDepthFeature(imageNr,
+        { featureResponse1 = calculateDepthFeature(imageNr,
                     imageWidth, imageHeight,
                     offset1X, offset1Y,
                     offset2X, offset2Y,
                     region1X, region1Y,
                     region2X, region2Y,
                     samplesX[sample], samplesY[sample], depths[sample]);
+            if (useFlipping) {
+            featureResponse2 = calculateDepthFeature(imageNr,
+                    imageWidth, imageHeight,
+                    -offset1X, offset1Y,
+                    -offset2X, offset2Y,
+                    region1X, region1Y,
+                    region2X, region2Y,
+                    samplesX[sample], samplesY[sample], depths[sample]);}}
             break;
         default:
             assert(false);
             break;
     }
 
-    featureResponses[featureResponseOffset(sample, feature, numSamples, numFeatures)] = featureResponse;
+    featureResponses1[featureResponseOffset(sample, feature, numSamples, numFeatures)] = featureResponse1;
+    featureResponses2[featureResponseOffset(sample, feature, numSamples, numFeatures)] = featureResponse2;
 }
 
 // http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
@@ -1544,10 +1567,12 @@ __global__ void scoreKernel(const WeightType* counters,
 }
 
 __global__ void aggregateHistogramsKernel(
-        const FeatureResponseType* featureResponses,
+        const FeatureResponseType* featureResponses1,
+        const FeatureResponseType* featureResponses2,
         WeightType* counters,
         const float* thresholds,
         const uint8_t* sampleLabel,
+        const bool* sampleFlipping,
         unsigned int numThresholds,
         unsigned int numLabels,
         unsigned int numFeatures,
@@ -1581,23 +1606,34 @@ __global__ void aggregateHistogramsKernel(
     unsigned int labelFlags = 0;
 
     // iterate over all samples and increment the according counter in shared memory
-    const FeatureResponseType* resultPtr = featureResponses
+    const FeatureResponseType* resultPtr1 = featureResponses1
+            + featureResponseOffset(threadIdx.x, feature, numSamples, numFeatures);
+    const FeatureResponseType* resultPtr2 = featureResponses2
             + featureResponseOffset(threadIdx.x, feature, numSamples, numFeatures);
     for (unsigned int sample = threadIdx.x; sample < numSamples; sample += blockDim.x) {
 
-        FeatureResponseType featureResponse = *resultPtr;
-        resultPtr += blockDim.x; // need to change if featureResponseOffset calculation changes
+        FeatureResponseType featureResponse1 = *resultPtr1;
+        resultPtr1 += blockDim.x; // need to change if featureResponseOffset calculation changes
+        FeatureResponseType featureResponse2 = *resultPtr2;
+        resultPtr2 += blockDim.x; // need to change if featureResponseOffset calculation changes
 
         uint8_t label = sampleLabel[sample];
+        bool useFlipping = sampleFlipping[sample];
         assert(label < numLabels);
 
         assert(label < 32);
         labelFlags |= 1 << label;
 
-        int value = static_cast<int>(!(featureResponse <= threshold));
+        int value = static_cast<int>(!(featureResponse1 <= threshold));
         assert(value == 0 || value == 1);
         assert(counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value] < COUNTER_MAX);
         counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value]++;
+
+        if (useFlipping){
+        value =  static_cast<int>(!(featureResponse2 <= threshold));
+        assert(value == 0 || value == 1);
+        assert(counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value] < COUNTER_MAX);
+        counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value]++;}
         // no need to sync here because data is accessed only by the same thread in this loop
     }
 
@@ -1609,12 +1645,12 @@ __global__ void aggregateHistogramsKernel(
     for (uint8_t label = 0; label < numLabels; label++) {
 
         // skip labels without samples
-        if (__syncthreads_or(labelFlags & (1 << label)) == 0) {
+      /*  if (__syncthreads_or(labelFlags & (1 << label)) == 0) {
             if (threadIdx.x < 2) {
                 counterShared[2 * label + threadIdx.x] = 0;
             }
             continue;
-        }
+        }*/
 
         unsigned int idxA = (2 * label) * blockDim.x + threadIdx.x;
         for (unsigned int offset = blockDim.x; offset > 2; offset /= 2) {
@@ -1927,7 +1963,10 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
             static_cast<size_t>(counters.size() * sizeof(WeightType)), streams[0]));
 
     assert(numFeatures == configuration.getFeatureCount());
-    cuv::ndarray<FeatureResponseType, cuv::dev_memory_space> featureResponsesDevice(numFeatures,
+
+    cuv::ndarray<FeatureResponseType, cuv::dev_memory_space> featureResponsesDevice1(numFeatures,
+            configuration.getMaxSamplesPerBatch(), featureResponsesAllocator);
+    cuv::ndarray<FeatureResponseType, cuv::dev_memory_space> featureResponsesDevice2(numFeatures,
             configuration.getMaxSamplesPerBatch(), featureResponsesAllocator);
 
     if (featureResponsesHost) {
@@ -1950,7 +1989,8 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
 
             Samples<cuv::dev_memory_space> sampleData = copySamplesToDevice(currentBatch, streams[0]);
 
-            featureResponsesDevice.resize(numFeatures, batchSize);
+            featureResponsesDevice1.resize(numFeatures, batchSize);
+            featureResponsesDevice2.resize(numFeatures, batchSize);
 
             unsigned int featuresPerBlock = std::min(numFeatures, 32u);
             unsigned int samplesPerBlock = std::min(batchSize, 4u);
@@ -1971,7 +2011,8 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
                 cudaSafeCall(cudaFuncSetCacheConfig(featureResponseKernel, cudaFuncCachePreferL1));
                 utils::Profile profile("calculate feature responses");
                 featureResponseKernel<<<blockSize, threads, 0, streams[0]>>>(
-                        featureResponsesDevice.ptr(),
+                        featureResponsesDevice1.ptr(),
+                        featureResponsesDevice2.ptr(),
                         featuresAndThresholds.types().ptr(),
                         imageWidth, imageHeight,
                         featuresAndThresholds.offset1X().ptr(), featuresAndThresholds.offset1Y().ptr(),
@@ -1979,7 +2020,7 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
                         featuresAndThresholds.region1X().ptr(), featuresAndThresholds.region1Y().ptr(),
                         featuresAndThresholds.region2X().ptr(), featuresAndThresholds.region2Y().ptr(),
                         featuresAndThresholds.channel1().ptr(), featuresAndThresholds.channel2().ptr(),
-                        sampleData.sampleX, sampleData.sampleY, sampleData.depths, sampleData.imageNumbers,
+                        sampleData.sampleX, sampleData.sampleY, sampleData.depths, sampleData.imageNumbers, sampleData.useFlipping,
                         numFeatures,
                         batchSize
                 );
@@ -1990,10 +2031,11 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
 
             cudaSafeCall(cudaStreamSynchronize(streams[0]));
 
+            //please note that featureResponsesDevice2 was not added
             if (featureResponsesHost) {
                 // append feature responses on device to the feature responses for our caller
                 (*featureResponsesHost)[cuv::indices[cuv::index_range()][cuv::index_range(samplesProcessed,
-                        samplesProcessed + batchSize)]] = featureResponsesDevice;
+                        samplesProcessed + batchSize)]] = featureResponsesDevice1;
             }
 
             node.addTimerValue("featureResponse", featureResponseTimer);
@@ -2021,10 +2063,12 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
                 cudaSafeCall(cudaFuncSetCacheConfig(aggregateHistogramsKernel, cudaFuncCachePreferShared));
 
                 aggregateHistogramsKernel<<<blockSize, threads, sharedMemory, streams[1]>>>(
-                        featureResponsesDevice.ptr(),
+                        featureResponsesDevice1.ptr(),
+                        featureResponsesDevice2.ptr(),
                         counters.ptr(),
                         featuresAndThresholds.thresholds().ptr(),
                         sampleData.labels,
+                        sampleData.useFlipping,
                         numThresholds,
                         numLabels,
                         numFeatures,

@@ -75,10 +75,18 @@ public:
         return (*this);
     }
 
-    // Return left or right branch for a given instance and feature function.
-    SplitBranch split(const Instance& instance) const {
-        return (feature.calculateFeatureResponse(instance) <= getThreshold() ? LEFT : RIGHT);
-    }
+	// Return left or right branch for a given instance and feature function.
+	SplitBranch split(const Instance& instance, bool& flippedSameSplit) const {
+		bool value1 = feature.calculateFeatureResponse(instance) <= getThreshold();
+		flippedSameSplit = true;
+		bool flipSetting = instance.getFlipping();
+		if (flipSetting) {
+			bool value2 = feature.calculateFeatureResponse(instance, true) <= getThreshold();
+			if (value1 != value2)
+				flippedSameSplit = false;
+		}
+		return ((value1) ? LEFT : RIGHT);
+	}
 
     // Return the underlying feature used
     const FeatureFunction& getFeature() const {
@@ -336,6 +344,9 @@ public:
         for (size_t i = 0; i < samples.size(); i++) {
             histogram[samples[i]->getLabel()] += samples[i]->getWeight();
             trainSamples.push_back(*samples[i]);
+            if (samples[i]->getFlipping() == true) {
+            	histogram[samples[i]->getLabel()] += samples[i]->getWeight();
+            }
         }
     }
 
@@ -610,7 +621,8 @@ public:
                 assert(left.get());
                 assert(right.get());
 
-                if (split.split(instance) == LEFT) {
+                bool flippedSameSplit;
+                if (split.split(instance,flippedSameSplit) == LEFT) {
                     return left->setAllPixelsHistogram(instance);
                 } else {
                     return right->setAllPixelsHistogram(instance);
@@ -632,6 +644,18 @@ public:
      	right->updateHistograms();
 
      }
+
+    void recomputeHistogramNoFlipping(const std::vector<const Instance*>& samples)
+    {
+        for (size_t label = 0; label < numClasses; label++) {
+            histogram[label] = 0;
+        }
+
+        for (size_t i = 0; i < samples.size(); i++) {
+            histogram[samples[i]->getLabel()] += samples[i]->getWeight();
+        }
+    }
+
 
 private:
     // A unique node identifier within this tree
@@ -689,7 +713,8 @@ private:
         assert(left.get());
         assert(right.get());
 
-        if (split.split(instance) == LEFT) {
+        bool flippedSameSplit;
+        if (split.split(instance, flippedSameSplit) == LEFT) {
             return left->traverseToLeaf(instance);
         } else {
             return right->traverseToLeaf(instance);
@@ -834,42 +859,53 @@ private:
     typedef boost::shared_ptr<RandomTree<Instance, FeatureFunction> > RandomTreePointer;
     typedef std::vector<const Instance*> Samples;
 
-    void compareHistograms(boost::shared_ptr<RandomTree<Instance, FeatureFunction> >& currentNode,
-            boost::shared_ptr<RandomTree<Instance, FeatureFunction> >& leftNode,
-            boost::shared_ptr<RandomTree<Instance, FeatureFunction> >& rightNode,
-            const SplitFunction<Instance, FeatureFunction>& bestSplit) const {
+    void compareHistograms(cuv::ndarray<WeightType, cuv::host_memory_space> allHistogram,
+    		cuv::ndarray<WeightType, cuv::host_memory_space> leftHistogram,
+    		cuv::ndarray<WeightType, cuv::host_memory_space> rightHistogram,
+             const SplitFunction<Instance, FeatureFunction>& bestSplit, size_t histogramSize) const {
 
-        size_t size = currentNode->getHistogram().size();
-        WeightType leftHistogram[size];
-        WeightType rightHistogram[size];
-        const unsigned int leftRightStride = 1; // consecutive in memory
-        WeightType allHistogram[size];
-        for (size_t i = 0; i < size; i++) {
-            leftHistogram[i] = leftNode->getHistogram()[i];
-            rightHistogram[i] = rightNode->getHistogram()[i];
-            allHistogram[i] = currentNode->getHistogram()[i];
-        }
-        // assert that actual score is the same as the calculated score
-        double totalLeft = sum(leftNode->getHistogram());
-        double totalRight = sum(rightNode->getHistogram());
-        double actualScore = NormalizedInformationGainScore::calculateScore(size, leftHistogram, rightHistogram,
-                leftRightStride,
-                allHistogram, totalLeft, totalRight);
-        double diff = std::fabs(actualScore - bestSplit.getScore());
+         const unsigned int leftRightStride = 1; // consecutive in memory
+
+         // assert that actual score is the same as the calculated score
+         double totalLeft = sum(leftHistogram);
+         double totalRight = sum(rightHistogram);
+
+         WeightType leftHistogramArray[histogramSize];
+         WeightType rightHistogramArray[histogramSize];
+         WeightType allHistogramArray[histogramSize];
+
+         std::stringstream strLeft;
+         std::stringstream strRight;
+         std::stringstream strAll;
+
+         for (size_t i=0; i<histogramSize; i++)
+         {
+        	 leftHistogramArray[i] = leftHistogram[i];
+        	 rightHistogramArray[i] = rightHistogram[i];
+        	 allHistogramArray[i] = allHistogram[i];
+
+             strLeft<<leftHistogramArray[i]<<",";
+             strRight<<rightHistogramArray[i]<<",";
+             strAll<<allHistogramArray[i]<<",";
+         }
+         double actualScore = NormalizedInformationGainScore::calculateScore(histogramSize, leftHistogramArray, rightHistogramArray,
+                 leftRightStride,
+                 allHistogramArray, totalLeft, totalRight);
+         double diff = std::fabs(actualScore - bestSplit.getScore());
         if (diff > 0.02) {
-            std::ostringstream o;
-            o.precision(10);
-            o << "actual score and best split score differ: " << diff << std::endl;
-            o << "actual score: " << actualScore << std::endl;
-            o << "best split score: " << bestSplit.getScore() << std::endl;
-            o << "total left: " << totalLeft << std::endl;
-            o << "total right: " << totalRight << std::endl;
-            o << "histogram:  " << currentNode->getHistogram() << std::endl;
-            o << "histogram left:  " << leftNode->getHistogram() << std::endl;
-            o << "histogram right: " << rightNode->getHistogram() << std::endl;
-            throw std::runtime_error(o.str());
+             std::ostringstream o;
+             o.precision(10);
+             o << "actual score and best split score differ: " << diff << std::endl;
+             o << "actual score: " << actualScore << std::endl;
+             o << "best split score: " << bestSplit.getScore() << std::endl;
+             o << "total left: " << totalLeft << std::endl;
+             o << "total right: " << totalRight << std::endl;
+             o << "histogram:  " << strAll.str() << std::endl;
+             o << "histogram left:  " << strLeft.str() << std::endl;
+             o << "histogram right: " << strRight.str() << std::endl;
+             throw std::runtime_error(o.str());
         }
-    }
+     }
 
 public:
 
@@ -912,12 +948,58 @@ public:
             std::vector<const Instance*> samplesLeft;
             std::vector<const Instance*> samplesRight;
 
+            size_t numClasses = currentNode->getHistogram().size();
+            cuv::ndarray<WeightType, cuv::host_memory_space> allHistogram(numClasses);
+            cuv::ndarray<WeightType, cuv::host_memory_space> leftHistogram(numClasses);
+            cuv::ndarray<WeightType, cuv::host_memory_space> rightHistogram(numClasses);
+
+            for (size_t c=0; c<numClasses; c++)
+            {
+           	 leftHistogram[c] = 0;
+           	 rightHistogram[c] = 0;
+           	 allHistogram[c] = 0;
+            }
+
+            unsigned int totalFlipped = 0;
+            unsigned int rightFlipped = 0;
+            unsigned int leftFlipped = 0;
+
             for (size_t sample = 0; sample < samples.size(); sample++) {
                 assert(samples[sample] != NULL);
-                if (bestSplit.split(*samples[sample]) == LEFT) {
-                    samplesLeft.push_back(samples[sample]);
+                bool flippedSameSplit;
+                Instance* ptr = const_cast<Instance *>(samples[sample]);
+
+                SplitBranch splitResult = bestSplit.split(*ptr, flippedSameSplit);
+
+                bool flipSetting = samples[sample]->getFlipping();
+            	if (flipSetting && !flippedSameSplit)
+            		ptr->setFlipping(false);
+
+            	allHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+                if (splitResult == LEFT) {
+                	samplesLeft.push_back(ptr);
+                	leftHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+					if (flipSetting) {
+						totalFlipped += 1;
+						allHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+						if (flippedSameSplit)
+							leftHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+						else
+							{rightHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+							rightFlipped += 1;}
+					}
                 } else {
-                    samplesRight.push_back(samples[sample]);
+                	samplesRight.push_back(ptr);
+                	rightHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+                	if (flipSetting) {
+                		totalFlipped += 1;
+                		allHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+                		if (flippedSameSplit)
+                			rightHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+                		else
+                			{leftHistogram[samples[sample]->getLabel()] += samples[sample]->getWeight();
+                			 leftFlipped += 1;}
+                	}
                 }
             }
 
@@ -931,10 +1013,19 @@ public:
                     numClasses, currentNode);
 
 #ifndef NDEBUG
-            compareHistograms(currentNode, leftNode, rightNode, bestSplit);
+            compareHistograms(allHistogram, leftHistogram, rightHistogram, bestSplit, numClasses);
 #endif
 
-            if (samplesLeft.empty() || samplesRight.empty()) {
+            bool errorEmptyChildren = false;
+            if (samplesLeft.empty() && leftFlipped == 0)
+            {
+            	errorEmptyChildren = true;
+            }
+            if (samplesRight.empty() && rightFlipped == 0)
+            {
+            	errorEmptyChildren = true;
+            }
+            if (errorEmptyChildren) {
                 CURFIL_ERROR("best split score: " << bestSplit.getScore());
                 CURFIL_ERROR("samples: " << samples.size());
                 CURFIL_ERROR("threshold: " << bestSplit.getThreshold());
@@ -942,8 +1033,9 @@ public:
                 CURFIL_ERROR("histogram: " << currentNode->getHistogram());
                 CURFIL_ERROR("samplesLeft: " << samplesLeft.size());
                 CURFIL_ERROR("samplesRight: " << samplesRight.size());
+                CURFIL_ERROR("leftFlipped "<<leftFlipped<<" rightFlipped "<<rightFlipped<<" totalFlipped "<<totalFlipped)
 
-                compareHistograms(currentNode, leftNode, rightNode, bestSplit);
+                compareHistograms(allHistogram, leftHistogram, rightHistogram, bestSplit, numClasses);
 
                 if (samplesLeft.empty()) {
                     throw std::runtime_error("no samples in left node");
@@ -953,16 +1045,37 @@ public:
                 }
             }
 
-            currentNode->addChildren(bestSplit, leftNode, rightNode);
+			if (totalFlipped > 0) {
+				currentNode->recomputeHistogramNoFlipping(samples);
+			}
 
-            if (shouldContinueGrowing(leftNode)) {
-                samplesPerNodeNextLevel.push_back(std::make_pair(leftNode, samplesLeft));
-            }
+			if (!samplesLeft.empty() && !samplesRight.empty()) {
+				currentNode->addChildren(bestSplit, leftNode, rightNode);
 
-            if (shouldContinueGrowing(rightNode)) {
-                samplesPerNodeNextLevel.push_back(std::make_pair(rightNode, samplesRight));
-            }
+				if (shouldContinueGrowing(leftNode)) {
+					samplesPerNodeNextLevel.push_back(std::make_pair(leftNode, samplesLeft));
+					if ((currentLevel + 1) == configuration.getMaxDepth() && totalFlipped > 0)
+						{leftNode->recomputeHistogramNoFlipping(samplesLeft);}
+				}
+				else if (totalFlipped > 0) {
+					leftNode->recomputeHistogramNoFlipping(samplesLeft);
+				}
+
+				if (shouldContinueGrowing(rightNode)) {
+					samplesPerNodeNextLevel.push_back(std::make_pair(rightNode, samplesRight));
+					if ((currentLevel + 1) == configuration.getMaxDepth() && totalFlipped > 0)
+						{rightNode->recomputeHistogramNoFlipping(samplesRight);}
+				}
+				else if (totalFlipped > 0) {
+					rightNode->recomputeHistogramNoFlipping(samplesRight);
+				}
+			}
+			else
+				idNode = idNode - 2;
         }
+
+
+
 
         CURFIL_INFO("training level " << currentLevel << " took " << trainTimer.format(3));
         if (!samplesPerNodeNextLevel.empty()) {

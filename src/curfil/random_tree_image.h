@@ -87,7 +87,7 @@ public:
      * @param y the y-coordinate of the pixel in the RGB-D image
      */
     PixelInstance(const RGBDImage* image, const LabelType& label, uint16_t x, uint16_t y) :
-            image(image), label(label), point(x, y), depth(Depth::INVALID) {
+            image(image), label(label), point(x, y), depth(Depth::INVALID), useFlipping(true) {
         assert(image != NULL);
         assert(image->inImage(x, y));
         if (!image->hasIntegratedDepth()) {
@@ -122,7 +122,7 @@ public:
      */
     PixelInstance(const RGBDImage* image, const LabelType& label, const Depth& depth,
             uint16_t x, uint16_t y) :
-            image(image), label(label), point(x, y), depth(depth) {
+            image(image), label(label), point(x, y), depth(depth), useFlipping(true) {
         assert(image != NULL);
         assert(image->inImage(x, y));
         assert(depth.isValid());
@@ -284,11 +284,22 @@ public:
         return 1;
     }
 
+    bool getFlipping() const
+    {
+    	return useFlipping;
+    }
+
+    void setFlipping(bool setting)
+    {
+    	useFlipping = setting;
+    }
+
 private:
     const RGBDImage* image;
     LabelType label;
     Point point;
     Depth depth;
+    bool useFlipping;
 
     float getColor(const Point& pos, uint8_t channel) const {
         if (!inImage(pos)) {
@@ -412,13 +423,13 @@ public:
     /**
      * @return the feature response as documented on https://github.com/deeplearningais/curfil/wiki/Visual-Features.
      */
-    FeatureResponseType calculateFeatureResponse(const PixelInstance& instance) const {
+    FeatureResponseType calculateFeatureResponse(const PixelInstance& instance, bool flipRegion = false) const {
         assert(isValid());
         switch (featureType) {
             case DEPTH:
-                return calculateDepthFeature(instance);
+                return calculateDepthFeature(instance, flipRegion);
             case COLOR:
-                return calculateColorFeature(instance);
+                return calculateColorFeature(instance, flipRegion);
             default:
                 assert(false);
                 break;
@@ -485,19 +496,29 @@ private:
     Region region2;
     uint8_t channel2;
 
-    FeatureResponseType calculateColorFeature(const PixelInstance& instance) const {
+    FeatureResponseType calculateColorFeature(const PixelInstance& instance, bool flipRegion) const {
 
         const Depth depth = instance.getDepth();
         if (!depth.isValid()) {
             return std::numeric_limits<double>::quiet_NaN();
         }
 
-        FeatureResponseType a = instance.averageRegionColor(offset1.normalize(depth), region1.normalize(depth),
+        FeatureResponseType a;
+        if (flipRegion)
+        	a = instance.averageRegionColor(Offset(-offset1.getX(),offset1.getY()).normalize(depth), region1.normalize(depth),
+                    channel1);
+        else
+        	a = instance.averageRegionColor(offset1.normalize(depth), region1.normalize(depth),
                 channel1);
         if (isnan(a))
             return a;
 
-        FeatureResponseType b = instance.averageRegionColor(offset2.normalize(depth), region2.normalize(depth),
+        FeatureResponseType b;
+        if (flipRegion)
+        	b = instance.averageRegionColor(Offset(-offset2.getX(),offset2.getY()).normalize(depth), region2.normalize(depth),
+                    channel2);
+        else
+        	b = instance.averageRegionColor(offset2.normalize(depth), region2.normalize(depth),
                 channel2);
         if (isnan(b))
             return b;
@@ -505,19 +526,27 @@ private:
         return (a - b);
     }
 
-    FeatureResponseType calculateDepthFeature(const PixelInstance& instance) const {
+    FeatureResponseType calculateDepthFeature(const PixelInstance& instance, bool flipRegion) const {
 
         const Depth depth = instance.getDepth();
         if (!depth.isValid()) {
             return std::numeric_limits<double>::quiet_NaN();
         }
 
-        FeatureResponseType a = instance.averageRegionDepth(offset1.normalize(depth), region1.normalize(depth));
+        FeatureResponseType a;
+        if (flipRegion)
+        	a = instance.averageRegionDepth(Offset(-offset1.getX(),offset1.getY()).normalize(depth), region1.normalize(depth));
+        else
+        	a = instance.averageRegionDepth(offset1.normalize(depth), region1.normalize(depth));
         if (isnan(a)) {
             return a;
         }
 
-        FeatureResponseType b = instance.averageRegionDepth(offset2.normalize(depth), region2.normalize(depth));
+        FeatureResponseType b;
+        if (flipRegion)
+        	b = instance.averageRegionDepth(Offset(-offset2.getX(),offset2.getY()).normalize(depth), region2.normalize(depth));
+        else
+        	b = instance.averageRegionDepth(offset2.normalize(depth), region2.normalize(depth));
         if (isnan(b)) {
             return b;
         }
@@ -733,6 +762,7 @@ public:
     int* sampleY;
     int* imageNumbers;
     uint8_t* labels;
+    bool* useFlipping;
 
     // does not copy data
     Samples(const Samples& samples) :
@@ -741,7 +771,8 @@ public:
                     sampleX(reinterpret_cast<int*>(data[cuv::indices[1][cuv::index_range()]].ptr())),
                     sampleY(reinterpret_cast<int*>(data[cuv::indices[2][cuv::index_range()]].ptr())),
                     imageNumbers(reinterpret_cast<int*>(data[cuv::indices[3][cuv::index_range()]].ptr())),
-                    labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr())) {
+                    labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr())),
+                    useFlipping(reinterpret_cast<bool*>(data[cuv::indices[5][cuv::index_range()]].ptr())){
     }
 
     // copies the data
@@ -752,16 +783,18 @@ public:
                     sampleX(reinterpret_cast<int*>(data[cuv::indices[1][cuv::index_range()]].ptr())),
                     sampleY(reinterpret_cast<int*>(data[cuv::indices[2][cuv::index_range()]].ptr())),
                     imageNumbers(reinterpret_cast<int*>(data[cuv::indices[3][cuv::index_range()]].ptr())),
-                    labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr())) {
+                    labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr())),
+                    useFlipping(reinterpret_cast<bool*>(data[cuv::indices[5][cuv::index_range()]].ptr())){
     }
 
     Samples(size_t numSamples, boost::shared_ptr<cuv::allocator>& allocator) :
-            data(5, numSamples, allocator),
+            data(6, numSamples, allocator),
                     depths(reinterpret_cast<float*>(data[cuv::indices[0][cuv::index_range()]].ptr())),
                     sampleX(reinterpret_cast<int*>(data[cuv::indices[1][cuv::index_range()]].ptr())),
                     sampleY(reinterpret_cast<int*>(data[cuv::indices[2][cuv::index_range()]].ptr())),
                     imageNumbers(reinterpret_cast<int*>(data[cuv::indices[3][cuv::index_range()]].ptr())),
-                    labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr()))
+                    labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr())),
+                    useFlipping(reinterpret_cast<bool*>(data[cuv::indices[5][cuv::index_range()]].ptr()))
     {
         assert_equals(imageNumbers, data.ptr() + 3 * numSamples);
         assert_equals(labels, reinterpret_cast<uint8_t*>(data.ptr() + 4 * numSamples));

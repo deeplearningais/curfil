@@ -75,8 +75,14 @@ public:
 
             const unsigned int labelOffset = label * labelStride;
 
+            bool flipSetting = sample->getFlipping();
+
             for (size_t featureNr = 0; featureNr < numFeatures; ++featureNr) {
-                double value = featureFunctions[featureNr].calculateFeatureResponse(*sample);
+                double value1 = featureFunctions[featureNr].calculateFeatureResponse(*sample, false);
+                double value2 = 0;
+                if (flipSetting)
+                	{value2 = featureFunctions[featureNr].calculateFeatureResponse(*sample, true);}
+
                 const std::vector<float>& thresholdsPerFeature = thresholds[featureNr];
 
                 const unsigned int featureOffset = labelOffset + featureNr * featureStride;
@@ -87,14 +93,22 @@ public:
 
                     // avoid the if () else () branch here by casting the compare into 0 or 1
                     // important: (!(x<=y)) is not the same as (x>y) because of NaNs!
-                    int offset = static_cast<int>(!(value <= threshold));
-                    assert(offset == ((value <= threshold) ? 0 : 1));
+                    int offset = static_cast<int>(!(value1 <= threshold));
+                    assert(offset == ((value1 <= threshold) ? 0 : 1));
 
                     // offset stride must be 1
                     assert(perClassHistogram.stride(3) == 1);
                     unsigned int idx = featureOffset + threshNr * thresholdsStride + offset;
                     perClassHistogram.ptr()[idx] += weight;
                     assert(perClassHistogram(label, featureNr, threshNr, offset) == perClassHistogram.ptr()[idx]);
+
+					if (flipSetting) {
+						offset = static_cast<int>(!(value2 <= threshold));
+						assert(offset == ((value2 <= threshold) ? 0 : 1));
+						idx = featureOffset + threshNr * thresholdsStride + offset;
+						perClassHistogram.ptr()[idx] += weight;
+						assert(perClassHistogram(label, featureNr, threshNr,offset)== perClassHistogram.ptr()[idx]);
+					}
                 }
             }
         }
@@ -327,7 +341,7 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
 
                         currentNode.setTimerValue("evaluationTime", timeEvaluate);
                     }
-
+                    cuv::ndarray<WeightType, cuv::dev_memory_space> counters2;
                     if (accelerationMode == GPU_ONLY || accelerationMode == GPU_AND_CPU_COMPARE) {
 
                         std::vector<std::vector<const PixelInstance*> > batches = prepare(samples, currentNode,
@@ -350,6 +364,8 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
                         scoresGPU = calculateScores(counters, featuresAndThresholdsGPU, histogram);
 
                         currentNode.setTimerValue("calculateScores", calculateScoresTimer);
+
+                        counters2 = counters;
                     }
 
                     size_t transferTimeEnd = imageCache.getTotalTransferTimeMircoseconds();
@@ -417,6 +433,18 @@ std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > ImageFeatureEva
                     CURFIL_DEBUG("tree " << currentNode.getTreeId() << ", node " << currentNode.getNodeId() <<
                             ", best score: " << bestScore << ", " << feature);
 
+                   unsigned int index = bestFeat * configuration.getThresholds() * currentNode.getNumClasses() * 2;
+                   index += bestThresh * currentNode.getNumClasses() * 2;
+
+               //    std::stringstream strLeft;
+               //    std::stringstream strRight;
+                //    for (size_t label = 0; label < currentNode.getNumClasses(); label++) {
+               //     	strLeft<<counters2[index + label * 2 + 0]<<",";
+               //     	strRight<<counters2[index + label * 2 + 1]<<",";
+               //     }
+                 //   CURFIL_INFO("org histogram"<<currentNode.getHistogram());
+                 //   CURFIL_INFO("left split "<<strLeft.str());
+                 //   CURFIL_INFO("right split"<<strRight.str());
                     bestSplits[nodeNr]= bestFeature;
                 }
             });
