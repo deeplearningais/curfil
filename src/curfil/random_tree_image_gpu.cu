@@ -1645,12 +1645,12 @@ __global__ void aggregateHistogramsKernel(
     for (uint8_t label = 0; label < numLabels; label++) {
 
         // skip labels without samples
-      /*  if (__syncthreads_or(labelFlags & (1 << label)) == 0) {
+        if (__syncthreads_or(labelFlags & (1 << label)) == 0) {  //TODO: this part sometimes causes problems but it's slower without it
             if (threadIdx.x < 2) {
                 counterShared[2 * label + threadIdx.x] = 0;
             }
             continue;
-        }*/
+        }
 
         unsigned int idxA = (2 * label) * blockDim.x + threadIdx.x;
         for (unsigned int offset = blockDim.x; offset > 2; offset /= 2) {

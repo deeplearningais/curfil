@@ -77,7 +77,7 @@ RandomForestImage train(std::vector<LabeledRGBDImage>& images, size_t trees,
     CURFIL_INFO("training took " << trainTimer.format(2) <<
             " (" << std::setprecision(3) << trainTimer.getSeconds() / 60.0 << " min)");
 
-
+/*
         bool onGPU = randomForest.getConfiguration().getAccelerationMode() == GPU_ONLY;
         bool useDepthImages = randomForest.getConfiguration().isUseDepthImages();
 
@@ -100,7 +100,7 @@ RandomForestImage train(std::vector<LabeledRGBDImage>& images, size_t trees,
                     }
         });
         randomForest.updateTreesHistograms();
-
+*/
     std::cout << randomForest;
     for (const auto& featureCount : randomForest.countFeatures()) {
         const std::string featureType = featureCount.first;
