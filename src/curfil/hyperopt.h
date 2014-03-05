@@ -22,6 +22,10 @@ enum LossFunctionType {
     PIXEL_ACCURACY_WITHOUT_VOID //
 };
 
+/**
+ * Class that stores the results of a hyperopt run
+ * @ingroup hyperopt
+ */
 class Result {
 
 private:
@@ -32,6 +36,9 @@ private:
     int randomSeed;
 
 public:
+    /**
+     * create an instance of prediction result, including the confusion matrix and the different losses
+     */
     Result(const ConfusionMatrix& confusionMatrix, double pixelAccuracy,
             double pixelAccuracyWithoutVoid, const LossFunctionType lossFunctionType) :
             confusionMatrix(confusionMatrix),
@@ -41,44 +48,78 @@ public:
                     randomSeed(0) {
     }
 
+    /**
+     * @return the BSON representation of the Result object
+     */
     mongo::BSONObj toBSON() const;
 
+    /**
+     * @return the computed confusion matrix
+     */
     const ConfusionMatrix& getConfusionMatrix() const {
         return confusionMatrix;
     }
 
+    /**
+     * set the loss type, can be pixel or class accuracy, with or without void
+     */
     void setLossFunctionType(const LossFunctionType& lossFunctionType) {
         this->lossFunctionType = lossFunctionType;
     }
 
+    /**
+     * @return loss value (1 - accuracy), the value depends on the loss function type
+     */
     double getLoss() const;
 
+    /**
+     * @return the average class accuracy including void
+     */
     double getClassAccuracy() const {
         return confusionMatrix.averageClassAccuracy(true);
     }
 
+    /**
+     * @return the average class accuracy excluding void and ignored colors
+     */
     double getClassAccuracyWithoutVoid() const {
         return confusionMatrix.averageClassAccuracy(false);
     }
 
+    /**
+     * @return the overall pixel accuracy including void
+     */
     double getPixelAccuracy() const {
         return pixelAccuracy;
     }
 
+    /**
+     * @return the overall pixel accuracy excluding void and ignored colors
+     */
     double getPixelAccuracyWithoutVoid() const {
         return pixelAccuracyWithoutVoid;
     }
 
+    /**
+     * save the random seed thatt was used in training
+     */
     void setRandomSeed(int randomSeed) {
         this->randomSeed = randomSeed;
     }
 
+    /**
+     * @return the random seed stored
+     */
     int getRandomSeed() const {
         return randomSeed;
     }
 
 };
 
+/**
+ * Client that does a hyperopt parameter search
+ * @ingroup hyperopt
+ */
 class HyperoptClient: public mdbq::Client {
 
 private:
@@ -123,6 +164,9 @@ private:
 
 public:
 
+    /**
+     * create a hyperopt client using the parameters provided by the user
+     */
     HyperoptClient(
             const std::vector<LabeledRGBDImage>& allRGBDImages,
             const std::vector<LabeledRGBDImage>& allTestImages,
@@ -157,9 +201,12 @@ public:
     {
     }
 
+    /**
+     * do a number of train and test runs using the task parameters
+     */
     void handle_task(const mongo::BSONObj& task);
 
-    void run();
+    void run(); /**< continuously get the next task and handle it */
 };
 
 }

@@ -16,6 +16,8 @@ namespace curfil {
 
 /**
  * A simple 2D tuple.
+ * @ingroup import_export_trees
+ *
  * Instances of this classes can be used as point (in two-dimensional) space or offset.
  *
  * Can be normalized (scaled) according to a given depth.
@@ -26,13 +28,21 @@ public:
     XY() :
             x(0), y(0) {
     }
+    /**
+     * create a 2D tuple using the given x, y
+     */
     XY(int x, int y) :
             x(x), y(y) {
     }
+    /**
+     * create a 2D tuple using another tuple attributes
+     */
     XY(const XY& other) :
             x(other.x), y(other.y) {
     }
-
+    /**
+     * set the attributes using another tuple 
+     */
     XY& operator=(const XY& other) {
         x = other.x;
         y = other.y;
@@ -49,18 +59,30 @@ public:
         return XY(newX, newY);
     }
 
+    /**
+     * @return whether the tuple is equal to another
+     */
     bool operator==(const XY& other) const {
         return (x == other.x && y == other.y);
     }
 
+    /**
+     * @return whether the tuple is not equal to another
+     */
     bool operator!=(const XY& other) const {
         return !(*this == other);
     }
 
+    /**
+     * @return the x coordinate
+     */
     int getX() const {
         return x;
     }
 
+    /**
+     * @return the y coordinate
+     */
     int getY() const {
         return y;
     }
@@ -75,6 +97,7 @@ typedef XY Point;
 
 /**
  * Represents a single-pixel sample in a RGB-D image.
+ * @ingroup forest_hierarchy
  */
 class PixelInstance {
 
@@ -284,11 +307,17 @@ public:
         return 1;
     }
 
+    /**
+     * @return whether the flipping setting is true
+     */
     bool getFlipping() const
     {
     	return useFlipping;
     }
 
+    /**
+     * use the new flipping setting
+     */
     void setFlipping(bool setting)
     {
     	useFlipping = setting;
@@ -339,6 +368,7 @@ enum FeatureType {
 
 /**
  * Parametrized visual image feature.
+ * @ingroup training_helper_classes
  *
  * See https://github.com/deeplearningais/curfil/wiki/Visual-Features for details.
  */
@@ -479,10 +509,16 @@ public:
         return channel2;
     }
 
+    /**
+     * @return whether this image feature is not equal to another
+     */
     bool operator!=(const ImageFeatureFunction& other) const {
         return !(*this == other);
     }
-
+ 
+    /**
+     * @return whether this image feature is equal to another
+     */
     bool operator==(const ImageFeatureFunction& other) const;
 
 private:
@@ -561,6 +597,8 @@ private:
 
 /**
  * Helper class to store a list of features and a list of threshold per feature in a compact manner
+ * @ingroup transfer_cpu_gpu
+ *
  * such that it can be transferred between CPU and GPU.
  *
  * Clients are not intended to use this class directly.
@@ -570,8 +608,8 @@ class ImageFeaturesAndThresholds {
 
 public:
 
-    cuv::ndarray<int8_t, memory_space> m_features;
-    cuv::ndarray<float, memory_space> m_thresholds;
+    cuv::ndarray<int8_t, memory_space> m_features; /**< array of features */
+    cuv::ndarray<float, memory_space> m_thresholds; /**< array of thresholds */
 
 private:
 
@@ -582,16 +620,25 @@ private:
 
 public:
 
+    /**
+     * set the size of the features and thresholds arrays
+     */
     explicit ImageFeaturesAndThresholds(size_t numFeatures, size_t numThresholds,
             boost::shared_ptr<cuv::allocator> allocator) :
             m_features(11, numFeatures, allocator), m_thresholds(numThresholds, numFeatures, allocator) {
     }
 
+    /**
+     * copy the features and thresholds of another object
+     */
     template<class other_memory_space>
     explicit ImageFeaturesAndThresholds(const ImageFeaturesAndThresholds<other_memory_space>& other) :
             m_features(other.features().copy()), m_thresholds(other.thresholds().copy()) {
     }
 
+    /**
+     * set the features and thresholds using another object attributes
+     */
     template<class other_memory_space>
     ImageFeaturesAndThresholds& operator=(const ImageFeaturesAndThresholds<other_memory_space>& other) {
         m_features = other.features().copy();
@@ -599,118 +646,205 @@ public:
         return (*this);
     }
 
+    /**
+     * @return a copy of the object
+     */
     ImageFeaturesAndThresholds copy() const {
         return ImageFeaturesAndThresholds(m_features.copy(), m_thresholds.copy());
     }
 
+    /**
+     * @return features - const
+     */
     const cuv::ndarray<int8_t, memory_space> features() const {
         return m_features;
     }
 
+    /**
+     * @return features
+     */
     cuv::ndarray<int8_t, memory_space> features() {
         return m_features;
     }
 
+    /**
+     * @return feature types
+     */    
     cuv::ndarray<int8_t, memory_space> types() {
         return m_features[cuv::indices[0][cuv::index_range()]];
     }
 
+    /**
+     * @return x offsets of the first region 
+     */
     cuv::ndarray<int8_t, memory_space> offset1X() {
         return m_features[cuv::indices[1][cuv::index_range()]];
     }
 
+    /**
+     * @return y offsets of the first region
+     */
     cuv::ndarray<int8_t, memory_space> offset1Y() {
         return m_features[cuv::indices[2][cuv::index_range()]];
     }
 
+    /**
+     * @return x offsets of the second region
+     */
     cuv::ndarray<int8_t, memory_space> offset2X() {
         return m_features[cuv::indices[3][cuv::index_range()]];
     }
 
+    /**
+     * @return y offsets of the second region
+     */
     cuv::ndarray<int8_t, memory_space> offset2Y() {
         return m_features[cuv::indices[4][cuv::index_range()]];
     }
 
+    /**
+     * @return widths of the first region
+     */
     cuv::ndarray<int8_t, memory_space> region1X() {
         return m_features[cuv::indices[5][cuv::index_range()]];
     }
 
+    /**
+     * @return heights of the first region
+     */
     cuv::ndarray<int8_t, memory_space> region1Y() {
         return m_features[cuv::indices[6][cuv::index_range()]];
     }
 
+    /**
+     * @return widths of the second region
+     */
     cuv::ndarray<int8_t, memory_space> region2X() {
         return m_features[cuv::indices[7][cuv::index_range()]];
     }
 
+    /**
+     * @return heights of the second region
+     */
     cuv::ndarray<int8_t, memory_space> region2Y() {
         return m_features[cuv::indices[8][cuv::index_range()]];
     }
 
+    /**
+     * @return features first channels
+     */
     cuv::ndarray<int8_t, memory_space> channel1() {
         return m_features[cuv::indices[9][cuv::index_range()]];
     }
 
+    /**
+     * @return features second channels
+     */
     cuv::ndarray<int8_t, memory_space> channel2() {
         return m_features[cuv::indices[10][cuv::index_range()]];
     }
 
+    /**
+     * @return thresholds
+     */
     cuv::ndarray<float, memory_space> thresholds() {
         return this->m_thresholds;
     }
 
+    /**
+     * @return feature types - const
+     */
     const cuv::ndarray<int8_t, memory_space> types() const {
         return m_features[cuv::indices[0][cuv::index_range()]];
     }
 
+    /**
+     * @return x offsets of the first region - const
+     */
     const cuv::ndarray<int8_t, memory_space> offset1X() const {
         return m_features[cuv::indices[1][cuv::index_range()]];
     }
 
+    /**
+     * @return y offsets of the first region - const
+     */
     const cuv::ndarray<int8_t, memory_space> offset1Y() const {
         return m_features[cuv::indices[2][cuv::index_range()]];
     }
 
+    /**
+     * @return x offsets of the second region - const
+     */
     const cuv::ndarray<int8_t, memory_space> offset2X() const {
         return m_features[cuv::indices[3][cuv::index_range()]];
     }
 
+    /**
+     * @return y offsets of the second region - const
+     */
     const cuv::ndarray<int8_t, memory_space> offset2Y() const {
         return m_features[cuv::indices[4][cuv::index_range()]];
     }
 
+    /**
+     * @return widths of the first region - const
+     */
     const cuv::ndarray<int8_t, memory_space> region1X() const {
         return m_features[cuv::indices[5][cuv::index_range()]];
     }
 
+    /**
+     * @return heights of the first region - const
+     */
     const cuv::ndarray<int8_t, memory_space> region1Y() const {
         return m_features[cuv::indices[6][cuv::index_range()]];
     }
 
+    /**
+     * @return widths of the second region - const
+     */
     const cuv::ndarray<int8_t, memory_space> region2X() const {
         return m_features[cuv::indices[7][cuv::index_range()]];
     }
 
+    /**
+     * @return heights of the second region - const
+     */
     const cuv::ndarray<int8_t, memory_space> region2Y() const {
         return m_features[cuv::indices[8][cuv::index_range()]];
     }
 
+    /**
+     * @return features first channels - const
+     */
     const cuv::ndarray<int8_t, memory_space> channel1() const {
         return m_features[cuv::indices[9][cuv::index_range()]];
     }
 
+    /**
+     * @return features second channels - const
+     */
     const cuv::ndarray<int8_t, memory_space> channel2() const {
         return m_features[cuv::indices[10][cuv::index_range()]];
     }
 
+    /**
+     * @return thresholds - const
+     */
     const cuv::ndarray<float, memory_space> thresholds() const {
         return this->m_thresholds;
     }
 
+    /**
+     * @return threshold of the given feature
+     */
     double getThreshold(size_t threshNr, size_t featNr) const {
         return m_thresholds(threshNr, featNr);
     }
 
+    /**
+     * fill the feature attributes using the given feature at the specified location
+     */
     void setFeatureFunction(size_t feat, const ImageFeatureFunction& feature) {
 
         types()(feat) = static_cast<int8_t>(feature.getType());
@@ -731,6 +865,9 @@ public:
         assert(getFeatureFunction(feat) == feature);
     }
 
+    /**
+     * @return feature that has feat as number
+     */
     ImageFeatureFunction getFeatureFunction(size_t feat) const {
         const Offset offset1(offset1X()(feat), offset1Y()(feat));
         const Offset offset2(offset2X()(feat), offset2Y()(feat));
@@ -747,6 +884,8 @@ public:
 
 /**
  * Helper class to store a list of pixel instances in a compact manner
+ * @ingroup transfer_cpu_gpu
+ *
  * such that it can be transferred between CPU and GPU.
  *
  * Clients are not intended to use this class directly.
@@ -755,16 +894,18 @@ template<class memory_space>
 class Samples {
 
 public:
-    cuv::ndarray<int, memory_space> data;
+    cuv::ndarray<int, memory_space> data;  /**< all data associated with the pixel */
 
-    float* depths;
-    int* sampleX;
-    int* sampleY;
-    int* imageNumbers;
-    uint8_t* labels;
-    bool* useFlipping;
+    float* depths; /**< depth of the pixel */
+    int* sampleX; /**< x coordinate of the pixel */
+    int* sampleY; /**< y coordinate of the pixel */
+    int* imageNumbers; /**< number of image that has the pixel */
+    uint8_t* labels; /**< label of the pixel */
+    bool* useFlipping; /**< flipping setting of the pixel */
 
-    // does not copy data
+    /**
+     * does not copy data
+     */
     Samples(const Samples& samples) :
             data(samples.data),
                     depths(reinterpret_cast<float*>(data[cuv::indices[0][cuv::index_range()]].ptr())),
@@ -775,7 +916,9 @@ public:
                     useFlipping(reinterpret_cast<bool*>(data[cuv::indices[5][cuv::index_range()]].ptr())){
     }
 
-    // copies the data
+    /**
+     *  copies the data
+     */
     template<class T>
     Samples(const Samples<T>& samples, cudaStream_t stream) :
             data(samples.data, stream),
@@ -787,6 +930,9 @@ public:
                     useFlipping(reinterpret_cast<bool*>(data[cuv::indices[5][cuv::index_range()]].ptr())){
     }
 
+    /**
+     * allocates memory for data
+     */
     Samples(size_t numSamples, boost::shared_ptr<cuv::allocator>& allocator) :
             data(6, numSamples, allocator),
                     depths(reinterpret_cast<float*>(data[cuv::indices[0][cuv::index_range()]].ptr())),
@@ -806,6 +952,7 @@ public:
  * Helper class for the four phases in the cost-intensive best-split evaluation during random forest training.
  * See the Master’s thesis "Accelerating Random Forests on CPUs and GPUs for Object-Class Image Segmentation"
  * for more details on this implementation.
+ * @ingroup training_helper_classes
  *
  * Clients are not intended to use this class directly.
  */
@@ -813,6 +960,10 @@ class ImageFeatureEvaluation {
 public:
     // box_radius: > 0, half the box side length to uniformly sample
     //    (dx,dy) offsets from.
+
+	/**
+	 * helper object for feature evaluation for the given tree and training configuration
+	 */
     ImageFeatureEvaluation(const size_t treeId, const TrainingConfiguration& configuration) :
             treeId(treeId), configuration(configuration),
                     imageWidth(0), imageHeight(0),
@@ -828,28 +979,49 @@ public:
         initDevice();
     }
 
+    /**
+     * @return best features and thresholds to split after evaluating splits
+     */
     std::vector<SplitFunction<PixelInstance, ImageFeatureFunction> > evaluateBestSplits(RandomSource& randomSource,
             const std::vector<std::pair<boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> >,
                     std::vector<const PixelInstance*> > >& samplesPerNode);
 
+    /**
+     * @return a batch that contains the given samples
+     */
     std::vector<std::vector<const PixelInstance*> > prepare(const std::vector<const PixelInstance*>& samples,
             RandomTree<PixelInstance, ImageFeatureFunction>& node, cuv::host_memory_space);
 
+    /**
+     * @return a batch that contains the given samples
+     */
     std::vector<std::vector<const PixelInstance*> > prepare(const std::vector<const PixelInstance*>& samples,
             RandomTree<PixelInstance, ImageFeatureFunction>& node, cuv::dev_memory_space, bool keepMutexLocked = true);
 
+    /**
+     * @return random features and thresholds
+     */
     ImageFeaturesAndThresholds<cuv::host_memory_space> generateRandomFeatures(
             const std::vector<const PixelInstance*>& batches,
             int seed, const bool sort, cuv::host_memory_space);
 
+    /**
+     * @return random features and thresholds
+     */
     ImageFeaturesAndThresholds<cuv::dev_memory_space> generateRandomFeatures(
             const std::vector<const PixelInstance*>& batches,
             int seed, const bool sort, cuv::dev_memory_space);
 
+    /**
+     * sort features by the given keys
+     */
     template<class memory_space>
     void sortFeatures(ImageFeaturesAndThresholds<memory_space>& featuresAndThresholds,
             const cuv::ndarray<int, memory_space>& keysIndices) const;
 
+    /**
+     * @return histogram counters after calculating feature responses
+     */
     template<class memory_space>
     cuv::ndarray<WeightType, memory_space> calculateFeatureResponsesAndHistograms(
             RandomTree<PixelInstance, ImageFeatureFunction>& node,
@@ -857,6 +1029,9 @@ public:
             const ImageFeaturesAndThresholds<memory_space>& featuresAndThresholds,
             cuv::ndarray<FeatureResponseType, cuv::host_memory_space>* featureResponsesHost = 0);
 
+    /**
+     * @return normalized cores after calculating the information gain that results from splitting
+     */
     template<class memory_space>
     cuv::ndarray<ScoreType, cuv::host_memory_space> calculateScores(
             const cuv::ndarray<WeightType, memory_space>& counters,
@@ -893,6 +1068,7 @@ private:
 
 /**
  * A random tree in a random forest, for RGB-D images.
+ * @ingroup forest_hierarchy
  */
 class RandomTreeImage {
 public:
@@ -903,6 +1079,11 @@ public:
      */
     RandomTreeImage(int id, const TrainingConfiguration& configuration);
 
+    /**
+     * @param tree
+     * @param configuration training configuration of the tree
+     * @param classLabelPriorDistribution prior distributions of the classes
+     */
     RandomTreeImage(boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> > tree,
             const TrainingConfiguration& configuration,
             const cuv::ndarray<WeightType, cuv::host_memory_space>& classLabelPriorDistribution);
@@ -925,18 +1106,30 @@ public:
      */
     void normalizeHistograms(const double histogramBias);
 
+    /**
+     * @return the underlying tree
+     */
     const boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> >& getTree() const {
         return tree;
     }
 
+    /**
+     * @return prior distribution of classes
+     */
     const cuv::ndarray<WeightType, cuv::host_memory_space>& getClassLabelPriorDistribution() const {
         return classLabelPriorDistribution;
     }
 
+    /**
+     * @return tree id
+     */
     size_t getId() const {
         return id;
     }
 
+    /**
+     * @return whether the given label is one that the user specified as being ignored
+     */
     bool shouldIgnoreLabel(const LabelType& label) const;
 
 private:

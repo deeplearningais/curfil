@@ -10,6 +10,7 @@ namespace curfil {
 
 /**
  * Helper class to maintain a n×n confusion matrix.
+ * @ingroup prediction_results
  *
  *
  * Construction of the confusion matrix is usually a two-phase process.
@@ -27,6 +28,9 @@ public:
             data(), normalized(false) {
     }
 
+    /**
+     * create a confusion matrix using the attribute values of another matrix
+     */
     explicit ConfusionMatrix(const ConfusionMatrix& other) :
             data(other.data.copy()), normalized(other.normalized), ignoredLabels(other.ignoredLabels) {
     }
@@ -40,12 +44,18 @@ public:
         reset();
     }
 
+    /**
+     * Create a confusion matrix of size numClasses x numClasses and sets which labels should be ignored in the calculations
+     */
     explicit ConfusionMatrix(size_t numClasses, std::vector<LabelType> ignoredLabels) :
             data(numClasses, numClasses), normalized(false), ignoredLabels(ignoredLabels) {
         assert(numClasses > 0);
         reset();
     }
 
+    /**
+     * copies the attribute values of another confusion matrix
+     */
     ConfusionMatrix& operator=(const ConfusionMatrix& other) {
         data = other.data.copy();
         normalized = other.normalized;
@@ -73,13 +83,22 @@ public:
         return normalized;
     }
 
+    /**
+     * adds the data values of another confusion matrix
+     */
     void operator+=(const ConfusionMatrix& other);
 
+    /**
+     * @return the probability and host_memory_space associated with the true and predicted classes
+     */
     cuv::reference<double, cuv::host_memory_space>
     operator()(int label, int prediction) {
         return data(label, prediction);
     }
 
+    /**
+     * @return the probability associated with the true and predicted classes
+     */
     double operator()(int label, int prediction) const {
         return data(label, prediction);
     }

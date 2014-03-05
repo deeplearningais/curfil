@@ -19,6 +19,7 @@ typedef uint8_t LabelType;
 
 /**
  * A tuple of three 8-bit uints that represent a RGB color value
+ * @ingroup image_related
  */
 class RGBColor: public std::vector<uint8_t> {
 
@@ -26,6 +27,9 @@ public:
 
     RGBColor();
 
+    /**
+     * Creates an RGB color from red, green and blue values
+     */
     RGBColor(uint8_t r, uint8_t g, uint8_t b);
 
     /**
@@ -50,6 +54,9 @@ public:
         return o.str();
     }
 
+    /**
+     * add the string representation of the color to the stream
+     */
     friend std::ostream& operator<<(std::ostream& os, RGBColor const& color) {
         return os << color.toString();
     }
@@ -62,6 +69,7 @@ void addColorId(const RGBColor& color, const LabelType& label);
 
 /**
  * Wrapper class that represent a depth value as it occurs in RGB-D images.
+ * @ingroup image_related
  *
  * The internal representation is an int that represent the depth (distance) in millimeter precision.
  *
@@ -117,22 +125,34 @@ public:
         return value;
     }
 
+    /**
+     * @return the difference in depth
+     */
     Depth operator-(const Depth& other) const {
         assert(other.getIntValue() >= 0);
         return Depth(value - other.value);
     }
 
+    /**
+     * @return the combined depth values
+     */
     Depth operator+(const Depth& other) const {
         assert(other.getIntValue() >= 0);
         return Depth(value + other.value);
     }
 
+    /**
+     * @return the depth after adding to it another value
+     */
     Depth& operator+=(const Depth& other) {
         assert(other.getIntValue() >= 0);
         value += other.value;
         return (*this);
     }
 
+    /**
+     * Static value used when the depth is invalid, e.gs outside the image.
+     */
     static const Depth INVALID;
 
 private:
@@ -142,6 +162,7 @@ private:
 
 /**
  * An RGB-D image that contains four channels for the RGB color and the depth.
+ * @ingroup image_related
  *
  * The class provides convenience methods to convert the image between RGB and CIELab color space
  * and to calculate image integrals.
@@ -178,6 +199,9 @@ public:
         reset();
     }
 
+    /**
+     * uses the attributes of another object to set its attributes
+     */
     RGBDImage(const RGBDImage& other);
 
     /**
@@ -258,7 +282,7 @@ public:
      */
     void saveDepth(const std::string& filename) const;
 
-    /*
+    /**
      * @return the name of the file this image was loaded from
      */
     const std::string& getFilename() const {
@@ -337,7 +361,7 @@ public:
      * @param x the x position in the image where 0 <= x < width
      * @param y the y position in the image where 0 <= y < height
      * @param channel the color channel where 0 <= channel < COLOR_CHANNELS
-     * @param float the new color value
+     * @param color the new color value
      */
     void setColor(int x, int y, unsigned int channel, float color) {
         // colorImage(channel, y, x) = color;
@@ -346,7 +370,7 @@ public:
 
     /**
      * @param x the x position in the image where 0 <= x < width
-     * @param y the y position in the image where 0 <= y < height
+     * @param y the y position in the image where 0 <= y < heightunit_testing
      * @param channel the color channel where 0 <= channel < COLOR_CHANNELS
      * @return the color value at the given position and color channel
      */
@@ -355,6 +379,9 @@ public:
         return colorImage.ptr()[channel * getWidth() * getHeight() + y * getWidth() + x];
     }
 
+    /**
+     * resize an image to a new depth and height
+     */
     void resizeImage(int newWidth, int newHeight);
 
 private:
@@ -393,6 +420,7 @@ private:
 
 /**
  * A labelling that usually belongs to a RGBImage.
+ * @ingroup image_related
  *
  * @see LabeledRGBDImage
  */
@@ -463,26 +491,44 @@ public:
         return image.size() * sizeof(LabelType);
     }
 
+    /**
+     * @return the width of the image
+     */
     int getWidth() const {
         return width;
     }
 
+    /**
+     * @return the height of the image
+     */
     int getHeight() const {
         return height;
     }
 
+    /**
+     * sets the label of a pixel
+     */
     void setLabel(int x, int y, const LabelType label) {
         assert(isInImage(x, y));
         image(y, x) = label;
     }
 
+    /**
+     * @return the label of a pixel
+     */
     LabelType getLabel(int x, int y) const {
         assert(isInImage(x, y));
         return image(y, x);
     }
 
+    /**
+     * @return the id associated with the color
+     */
     static LabelType encodeColor(RGBColor color);
 
+    /**
+     * resize the image to new depth and height and uses the provided label for padding
+     */
     void resizeImage(int newWidth, int newHeight, LabelType paddingLabel);
 
 }
@@ -490,11 +536,18 @@ public:
 
 /**
  * A tuple of a RGBD image and an according labeling.
+ * @ingroup image_related
  */
 class LabeledRGBDImage {
 
 public:
+	/**
+	 * the RGBD component
+	 */
     boost::shared_ptr<RGBDImage> rgbdImage;
+    /**
+     * the label iamge component
+     */
     boost::shared_ptr<LabelImage> labelImage;
 
 public:
@@ -503,6 +556,9 @@ public:
             rgbdImage(), labelImage() {
     }
 
+    /**
+     * creates a LabeledRGBDImage object out of an rgbd and label images
+     */
     LabeledRGBDImage(const boost::shared_ptr<RGBDImage>& rgbdImage,
             const boost::shared_ptr<LabelImage>& labelImage);
 
@@ -513,24 +569,42 @@ public:
         return rgbdImage->getSizeInMemory() + labelImage->getSizeInMemory();
     }
 
+    /**
+     * @return the RGBD image component
+     */
     const RGBDImage& getRGBDImage() const {
         return *(rgbdImage.get());
     }
 
+    /**
+     * @return the label image component
+     */
     const LabelImage& getLabelImage() const {
         return *(labelImage.get());
     }
 
+    /**
+     * @return the width of the RGBD image
+     */
     int getWidth() const {
         return rgbdImage->getWidth();
     }
 
+    /**
+     * @return the height of the RGBD image
+     */
     int getHeight() const {
         return rgbdImage->getHeight();
     }
 
+    /**
+     * resize the image to new depth and height and uses the provided label for padding
+     */
     void resizeImage(int newWidth, int newHeight, LabelType paddingLabel) const;
 
+    /**
+     * calculate the image integral
+     */
     void calculateIntegral() const;
 
 };

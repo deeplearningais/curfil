@@ -10,6 +10,7 @@ namespace curfil {
 
 /**
  * Helper class to export a random tree or random forest to disk in compressed (gzip) JSON format.
+ * @ingroup import_export_trees
  *
  * @see RandomTreeImport
  */

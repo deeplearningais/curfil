@@ -11,11 +11,17 @@ namespace curfil
 
 typedef double ScoreType;
 
-// Normalized information gain score, see formula (11) in [Wehenkel1991] and
-// appendix A in [Geurts2006].
+/**
+ * Information Gain calculation using Shannon entropy of the parent and child nodes
+ * @ingroup score_calc
+ */
 class InformationGainScore {
 
 protected:
+
+    /**
+     * @return entropy calculated using the given probability
+     */
     __host__ __device__
     static ScoreType entropy(const ScoreType prob) {
         if (prob == 0.0) {
@@ -24,6 +30,9 @@ protected:
         return -prob * log2(prob);
     }
 
+    /**
+     * @return score in the interval [0,1]
+     */
     __host__ __device__
     static ScoreType normalizeScore(const ScoreType score) {
 
@@ -45,6 +54,9 @@ protected:
 
 public:
 
+    /**
+     * @return normalized score calculated after splitting
+     */
     template<class W>
     __host__ __device__
     static ScoreType calculateScore(const size_t numLabels, const W* leftClasses, const W* rightClasses,
@@ -100,10 +112,17 @@ public:
     }
 };
 
+/**
+ * Information gain normalized by the sum of the classification and split entropies 
+ * see formula (11) in [Wehenkel1991] and appendix A in [Geurts2006]
+ * @ingroup score_calc
+ */ 
 class NormalizedInformationGainScore: public InformationGainScore {
 protected:
 
-    // H_s: "split entropy", i.e. a measure of the split balancedness
+    /**
+     * @return H_s: "split entropy", i.e. a measure of the split balancedness
+     */
     __host__ __device__
     static ScoreType splitEntropy(const ScoreType total, const ScoreType totalLeft, const ScoreType totalRight) {
         ScoreType H_s = (entropy(totalLeft) + entropy(totalRight) - entropy(total)) / total;
@@ -114,6 +133,9 @@ protected:
         return H_s;
     }
 
+    /**
+     * @return classification entropy
+     */
     template<class W>
     __host__ __device__
     static ScoreType classificationEntropy(const size_t numLabels, const W* allClasses, const ScoreType total) {
@@ -166,6 +188,7 @@ public:
     }
 };
 
+/// @cond DEV
 class NoOpScore: public InformationGainScore {
 
 public:
@@ -192,6 +215,8 @@ public:
         return score / (3.0 * total);
     }
 };
+
+/// @endcond
 
 }
 

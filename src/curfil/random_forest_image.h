@@ -12,6 +12,7 @@ class TreeNodes;
 
 /**
  * A random forest for RGB-D images.
+ * @ingroup forest_hierarchy
  */
 class RandomForestImage {
 
@@ -53,20 +54,30 @@ public:
      *
      * @param trainLabelImages the list of labeled images to train the random forest from
      * @param trainTreesSequentially whether to train the trees in the random forest in parallel or sequentially.
+     * @param numLabels number of classes in the images
      */
     void train(const std::vector<LabeledRGBDImage>& trainLabelImages, size_t numLabels = 0, bool trainTreesSequentially = false);
 
     /**
      * @param image the image which should be classified
-     * @param if not null, probabilities per class in a C×H×W matrix for C classes and an image of size W×H
+     * @param prediction if not null, probabilities per class in a C×H×W matrix for C classes and an image of size W×H
+     * @param onGPU whether prediction is done using GPUs
+     * @param useDepthImages whether depth images are used when classifying images
      * @return prediction image which has the same size as 'image'
      */
     LabelImage predict(const RGBDImage& image,
             cuv::ndarray<float, cuv::host_memory_space>* prediction = 0,
             const bool onGPU = true, bool useDepthImages = true) const;
 
+	
+	/**
+	* classifies all images at the end of training - used to improve leaf distributions
+	*/
 	LabelImage improveHistograms(const RGBDImage& trainingImage, const LabelImage& labelImage, const bool onGPU = true, bool useDepthImages  = true) const;
 
+	/**
+	* uses the allPixelsHistograms to update the trees leaves histograms - used to improve leaf distributions 
+	*/
 	void updateTreesHistograms();
     /**
      * @return a recursive sum of per-feature type count
@@ -103,10 +114,19 @@ public:
         return configuration;
     }
 
+    /**
+    * @return whether the passed label is one of those specified by the user to be ignored
+    */
     bool shouldIgnoreLabel(const LabelType& label) const;
 
+    /**
+    * @return a map where keys are the labels and the values are the colors associated with them 
+    */
     std::map<LabelType, RGBColor> getLabelColorMap() const;
 
+    /**
+    * goes over all trees and normalizes the histograms
+    */
     void normalizeHistograms(const double histogramBias);
 
 private:

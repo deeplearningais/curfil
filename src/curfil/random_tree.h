@@ -50,9 +50,16 @@ enum AccelerationMode {
     GPU_AND_CPU_COMPARE
 };
 
+/**
+ * Class used to get the splitting score for a given feature and threshold
+ * @ingroup training_helper_classes
+ */
 template<class Instance, class FeatureFunction> class SplitFunction {
 public:
 
+    /**
+    * creates a SplitFunction object using the feature and threshold used when splitting and the resulting score
+    */
     // Note: feat is copied and SplitFunction assumes ownership.
     // To be able to test on any sample, FeatureFunction must be implemented
     // such that it can lookup these Instances dynamically.
@@ -65,6 +72,9 @@ public:
                     std::numeric_limits<float>::quiet_NaN()) {
     }
 
+    /**
+     * uses another SplitFunction object to set the attributes
+     */
     SplitFunction& operator=(const SplitFunction& other) {
         assert(!isnan(other.threshold));
         assert(!isnan(other.score));
@@ -74,8 +84,9 @@ public:
         score = other.score;
         return (*this);
     }
-
-	// Return left or right branch for a given instance and feature function.
+        /**
+	 * @return left or right branch for a given instance and feature function.
+	 */
 	SplitBranch split(const Instance& instance, bool& flippedSameSplit) const {
 		bool value1 = feature.calculateFeatureResponse(instance) <= getThreshold();
 		flippedSameSplit = true;
@@ -88,21 +99,32 @@ public:
 		return ((value1) ? LEFT : RIGHT);
 	}
 
-    // Return the underlying feature used
+    /**
+     * @return the underlying feature used
+     */
     const FeatureFunction& getFeature() const {
         return (feature);
     }
 
+    /**
+     * @return the threshold used
+     */
     float getThreshold() const {
         assert(!isnan(threshold));
         return threshold;
     }
 
+    /**
+     * @return the score used
+     */
     ScoreType getScore() const {
         assert(!isnan(score));
         return score;
     }
 
+    /**
+     * @return the featue ID
+     */
     size_t getFeatureId() const {
         return featureId;
     }
@@ -114,6 +136,10 @@ private:
     ScoreType score;
 };
 
+/**
+ * Parameters used for training, most of which are provided by the user
+ * @ingroup training_helper_classes
+ */
 class TrainingConfiguration {
 
 public:
@@ -140,8 +166,14 @@ public:
                     useDepthImages(0) {
     }
 
+    /**
+     * using another object to set the training cofiguration attributes
+     */
     TrainingConfiguration(const TrainingConfiguration& other);
 
+    /**
+     * creating a configuration objects with the settings that the user provided
+     */
     TrainingConfiguration(int randomSeed,
             unsigned int samplesPerImage,
             unsigned int featureCount,
@@ -193,107 +225,190 @@ public:
         }
     }
 
+    /**
+     * sets the seed used for RandomSource during training
+     */
     void setRandomSeed(int randomSeed) {
         this->randomSeed = randomSeed;
     }
 
+    /**
+     * @return the random seed used
+     */ 
     int getRandomSeed() const {
         return randomSeed;
     }
 
+    /**
+     * @return number of pixels to sample per image
+     */
     unsigned int getSamplesPerImage() const {
         return samplesPerImage;
     }
 
+    /**
+     * @return number of random feature candidates to sample
+     */
     unsigned int getFeatureCount() const {
         return featureCount;
     }
 
+    /**
+     * @return minimum number of samples that a node should have to continue splitting
+     */
     unsigned int getMinSampleCount() const {
         return minSampleCount;
     }
 
+    /**
+     * @return maximum depth of the tree, training is stopped after that
+     */
     int getMaxDepth() const {
         return maxDepth;
     }
 
+    /**
+     * @return the interval from which to sample the offsets of the rectangular regions
+     */
     uint16_t getBoxRadius() const {
         return boxRadius;
     }
 
+    /**
+     * @return the interval from which to sample the width and height of the rectangular regions
+     */
     uint16_t getRegionSize() const {
         return regionSize;
     }
 
+    /**
+     * @return number of threshold candidates selected for the evaluation split
+     */
     uint16_t getThresholds() const {
         return thresholds;
     }
 
+    /**
+     * @return number of threads used in training
+     */
     int getNumThreads() const {
         return numThreads;
     }
 
+    /**
+     * @return number of images to load when training each tree
+     */
     int getMaxImages() const {
         return maxImages;
     }
 
+    /**
+     * @return image cache size on the GPU in Megabytes
+     */
     int getImageCacheSize() const {
         return imageCacheSize;
     }
 
+    /**
+     * @return max number of samples in a batch - depends on the  memory and sample size
+     */
     unsigned int getMaxSamplesPerBatch() const {
         return maxSamplesPerBatch;
     }
 
+    /**
+     * @return acceleration mode: gpu, cpu or compare
+     */
     AccelerationMode getAccelerationMode() const {
         return accelerationMode;
     }
 
+    /**
+     * set the acceleration mode: gpu or cpu
+     */
     void setAccelerationMode(const AccelerationMode& accelerationMode) {
         this->accelerationMode = accelerationMode;
     }
 
+    /**
+     * @return the acceleration mode from the string representation
+     */
     static AccelerationMode parseAccelerationModeString(const std::string& modeString);
 
+    /**
+     * @return acceleration mode as string
+     */
     std::string getAccelerationModeString() const;
 
+    /**
+     * @return GPU deviceId used for training
+     */
     const std::vector<int>& getDeviceIds() const {
         return deviceIds;
     }
 
+    /**
+     * set the deviceId used for training
+     */
     void setDeviceIds(const std::vector<int>& deviceIds) {
         this->deviceIds = deviceIds;
     }
 
+    /**
+     * @return type of sampling, pixelUniform or classUniform
+     */
     std::string getSubsamplingType() const {
         return subsamplingType;
     }
 
+    /**
+     * @return whether to convert images to CIELab color space before training
+     */
     bool isUseCIELab() const {
         return useCIELab;
     }
 
+    /**
+     * @return whether to do simple depth filling
+     */
     bool isUseDepthFilling() const {
         return useDepthFilling;
     }
 
+    /**
+     * @return whether there are depth images
+     */
     bool isUseDepthImages() const {
     	return useDepthImages;
     }
 
-
+    /**
+     * @return which colors should be ignored when sampling
+     */
     const std::vector<std::string>& getIgnoredColors() const {
         return ignoredColors;
     }
 
+    /**
+     * set its attributes to be equal to another configuration
+     */
     TrainingConfiguration& operator=(const TrainingConfiguration& other);
 
+    /**
+     * @return whether it's equal to another configuration
+     */
     bool equals(const TrainingConfiguration& other, bool strict = false) const;
 
+    /**
+     * @return whether it's equal to another configuration, all attributes should match 
+     */
     bool operator==(const TrainingConfiguration& other) const {
         return this->equals(other, true);
     }
 
+    /**
+     * @return whether it's not equal to another configuration
+     */
     bool operator!=(const TrainingConfiguration& other) const {
         return (!(*this == other));
     }
@@ -322,11 +437,18 @@ private:
     bool useDepthImages;
 };
 
+/**
+ * A sub-tree with histograms and pointers to the parent and children
+ * @ingroup forest_hierarchy
+ */
 template<class Instance, class FeatureFunction>
 class RandomTree {
 
 public:
 
+    /**
+     * create a sub-tree at the given level and nodeId using samples provided
+     */
     RandomTree(const size_t& nodeId, const int level,
             const std::vector<const Instance*>& samples, size_t numClasses,
             const boost::shared_ptr<RandomTree<Instance, FeatureFunction> >& parent = boost::shared_ptr<
@@ -350,6 +472,9 @@ public:
         }
     }
 
+    /**
+     * create a sub-tree at the given level and nodeId using the histogram provided
+     */ 
     RandomTree(const size_t& nodeId, const int level,
             const boost::shared_ptr<RandomTree<Instance, FeatureFunction> >& parent,
             const std::vector<WeightType>& histogram) :
@@ -382,14 +507,18 @@ public:
         return (nonZeroClasses == 1);
     }
 
+    /**
+     * @return the number of labels
+     */
     size_t getNumClasses() const {
         assert(histogram.size() == numClasses);
         return numClasses;
     }
 
-    // For a given instance, collect the set of all nodes this sample
-    // traverses through
-    void collectNodeIndices(const Instance& instance,
+    /** 
+     * For a given instance, collect the set of all nodes this sample traverses through
+     */
+     void collectNodeIndices(const Instance& instance,
             std::set<unsigned int>& nodeSet, bool includeRoot) const {
 
         if (!isRoot() || includeRoot) {
@@ -407,7 +536,10 @@ public:
         assert(node != NULL);
         node->collectNodeIndices(instance, nodeSet, includeRoot);
     }
-
+ 
+    /**
+     * collect all leaf nodes
+     */
     void collectLeafNodes(std::vector<size_t> &leafSet) {
      	if (isLeaf())
      	{
@@ -420,65 +552,108 @@ public:
          }
      }
 
-    // Classify an instance by traversing the tree and returning the tree leaf
-    // nodes leaf class.
+    /**
+     * Classify an instance by traversing the tree and returning the tree leaf nodes leaf class.
+     */
     LabelType classify(const Instance& instance) const {
         return traverseToLeaf(instance)->getDominantClass();
     }
 
+    /**
+     * @return the histogram of the leaf reached when classifying the instance
+     */
     const cuv::ndarray<double, cuv::host_memory_space>& classifySoft(const Instance& instance) const {
         return (traverseToLeaf(instance)->getNormalizedHistogram());
     }
 
+    /**
+     * @return number of samples
+     */
     size_t getNumTrainSamples() const {
         return trainSamples.size();
     }
 
+    /**
+     * @return the timers for the subtree
+     */
     const std::map<std::string, double>& getTimerValues() const {
         return timers;
     }
 
+    /** 
+     * @return the timers annotations
+     */
     const std::map<std::string, std::string>& getTimerAnnotations() const {
         return timerAnnotations;
     }
 
+    /**
+     * set the timer value used when profiling
+     */
     void setTimerValue(const std::string& key, utils::Timer& timer) {
         setTimerValue(key, timer.getSeconds());
     }
 
+    /**
+     * set the timer annotation
+     */ 
     template<class V>
     void setTimerAnnotation(const std::string& key, const V& annotation) {
         timerAnnotations[key] = boost::lexical_cast<std::string>(annotation);
     }
-
+ 
+    /**
+     * add the given timer seconds
+     */
     void addTimerValue(const std::string& key, utils::Timer& timer) {
         addTimerValue(key, timer.getSeconds());
     }
 
+    /**
+     * set a timer to the given seconds
+     */
     void setTimerValue(const std::string& key, const double timeInSeconds) {
         timers[key] = timeInSeconds;
     }
 
+    /**
+     * add the given seconds to the timer
+     */
     void addTimerValue(const std::string& key, const double timeInSeconds) {
         timers[key] += timeInSeconds;
     }
 
+    /**
+     * @return the left branch of the tree
+     */
     boost::shared_ptr<const RandomTree<Instance, FeatureFunction> > getLeft() const {
         return left;
     }
 
+    /**
+     * @return the right branch of the treeunit_testing
+     */
     boost::shared_ptr<const RandomTree<Instance, FeatureFunction> > getRight() const {
         return right;
     }
 
+    /**
+     * @return the current level
+     */
     int getLevel() const {
         return level;
     }
 
+    /**
+     * @return whether this is the root node
+     */
     bool isRoot() const {
         return (parent.lock().get() == NULL);
     }
 
+    /**
+     * @return the root of the tree
+     */
     const RandomTree<Instance, FeatureFunction>* getRoot() const {
         if (isRoot()) {
             return this;
@@ -486,6 +661,9 @@ public:
         return parent.lock()->getRoot();
     }
 
+    /**
+     * @return the number of features grouped by their type
+     */
     void countFeatures(std::map<std::string, size_t>& featureCounts) const {
         if (isLeaf()) {
             return;
@@ -497,24 +675,36 @@ public:
         right->countFeatures(featureCounts);
     }
 
+    /**
+     * @return the number of nodes
+     */
     size_t countNodes() const {
         return (isLeaf() ? 1 : (1 + left->countNodes() + right->countNodes()));
     }
-
+    unit_testing
+    /**
+     * @return number of leaf nodes
+     */
     size_t countLeafNodes() const {
         return (isLeaf() ? 1 : (left->countLeafNodes() + right->countLeafNodes()));
     }
 
+    /**
+     * @return depth of the tree
+     */
     size_t getTreeDepth() const {
         if (isLeaf())
             return 1;
         return (1 + std::max(left->getTreeDepth(), right->getTreeDepth()));
     }
 
-    // Links the given left/right subtrees as children to this one.
-    // Assigns unique labels to the children nodes.
-    // Makes the current node a non-leaf node.
-    // This tree node assumes ownership of split and both children.
+    /**
+     * Links the given left/right subtrees as children to this one.
+     * 
+     * Assigns unique labels to the children nodes.
+     * Makes the current node a non-leaf node.
+     * This tree node assumes ownership of split and both children.
+     */
     void addChildren(const SplitFunction<Instance, FeatureFunction>& split,
             boost::shared_ptr<RandomTree<Instance, FeatureFunction> > left,
             boost::shared_ptr<RandomTree<Instance, FeatureFunction> > right) {
@@ -541,24 +731,39 @@ public:
         leaf = false;
     }
 
+    /**
+     * @return whether this is a leaf node
+     */
     bool isLeaf() const {
         return leaf;
     }
 
+    /**
+     * @return the split associated with the subtree
+     */
     const SplitFunction<Instance, FeatureFunction>& getSplit() const {
         return split;
     }
 
+    /**
+     * @return the current node Id
+     */
     size_t getNodeId() const {
         return nodeId;
     }
-
+   
+    /**
+     * @return the tree Id
+     */
     size_t getTreeId() const {
         size_t rootNodeId = getRoot()->getNodeId();
         assert(rootNodeId <= getNodeId());
         return rootNodeId;
     }
 
+    /**
+     * normalize the histograms of the tree and its branches
+     */
     void normalizeHistograms(const cuv::ndarray<WeightType, cuv::host_memory_space>& priorDistribution,
             const double histogramBias) {
 
@@ -586,10 +791,16 @@ public:
         }
     }
 
+    /**
+     * @return the histogram associated with the node
+     */
     const cuv::ndarray<WeightType, cuv::host_memory_space>& getHistogram() const {
         return histogram;
     }
 
+    /**
+     * @return the normalized histogram associated with the node
+     */
     const cuv::ndarray<double, cuv::host_memory_space>& getNormalizedHistogram() const {
         if (normalizedHistogram.shape() != histogram.shape()) {
             CURFIL_ERROR("node: " << nodeId << " (level " << level << ")");
@@ -600,21 +811,29 @@ public:
         return normalizedHistogram;
     }
 
+    /**
+     * @return the train samples for the current node
+     */
     const std::vector<Instance>& getTrainSamples() const {
         return trainSamples;
     }
 
+    /**
+     * add the passed value to the label histogram count
+     */
     void setAllPixelsHistogram(size_t label, double value) {
 
          allPixelsHistogram[label] += value;
      }
 
+    /**
+     * traverses the tree to the leaf then increments the instance label's histogram
+     */
     const RandomTree<Instance, FeatureFunction>* setAllPixelsHistogram(const Instance& instance) {
            if (isLeaf())
            {
         	   size_t label = instance.getLabel();
         	   allPixelsHistogram[label] += 1;
-        	//   CURFIL_INFO("tttttttto"<<label<<" "<<allPixelsHistogram[label])
            return this;
            }
 
@@ -629,12 +848,15 @@ public:
                 }
        }
 
+     /**
+      * copies the values of allPixelsHistgrams into histograms
+      */
      void updateHistograms()
      {
 
     	 if (isLeaf()) {
      	  for (size_t label = 0; label < numClasses; label++) {
-     		 CURFIL_INFO(label<<" histogram[label] "<<histogram[label]<<" allPixelsHistogram[label] "<<allPixelsHistogram[label]);
+     		// CURFIL_INFO(label<<" histogram[label] "<<histogram[label]<<" allPixelsHistogram[label] "<<allPixelsHistogram[label]);
      		 if (histogram[label] != 0)
      		 { histogram[label] = allPixelsHistogram[label];}
      	   }
@@ -645,6 +867,9 @@ public:
 
      }
 
+    /**
+     * recomputes the correct histograms, they were changed when checking for flipped features
+     */
     void recomputeHistogramNoFlipping(const std::vector<const Instance*>& samples)
     {
         for (size_t label = 0; label < numClasses; label++) {
@@ -722,27 +947,50 @@ private:
     }
 };
 
+/**
+ * A uniform distribution sampler
+ * @ingroup rand_sampling
+ */
 class Sampler {
 public:
+    
+    /**
+     * create a Sampler object using a seed and lower and upper bounds
+     */
     Sampler(int seed, int lower, int upper) :
             seed(seed), lower(lower), upper(upper), rng(seed), distribution(lower, upper) {
         assert(upper >= lower);
     }
 
+    /**
+     * create a Sampler object using another Sampler attributes
+     */
     Sampler(const Sampler& other) :
             seed(other.seed), lower(other.lower), upper(other.upper), rng(seed), distribution(lower, upper) {
     }
 
+    /**
+     * @return next random value
+     */
     int getNext();
 
+    /**
+     * @return seed for the random generator
+     */
     int getSeed() const {
         return seed;
     }
 
+    /**
+     * @return lower bound of the distribution
+     */
     int getLower() const {
         return upper;
     }
 
+    /**
+     * @return upper bound of the distribution
+     */
     int getUpper() const {
         return upper;
     }
@@ -759,6 +1007,10 @@ private:
     boost::uniform_int<> distribution;
 };
 
+/**
+ * Stores samples (images or pixel instances), if max size is reached, a sample replaces another chosen at random
+ * @ingroup rand_sampling
+ */
 template<class T>
 class ReservoirSampler {
 public:
@@ -767,12 +1019,18 @@ public:
             count(0), samples(0), reservoir() {
     }
 
+    /**
+     * create a ReservoirSampler object with the given reservoir size
+     */
     ReservoirSampler(size_t samples) :
             count(0), samples(samples), reservoir() {
         reservoir.reserve(samples);
         assert(reservoir.empty());
     }
 
+    /**
+     * add the given sample to the reservoir or replace another if max size was reached
+     */
     void sample(Sampler& sampler, const T& sample) {
 
         if (samples == 0) {
@@ -795,6 +1053,9 @@ public:
         count++;
     }
 
+    /**
+     * @return the reservoir of samples
+     */
     const std::vector<T>& getReservoir() const {
         return reservoir;
     }
@@ -805,6 +1066,10 @@ private:
     std::vector<T> reservoir;
 };
 
+/**
+ * Used to get a uniform sampler after incrementing the seed
+ * @ingroup rand_sampling
+ */
 // Training-time classes
 class RandomSource {
 
@@ -812,23 +1077,37 @@ private:
     int seed;
 
 public:
+    
+    /**
+     * create a random  generator with the given seed
+     */
     RandomSource(int seed) :
             seed(seed) {
     }
 
+    /**
+     * create a uniform sampler with the given upper bound
+     */
     Sampler uniformSampler(int val) {
         return uniformSampler(0, val - 1);
     }
 
+    /**
+     * create a uniform sampler with the given lower and upper bounds
+     */
     Sampler uniformSampler(int lower, int upper) {
         return Sampler(seed++, lower, upper);
     }
 };
 
+/**
+ * Class that does the actual training of a tree
+ * @ingroup training_helper_classes
+ */
 template<class Instance, class FeatureEvaluation, class FeatureFunction>
 class RandomTreeTrain {
 public:
-    /* featureCount: K >= 1, the number of random splits to sample and evaluate
+    /** featureCount: K >= 1, the number of random splits to sample and evaluate
      *    at each interior node.  Note that K=1 yields completely randomized
      *    trees, whereas large values of K lead to aggressive optimization of
      *    the split.  A common choice is round(sqrt(N)), where N is the number
@@ -909,7 +1188,9 @@ private:
 
 public:
 
-    /* Train a single random tree breadth-first */
+    /**
+     * Train a single random tree breadth-first
+     */
     void train(FeatureEvaluation& featureEvaluation,
             RandomSource& randomSource,
             const std::vector<std::pair<RandomTreePointer, Samples> >& samplesPerNode,

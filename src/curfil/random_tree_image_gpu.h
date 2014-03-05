@@ -24,11 +24,15 @@ static const unsigned int LAYERS_PER_TREE = 16;
 
 /**
  * Helper class to map random forest data to texture cache on GPU.
+ * @ingroup LRU_cache
  */
 class TreeNodes {
 
 public:
 
+    /**
+     * Prepare the random forest data from the given nodes such that it can be transferred to the GPU.
+     */
     TreeNodes(const TreeNodes& other);
 
     /**
@@ -71,6 +75,9 @@ public:
         return m_data;
     }
 
+    /**
+     * @return a reference to the n-d array of the internal data structure that can be transferred to the GPU. - const
+     */
     const cuv::ndarray<int8_t, cuv::host_memory_space>& data() const {
         return m_data;
     }
@@ -116,6 +123,7 @@ private:
 
 /**
  * Abstract base class that implements a simple LRU cache on GPU.
+ * @ingroup LRU_cache
  */
 class DeviceCache {
 
@@ -163,31 +171,49 @@ protected:
             cacheSize(0), elementIdMap(), elementTimes(), currentTime(0), bound(false), totalTransferTimeMicroseconds(0) {
     }
 
+    /**
+     * @return whether texture is bound
+     */
     bool isBound() const {
         return bound;
     }
 
+    /**
+     * set the texture bound property
+     */
     void setBound(bool bound);
 
+    /**
+     * set the cache size to the passed size
+     */
     void updateCacheSize(size_t cacheSize);
 
-    virtual void bind() = 0;
-    virtual void unbind() = 0;
+    virtual void bind() = 0; /**< bind texture to array */
+    virtual void unbind() = 0; /**< unbind the texture */
 
-    virtual void allocArray() = 0;
-    virtual void freeArray() = 0;
+    virtual void allocArray() = 0; /**< allocate a CUDA array */
+    virtual void freeArray() = 0;  /**< clear texture data and free the array */
 
+    /**
+     * @return the cache size
+     */
     size_t getCacheSize() const {
         return cacheSize;
     }
 
+    /**
+     * resize the cache and transfer the elements to GPU
+     */
     void copyElements(size_t cacheSize, const std::set<const void*>& elements);
 
+    /**
+     * transfer the element's value at the passed position to GPU
+     */
     virtual void transferElement(size_t pos, const void* element, cudaStream_t stream) = 0;
 
     // for logging
-    virtual std::string getElementName(const void* element) const = 0;
-    virtual std::string getElementsName() const = 0;
+    virtual std::string getElementName(const void* element) const = 0; /**< @return the passed element's name */
+    virtual std::string getElementsName() const = 0; /**< @return all elements names */
 
 private:
 
@@ -206,6 +232,7 @@ private:
 
 /**
  * A simple LRU cache of RGB-D images on GPU
+ * @ingroup LRU_cache
  */
 class ImageCache: public DeviceCache {
 
@@ -251,6 +278,10 @@ private:
 
 };
 
+/**
+ * A simple LRU cache of trees on GPU
+ * @ingroup LRU_cache
+ */
 class TreeCache: public DeviceCache {
 
 public:
@@ -297,17 +328,25 @@ class RandomTreeImage;
 
 /**
  * Helper class for the unit test
+ * @ingroup unit_testing
  */
 class TreeNodeData {
 
 public:
-    int leftNodeOffset;
-    int type;
-    int8_t offset1X, offset1Y, region1X, region1Y;
-    int8_t offset2X, offset2Y, region2X, region2Y;
-    uint8_t channel1, channel2;
-    float threshold;
-    cuv::ndarray<float, cuv::host_memory_space> histogram;
+    int leftNodeOffset;	 /**< offset of its left node */
+    int type;            /**< type of the feature */
+    int8_t offset1X;     /**< x offset of the first region */
+    int8_t offset1Y;     /**< y offset of the first region */
+    int8_t region1X;     /**< width of the first region */
+    int8_t region1Y;     /**< height of the first region */
+    int8_t offset2X;     /**< x offset of the second region */
+    int8_t offset2Y;     /**< y offset of the second region */
+    int8_t region2X;     /**< width of the second region */
+    int8_t region2Y;     /**< height of the second region */
+    uint8_t channel1;    /**< first channel of the feature */
+    uint8_t channel2;    /**< second channel of the feature */
+    float threshold;     /**< threshold that the feature response is compared against */
+    cuv::ndarray<float, cuv::host_memory_space> histogram; /**< histogram of the node */
 };
 
 /**

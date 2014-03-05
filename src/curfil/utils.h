@@ -36,6 +36,9 @@ namespace utils {
 
 void checkCudaError(const char* msg);
 
+/**
+ * Used to get seconds or milliseconds passed for profiling purposes
+ */
 class Timer {
 public:
     Timer() :
@@ -43,14 +46,14 @@ public:
         start();
     }
 
-    void reset();
-    void start();
-    void stop();
+    void reset(); /**< stop then start the timer */
+    void start(); /**< start the timer */
+    void stop(); /**< stop the timer */
 
-    std::string format(int precision);
+    std::string format(int precision); /**< @return duration in seconds or milliseconds using the precision passed */
 
-    double getSeconds();
-    double getMilliseconds();
+    double getSeconds(); /**< @return duration in seconds */
+    double getMilliseconds(); /**< @return duration in milliseconds */
 
 private:
     bool isStopped;
@@ -59,17 +62,26 @@ private:
 
 };
 
+/**
+ * A simple class used for averaging
+ */
 class Average {
 public:
     Average() :
             sum(0), count(0) {
     }
 
+    /**
+     * add the value passed to the running sum and increments the counter
+     */
     void addValue(const double& value) {
         sum += value;
         count++;
     }
 
+    /**
+     * @return the average of the values that were previously added
+     */
     double getAverage() const {
         if (count == 0)
             return 0;
@@ -106,8 +118,14 @@ void logMessage(const std::string& message, std::ostream& os);
 #define CURFIL_DEBUG(x) CURFIL_LOG("DEBUG", x, std::cout)
 #endif
 
+/**
+ * Used to profile different stages of training and prediction
+ */
 class Profile {
 public:
+	/**
+	 * @param name profile name
+	 */
     Profile(const std::string& name) :
             name(name), timer() {
     }
@@ -119,14 +137,23 @@ public:
         }
     }
 
+    /**
+     * @return the timer duration in seconds
+     */
     double getSeconds() {
         return timer.getSeconds();
     }
 
+    /**
+     * @return whether the profile is enabled
+     */
     static bool isEnabled() {
         return enabled;
     }
 
+    /**
+     * enabling the profile
+     */
     static void setEnabled(bool enable) {
         enabled = enable;
         CURFIL_INFO("profiling " << ((enabled) ? "enabled" : "disabled"));
