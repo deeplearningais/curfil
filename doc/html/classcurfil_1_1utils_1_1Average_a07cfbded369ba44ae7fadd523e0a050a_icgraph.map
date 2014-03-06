@@ -1,0 +1,18 @@
+<map id="curfil::utils::Average::getAverage" name="curfil::utils::Average::getAverage">
+<area shape="rect" id="node3" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="837,241,981,287"/>
+<area shape="rect" id="node16" href="$classcurfil_1_1RGBDImage.html#ab5263996637885f650550fdeaad4f041" title="curfil::RGBDImage:\l:loadDepthImage" alt="" coords="207,274,343,321"/>
+<area shape="rect" id="node18" href="$classcurfil_1_1ConfusionMatrix.html#a5845bc7fb62de866eaf604ea88bbf36b" title="curfil::ConfusionMatrix\l::averageClassAccuracy" alt="" coords="192,93,357,139"/>
+<area shape="rect" id="node42" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="235,344,315,373"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="1083,121,1227,167"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1303,181,1447,227"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1496,189,1667,219"/>
+<area shape="rect" id="node13" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1715,189,1765,219"/>
+<area shape="rect" id="node20" href="$classcurfil_1_1Result.html#a169a71312057b31f91bb8813522ab4ae" title="curfil::Result::getClass\lAccuracy" alt="" coords="407,127,561,174"/>
+<area shape="rect" id="node35" href="$classcurfil_1_1Result.html#a28885eed6403420d5c5e0274dcb1ab77" title="curfil::Result::getClass\lAccuracyWithoutVoid" alt="" coords="407,58,561,105"/>
+<area shape="rect" id="node40" href="$predict_8h.html#afe3ee9e7fa96513d3e4eb3c6839a9faa" title="operator\&lt;\&lt;" alt="" coords="441,5,527,35"/>
+<area shape="rect" id="node22" href="$classcurfil_1_1Result.html#ac377e3d44fa20df3046c73dc1be8845e" title="curfil::Result::getLoss" alt="" coords="612,136,761,165"/>
+<area shape="rect" id="node24" href="$classcurfil_1_1Result.html#a9512d8f8761efcba22c8bd203590f44a" title="curfil::Result::toBSON" alt="" coords="833,33,985,63"/>
+<area shape="rect" id="node32" href="$hyperopt__test_8cpp.html#aaa536d86186c43fa35a006a38d014f03" title="BOOST_AUTO_TEST_CASE" alt="" coords="811,137,1008,167"/>
+<area shape="rect" id="node28" href="$hyperopt__test_8cpp.html#af0e5921c4c47fb0e8f6adba88ae66ab9" title="BOOST_AUTO_TEST_CASE" alt="" coords="1056,17,1253,47"/>
+<area shape="rect" id="node44" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="459,344,509,373"/>
+</map>

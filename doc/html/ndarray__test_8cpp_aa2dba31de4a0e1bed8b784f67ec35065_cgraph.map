@@ -1,0 +1,5 @@
+<map id="test_resize" name="test_resize">
+<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="152,5,269,35"/>
+<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="143,59,279,88"/>
+<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="143,112,279,141"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="cuv::ndarray::effective_shape" name="cuv::ndarray::effective_shape">
+<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#a873c6bc731e9442bbfab9c9dd73d9892" title="tries to copy memory, succeeds if shapes match AND both ndarrays are c_contiguous or 2d&#45;copyable..." alt="" coords="205,5,352,69"/>
+<area shape="rect" id="node5" href="$namespacecuv.html#a5df83598869958c79291644fb9466d46" title="test whether two ndarrays have the same shape" alt="" coords="217,93,340,123"/>
+<area shape="rect" id="node7" href="$ndarray__test_8cpp.html#af2a0a9178a29e62a3c99c41d21bbcc19" title="test_pushpull_2d" alt="" coords="400,67,520,96"/>
+<area shape="rect" id="node9" href="$ndarray__test_8cpp.html#adfc00077ee76b2b33e96ae56109ce5cf" title="test_pushpull_3d" alt="" coords="400,120,520,149"/>
+</map>

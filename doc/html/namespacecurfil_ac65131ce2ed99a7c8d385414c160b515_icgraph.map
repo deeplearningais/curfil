@@ -1,0 +1,14 @@
+<map id="curfil::classifyKernel" name="curfil::classifyKernel">
+<area shape="rect" id="node3" href="$namespacecurfil.html#a2acf7858600981309f55a7c9635af540" title="curfil::classifyImage" alt="" coords="195,165,333,195"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RandomForestImage.html#a64b4d7656ed81b30034d80fce4cbde4a" title="curfil::RandomForestImage\l::predict" alt="" coords="391,126,569,173"/>
+<area shape="rect" id="node28" href="$random__tree__image__gpu__test_8cu.html#a9bbf29b4cf0c16ddbd156141c227eaac" title="BOOST_AUTO_TEST_CASE" alt="" coords="381,196,579,225"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="628,65,772,111"/>
+<area shape="rect" id="node20" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="660,135,740,164"/>
+<area shape="rect" id="node24" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="669,188,731,217"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="848,65,992,111"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1068,5,1212,51"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1261,13,1432,43"/>
+<area shape="rect" id="node17" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1480,13,1531,43"/>
+<area shape="rect" id="node22" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="895,135,945,164"/>
+<area shape="rect" id="node26" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="821,188,1019,217"/>
+</map>

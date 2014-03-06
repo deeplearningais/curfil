@@ -1,0 +1,8 @@
+<map id="curfil::utils::getFreeMemoryOnGPU" name="curfil::utils::getFreeMemoryOnGPU">
+<area shape="rect" id="node3" href="$namespacecurfil.html#a595e389ec39370965ae9c1c3013ffe81" title="curfil::determineImageCache\lSizeAndSamplesPerBatch" alt="" coords="235,87,424,134"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="473,57,617,103"/>
+<area shape="rect" id="node15" href="$train__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="520,127,571,156"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="667,65,837,95"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="887,5,1031,51"/>
+<area shape="rect" id="node13" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="933,75,984,104"/>
+</map>

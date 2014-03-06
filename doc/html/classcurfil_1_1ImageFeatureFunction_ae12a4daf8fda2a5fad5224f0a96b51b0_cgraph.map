@@ -1,0 +1,22 @@
+<map id="curfil::ImageFeatureFunction::calculateColorFeature" name="curfil::ImageFeatureFunction::calculateColorFeature">
+<area shape="rect" id="node3" href="$classcurfil_1_1PixelInstance.html#abce4302fd512a49b43981a03471a28ef" title="curfil::PixelInstance\l::getDepth" alt="" coords="249,300,385,347"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1Depth.html#ae9f49c116c79db11fb09cb8b1454592d" title="curfil::Depth::isValid" alt="" coords="671,702,809,732"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1PixelInstance.html#ac61b347a088db90f17319138b94a13f4" title="curfil::PixelInstance\l::averageRegionColor" alt="" coords="244,370,391,416"/>
+<area shape="rect" id="node49" href="$classcurfil_1_1XY.html#acbc0d78c1ad462f587f50e01d066d559" title="curfil::XY::normalize" alt="" coords="248,729,387,758"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1XY.html#ab1ff1cfc703a6632d4aeddc017a088ea" title="curfil::XY::getX" alt="" coords="685,249,795,278"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1XY.html#a362ec6740f9dc14aec0c6c4256fe0a0a" title="curfil::XY::getY" alt="" coords="685,438,795,468"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1RGBDImage.html#a73a76d9166120b703a7211a35272b0d0" title="curfil::RGBDImage:\l:hasIntegratedColor" alt="" coords="672,368,808,415"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1PixelInstance.html#a9456c01eacccbf173ddefedc750c23f8" title="curfil::PixelInstance\l::width" alt="" coords="860,454,996,500"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="1047,412,1183,459"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1PixelInstance.html#af2663572452c6f3764c3790857eb3133" title="curfil::PixelInstance\l::height" alt="" coords="860,19,996,66"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="1047,119,1183,166"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1PixelInstance.html#ad59a0ac20552686b666f16cef9ff59a6" title="curfil::PixelInstance\l::getX" alt="" coords="463,240,599,287"/>
+<area shape="rect" id="node26" href="$classcurfil_1_1PixelInstance.html#ae13033aec7e24f9b03148b85eb029b8e" title="curfil::PixelInstance\l::getY" alt="" coords="463,430,599,476"/>
+<area shape="rect" id="node31" href="$classcurfil_1_1PixelInstance.html#ab770d702839038a26090b8d22638ec63" title="curfil::PixelInstance\l::inImage" alt="" coords="672,159,808,206"/>
+<area shape="rect" id="node37" href="$classcurfil_1_1PixelInstance.html#a568cccb94fac3c0864facc0af4655889" title="curfil::PixelInstance\l::getColor" alt="" coords="463,310,599,356"/>
+<area shape="rect" id="node33" href="$classcurfil_1_1RGBDImage.html#a931fec2e484629b8203dd3a194198dac" title="curfil::RGBDImage:\l:inImage" alt="" coords="860,159,996,206"/>
+<area shape="rect" id="node41" href="$classcurfil_1_1RGBDImage.html#a68cafecdcc0d261c2a620881a9480c13" title="curfil::RGBDImage:\l:getColor" alt="" coords="860,308,996,355"/>
+<area shape="rect" id="node43" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="1056,317,1173,346"/>
+<area shape="rect" id="node52" href="$classcurfil_1_1Depth.html#ae5a9f2df054b092a741e5cd4b4a23bcb" title="curfil::Depth::getFloatValue" alt="" coords="440,702,621,732"/>
+<area shape="rect" id="node55" href="$classcurfil_1_1XY.html#a445f64b72b28da5064e3e0d82915908d" title="curfil::XY::XY" alt="" coords="480,756,581,785"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="curfil::ConfusionMatrix::resize" name="curfil::ConfusionMatrix::resize">
+<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="217,5,353,35"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1ConfusionMatrix.html#abb7e73fdaa8d2304424bbf7e8ce9e2b1" title="curfil::ConfusionMatrix\l::reset" alt="" coords="209,58,361,105"/>
+<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="416,40,533,69"/>
+<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#a9e453312f419eaac1aa5e6493d59aede" title="cuv::ndarray::size" alt="" coords="412,93,537,123"/>
+</map>

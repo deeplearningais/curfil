@@ -1,0 +1,12 @@
+<map id="curfil::NormalizedInformationGainScore::classificationEntropy" name="curfil::NormalizedInformationGainScore::classificationEntropy">
+<area shape="rect" id="node3" href="$classcurfil_1_1NormalizedInformationGainScore.html#ab2187d46a1baf22b56a7463d8c9ac55d" title="curfil::NormalizedInformation\lGainScore::calculateScore" alt="" coords="267,135,456,182"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RandomTreeTrain.html#a9e99f954be19f03d6628c6627696d556" title="curfil::RandomTreeTrain\l::compareHistograms" alt="" coords="523,5,685,51"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1ImageFeatureEvaluation.html#a89fad55957992023a9cb6394783a8107" title="curfil::ImageFeatureEvaluation\l::calculateScores" alt="" coords="505,74,703,121"/>
+<area shape="rect" id="node15" href="$namespacecurfil.html#a37d39314c89e17e45b014d1e9d1afbac" title="curfil::scoreKernel" alt="" coords="541,144,667,173"/>
+<area shape="rect" id="node19" href="$random__tree__image__gpu__test_8cu.html#a4535e95a711a55713868f1d760ceb50a" title="calculcateScoreKernel" alt="" coords="528,197,680,227"/>
+<area shape="rect" id="node21" href="$random__tree__image__gpu__test_8cu.html#a7b8e7962308e5a47c2b692abeb0e0a26" title="BOOST_AUTO_TEST_CASE" alt="" coords="505,251,703,280"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RandomTreeTrain.html#a451e51a1a78e549ca73a4642bff901e5" title="curfil::RandomTreeTrain\l::train" alt="" coords="771,5,933,51"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RandomTreeImage.html#aa0d3864adb6f0fd054f9dff9860f12a4" title="curfil::RandomTreeImage\l::doTrain" alt="" coords="1001,5,1169,51"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1RandomTreeImage.html#a13e0a675e31f91c356ae49b99f7a1e13" title="curfil::RandomTreeImage\l::train" alt="" coords="1220,5,1388,51"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1ImageFeatureEvaluation.html#a74a83a25abd2d805b9c9415bf0023578" title="curfil::ImageFeatureEvaluation\l::calculateScores" alt="" coords="753,135,951,182"/>
+</map>

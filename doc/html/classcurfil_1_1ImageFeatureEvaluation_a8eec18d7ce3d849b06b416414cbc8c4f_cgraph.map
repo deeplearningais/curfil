@@ -1,0 +1,51 @@
+<map id="curfil::ImageFeatureEvaluation::evaluateBestSplits" name="curfil::ImageFeatureEvaluation::evaluateBestSplits">
+<area shape="rect" id="node3" href="$classcurfil_1_1TrainingConfiguration.html#a1adf8914c836953d9bac15f430d90b15" title="curfil::TrainingConfiguration\l::getFeatureCount" alt="" coords="597,64,779,111"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1TrainingConfiguration.html#ad80a998ead0d7149d36449a4f0dc6a89" title="curfil::TrainingConfiguration\l::getThresholds" alt="" coords="597,134,779,180"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1DeviceCache.html#aae4a7d751626ef9feafaa3a0fe419a37" title="curfil::DeviceCache\l::getTotalTransferTimeMircoseconds" alt="" coords="277,452,512,499"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1TrainingConfiguration.html#a4489038b5c2a361deb60b9cb4ab3e8bd" title="curfil::TrainingConfiguration\l::getAccelerationMode" alt="" coords="304,522,485,568"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1TrainingConfiguration.html#aa745e3c831c713e3cd2c2c3ae9f77a05" title="curfil::TrainingConfiguration\l::getImageCacheSize" alt="" coords="304,591,485,638"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1PixelInstance.html#a46054f6f40051a53e2a502d1c121b825" title="curfil::PixelInstance\l::getRGBDImage" alt="" coords="327,660,463,707"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1RandomSource.html#adc949b871ccd091784506f3f9c13ce74" title="curfil::RandomSource\l::uniformSampler" alt="" coords="861,35,1008,82"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1Sampler.html#a1b863ff4d63f7b12c7de32c24d6dfa54" title="curfil::Sampler::getNext" alt="" coords="855,273,1015,302"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1ImageFeatureEvaluation.html#a648584672ee67c1ae9922668acfdc35b" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="296,383,493,430"/>
+<area shape="rect" id="node69" href="$classcurfil_1_1utils_1_1Timer.html#a22ad9041997ed544e7d003e55a5d1819" title="curfil::utils::Timer\l::format" alt="" coords="333,868,456,915"/>
+<area shape="rect" id="node78" href="$classcurfil_1_1RandomTree.html#aad3bd7729912fb0294b41642116c2f2e" title="curfil::RandomTree\l::getNumClasses" alt="" coords="328,988,461,1035"/>
+<area shape="rect" id="node80" href="$classcuv_1_1ndarray.html#a9e453312f419eaac1aa5e6493d59aede" title="cuv::ndarray::size" alt="" coords="625,994,751,1024"/>
+<area shape="rect" id="node82" href="$classcurfil_1_1ImageFeatureEvaluation.html#a9c535c5f8ab8d672da190510335ab587" title="curfil::ImageFeatureEvaluation\l::prepare" alt="" coords="296,1058,493,1104"/>
+<area shape="rect" id="node84" href="$classcurfil_1_1TrainingConfiguration.html#afa1beb860fb047af1efd0a4b7a9fab09" title="curfil::TrainingConfiguration\l::getNumThreads" alt="" coords="304,1127,485,1174"/>
+<area shape="rect" id="node86" href="$classcurfil_1_1RandomTree.html#ac12b1b30e800320bed12fb1d1ec815ae" title="curfil::RandomTree\l::setTimerValue" alt="" coords="328,730,461,776"/>
+<area shape="rect" id="node89" href="$classcurfil_1_1utils_1_1Profile.html#a79d8b7bffacab52360cba8dc770c20a0" title="curfil::utils::Profile\l::getSeconds" alt="" coords="332,799,457,846"/>
+<area shape="rect" id="node92" href="$classcurfil_1_1ImageFeatureEvaluation.html#a8eb30c6d384e000b36cc2d785f6ee0f0" title="curfil::ImageFeatureEvaluation\l::calculateScores" alt="" coords="296,1196,493,1243"/>
+<area shape="rect" id="node94" href="$classcurfil_1_1RandomTree.html#a684c73b3d6399b11f0c2f3bca6042925" title="curfil::RandomTree\l::getHistogram" alt="" coords="328,1266,461,1312"/>
+<area shape="rect" id="node96" href="$classcurfil_1_1ImageFeatureEvaluation.html#af53a707044f882f6644960a03ec4542e" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="253,1335,536,1382"/>
+<area shape="rect" id="node98" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="327,1405,463,1434"/>
+<area shape="rect" id="node101" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="329,1458,460,1488"/>
+<area shape="rect" id="node103" href="$namespacecurfil_1_1detail.html#a6ca8b546ecf1e37d28378e83ca452143" title="curfil::detail::isScoreBetter" alt="" coords="307,1512,483,1541"/>
+<area shape="rect" id="node105" href="$classcurfil_1_1RandomTree.html#a6c068645cc7a55f24207a4a32149f6d3" title="curfil::RandomTree\l::getTreeId" alt="" coords="328,1564,461,1611"/>
+<area shape="rect" id="node111" href="$classcurfil_1_1RandomTree.html#aea3cdd52d07679e38af46f62c0aa2a5f" title="curfil::RandomTree\l::getNodeId" alt="" coords="621,1624,755,1671"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1ImageFeatureEvaluation.html#a79e70df7b818087321e3f9faa54c0e2b" title="curfil::ImageFeatureEvaluation\l::sampleFeature" alt="" coords="589,203,787,250"/>
+<area shape="rect" id="node31" href="$classcurfil_1_1ImageFeatureFunction.html#accf00991e5b13e90b0446b4628dc4d9b" title="curfil::ImageFeatureFunction\l::isValid" alt="" coords="841,438,1028,484"/>
+<area shape="rect" id="node34" href="$classcurfil_1_1ImageFeatureFunction.html#ab58959d1ee6c8bfa6457d330f38f1112" title="curfil::ImageFeatureFunction\l::calculateFeatureResponse" alt="" coords="595,702,781,748"/>
+<area shape="rect" id="node47" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a749b9b065d5700140e89b8c1fd71d870" title="curfil::ImageFeaturesAnd\lThresholds::thresholds" alt="" coords="604,494,772,540"/>
+<area shape="rect" id="node49" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a653760d09a80dfd5d56e793000fba104" title="curfil::ImageFeaturesAnd\lThresholds::getThreshold" alt="" coords="604,563,772,610"/>
+<area shape="rect" id="node51" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a7590a88275d864c24330927640c3c5f7" title="curfil::ImageFeaturesAnd\lThresholds::setFeatureFunction" alt="" coords="585,632,791,679"/>
+<area shape="rect" id="node53" href="$classcurfil_1_1ImageFeatureFunction.html#ab2e07a794b86cbf1e11afdbf95530d9c" title="curfil::ImageFeatureFunction\l::getSortKey" alt="" coords="595,771,781,818"/>
+<area shape="rect" id="node67" href="$classcurfil_1_1ImageFeatureEvaluation.html#a153ffb024e91ef6000f2331e4d2a8ae0" title="curfil::ImageFeatureEvaluation\l::sortFeatures" alt="" coords="589,323,787,370"/>
+<area shape="rect" id="node26" href="$classcurfil_1_1TrainingConfiguration.html#a4c8f74c1772faa7bfa536aa2b8b1a26b" title="curfil::TrainingConfiguration\l::getBoxRadius" alt="" coords="844,134,1025,180"/>
+<area shape="rect" id="node28" href="$classcurfil_1_1TrainingConfiguration.html#aa6176b28f59f4890b1e8f8d212d028f4" title="curfil::TrainingConfiguration\l::getRegionSize" alt="" coords="844,203,1025,250"/>
+<area shape="rect" id="node37" href="$classcurfil_1_1ImageFeatureFunction.html#ac8c6e526621cd7c6db839ff4cb034b4c" title="curfil::ImageFeatureFunction\l::calculateDepthFeature" alt="" coords="841,580,1028,627"/>
+<area shape="rect" id="node43" href="$classcurfil_1_1ImageFeatureFunction.html#ae12a4daf8fda2a5fad5224f0a96b51b0" title="curfil::ImageFeatureFunction\l::calculateColorFeature" alt="" coords="841,511,1028,558"/>
+<area shape="rect" id="node39" href="$classcurfil_1_1PixelInstance.html#abce4302fd512a49b43981a03471a28ef" title="curfil::PixelInstance\l::getDepth" alt="" coords="1080,579,1216,626"/>
+<area shape="rect" id="node41" href="$classcurfil_1_1Depth.html#ae9f49c116c79db11fb09cb8b1454592d" title="curfil::Depth::isValid" alt="" coords="1079,522,1217,552"/>
+<area shape="rect" id="node55" href="$classcurfil_1_1ImageFeatureFunction.html#a84785be9b165a5494ccf507bcd403a91" title="curfil::ImageFeatureFunction\l::getType" alt="" coords="841,826,1028,872"/>
+<area shape="rect" id="node57" href="$classcurfil_1_1ImageFeatureFunction.html#ac28199bb99a9d7a38242f6d756083d53" title="curfil::ImageFeatureFunction\l::getChannel1" alt="" coords="841,895,1028,942"/>
+<area shape="rect" id="node59" href="$classcurfil_1_1ImageFeatureFunction.html#a897eec58e847ce410632a067c1306551" title="curfil::ImageFeatureFunction\l::getChannel2" alt="" coords="841,964,1028,1011"/>
+<area shape="rect" id="node61" href="$classcurfil_1_1ImageFeatureFunction.html#a484f2e745684ca69a11841f73060c2c5" title="curfil::ImageFeatureFunction\l::getOffset1" alt="" coords="841,650,1028,696"/>
+<area shape="rect" id="node63" href="$classcurfil_1_1XY.html#a362ec6740f9dc14aec0c6c4256fe0a0a" title="curfil::XY::getY" alt="" coords="880,720,989,749"/>
+<area shape="rect" id="node65" href="$classcurfil_1_1XY.html#ab1ff1cfc703a6632d4aeddc017a088ea" title="curfil::XY::getX" alt="" coords="880,773,989,802"/>
+<area shape="rect" id="node71" href="$classcurfil_1_1utils_1_1Timer.html#a467c6dd9054362c9395e3e29b4867e46" title="curfil::utils::Timer\l::getSeconds" alt="" coords="627,844,749,891"/>
+<area shape="rect" id="node75" href="$classcurfil_1_1utils_1_1Timer.html#a0c1383f9156b6c65c119462894701888" title="curfil::utils::Timer\l::getMilliseconds" alt="" coords="627,922,749,968"/>
+<area shape="rect" id="node73" href="$classcurfil_1_1utils_1_1Timer.html#a07f5a4d85543c956922e53388d4524b5" title="curfil::utils::Timer\l::stop" alt="" coords="873,1034,996,1080"/>
+<area shape="rect" id="node107" href="$classcurfil_1_1RandomTree.html#a5ee9560d764034856e9ae06404204875" title="curfil::RandomTree\l::getRoot" alt="" coords="621,1555,755,1602"/>
+<area shape="rect" id="node109" href="$classcurfil_1_1RandomTree.html#af4b71977f660be6aafbe555213c68deb" title="curfil::RandomTree\l::isRoot" alt="" coords="868,1555,1001,1602"/>
+</map>

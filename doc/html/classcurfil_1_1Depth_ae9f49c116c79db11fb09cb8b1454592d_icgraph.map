@@ -1,0 +1,21 @@
+<map id="curfil::Depth::isValid" name="curfil::Depth::isValid">
+<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a0c3cf815cce74059398b5e5f4b017fb3" title="curfil::RGBDImage:\l:dumpDepth" alt="" coords="477,125,613,171"/>
+<area shape="rect" id="node5" href="$image__test_8cpp.html#aaa2c08ee104de5f74c8be82ae68450d5" title="BOOST_AUTO_TEST_CASE" alt="" coords="736,104,933,133"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1Depth.html#a0038101ddae0384583c668e9e561bcc3" title="curfil::Depth::Depth" alt="" coords="228,467,364,496"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1Depth.html#ae5a9f2df054b092a741e5cd4b4a23bcb" title="curfil::Depth::getFloatValue" alt="" coords="205,253,387,283"/>
+<area shape="rect" id="node12" href="$classcurfil_1_1XY.html#acbc0d78c1ad462f587f50e01d066d559" title="curfil::XY::normalize" alt="" coords="476,365,615,395"/>
+<area shape="rect" id="node14" href="$classcurfil_1_1ImageFeatureFunction.html#ae12a4daf8fda2a5fad5224f0a96b51b0" title="curfil::ImageFeatureFunction\l::calculateColorFeature" alt="" coords="741,405,928,451"/>
+<area shape="rect" id="node24" href="$classcurfil_1_1ImageFeatureFunction.html#ac8c6e526621cd7c6db839ff4cb034b4c" title="curfil::ImageFeatureFunction\l::calculateDepthFeature" alt="" coords="741,335,928,382"/>
+<area shape="rect" id="node34" href="$classcurfil_1_1RGBDImage.html#a1518c5b8e781093ed367a6a39dd61e84" title="curfil::RGBDImage:\l:setDepth" alt="" coords="477,5,613,51"/>
+<area shape="rect" id="node37" href="$classcurfil_1_1RandomTreeImage.html#afde1d5686eea8235b062e2bac840aee5" title="curfil::RandomTreeImage\l::subsampleTrainingDataClass\lUniform" alt="" coords="196,520,396,584"/>
+<area shape="rect" id="node42" href="$classcurfil_1_1PixelInstance.html#ab2084f62c278f689eaa7a80239fdb3f6" title="curfil::PixelInstance\l::PixelInstance" alt="" coords="228,607,364,654"/>
+<area shape="rect" id="node46" href="$classcurfil_1_1ImageFeatureEvaluation.html#ac14e9e1960c449677fa745dd4a8a6f02" title="curfil::ImageFeatureEvaluation\l::prepare" alt="" coords="197,677,395,723"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1ImageFeatureEvaluation.html#a5e7b086612d086b7f3a44e2e96e148cb" title="curfil::ImageFeatureEvaluation\l::copySamplesToDevice" alt="" coords="447,245,644,291"/>
+<area shape="rect" id="node16" href="$classcurfil_1_1ImageFeatureFunction.html#ab58959d1ee6c8bfa6457d330f38f1112" title="curfil::ImageFeatureFunction\l::calculateFeatureResponse" alt="" coords="1025,370,1212,417"/>
+<area shape="rect" id="node18" href="$classcurfil_1_1ImageFeatureEvaluation.html#a648584672ee67c1ae9922668acfdc35b" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="1263,370,1460,417"/>
+<area shape="rect" id="node20" href="$classcurfil_1_1ImageFeatureEvaluation.html#a8eec18d7ce3d849b06b416414cbc8c4f" title="curfil::ImageFeatureEvaluation\l::evaluateBestSplits" alt="" coords="1511,339,1708,386"/>
+<area shape="rect" id="node22" href="$feature__generation__test_8cpp.html#a830e2bb62eee54ca3ce8956b026e7ccf" title="BOOST_AUTO_TEST_CASE" alt="" coords="1511,409,1708,439"/>
+<area shape="rect" id="node29" href="$classcurfil_1_1ImageFeatureEvaluation.html#ad1f096c97b80b953ca7044677f78aeab" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="736,190,933,237"/>
+<area shape="rect" id="node31" href="$classcurfil_1_1ImageFeatureEvaluation.html#a3f5829cfbd0406fdf29b22b8c92aaf22" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="693,259,976,306"/>
+<area shape="rect" id="node39" href="$classcurfil_1_1RandomTreeImage.html#a13e0a675e31f91c356ae49b99f7a1e13" title="curfil::RandomTreeImage\l::train" alt="" coords="461,529,629,575"/>
+</map>

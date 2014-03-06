@@ -1,0 +1,8 @@
+<map id="cuv::ndarray_view::ndarray_view" name="cuv::ndarray_view::ndarray_view">
+<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#afc6ff1521711c68e2c8ffa160aee5419" title="cuv::ndarray::mem" alt="" coords="191,5,321,35"/>
+<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="197,59,315,88"/>
+<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="191,112,321,141"/>
+<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="188,165,324,195"/>
+<area shape="rect" id="node11" href="$classcuv_1_1ndarray.html#a89f7d05c9ed9ecf8a820267d64e77aa4" title="return the stride of the i&#45;th dimension" alt="" coords="189,219,323,248"/>
+<area shape="rect" id="node13" href="$classcuv_1_1ndarray.html#a867c3b1f132dedb4a1a39ff4e218fe92" title="copy memory using linear memory" alt="" coords="191,272,321,301"/>
+</map>

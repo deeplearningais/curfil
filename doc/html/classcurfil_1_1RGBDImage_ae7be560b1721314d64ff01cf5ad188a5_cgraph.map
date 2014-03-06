@@ -1,0 +1,6 @@
+<map id="curfil::RGBDImage::dump" name="curfil::RGBDImage::dump">
+<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="415,5,551,51"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="415,127,551,174"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RGBDImage.html#a68cafecdcc0d261c2a620881a9480c13" title="curfil::RGBDImage:\l:getColor" alt="" coords="228,66,364,113"/>
+<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="424,75,541,104"/>
+</map>

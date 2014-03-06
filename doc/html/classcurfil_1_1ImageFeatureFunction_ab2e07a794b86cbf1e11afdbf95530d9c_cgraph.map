@@ -1,0 +1,8 @@
+<map id="curfil::ImageFeatureFunction::getSortKey" name="curfil::ImageFeatureFunction::getSortKey">
+<area shape="rect" id="node3" href="$classcurfil_1_1ImageFeatureFunction.html#a84785be9b165a5494ccf507bcd403a91" title="curfil::ImageFeatureFunction\l::getType" alt="" coords="244,5,431,51"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1ImageFeatureFunction.html#ac28199bb99a9d7a38242f6d756083d53" title="curfil::ImageFeatureFunction\l::getChannel1" alt="" coords="244,74,431,121"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeatureFunction.html#a897eec58e847ce410632a067c1306551" title="curfil::ImageFeatureFunction\l::getChannel2" alt="" coords="244,143,431,190"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeatureFunction.html#a484f2e745684ca69a11841f73060c2c5" title="curfil::ImageFeatureFunction\l::getOffset1" alt="" coords="244,213,431,259"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1XY.html#a362ec6740f9dc14aec0c6c4256fe0a0a" title="curfil::XY::getY" alt="" coords="283,283,392,312"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1XY.html#ab1ff1cfc703a6632d4aeddc017a088ea" title="curfil::XY::getX" alt="" coords="283,336,392,365"/>
+</map>

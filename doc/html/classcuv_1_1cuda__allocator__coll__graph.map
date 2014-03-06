@@ -1,0 +1,4 @@
+<map id="cuv::cuda_allocator" name="cuv::cuda_allocator">
+<area shape="rect" id="node2" href="$classcuv_1_1default__allocator.html" title="Allocator allows allocation, deallocation and copying depending on memory_space_type." alt="" coords="5,243,152,432"/>
+<area shape="rect" id="node4" href="$classcuv_1_1allocator.html" title="{cuv::allocator\n||+ ~allocator()\l+ alloc()\l+ alloc()\l+ alloc2d()\l+ alloc2d()\l+ dealloc()\l+ dealloc()\l}" alt="" coords="29,5,128,195"/>
+</map>

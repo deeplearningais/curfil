@@ -1,0 +1,40 @@
+<map id="curfil::classifyImage" name="curfil::classifyImage">
+<area shape="rect" id="node3" href="$classcurfil_1_1ImageCache.html#ab19551774671dfa95e58de932bcfc919" title="curfil::ImageCache\l::copyImages" alt="" coords="411,258,541,305"/>
+<area shape="rect" id="node32" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="195,531,331,560"/>
+<area shape="rect" id="node34" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="195,583,331,630"/>
+<area shape="rect" id="node36" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="195,653,331,699"/>
+<area shape="rect" id="node38" href="$classcurfil_1_1TreeCache.html#a3253e080c2e5c467edf4b452a6269854" title="curfil::TreeCache:\l:copyTree" alt="" coords="200,250,325,297"/>
+<area shape="rect" id="node49" href="$classcurfil_1_1DeviceCache.html#a4c754b739c775aec53a8e426ad642f13" title="curfil::DeviceCache\l::getElementPos" alt="" coords="195,461,331,507"/>
+<area shape="rect" id="node52" href="$namespacecurfil.html#ac65131ce2ed99a7c8d385414c160b515" title="curfil::classifyKernel" alt="" coords="193,728,332,757"/>
+<area shape="rect" id="node99" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="204,781,321,811"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1DeviceCache.html#ad7df2998d187c917c05392f9c03a9460" title="curfil::DeviceCache\l::clear" alt="" coords="875,143,1011,190"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1DeviceCache.html#aff497d3db4d2068afbd91bb1f550e9c4" title="curfil::DeviceCache\l::updateCacheSize" alt="" coords="641,194,777,241"/>
+<area shape="rect" id="node14" href="$classcurfil_1_1ImageCache.html#a6bc3d2570710d96ce3f14a15e2bb10c4" title="curfil::ImageCache\l::allocArray" alt="" coords="644,74,775,121"/>
+<area shape="rect" id="node20" href="$classcurfil_1_1DeviceCache.html#a8a0b0f0bf16e8237e866de52c77a99bb" title="curfil::DeviceCache\l::copyElements" alt="" coords="641,314,777,361"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1DeviceCache.html#a86023aee79097fc5f26764e66b767ddf" title="curfil::DeviceCache\l::unbind" alt="" coords="1087,203,1223,250"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1DeviceCache.html#a4ec28b9d815e5c3749053b6a9792f493" title="curfil::DeviceCache\l::freeArray" alt="" coords="1087,134,1223,181"/>
+<area shape="rect" id="node16" href="$classcurfil_1_1DeviceCache.html#a9d66285044151edadb22350db7691af9" title="curfil::DeviceCache\l::isBound" alt="" coords="875,5,1011,51"/>
+<area shape="rect" id="node18" href="$classcurfil_1_1DeviceCache.html#af82e9b25109c47f52529b62b4a301c59" title="curfil::DeviceCache\l::getCacheSize" alt="" coords="875,74,1011,121"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1DeviceCache.html#a101f57459448090456c6b10ce12757a6" title="curfil::DeviceCache\l::getElementName" alt="" coords="875,471,1011,518"/>
+<area shape="rect" id="node26" href="$classcurfil_1_1DeviceCache.html#a53bee4897c716197874274625aefba36" title="curfil::DeviceCache\l::transferElement" alt="" coords="875,263,1011,310"/>
+<area shape="rect" id="node28" href="$classcurfil_1_1DeviceCache.html#ac7945797d4f9630023fb8b40910ce21c" title="curfil::DeviceCache\l::getElementsName" alt="" coords="873,333,1012,379"/>
+<area shape="rect" id="node30" href="$classcurfil_1_1DeviceCache.html#a257405693b2a695bb9ee94773cf8961d" title="curfil::DeviceCache\l::bind" alt="" coords="875,402,1011,449"/>
+<area shape="rect" id="node40" href="$classcurfil_1_1TreeCache.html#a3c98a0bd4231de7ac2354dfdf0371b90" title="curfil::TreeCache:\l:copyTrees" alt="" coords="413,189,539,235"/>
+<area shape="rect" id="node44" href="$classcurfil_1_1TreeCache.html#a650f4dfaea1abf39e03eb42d6e08c206" title="curfil::TreeCache:\l:allocArray" alt="" coords="647,5,772,51"/>
+<area shape="rect" id="node54" href="$namespacecurfil.html#af18887db594b152301c6e9e04211b037" title="curfil::averageRegionDepth" alt="" coords="620,613,799,643"/>
+<area shape="rect" id="node60" href="$namespacecurfil.html#a7625d08953089dd97ba228764c057442" title="curfil::getLeftNodeOffset" alt="" coords="393,945,559,975"/>
+<area shape="rect" id="node66" href="$namespacecurfil.html#a1e519f5034683daed1deb8f593a6c6bd" title="curfil::getThreshold" alt="" coords="409,999,543,1028"/>
+<area shape="rect" id="node70" href="$namespacecurfil.html#adbe8361d843dabbe35c6c35bca4e0df8" title="curfil::getHistogramValue" alt="" coords="392,679,560,708"/>
+<area shape="rect" id="node74" href="$namespacecurfil.html#a7390ac153cdbfba0d989a9e1c7d33005" title="curfil::getParam1" alt="" coords="416,732,536,761"/>
+<area shape="rect" id="node78" href="$namespacecurfil.html#a87e4fcdcd5d29f54c4df71a97c7d90ee" title="curfil::getParam2" alt="" coords="416,785,536,815"/>
+<area shape="rect" id="node82" href="$namespacecurfil.html#ac7821075578d1c05461355eb682ec09c" title="curfil::getType" alt="" coords="424,839,528,868"/>
+<area shape="rect" id="node86" href="$namespacecurfil.html#a20c54374ccc85298102d76acd941df2b" title="curfil::getChannels" alt="" coords="411,892,541,921"/>
+<area shape="rect" id="node90" href="$namespacecurfil.html#a41137785867be75e34b2a2eddd4881b5" title="curfil::calculateColorFeature" alt="" coords="384,521,568,551"/>
+<area shape="rect" id="node96" href="$namespacecurfil.html#a26b1e19270f79228aaa2535960e5c6c4" title="curfil::calculateDepthFeature" alt="" coords="381,575,571,604"/>
+<area shape="rect" id="node56" href="$namespacecurfil.html#a7f14bad832ec3448492c8e8de8b96614" title="curfil::getDepthValidValue" alt="" coords="856,607,1029,636"/>
+<area shape="rect" id="node58" href="$namespacecurfil.html#a07c6f247a517553bf924e686ad2ef972" title="curfil::getDepthValue" alt="" coords="871,660,1015,689"/>
+<area shape="rect" id="node62" href="$namespacecurfil.html#a3c685301853a45e6d9e2ec538bc77d05" title="curfil::getNodeOffset" alt="" coords="639,812,780,841"/>
+<area shape="rect" id="node64" href="$namespacecurfil.html#a3899c7a4d17efeb2ccd61b9998dad52d" title="curfil::getLayer" alt="" coords="656,865,763,895"/>
+<area shape="rect" id="node92" href="$namespacecurfil.html#a72d890839917371ed1cd7bbcd45bcd5e" title="curfil::averageRegionColor" alt="" coords="621,535,797,564"/>
+<area shape="rect" id="node94" href="$namespacecurfil.html#a7bc081643f117d964801be1ed5ff024b" title="curfil::getColorChannelValue" alt="" coords="849,541,1036,571"/>
+</map>

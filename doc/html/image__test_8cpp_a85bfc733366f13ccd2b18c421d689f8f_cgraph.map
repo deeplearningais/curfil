@@ -1,0 +1,17 @@
+<map id="BOOST_AUTO_TEST_CASE" name="BOOST_AUTO_TEST_CASE">
+<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="697,562,833,609"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="697,373,833,419"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RGBDImage.html#a1518c5b8e781093ed367a6a39dd61e84" title="curfil::RGBDImage:\l:setDepth" alt="" coords="273,183,409,230"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1Depth.html#ae9f49c116c79db11fb09cb8b1454592d" title="curfil::Depth::isValid" alt="" coords="495,77,633,107"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1RGBDImage.html#a6dd23a0806c893368d9fbc3b1306d3ee" title="curfil::RGBDImage:\l:getDepthValid" alt="" coords="496,253,632,299"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1RGBDImage.html#a094f0f093e1b416ad127bbe4b022a45f" title="simple depth filling depth values are replaced by right,left,top,bottom neighbors (in that order)..." alt="" coords="273,463,409,510"/>
+<area shape="rect" id="node45" href="$classcurfil_1_1RGBDImage.html#aa9823115c1c4662921f6e90c606ebe7b" title="curfil::RGBDImage:\l:getDepth" alt="" coords="496,751,632,798"/>
+<area shape="rect" id="node50" href="$classcurfil_1_1Depth.html#ae5a9f2df054b092a741e5cd4b4a23bcb" title="curfil::Depth::getFloatValue" alt="" coords="251,131,432,160"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RGBDImage.html#a931fec2e484629b8203dd3a194198dac" title="curfil::RGBDImage:\l:inImage" alt="" coords="496,183,632,230"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1Depth.html#ae303ee350dfe7f41f3e56770dd6f1155" title="curfil::Depth::getIntValue" alt="" coords="481,131,647,160"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1RGBDImage.html#a515c9dc83216d21971314d9b51fd97bf" title="curfil::RGBDImage:\l:fillDepthFromRight" alt="" coords="496,493,632,539"/>
+<area shape="rect" id="node23" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="707,501,824,531"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1RGBDImage.html#affe7df9f9bc517cc1aa87ae274dfdd5d" title="curfil::RGBDImage:\l:fillDepthFromLeft" alt="" coords="496,562,632,609"/>
+<area shape="rect" id="node32" href="$classcurfil_1_1RGBDImage.html#a7dca48e82d8d7a89c7a372dfdaa4dd09" title="curfil::RGBDImage:\l:fillDepthFromTop" alt="" coords="496,631,632,678"/>
+<area shape="rect" id="node37" href="$classcurfil_1_1RGBDImage.html#a21df01438cc9a0e0e8de44022dcfb71a" title="curfil::RGBDImage:\l:fillDepthFromBottom" alt="" coords="491,373,637,419"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="operator&lt;&lt;" name="operator&lt;&lt;">
+<area shape="rect" id="node3" href="$classcurfil_1_1TrainingConfiguration.html#a344d790d0a6aec548a895e5df927d635" title="curfil::TrainingConfiguration\l::getRandomSeed" alt="" coords="141,5,323,51"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1TrainingConfiguration.html#a8c6cd1d962be5da6871a28e78d25382d" title="curfil::TrainingConfiguration\l::getSamplesPerImage" alt="" coords="141,74,323,121"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1TrainingConfiguration.html#a1adf8914c836953d9bac15f430d90b15" title="curfil::TrainingConfiguration\l::getFeatureCount" alt="" coords="141,143,323,190"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1TrainingConfiguration.html#a5d9f6ab537bc131602cea03ce8fe88ce" title="curfil::TrainingConfiguration\l::getMinSampleCount" alt="" coords="141,213,323,259"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1TrainingConfiguration.html#ad1bc6eabe37ccd19e96126f4541da6f7" title="curfil::TrainingConfiguration\l::getMaxDepth" alt="" coords="141,282,323,329"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1TrainingConfiguration.html#a4c8f74c1772faa7bfa536aa2b8b1a26b" title="curfil::TrainingConfiguration\l::getBoxRadius" alt="" coords="141,351,323,398"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1TrainingConfiguration.html#aa6176b28f59f4890b1e8f8d212d028f4" title="curfil::TrainingConfiguration\l::getRegionSize" alt="" coords="141,421,323,467"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1TrainingConfiguration.html#ad80a998ead0d7149d36449a4f0dc6a89" title="curfil::TrainingConfiguration\l::getThresholds" alt="" coords="141,490,323,537"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1TrainingConfiguration.html#a165891c8fb258287f3e125fe43298b8f" title="curfil::TrainingConfiguration\l::getMaxImages" alt="" coords="141,559,323,606"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1TrainingConfiguration.html#aa745e3c831c713e3cd2c2c3ae9f77a05" title="curfil::TrainingConfiguration\l::getImageCacheSize" alt="" coords="141,629,323,675"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1TrainingConfiguration.html#a06923dd7407b30718191e5813f438b74" title="curfil::TrainingConfiguration\l::getAccelerationModeString" alt="" coords="139,698,325,745"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1TrainingConfiguration.html#a1c878fda056e474d6267c33a5001fa9f" title="curfil::TrainingConfiguration\l::getMaxSamplesPerBatch" alt="" coords="141,767,323,814"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1TrainingConfiguration.html#aab6783e39622bbce610efa1c8a36b22f" title="curfil::TrainingConfiguration\l::getSubsamplingType" alt="" coords="141,837,323,883"/>
+<area shape="rect" id="node29" href="$classcurfil_1_1TrainingConfiguration.html#a39096a9789f4acc8566e997f6f9a39de" title="curfil::TrainingConfiguration\l::isUseCIELab" alt="" coords="141,906,323,953"/>
+<area shape="rect" id="node31" href="$classcurfil_1_1TrainingConfiguration.html#a8b1c572a138a27b13324bc9d4c698ba4" title="curfil::TrainingConfiguration\l::isUseDepthFilling" alt="" coords="141,975,323,1022"/>
+<area shape="rect" id="node33" href="$random__tree_8cpp.html#aaf9a74a32c737f5468ba578312cd4b53" title="joinToString" alt="" coords="187,1045,277,1075"/>
+<area shape="rect" id="node35" href="$classcurfil_1_1TrainingConfiguration.html#acb2a6c80fbdcc36f66e0554be49805ec" title="curfil::TrainingConfiguration\l::getDeviceIds" alt="" coords="141,1098,323,1145"/>
+<area shape="rect" id="node37" href="$classcurfil_1_1TrainingConfiguration.html#aacd5bf55cb4773c2b74f5fbe12a02d18" title="curfil::TrainingConfiguration\l::getIgnoredColors" alt="" coords="141,1167,323,1214"/>
+</map>

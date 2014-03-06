@@ -1,0 +1,17 @@
+<map id="BOOST_AUTO_TEST_CASE" name="BOOST_AUTO_TEST_CASE">
+<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="669,277,805,324"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="669,112,805,158"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RGBDImage.html#a1518c5b8e781093ed367a6a39dd61e84" title="curfil::RGBDImage:\l:setDepth" alt="" coords="252,166,388,213"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1Depth.html#ae9f49c116c79db11fb09cb8b1454592d" title="curfil::Depth::isValid" alt="" coords="668,628,807,658"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1RGBDImage.html#a0c3cf815cce74059398b5e5f4b017fb3" title="curfil::RGBDImage:\l:dumpDepth" alt="" coords="252,514,388,561"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1RGBDImage.html#aa9823115c1c4662921f6e90c606ebe7b" title="curfil::RGBDImage:\l:getDepth" alt="" coords="460,432,596,478"/>
+<area shape="rect" id="node24" href="$classcurfil_1_1Depth.html#ae5a9f2df054b092a741e5cd4b4a23bcb" title="curfil::Depth::getFloatValue" alt="" coords="437,654,619,683"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1RGBDImage.html#aa09dd417181e6cae0eb99a90c42e7b24" title="curfil::RGBDImage:\l:dumpDepthValid" alt="" coords="252,314,388,361"/>
+<area shape="rect" id="node31" href="$classcurfil_1_1RGBDImage.html#a6dd23a0806c893368d9fbc3b1306d3ee" title="curfil::RGBDImage:\l:getDepthValid" alt="" coords="460,362,596,409"/>
+<area shape="rect" id="node33" href="$classcurfil_1_1RGBDImage.html#a07bca2b7601ee439c6c29cd947836cec" title="curfil::RGBDImage:\l:calculateIntegral" alt="" coords="252,780,388,826"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RGBDImage.html#a931fec2e484629b8203dd3a194198dac" title="curfil::RGBDImage:\l:inImage" alt="" coords="460,141,596,188"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1Depth.html#ae303ee350dfe7f41f3e56770dd6f1155" title="curfil::Depth::getIntValue" alt="" coords="445,38,611,67"/>
+<area shape="rect" id="node35" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="463,758,593,787"/>
+<area shape="rect" id="node37" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="460,811,596,840"/>
+<area shape="rect" id="node39" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="469,864,587,894"/>
+</map>

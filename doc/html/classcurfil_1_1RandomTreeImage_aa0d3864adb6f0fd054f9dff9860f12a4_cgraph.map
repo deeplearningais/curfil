@@ -1,0 +1,19 @@
+<map id="curfil::RandomTreeImage::doTrain" name="curfil::RandomTreeImage::doTrain">
+<area shape="rect" id="node3" href="$classcurfil_1_1RandomTreeImage.html#a0c9afa998ab9b332e85a2a2246afa29e" title="curfil::RandomTreeImage\l::getId" alt="" coords="225,125,393,171"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RandomTreeTrain.html#a451e51a1a78e549ca73a4642bff901e5" title="curfil::RandomTreeTrain\l::train" alt="" coords="228,194,391,241"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1TrainingConfiguration.html#ad1bc6eabe37ccd19e96126f4541da6f7" title="curfil::TrainingConfiguration\l::getMaxDepth" alt="" coords="443,5,624,51"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1SplitFunction.html#a7d42a7c63c0b6d90e464d9db4b67b6a8" title="curfil::SplitFunction\l::split" alt="" coords="467,74,600,121"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1SplitFunction.html#a087e972f665bc723e0524ad04a6608cd" title="curfil::SplitFunction\l::getThreshold" alt="" coords="703,73,836,119"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1RandomTreeTrain.html#a9e99f954be19f03d6628c6627696d556" title="curfil::RandomTreeTrain\l::compareHistograms" alt="" coords="452,194,615,241"/>
+<area shape="rect" id="node30" href="$classcurfil_1_1SplitFunction.html#a981c1f715d53ad0c268eb9df09298c70" title="curfil::SplitFunction\l::getScore" alt="" coords="703,265,836,311"/>
+<area shape="rect" id="node34" href="$classcurfil_1_1SplitFunction.html#a12c8be04ce6a92d06cd7014d296bbdee" title="curfil::SplitFunction\l::getFeature" alt="" coords="467,314,600,361"/>
+<area shape="rect" id="node36" href="$classcurfil_1_1RandomTreeTrain.html#a7e42c851ae42608e86f93bcb03676d99" title="curfil::RandomTreeTrain\l::shouldContinueGrowing" alt="" coords="449,383,617,430"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1RandomTreeTrain.html#aedf3902f79e2303f4b9560f32f33cfab" title="curfil::RandomTreeTrain::sum" alt="" coords="672,143,867,172"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1NormalizedInformationGainScore.html#ab2187d46a1baf22b56a7463d8c9ac55d" title="curfil::NormalizedInformation\lGainScore::calculateScore" alt="" coords="675,195,864,242"/>
+<area shape="rect" id="node17" href="$classcuv_1_1ndarray.html#a9e453312f419eaac1aa5e6493d59aede" title="cuv::ndarray::size" alt="" coords="959,108,1084,137"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1NormalizedInformationGainScore.html#ad7568d8d570b1d85215faf6afdbf06a2" title="curfil::NormalizedInformation\lGainScore::splitEntropy" alt="" coords="927,161,1116,207"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1NormalizedInformationGainScore.html#a46a349bbdc4b77fc8ff67547a3440a11" title="curfil::NormalizedInformation\lGainScore::classificationEntropy" alt="" coords="916,230,1127,277"/>
+<area shape="rect" id="node28" href="$classcurfil_1_1InformationGainScore.html#ad9595146d362c6cdd148bdf778fb28cd" title="curfil::InformationGainScore\l::normalizeScore" alt="" coords="929,299,1113,346"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1InformationGainScore.html#a5d13229a29278cc54003e9ae056b77db" title="curfil::InformationGainScore\l::entropy" alt="" coords="1176,195,1360,242"/>
+<area shape="rect" id="node38" href="$classcurfil_1_1TrainingConfiguration.html#a5d9f6ab537bc131602cea03ce8fe88ce" title="curfil::TrainingConfiguration\l::getMinSampleCount" alt="" coords="679,383,860,430"/>
+</map>

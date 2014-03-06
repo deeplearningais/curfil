@@ -1,0 +1,7 @@
+<map id="curfil::RandomTreeImage::subsampleTrainingDataPixelUniform" name="curfil::RandomTreeImage::subsampleTrainingDataPixelUniform">
+<area shape="rect" id="node3" href="$classcurfil_1_1RandomSource.html#adc949b871ccd091784506f3f9c13ce74" title="curfil::RandomSource\l::uniformSampler" alt="" coords="263,5,409,51"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1Sampler.html#a1b863ff4d63f7b12c7de32c24d6dfa54" title="curfil::Sampler::getNext" alt="" coords="256,75,416,104"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RandomTreeImage.html#af4c72aef4e5949c39c5b0badb7e400ae" title="curfil::RandomTreeImage\l::shouldIgnoreLabel" alt="" coords="252,127,420,174"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1LabelImage.html#afaa61e2c747b86e9403fa2b4cf7b9518" title="curfil::LabelImage\l::decodeLabel" alt="" coords="497,93,623,139"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1TrainingConfiguration.html#aacd5bf55cb4773c2b74f5fbe12a02d18" title="curfil::TrainingConfiguration\l::getIgnoredColors" alt="" coords="469,162,651,209"/>
+</map>

@@ -1,0 +1,27 @@
+var classcurfil_1_1ImageFeatureFunction =
+[
+    [ "ImageFeatureFunction", "classcurfil_1_1ImageFeatureFunction.html#a90736897dd54cbc1811ec3532facb50b", null ],
+    [ "ImageFeatureFunction", "classcurfil_1_1ImageFeatureFunction.html#af589c87d13ed9602aa298fc73b1f7c4c", null ],
+    [ "calculateColorFeature", "classcurfil_1_1ImageFeatureFunction.html#ae12a4daf8fda2a5fad5224f0a96b51b0", null ],
+    [ "calculateDepthFeature", "classcurfil_1_1ImageFeatureFunction.html#ac8c6e526621cd7c6db839ff4cb034b4c", null ],
+    [ "calculateFeatureResponse", "classcurfil_1_1ImageFeatureFunction.html#ab58959d1ee6c8bfa6457d330f38f1112", null ],
+    [ "getChannel1", "classcurfil_1_1ImageFeatureFunction.html#ac28199bb99a9d7a38242f6d756083d53", null ],
+    [ "getChannel2", "classcurfil_1_1ImageFeatureFunction.html#a897eec58e847ce410632a067c1306551", null ],
+    [ "getOffset1", "classcurfil_1_1ImageFeatureFunction.html#a484f2e745684ca69a11841f73060c2c5", null ],
+    [ "getOffset2", "classcurfil_1_1ImageFeatureFunction.html#a8f6191dcfb0515ace06b9c857bef00c4", null ],
+    [ "getRegion1", "classcurfil_1_1ImageFeatureFunction.html#ac44be89a0240ea63712102bbe98d96ed", null ],
+    [ "getRegion2", "classcurfil_1_1ImageFeatureFunction.html#aad014a32f63b063db9637632d2e1c974", null ],
+    [ "getSortKey", "classcurfil_1_1ImageFeatureFunction.html#ab2e07a794b86cbf1e11afdbf95530d9c", null ],
+    [ "getType", "classcurfil_1_1ImageFeatureFunction.html#a84785be9b165a5494ccf507bcd403a91", null ],
+    [ "getTypeString", "classcurfil_1_1ImageFeatureFunction.html#a925caf12a1f4d1bccfa57ebf14a8ae1c", null ],
+    [ "isValid", "classcurfil_1_1ImageFeatureFunction.html#accf00991e5b13e90b0446b4628dc4d9b", null ],
+    [ "operator!=", "classcurfil_1_1ImageFeatureFunction.html#a8f4a796b0c4c59f6a5f97ce2bfd9de31", null ],
+    [ "operator==", "classcurfil_1_1ImageFeatureFunction.html#a631fead4cc89e82a1ee7ad651095eb9c", null ],
+    [ "channel1", "classcurfil_1_1ImageFeatureFunction.html#acf3bafba24b9f9fb1750d09432f107e9", null ],
+    [ "channel2", "classcurfil_1_1ImageFeatureFunction.html#ad1218f9bfddf1a33a466abd8d5ddf95a", null ],
+    [ "featureType", "classcurfil_1_1ImageFeatureFunction.html#abdbaa46082f43d19991dea212babed6c", null ],
+    [ "offset1", "classcurfil_1_1ImageFeatureFunction.html#aca28c07ac54cb5de89e60d6de01fb115", null ],
+    [ "offset2", "classcurfil_1_1ImageFeatureFunction.html#a281ab6a8377b948d173e4890e139c4e3", null ],
+    [ "region1", "classcurfil_1_1ImageFeatureFunction.html#a46ca987129f4064dd166b52e93cbb721", null ],
+    [ "region2", "classcurfil_1_1ImageFeatureFunction.html#a2c9763806c41cc6d9c91b2c964026be6", null ]
+];

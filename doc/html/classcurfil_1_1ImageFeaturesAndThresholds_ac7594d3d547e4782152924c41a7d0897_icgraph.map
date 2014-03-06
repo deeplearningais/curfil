@@ -1,0 +1,8 @@
+<map id="curfil::ImageFeaturesAndThresholds::getFeatureFunction" name="curfil::ImageFeaturesAndThresholds::getFeatureFunction">
+<area shape="rect" id="node3" href="$classcurfil_1_1FeatureEvaluationCPU.html#a2262214613f55c0af0cca2e4f3e459f8" title="curfil::FeatureEvaluation\lCPU::operator()" alt="" coords="305,5,468,51"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1ImageFeatureEvaluation.html#a928e63648ff7a928eea6f97b57d0b6bd" title="curfil::ImageFeatureEvaluation\l::sortFeatures" alt="" coords="288,74,485,121"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a7590a88275d864c24330927640c3c5f7" title="curfil::ImageFeaturesAnd\lThresholds\&lt; cuv::host\l_memory_space \&gt;::setFeatureFunction" alt="" coords="261,144,512,208"/>
+<area shape="rect" id="node9" href="$feature__generation__test_8cpp.html#a76cfe75da4869321f0e5d1585e105fed" title="assertSorted" alt="" coords="339,232,435,261"/>
+<area shape="rect" id="node11" href="$feature__generation__test_8cpp.html#a59fc5b1c41dd8e203031ae546635c976" title="analyzeFeatures" alt="" coords="561,259,679,288"/>
+<area shape="rect" id="node13" href="$feature__generation__test_8cpp.html#a830e2bb62eee54ca3ce8956b026e7ccf" title="BOOST_AUTO_TEST_CASE" alt="" coords="728,259,925,288"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="cuv::ndarray::shape" name="cuv::ndarray::shape">
+<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#a928f3c4286c5436698504d029909f0cb" title="return the effective shape of the ndarray (as a vector for backward compatibility)" alt="" coords="192,5,339,69"/>
+<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a426e2c4e9d22232a55783e6430032a16" title="get a reference to the datum at an index" alt="" coords="192,93,339,157"/>
+<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#a52f18b54915aae217bffed9a21e8400c" title="reshape the ndarray (in place)" alt="" coords="192,181,339,245"/>
+<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#ab8cd6a284c888f061686a239aa902629" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="192,269,339,333"/>
+</map>

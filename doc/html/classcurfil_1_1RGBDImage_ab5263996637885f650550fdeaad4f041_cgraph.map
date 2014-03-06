@@ -1,0 +1,8 @@
+<map id="curfil::RGBDImage::loadDepthImage" name="curfil::RGBDImage::loadDepthImage">
+<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="193,5,329,51"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="193,74,329,121"/>
+<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="193,144,329,173"/>
+<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="203,197,320,227"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1utils_1_1Average.html#a2a6821f2fad5ed0288aa2199f68220cc" title="curfil::utils::Average\l::addValue" alt="" coords="192,250,331,297"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1utils_1_1Average.html#a07cfbded369ba44ae7fadd523e0a050a" title="curfil::utils::Average\l::getAverage" alt="" coords="192,319,331,366"/>
+</map>

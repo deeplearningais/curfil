@@ -1,0 +1,49 @@
+<map id="cuv::ndarray::ndim" name="cuv::ndarray::ndim">
+<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#ac84060f563b616a343e0d70452a48b73" title="curfil::RGBDImage:\l:calculateDerivative" alt="" coords="216,39,352,86"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#a1d79d3ee8d279bb1d5808c5af9d30755" title="curfil::RGBDImage:\l:calculateIntegral" alt="" coords="216,109,352,155"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1ConfusionMatrix.html#a07c85e1630d04b867b683c293c67f79f" title="curfil::ConfusionMatrix\l::getNumClasses" alt="" coords="208,178,360,225"/>
+<area shape="rect" id="node68" href="$classcurfil_1_1RandomTree.html#a9d4ac8a8e25c58029027a3289d664899" title="curfil::RandomTree\l::RandomTree" alt="" coords="217,247,351,294"/>
+<area shape="rect" id="node70" href="$classcurfil_1_1FeatureEvaluationCPU.html#a2262214613f55c0af0cca2e4f3e459f8" title="curfil::FeatureEvaluation\lCPU::operator()" alt="" coords="203,317,365,363"/>
+<area shape="rect" id="node72" href="$classcurfil_1_1ImageFeatureEvaluation.html#a8eec18d7ce3d849b06b416414cbc8c4f" title="curfil::ImageFeatureEvaluation\l::evaluateBestSplits" alt="" coords="185,386,383,433"/>
+<area shape="rect" id="node74" href="$classcurfil_1_1ImageFeatureEvaluation.html#a928e63648ff7a928eea6f97b57d0b6bd" title="curfil::ImageFeatureEvaluation\l::sortFeatures" alt="" coords="185,455,383,502"/>
+<area shape="rect" id="node76" href="$classcurfil_1_1TreeNodes.html#a7e36524e31141b5a61a413e4575dc5ee" title="curfil::TreeNodes:\l:convert" alt="" coords="221,525,347,571"/>
+<area shape="rect" id="node80" href="$classcurfil_1_1ImageCache.html#a50abfd3d085ffecbda0a564a33ed42e5" title="curfil::ImageCache\l::transferElement" alt="" coords="219,594,349,641"/>
+<area shape="rect" id="node82" href="$classcuv_1_1ndarray.html#a3bdc7d175f3ae2f940b5258007e3af21" title="return the shape of the ndarray (as a vector for backward compatibility)" alt="" coords="192,663,376,710"/>
+<area shape="rect" id="node84" href="$classcuv_1_1ndarray.html#a928f3c4286c5436698504d029909f0cb" title="return the effective shape of the ndarray (as a vector for backward compatibility)" alt="" coords="211,733,357,797"/>
+<area shape="rect" id="node86" href="$classcuv_1_1ndarray.html#ade75b454f456d12b6ea1ba145f0cb538" title="member access: &quot;flat&quot; access as if memory was linear" alt="" coords="211,821,357,885"/>
+<area shape="rect" id="node88" href="$classcuv_1_1ndarray.html#a426e2c4e9d22232a55783e6430032a16" title="get a reference to the datum at an index" alt="" coords="211,909,357,973"/>
+<area shape="rect" id="node90" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="211,997,357,1061"/>
+<area shape="rect" id="node92" href="$classcuv_1_1ndarray.html#adb77a10a9c279aec5f99a4db426b7b96" title="copies between different memory spaces" alt="" coords="211,1085,357,1149"/>
+<area shape="rect" id="node94" href="$classcuv_1_1ndarray__view.html#aa771de46bbcee1e4ed5646a825bc99f9" title="construct ndarray_view" alt="" coords="219,1173,349,1219"/>
+<area shape="rect" id="node96" href="$ndarray__test_8cpp.html#af86968b537696adcfe0ab593a808b675" title="test_lowdim_views" alt="" coords="217,1243,351,1272"/>
+<area shape="rect" id="node98" href="$feature__generation__test_8cpp.html#aec2fe6222834d868d7ae5e916cae9d23" title="assertEqual" alt="" coords="239,1349,329,1379"/>
+<area shape="rect" id="node102" href="$feature__generation__test_8cpp.html#a59fc5b1c41dd8e203031ae546635c976" title="analyzeFeatures" alt="" coords="225,1296,343,1325"/>
+<area shape="rect" id="node105" href="$random__tree__image__gpu__test_8cu.html#ad41e6e4a40273402e23d48043270516f" title="checkScores" alt="" coords="235,1456,333,1485"/>
+<area shape="rect" id="node109" href="$random__tree__image__gpu__test_8cu.html#a60e3140f34b9d8aa216960c412f8bd41" title="checkCounters" alt="" coords="229,1403,339,1432"/>
+<area shape="rect" id="node112" href="$random__tree__image__gpu__test_8cu.html#a3a8cef87b003481446f873aae0018ab8" title="BOOST_AUTO_TEST_CASE" alt="" coords="185,1509,383,1539"/>
+<area shape="rect" id="node114" href="$test__common_8h.html#a42a669b6fe1bf13557a7831cc9b6985b" title="operator==" alt="" coords="241,1563,327,1592"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1Result.html#a9512d8f8761efcba22c8bd203590f44a" title="curfil::Result::toBSON" alt="" coords="1393,275,1545,304"/>
+<area shape="rect" id="node24" href="$classcurfil_1_1ConfusionMatrix.html#a7ccefc0cc9afefcf4c02c7980e74ccf9" title="curfil::ConfusionMatrix\l::operator+=" alt="" coords="455,118,607,165"/>
+<area shape="rect" id="node26" href="$classcurfil_1_1ConfusionMatrix.html#a5845bc7fb62de866eaf604ea88bbf36b" title="curfil::ConfusionMatrix\l::averageClassAccuracy" alt="" coords="692,187,857,234"/>
+<area shape="rect" id="node43" href="$predict_8h.html#afe3ee9e7fa96513d3e4eb3c6839a9faa" title="operator\&lt;\&lt;" alt="" coords="956,303,1041,332"/>
+<area shape="rect" id="node45" href="$classcurfil_1_1ConfusionMatrix.html#a404405813e07bb0645c93b677529265c" title="curfil::ConfusionMatrix\l::normalize" alt="" coords="455,238,607,285"/>
+<area shape="rect" id="node53" href="$namespacecurfil.html#a80bfd404ade8c8a4b0d52c2d956fd1fd" title="Calculates the average pixel accuracy on &#39;prediction&#39; according to the ground truth." alt="" coords="677,57,872,87"/>
+<area shape="rect" id="node65" href="$classcurfil_1_1ConfusionMatrix.html#ab2ac5ea664413794396211ccd47f1fa1" title="curfil::ConfusionMatrix\l::increment" alt="" coords="455,49,607,95"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="1643,143,1787,190"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1863,203,2007,250"/>
+<area shape="rect" id="node22" href="$hyperopt__test_8cpp.html#af0e5921c4c47fb0e8f6adba88ae66ab9" title="BOOST_AUTO_TEST_CASE" alt="" coords="1616,325,1813,355"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="2056,212,2227,241"/>
+<area shape="rect" id="node19" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="2275,212,2325,241"/>
+<area shape="rect" id="node28" href="$classcurfil_1_1Result.html#a169a71312057b31f91bb8813522ab4ae" title="curfil::Result::getClass\lAccuracy" alt="" coords="921,163,1076,210"/>
+<area shape="rect" id="node38" href="$classcurfil_1_1Result.html#a28885eed6403420d5c5e0274dcb1ab77" title="curfil::Result::getClass\lAccuracyWithoutVoid" alt="" coords="921,233,1076,279"/>
+<area shape="rect" id="node30" href="$classcurfil_1_1Result.html#ac377e3d44fa20df3046c73dc1be8845e" title="curfil::Result::getLoss" alt="" coords="1149,172,1299,201"/>
+<area shape="rect" id="node35" href="$hyperopt__test_8cpp.html#aaa536d86186c43fa35a006a38d014f03" title="BOOST_AUTO_TEST_CASE" alt="" coords="1371,171,1568,200"/>
+<area shape="rect" id="node48" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="959,111,1039,140"/>
+<area shape="rect" id="node50" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1199,111,1249,140"/>
+<area shape="rect" id="node55" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="1397,50,1541,97"/>
+<area shape="rect" id="node60" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="968,7,1029,36"/>
+<area shape="rect" id="node62" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="1125,7,1323,36"/>
+<area shape="rect" id="node78" href="$classcurfil_1_1TreeNodes.html#a15efedbdbedc5ecaa10419f98f012828" title="curfil::TreeNodes:\l:TreeNodes" alt="" coords="468,525,593,571"/>
+<area shape="rect" id="node100" href="$feature__generation__test_8cpp.html#a830e2bb62eee54ca3ce8956b026e7ccf" title="BOOST_AUTO_TEST_CASE" alt="" coords="432,1323,629,1352"/>
+<area shape="rect" id="node107" href="$random__tree__image__gpu__test_8cu.html#aff739963190d42fc24f714fed9a819e0" title="BOOST_AUTO_TEST_CASE" alt="" coords="432,1429,629,1459"/>
+</map>

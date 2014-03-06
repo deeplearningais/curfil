@@ -1,0 +1,10 @@
+<map id="cuv::memory::ptr" name="cuv::memory::ptr">
+<area shape="rect" id="node3" href="$classcuv_1_1linear__memory.html#aebfba82ae283d93832a4e621c7371ef2" title="releases ownership of pointer (for storage in memory class)" alt="" coords="187,5,363,69"/>
+<area shape="rect" id="node5" href="$classcuv_1_1linear__memory.html#a1ce62b01f537700be30573dceedfda0d" title="cuv::linear_memory\l\&lt; size_type, host_memory\l_space \&gt;::copy_from" alt="" coords="187,93,363,157"/>
+<area shape="rect" id="node7" href="$classcuv_1_1pitched__memory.html#ae8ca226c6d38bc5ceb8933c03b7d4484" title="releases ownership of pointer (for storage in memory class)" alt="" coords="201,181,348,227"/>
+<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#ad2ed9ed42304554bc1b9f2e009c55849" title="This is an overloaded member function, provided for convenience. It differs from the above function o..." alt="" coords="421,203,568,267"/>
+<area shape="rect" id="node11" href="$classcuv_1_1pitched__memory.html#aa42883165972a9f25964ce52b10c4e6e" title="cuv::pitched_memory\l::copy2d_from" alt="" coords="201,301,348,347"/>
+<area shape="rect" id="node13" href="$classcuv_1_1pitched__memory.html#ab64aa2cf43f7f028dca3f62c62049a83" title="cuv::pitched_memory\l::copy_from" alt="" coords="201,370,348,417"/>
+<area shape="rect" id="node18" href="$ndarray__test_8cpp.html#abae9d4c899f9b1e59c5afbec7d7a0c3e" title="BOOST_AUTO_TEST_CASE" alt="" coords="176,440,373,469"/>
+<area shape="rect" id="node15" href="$classcuv_1_1pitched__memory.html#a8b2887376ab2d62dd926a2da37a36656" title="Copy pitched_memory." alt="" coords="421,370,568,417"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="curfil::RandomTree::normalizeHistograms" name="curfil::RandomTree::normalizeHistograms">
+<area shape="rect" id="node3" href="$namespacecurfil_1_1detail.html#a4773a0ff36856ff8c03b129e6f1a16f2" title="curfil::detail::normalize\lHistogram" alt="" coords="209,5,361,51"/>
+<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a9e453312f419eaac1aa5e6493d59aede" title="cuv::ndarray::size" alt="" coords="412,44,537,73"/>
+<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="217,125,353,155"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RandomTree.html#a57bf78a23d217244a502fa2b3f5e443f" title="curfil::RandomTree\l::isLeaf" alt="" coords="219,178,352,225"/>
+<area shape="rect" id="node12" href="$classcurfil_1_1RandomTree.html#aea3cdd52d07679e38af46f62c0aa2a5f" title="curfil::RandomTree\l::getNodeId" alt="" coords="219,247,352,294"/>
+<area shape="rect" id="node14" href="$classcurfil_1_1RandomTree.html#a350f451efe7367c892a4fb6ee727ffed" title="curfil::RandomTree\l::getLevel" alt="" coords="219,317,352,363"/>
+</map>

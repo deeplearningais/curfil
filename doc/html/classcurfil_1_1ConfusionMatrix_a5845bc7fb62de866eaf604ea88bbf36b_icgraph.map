@@ -1,0 +1,13 @@
+<map id="curfil::ConfusionMatrix::averageClassAccuracy" name="curfil::ConfusionMatrix::averageClassAccuracy">
+<area shape="rect" id="node3" href="$classcurfil_1_1Result.html#a169a71312057b31f91bb8813522ab4ae" title="curfil::Result::getClass\lAccuracy" alt="" coords="220,105,375,151"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1Result.html#a28885eed6403420d5c5e0274dcb1ab77" title="curfil::Result::getClass\lAccuracyWithoutVoid" alt="" coords="220,35,375,82"/>
+<area shape="rect" id="node32" href="$predict_8h.html#afe3ee9e7fa96513d3e4eb3c6839a9faa" title="operator\&lt;\&lt;" alt="" coords="255,175,340,204"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1Result.html#ac377e3d44fa20df3046c73dc1be8845e" title="curfil::Result::getLoss" alt="" coords="425,79,575,108"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1Result.html#a9512d8f8761efcba22c8bd203590f44a" title="curfil::Result::toBSON" alt="" coords="647,52,799,81"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="896,105,1040,151"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1116,5,1260,51"/>
+<area shape="rect" id="node24" href="$hyperopt__test_8cpp.html#aaa536d86186c43fa35a006a38d014f03" title="BOOST_AUTO_TEST_CASE" alt="" coords="624,156,821,185"/>
+<area shape="rect" id="node20" href="$hyperopt__test_8cpp.html#af0e5921c4c47fb0e8f6adba88ae66ab9" title="BOOST_AUTO_TEST_CASE" alt="" coords="869,52,1067,81"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1309,13,1480,43"/>
+<area shape="rect" id="node17" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1528,13,1579,43"/>
+</map>

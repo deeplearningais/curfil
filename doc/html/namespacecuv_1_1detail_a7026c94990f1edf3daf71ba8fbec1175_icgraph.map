@@ -1,0 +1,4 @@
+<map id="cuv::detail::get_pitched_params" name="cuv::detail::get_pitched_params">
+<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#ad2ed9ed42304554bc1b9f2e009c55849" title="This is an overloaded member function, provided for convenience. It differs from the above function o..." alt="" coords="211,5,357,69"/>
+<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a873c6bc731e9442bbfab9c9dd73d9892" title="tries to copy memory, succeeds if shapes match AND both ndarrays are c_contiguous or 2d&#45;copyable..." alt="" coords="211,93,357,157"/>
+</map>

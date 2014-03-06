@@ -1,0 +1,30 @@
+<map id="BOOST_AUTO_TEST_CASE" name="BOOST_AUTO_TEST_CASE">
+<area shape="rect" id="node3" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a749b9b065d5700140e89b8c1fd71d870" title="curfil::ImageFeaturesAnd\lThresholds::thresholds" alt="" coords="308,5,476,51"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a43e4a462bf00ebd87dd41f3963fe2dcf" title="curfil::ImageFeaturesAnd\lThresholds::types" alt="" coords="308,74,476,121"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a9a880472105a74d996373a8c6f274456" title="curfil::ImageFeaturesAnd\lThresholds::offset1X" alt="" coords="308,143,476,190"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#aaba8ecb1dbc61ae80c4c665b405a9eeb" title="curfil::ImageFeaturesAnd\lThresholds::offset1Y" alt="" coords="308,213,476,259"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#ae72e8756e625f9732059d0d067c1d0e3" title="curfil::ImageFeaturesAnd\lThresholds::region1X" alt="" coords="308,282,476,329"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#aeda3c5bf7d4ecee40c932992d52407dc" title="curfil::ImageFeaturesAnd\lThresholds::region1Y" alt="" coords="308,351,476,398"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a94a5236a5583215daa7d7182dadb4a33" title="curfil::ImageFeaturesAnd\lThresholds::offset2X" alt="" coords="308,421,476,467"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#aa42ca2394176c9078558b88cdb54897a" title="curfil::ImageFeaturesAnd\lThresholds::offset2Y" alt="" coords="308,490,476,537"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#af21b22b2adcb8c29511843a092b58b8d" title="curfil::ImageFeaturesAnd\lThresholds::region2X" alt="" coords="308,559,476,606"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a6ac8a8109eb6e85090cd2a9e8339472a" title="curfil::ImageFeaturesAnd\lThresholds::region2Y" alt="" coords="308,629,476,675"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a4feee19438ad6b636dff2a169fb410f6" title="curfil::ImageFeaturesAnd\lThresholds::channel1" alt="" coords="308,698,476,745"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#aff8b298dfeed6fa0d727d8228fc3cd9c" title="curfil::ImageFeaturesAnd\lThresholds::channel2" alt="" coords="308,767,476,814"/>
+<area shape="rect" id="node27" href="$test__common_8h.html#a68299b9a6c42295b97721a40019e68a3" title="getPointers" alt="" coords="348,837,436,867"/>
+<area shape="rect" id="node29" href="$classcurfil_1_1RandomTree.html#a684c73b3d6399b11f0c2f3bca6042925" title="curfil::RandomTree\l::getHistogram" alt="" coords="325,890,459,937"/>
+<area shape="rect" id="node31" href="$classcurfil_1_1ImageFeatureEvaluation.html#a9c535c5f8ab8d672da190510335ab587" title="curfil::ImageFeatureEvaluation\l::prepare" alt="" coords="293,959,491,1006"/>
+<area shape="rect" id="node33" href="$classcurfil_1_1ImageFeatureEvaluation.html#af53a707044f882f6644960a03ec4542e" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="251,1029,533,1075"/>
+<area shape="rect" id="node35" href="$classcurfil_1_1ImageFeatureEvaluation.html#a8eb30c6d384e000b36cc2d785f6ee0f0" title="curfil::ImageFeatureEvaluation\l::calculateScores" alt="" coords="293,1098,491,1145"/>
+<area shape="rect" id="node37" href="$random__tree__image__gpu__test_8cu.html#ad41e6e4a40273402e23d48043270516f" title="checkScores" alt="" coords="343,1168,441,1197"/>
+<area shape="rect" id="node45" href="$namespacecurfil.html#a5e0e4ac4b2bc64a1fc5448fb0a9db22b" title="curfil::clearImageCache" alt="" coords="312,1348,472,1377"/>
+<area shape="rect" id="node53" href="$random__tree__image__gpu__test_8cu.html#a60e3140f34b9d8aa216960c412f8bd41" title="checkCounters" alt="" coords="337,1221,447,1251"/>
+<area shape="rect" id="node39" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="607,1115,737,1144"/>
+<area shape="rect" id="node41" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="604,1168,740,1197"/>
+<area shape="rect" id="node43" href="$random__tree__image__gpu__test_8cu.html#a537243557dad6ff1c69f8f9606760115" title="updateHash" alt="" coords="627,1221,717,1251"/>
+<area shape="rect" id="node47" href="$classcurfil_1_1DeviceCache.html#ad7df2998d187c917c05392f9c03a9460" title="curfil::DeviceCache\l::clear" alt="" coords="604,1413,740,1459"/>
+<area shape="rect" id="node49" href="$classcurfil_1_1DeviceCache.html#a86023aee79097fc5f26764e66b767ddf" title="curfil::DeviceCache\l::unbind" alt="" coords="812,1378,948,1425"/>
+<area shape="rect" id="node51" href="$classcurfil_1_1DeviceCache.html#a4ec28b9d815e5c3749053b6a9792f493" title="curfil::DeviceCache\l::freeArray" alt="" coords="812,1447,948,1494"/>
+<area shape="rect" id="node55" href="$classcurfil_1_1TrainingConfiguration.html#a1adf8914c836953d9bac15f430d90b15" title="curfil::TrainingConfiguration\l::getFeatureCount" alt="" coords="581,1274,763,1321"/>
+<area shape="rect" id="node57" href="$classcurfil_1_1TrainingConfiguration.html#ad80a998ead0d7149d36449a4f0dc6a89" title="curfil::TrainingConfiguration\l::getThresholds" alt="" coords="581,1343,763,1390"/>
+</map>

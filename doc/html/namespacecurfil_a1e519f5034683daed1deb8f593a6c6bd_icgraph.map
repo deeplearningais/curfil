@@ -1,0 +1,16 @@
+<map id="curfil::getThreshold" name="curfil::getThreshold">
+<area shape="rect" id="node3" href="$namespacecurfil.html#a33aaabf24379997dc49b9e8c67a77b3e" title="curfil::fetchTreeNodeData" alt="" coords="188,112,359,141"/>
+<area shape="rect" id="node5" href="$namespacecurfil.html#ac65131ce2ed99a7c8d385414c160b515" title="curfil::classifyKernel" alt="" coords="204,165,343,195"/>
+<area shape="rect" id="node7" href="$namespacecurfil.html#a2acf7858600981309f55a7c9635af540" title="curfil::classifyImage" alt="" coords="408,165,547,195"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RandomForestImage.html#a64b4d7656ed81b30034d80fce4cbde4a" title="curfil::RandomForestImage\l::predict" alt="" coords="604,126,783,173"/>
+<area shape="rect" id="node32" href="$random__tree__image__gpu__test_8cu.html#a9bbf29b4cf0c16ddbd156141c227eaac" title="BOOST_AUTO_TEST_CASE" alt="" coords="595,196,792,225"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="841,65,985,111"/>
+<area shape="rect" id="node24" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="873,135,953,164"/>
+<area shape="rect" id="node28" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="883,188,944,217"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="1061,65,1205,111"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1281,5,1425,51"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1475,13,1645,43"/>
+<area shape="rect" id="node21" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1693,13,1744,43"/>
+<area shape="rect" id="node26" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1108,135,1159,164"/>
+<area shape="rect" id="node30" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="1035,188,1232,217"/>
+</map>

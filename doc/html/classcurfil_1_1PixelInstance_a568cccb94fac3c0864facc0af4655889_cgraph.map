@@ -1,0 +1,11 @@
+<map id="curfil::PixelInstance::getColor" name="curfil::PixelInstance::getColor">
+<area shape="rect" id="node3" href="$classcurfil_1_1PixelInstance.html#ab770d702839038a26090b8d22638ec63" title="curfil::PixelInstance\l::inImage" alt="" coords="193,9,329,55"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1RGBDImage.html#a73a76d9166120b703a7211a35272b0d0" title="curfil::RGBDImage:\l:hasIntegratedColor" alt="" coords="193,131,329,178"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1RGBDImage.html#a68cafecdcc0d261c2a620881a9480c13" title="curfil::RGBDImage:\l:getColor" alt="" coords="380,74,516,121"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1XY.html#ab1ff1cfc703a6632d4aeddc017a088ea" title="curfil::XY::getX" alt="" coords="207,201,316,231"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1XY.html#a362ec6740f9dc14aec0c6c4256fe0a0a" title="curfil::XY::getY" alt="" coords="207,255,316,284"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#a931fec2e484629b8203dd3a194198dac" title="curfil::RGBDImage:\l:inImage" alt="" coords="380,5,516,51"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="567,74,703,121"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="567,5,703,51"/>
+<area shape="rect" id="node15" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="576,144,693,173"/>
+</map>

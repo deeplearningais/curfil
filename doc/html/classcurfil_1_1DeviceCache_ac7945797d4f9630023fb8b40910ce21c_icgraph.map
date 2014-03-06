@@ -1,0 +1,25 @@
+<map id="curfil::DeviceCache::getElementsName" name="curfil::DeviceCache::getElementsName">
+<area shape="rect" id="node3" href="$classcurfil_1_1DeviceCache.html#a8a0b0f0bf16e8237e866de52c77a99bb" title="curfil::DeviceCache\l::copyElements" alt="" coords="193,194,329,241"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1ImageCache.html#ab19551774671dfa95e58de932bcfc919" title="curfil::ImageCache\l::copyImages" alt="" coords="380,149,511,195"/>
+<area shape="rect" id="node44" href="$classcurfil_1_1TreeCache.html#a3c98a0bd4231de7ac2354dfdf0371b90" title="curfil::TreeCache:\l:copyTrees" alt="" coords="383,239,508,286"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeatureEvaluation.html#a5e7b086612d086b7f3a44e2e96e148cb" title="curfil::ImageFeatureEvaluation\l::copySamplesToDevice" alt="" coords="561,19,759,66"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1ImageCache.html#af41e4e076fa06a4ea122224d5be8acb2" title="curfil::ImageCache\l::copyImages" alt="" coords="595,89,725,135"/>
+<area shape="rect" id="node15" href="$namespacecurfil.html#a2acf7858600981309f55a7c9635af540" title="curfil::classifyImage" alt="" coords="880,173,1019,203"/>
+<area shape="rect" id="node42" href="$image__cache__test_8cu.html#ae8ab6e32f8337de470b5e53d2883cc5f" title="BOOST_AUTO_TEST_CASE" alt="" coords="561,209,759,239"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeatureEvaluation.html#ad1f096c97b80b953ca7044677f78aeab" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="851,5,1048,51"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1ImageFeatureEvaluation.html#a3f5829cfbd0406fdf29b22b8c92aaf22" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="808,74,1091,121"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1RandomForestImage.html#a64b4d7656ed81b30034d80fce4cbde4a" title="curfil::RandomForestImage\l::predict" alt="" coords="1140,150,1319,197"/>
+<area shape="rect" id="node40" href="$random__tree__image__gpu__test_8cu.html#a9bbf29b4cf0c16ddbd156141c227eaac" title="BOOST_AUTO_TEST_CASE" alt="" coords="1368,268,1565,297"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="1395,89,1539,135"/>
+<area shape="rect" id="node32" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="1427,159,1507,188"/>
+<area shape="rect" id="node36" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="1436,212,1497,241"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="1640,89,1784,135"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1860,29,2004,75"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="2053,37,2224,67"/>
+<area shape="rect" id="node29" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="2272,37,2323,67"/>
+<area shape="rect" id="node34" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1687,159,1737,188"/>
+<area shape="rect" id="node38" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="1613,212,1811,241"/>
+<area shape="rect" id="node46" href="$classcurfil_1_1TreeCache.html#a3253e080c2e5c467edf4b452a6269854" title="curfil::TreeCache:\l:copyTree" alt="" coords="597,262,723,309"/>
+<area shape="rect" id="node48" href="$namespacecurfil.html#a290f8126c3b35cc7d19669d576c4655d" title="curfil::getTreeNode" alt="" coords="883,271,1016,300"/>
+<area shape="rect" id="node50" href="$random__tree__image__gpu__test_8cu.html#a3c0f3853955d9667e6dc1b7b309105f6" title="checkNode" alt="" coords="1185,271,1273,300"/>
+</map>

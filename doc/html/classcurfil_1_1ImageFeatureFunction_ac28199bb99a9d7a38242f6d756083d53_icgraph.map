@@ -1,0 +1,23 @@
+<map id="curfil::ImageFeatureFunction::getChannel1" name="curfil::ImageFeatureFunction::getChannel1">
+<area shape="rect" id="node3" href="$classcurfil_1_1RandomTreeExport.html#a243d59450522737540459bdfbeb5c04b" title="curfil::RandomTreeExport\l::writeFeatureDetails" alt="" coords="283,74,453,121"/>
+<area shape="rect" id="node17" href="$random__tree__image_8h.html#ab9d722868a647764eb44458b8d1661fb" title="operator\&lt;\&lt;" alt="" coords="325,153,411,183"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1ImageFeatureFunction.html#ab2e07a794b86cbf1e11afdbf95530d9c" title="curfil::ImageFeatureFunction\l::getSortKey" alt="" coords="275,206,461,253"/>
+<area shape="rect" id="node29" href="$feature__generation__test_8cpp.html#a9561e3dd69ac61cae9775e86adc855bd" title="assertLessThanEqual" alt="" coords="568,273,715,303"/>
+<area shape="rect" id="node33" href="$feature__generation__test_8cpp.html#a59fc5b1c41dd8e203031ae546635c976" title="analyzeFeatures" alt="" coords="1077,273,1195,303"/>
+<area shape="rect" id="node36" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a7590a88275d864c24330927640c3c5f7" title="curfil::ImageFeaturesAnd\lThresholds\&lt; cuv::host\l_memory_space \&gt;::setFeatureFunction" alt="" coords="243,377,493,441"/>
+<area shape="rect" id="node38" href="$classcurfil_1_1TreeNodes.html#a7e36524e31141b5a61a413e4575dc5ee" title="curfil::TreeNodes:\l:convert" alt="" coords="305,465,431,511"/>
+<area shape="rect" id="node44" href="$random__tree__image__gpu__test_8cu.html#a3c0f3853955d9667e6dc1b7b309105f6" title="checkNode" alt="" coords="324,535,412,564"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RandomTreeExport.html#a79b095781b8eb90266541b7d4c133665" title="curfil::RandomTreeExport\l::writeTree" alt="" coords="556,65,727,111"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RandomTreeExport.html#add6bf8a0a98a953965d5da42661b177b" title="curfil::RandomTreeExport\l::writeTree" alt="" coords="804,5,975,51"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RandomTreeExport.html#a3216e68f4917ebaa0499e5b586c04406" title="curfil::RandomTreeExport\l::writeJSON" alt="" coords="804,74,975,121"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1RandomTreeExport.html#a1e51faf10f17bc449276a6a00271bf0b" title="curfil::RandomTreeExport\l::writeJSON" alt="" coords="1051,13,1221,59"/>
+<area shape="rect" id="node13" href="$train__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1111,83,1161,112"/>
+<area shape="rect" id="node15" href="$import__export__test_8cpp.html#ad2c413ad5e7ffcb1032ae12851ae7613" title="BOOST_AUTO_TEST_CASE" alt="" coords="1037,136,1235,165"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1ImageFeatureEvaluation.html#a928e63648ff7a928eea6f97b57d0b6bd" title="curfil::ImageFeatureEvaluation\l::sortFeatures" alt="" coords="543,134,740,181"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1ImageFeatureEvaluation.html#a648584672ee67c1ae9922668acfdc35b" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="543,203,740,250"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1ImageFeatureEvaluation.html#a8eec18d7ce3d849b06b416414cbc8c4f" title="curfil::ImageFeatureEvaluation\l::evaluateBestSplits" alt="" coords="791,153,988,199"/>
+<area shape="rect" id="node27" href="$feature__generation__test_8cpp.html#a830e2bb62eee54ca3ce8956b026e7ccf" title="BOOST_AUTO_TEST_CASE" alt="" coords="1283,248,1480,277"/>
+<area shape="rect" id="node31" href="$feature__generation__test_8cpp.html#a76cfe75da4869321f0e5d1585e105fed" title="assertSorted" alt="" coords="841,273,937,303"/>
+<area shape="rect" id="node40" href="$classcurfil_1_1TreeNodes.html#a15efedbdbedc5ecaa10419f98f012828" title="curfil::TreeNodes:\l:TreeNodes" alt="" coords="579,465,704,511"/>
+<area shape="rect" id="node46" href="$random__tree__image__gpu__test_8cu.html#a9bbf29b4cf0c16ddbd156141c227eaac" title="BOOST_AUTO_TEST_CASE" alt="" coords="543,535,740,564"/>
+</map>

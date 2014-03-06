@@ -1,0 +1,17 @@
+<map id="curfil::RandomForestImage::RandomForestImage" name="curfil::RandomForestImage::RandomForestImage">
+<area shape="rect" id="node3" href="$classcurfil_1_1RandomTreeImport.html#ac7b50b4de55d92c340a4885ca90101d5" title="curfil::RandomTreeImport\l::readJSON" alt="" coords="240,109,411,155"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1RandomForestImage.html#aa16ef53ee446dc91665ecbf6dbf170e3" title="curfil::RandomForestImage\l::getTree" alt="" coords="481,311,660,358"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1RandomForestImage.html#a803cbd0a85dbe033882ef42e51a6475e" title="curfil::RandomForestImage\l::getNumClasses" alt="" coords="236,229,415,275"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1TrainingConfiguration.html#a12155c4fbe6b1b17b19052337ade35ca" title="curfil::TrainingConfiguration\l::setDeviceIds" alt="" coords="235,298,416,345"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1TrainingConfiguration.html#ae0913fc5ab8ada1053b734214cd7d1d2" title="curfil::TrainingConfiguration\l::setAccelerationMode" alt="" coords="235,367,416,414"/>
+<area shape="rect" id="node29" href="$classcurfil_1_1RandomForestImage.html#ad03358106c3bda8ec8e9d7139cf7bda2" title="curfil::RandomForestImage\l::normalizeHistograms" alt="" coords="236,437,415,483"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RandomTreeImport.html#a31f191c5df1dd8bbc6c0dd40f57b041b" title="curfil::RandomTreeImport\l::readClassLabelPriorDistribution" alt="" coords="464,5,677,51"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RandomTreeImport.html#a9d17409efefccbcefceaa342992b5fe3" title="curfil::RandomTreeImport\l::fromPropertyTree" alt="" coords="485,74,656,121"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1TrainingConfiguration.html#ad9a17d92929032f0b85b1587dea6267e" title="curfil::TrainingConfiguration\l::parseAccelerationModeString" alt="" coords="471,143,671,190"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1RandomTreeImport.html#a650f8315429ad718731d54905c44ce13" title="curfil::RandomTreeImport\l::readTree" alt="" coords="485,213,656,259"/>
+<area shape="rect" id="node13" href="$namespacecurfil.html#ad5295b6b929a3130de18a0ec92d05108" title="curfil::getOrAddColorId" alt="" coords="733,191,888,220"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1RandomTreeImport.html#ae6d0c90af39492045860241a91465e46" title="curfil::RandomTreeImport\l::parseSplit" alt="" coords="725,243,896,290"/>
+<area shape="rect" id="node15" href="$namespacecurfil.html#a390080ffaea313f40f0f58b64c798498" title="curfil::addColorId" alt="" coords="969,191,1089,220"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1RandomTreeImport.html#a6b494bc848586519b03248e61680a7d3" title="curfil::RandomTreeImport\l::readXY" alt="" coords="944,243,1115,290"/>
+<area shape="rect" id="node32" href="$namespacecurfil.html#a61bedee7c55686b3a585249e576dc27d" title="curfil::convertTree" alt="" coords="508,445,633,475"/>
+</map>

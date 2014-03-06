@@ -1,0 +1,49 @@
+<map id="cuv::ndarray::size" name="cuv::ndarray::size">
+<area shape="rect" id="node3" href="$classcurfil_1_1RandomTreeExport.html#add6bf8a0a98a953965d5da42661b177b" title="curfil::RandomTreeExport\l::writeTree" alt="" coords="196,5,367,51"/>
+<area shape="rect" id="node5" href="$namespacecurfil.html#a93e25732bf8d7028560e0d12e8ef77ad" title="curfil::copy" alt="" coords="239,75,324,104"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RGBDImage.html#a7d00cbafa0a7804a7821f5abe3ffd9ab" title="curfil::RGBDImage:\l:getSizeInMemory" alt="" coords="213,127,349,174"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1LabelImage.html#acef7b1104e8c5dc9b22d717023aee1df" title="curfil::LabelImage\l::getSizeInMemory" alt="" coords="216,197,347,243"/>
+<area shape="rect" id="node11" href="$group__data__structures.html#ga2b3d201a7ff012bd613279082691fc9d" title="used in implementation of ndarray.operator= for value_type argument" alt="" coords="249,267,313,296"/>
+<area shape="rect" id="node15" href="$namespacecurfil.html#a9f995fc111d802f801bf029fa29e1f4c" title="curfil::add_ndarrays" alt="" coords="213,320,349,349"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1ConfusionMatrix.html#abb7e73fdaa8d2304424bbf7e8ce9e2b1" title="curfil::ConfusionMatrix\l::reset" alt="" coords="205,373,357,419"/>
+<area shape="rect" id="node49" href="$classcurfil_1_1RandomForestImage.html#ad4e19fa455233f178bf78367e113684d" title="curfil::RandomForestImage\l::getLabelColorMap" alt="" coords="772,433,951,479"/>
+<area shape="rect" id="node52" href="$namespacecurfil_1_1detail.html#a4773a0ff36856ff8c03b129e6f1a16f2" title="curfil::detail::normalize\lHistogram" alt="" coords="205,543,357,590"/>
+<area shape="rect" id="node54" href="$classcurfil_1_1RandomTree.html#abca0c336026e047db6638050172a68a0" title="curfil::RandomTree\l::normalizeHistograms" alt="" coords="495,493,647,539"/>
+<area shape="rect" id="node58" href="$classcurfil_1_1RandomTree.html#a5c80ce181590ce31f9101c50354c41a2" title="returns true iff the entropy is zero" alt="" coords="212,613,351,659"/>
+<area shape="rect" id="node60" href="$classcurfil_1_1RandomTree.html#aad3bd7729912fb0294b41642116c2f2e" title="curfil::RandomTree\l::getNumClasses" alt="" coords="215,733,348,779"/>
+<area shape="rect" id="node62" href="$classcurfil_1_1ImageFeatureEvaluation.html#a8eec18d7ce3d849b06b416414cbc8c4f" title="curfil::ImageFeatureEvaluation\l::evaluateBestSplits" alt="" coords="472,698,669,745"/>
+<area shape="rect" id="node64" href="$classcurfil_1_1ImageFeatureEvaluation.html#a3f5829cfbd0406fdf29b22b8c92aaf22" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="429,781,712,827"/>
+<area shape="rect" id="node67" href="$classcurfil_1_1RandomTree.html#aa701a174e9b0b4ffee5e32ad672b355b" title="curfil::RandomTree\l::getDominantClass" alt="" coords="212,853,351,899"/>
+<area shape="rect" id="node69" href="$classcurfil_1_1RandomTreeTrain.html#aedf3902f79e2303f4b9560f32f33cfab" title="curfil::RandomTreeTrain::sum" alt="" coords="184,923,379,952"/>
+<area shape="rect" id="node77" href="$classcurfil_1_1RandomTreeImage.html#a13e0a675e31f91c356ae49b99f7a1e13" title="curfil::RandomTreeImage\l::train" alt="" coords="1244,966,1412,1013"/>
+<area shape="rect" id="node79" href="$classcurfil_1_1FeatureEvaluationCPU.html#a2262214613f55c0af0cca2e4f3e459f8" title="curfil::FeatureEvaluation\lCPU::operator()" alt="" coords="200,1026,363,1073"/>
+<area shape="rect" id="node81" href="$classcurfil_1_1ImageFeatureEvaluation.html#a89fad55957992023a9cb6394783a8107" title="curfil::ImageFeatureEvaluation\l::calculateScores" alt="" coords="183,1095,380,1142"/>
+<area shape="rect" id="node85" href="$classcurfil_1_1RandomTreeImage.html#afde1d5686eea8235b062e2bac840aee5" title="curfil::RandomTreeImage\l::subsampleTrainingDataClass\lUniform" alt="" coords="761,1087,961,1151"/>
+<area shape="rect" id="node88" href="$classcurfil_1_1TreeCache.html#a750287b6c0eaf0404bec89b6558e13c1" title="curfil::TreeCache:\l:transferElement" alt="" coords="219,1215,344,1262"/>
+<area shape="rect" id="node91" href="$classcuv_1_1ndarray.html#a29c58c4f232f4a881f0d67d002329cea" title="allocate linear memory (c&#45;contiguous version)" alt="" coords="208,1285,355,1349"/>
+<area shape="rect" id="node94" href="$classcuv_1_1ndarray.html#a6a1a6440210653477574e49d238ee739" title="determine size in bytes" alt="" coords="208,1373,355,1437"/>
+<area shape="rect" id="node96" href="$classcuv_1_1ndarray.html#ae578550c2492be7bec70405fcd046157" title="construct ndarray from a shape and a pointer (does not copy memory)" alt="" coords="208,1461,355,1525"/>
+<area shape="rect" id="node98" href="$classcuv_1_1ndarray.html#ae449aec9aca79f23e3b91b732481bc4a" title="reshape the ndarray (in place)" alt="" coords="208,1549,355,1613"/>
+<area shape="rect" id="node100" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="208,1637,355,1701"/>
+<area shape="rect" id="node102" href="$classcuv_1_1ndarray.html#a873c6bc731e9442bbfab9c9dd73d9892" title="tries to copy memory, succeeds if shapes match AND both ndarrays are c_contiguous or 2d&#45;copyable..." alt="" coords="208,1725,355,1789"/>
+<area shape="rect" id="node104" href="$ndarray__test_8cpp.html#ab187d314999cb6ad25ff803d28b70b5e" title="create ndarray" alt="" coords="183,1813,380,1843"/>
+<area shape="rect" id="node106" href="$test__common_8h.html#a42a669b6fe1bf13557a7831cc9b6985b" title="operator==" alt="" coords="239,1867,324,1896"/>
+<area shape="rect" id="node13" href="$classcuv_1_1ndarray.html#a1123d8632a781a040a6eee4aab9e05aa" title="assign from value (sets all elements equal to one scalar)" alt="" coords="497,112,644,176"/>
+<area shape="rect" id="node17" href="$namespacecurfil.html#a8b62d839f37197636bba356171893856" title="curfil::operator+=" alt="" coords="511,200,631,229"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1ConfusionMatrix.html#a370014b18e44a03a73cd3b0a1f3aeaaf" title="curfil::ConfusionMatrix\l::resize" alt="" coords="495,322,647,369"/>
+<area shape="rect" id="node23" href="$namespacecurfil.html#a80bfd404ade8c8a4b0d52c2d956fd1fd" title="Calculates the average pixel accuracy on &#39;prediction&#39; according to the ground truth." alt="" coords="764,380,959,409"/>
+<area shape="rect" id="node47" href="$classcurfil_1_1ConfusionMatrix.html#ab506fbe4597be68bc8f6f24a69911481" title="curfil::ConfusionMatrix\l::ConfusionMatrix" alt="" coords="495,253,647,299"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="1024,313,1168,359"/>
+<area shape="rect" id="node38" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="1056,440,1136,469"/>
+<area shape="rect" id="node42" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="1065,383,1127,412"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="1256,258,1400,305"/>
+<area shape="rect" id="node29" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1476,318,1620,365"/>
+<area shape="rect" id="node31" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1669,327,1840,356"/>
+<area shape="rect" id="node35" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1888,327,1939,356"/>
+<area shape="rect" id="node40" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1303,440,1353,469"/>
+<area shape="rect" id="node44" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="1229,383,1427,412"/>
+<area shape="rect" id="node56" href="$random__tree__test_8cpp.html#a6c9ea968e1d3f640f05ee27cf4e3377e" title="BOOST_AUTO_TEST_CASE" alt="" coords="472,563,669,592"/>
+<area shape="rect" id="node71" href="$classcurfil_1_1RandomTreeTrain.html#a9e99f954be19f03d6628c6627696d556" title="curfil::RandomTreeTrain\l::compareHistograms" alt="" coords="489,906,652,953"/>
+<area shape="rect" id="node73" href="$classcurfil_1_1RandomTreeTrain.html#a451e51a1a78e549ca73a4642bff901e5" title="curfil::RandomTreeTrain\l::train" alt="" coords="780,906,943,953"/>
+<area shape="rect" id="node75" href="$classcurfil_1_1RandomTreeImage.html#aa0d3864adb6f0fd054f9dff9860f12a4" title="curfil::RandomTreeImage\l::doTrain" alt="" coords="1012,906,1180,953"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="curfil::LabelImage::decodeLabel" name="curfil::LabelImage::decodeLabel">
+<area shape="rect" id="node3" href="$classcurfil_1_1RandomTreeExport.html#a79b095781b8eb90266541b7d4c133665" title="curfil::RandomTreeExport\l::writeTree" alt="" coords="195,101,365,147"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1LabelImage.html#a584c5210f4b4dfe96dfcf3f1681ffc61" title="curfil::LabelImage\l::save" alt="" coords="217,343,343,390"/>
+<area shape="rect" id="node17" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="488,239,568,268"/>
+<area shape="rect" id="node28" href="$predict_8h.html#afe3ee9e7fa96513d3e4eb3c6839a9faa" title="operator\&lt;\&lt;" alt="" coords="237,291,323,320"/>
+<area shape="rect" id="node30" href="$classcurfil_1_1RandomForestImage.html#ad4e19fa455233f178bf78367e113684d" title="curfil::RandomForestImage\l::getLabelColorMap" alt="" coords="191,170,369,217"/>
+<area shape="rect" id="node33" href="$classcurfil_1_1RandomTreeImage.html#af4c72aef4e5949c39c5b0badb7e400ae" title="curfil::RandomTreeImage\l::shouldIgnoreLabel" alt="" coords="196,501,364,547"/>
+<area shape="rect" id="node39" href="$classcurfil_1_1RandomTreeImage.html#afde1d5686eea8235b062e2bac840aee5" title="curfil::RandomTreeImage\l::subsampleTrainingDataClass\lUniform" alt="" coords="180,413,380,477"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RandomTreeExport.html#add6bf8a0a98a953965d5da42661b177b" title="curfil::RandomTreeExport\l::writeTree" alt="" coords="443,135,613,182"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RandomTreeExport.html#a3216e68f4917ebaa0499e5b586c04406" title="curfil::RandomTreeExport\l::writeJSON" alt="" coords="443,66,613,113"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RandomTreeExport.html#a1e51faf10f17bc449276a6a00271bf0b" title="curfil::RandomTreeExport\l::writeJSON" alt="" coords="688,5,859,51"/>
+<area shape="rect" id="node11" href="$train__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="748,75,799,104"/>
+<area shape="rect" id="node13" href="$import__export__test_8cpp.html#ad2c413ad5e7ffcb1032ae12851ae7613" title="BOOST_AUTO_TEST_CASE" alt="" coords="675,128,872,157"/>
+<area shape="rect" id="node21" href="$image__test_8cpp.html#a3fe96415bf720795e6452d540e6b5664" title="BOOST_AUTO_TEST_CASE" alt="" coords="429,367,627,396"/>
+<area shape="rect" id="node23" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="497,313,559,343"/>
+<area shape="rect" id="node19" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="748,239,799,268"/>
+<area shape="rect" id="node25" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="675,313,872,343"/>
+<area shape="rect" id="node35" href="$classcurfil_1_1RandomTreeImage.html#ac058354994114ac5d6e276f274729b7c" title="curfil::RandomTreeImage\l::subsampleTrainingDataPixel\lUniform" alt="" coords="431,489,625,553"/>
+<area shape="rect" id="node37" href="$classcurfil_1_1RandomTreeImage.html#a13e0a675e31f91c356ae49b99f7a1e13" title="curfil::RandomTreeImage\l::train" alt="" coords="689,461,857,507"/>
+</map>

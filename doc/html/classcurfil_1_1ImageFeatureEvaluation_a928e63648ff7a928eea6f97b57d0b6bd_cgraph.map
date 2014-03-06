@@ -1,0 +1,18 @@
+<map id="curfil::ImageFeatureEvaluation::sortFeatures" name="curfil::ImageFeatureEvaluation::sortFeatures">
+<area shape="rect" id="node3" href="$classcurfil_1_1TrainingConfiguration.html#a1adf8914c836953d9bac15f430d90b15" title="curfil::TrainingConfiguration\l::getFeatureCount" alt="" coords="267,5,448,51"/>
+<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="289,75,425,104"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a4dc058de147e29e77491a7f805ea1cc9" title="curfil::ImageFeaturesAnd\lThresholds::copy" alt="" coords="273,127,441,174"/>
+<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="299,197,416,227"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#aafacb4fc1cdbd632af9e8d3006dcd028" title="curfil::ImageFeaturesAnd\lThresholds::features" alt="" coords="273,250,441,297"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#ac7594d3d547e4782152924c41a7d0897" title="curfil::ImageFeaturesAnd\lThresholds::getFeatureFunction" alt="" coords="255,319,460,366"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1ImageFeatureFunction.html#ab2e07a794b86cbf1e11afdbf95530d9c" title="curfil::ImageFeatureFunction\l::getSortKey" alt="" coords="264,389,451,435"/>
+<area shape="rect" id="node29" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a749b9b065d5700140e89b8c1fd71d870" title="curfil::ImageFeaturesAnd\lThresholds::thresholds" alt="" coords="273,458,441,505"/>
+<area shape="rect" id="node31" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="292,528,423,557"/>
+<area shape="rect" id="node33" href="$classcurfil_1_1TrainingConfiguration.html#ad80a998ead0d7149d36449a4f0dc6a89" title="curfil::TrainingConfiguration\l::getThresholds" alt="" coords="267,581,448,627"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1ImageFeatureFunction.html#a84785be9b165a5494ccf507bcd403a91" title="curfil::ImageFeatureFunction\l::getType" alt="" coords="511,215,697,262"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1ImageFeatureFunction.html#ac28199bb99a9d7a38242f6d756083d53" title="curfil::ImageFeatureFunction\l::getChannel1" alt="" coords="511,285,697,331"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1ImageFeatureFunction.html#a897eec58e847ce410632a067c1306551" title="curfil::ImageFeatureFunction\l::getChannel2" alt="" coords="511,354,697,401"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1ImageFeatureFunction.html#a484f2e745684ca69a11841f73060c2c5" title="curfil::ImageFeatureFunction\l::getOffset1" alt="" coords="511,423,697,470"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1XY.html#a362ec6740f9dc14aec0c6c4256fe0a0a" title="curfil::XY::getY" alt="" coords="549,493,659,523"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1XY.html#ab1ff1cfc703a6632d4aeddc017a088ea" title="curfil::XY::getX" alt="" coords="549,547,659,576"/>
+</map>

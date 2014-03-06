@@ -1,0 +1,18 @@
+<map id="curfil::classifyKernel" name="curfil::classifyKernel">
+<area shape="rect" id="node3" href="$namespacecurfil.html#af18887db594b152301c6e9e04211b037" title="curfil::averageRegionDepth" alt="" coords="433,32,612,61"/>
+<area shape="rect" id="node9" href="$namespacecurfil.html#a7625d08953089dd97ba228764c057442" title="curfil::getLeftNodeOffset" alt="" coords="207,164,372,193"/>
+<area shape="rect" id="node15" href="$namespacecurfil.html#a1e519f5034683daed1deb8f593a6c6bd" title="curfil::getThreshold" alt="" coords="223,217,356,247"/>
+<area shape="rect" id="node19" href="$namespacecurfil.html#adbe8361d843dabbe35c6c35bca4e0df8" title="curfil::getHistogramValue" alt="" coords="205,271,373,300"/>
+<area shape="rect" id="node23" href="$namespacecurfil.html#a7390ac153cdbfba0d989a9e1c7d33005" title="curfil::getParam1" alt="" coords="229,324,349,353"/>
+<area shape="rect" id="node27" href="$namespacecurfil.html#a87e4fcdcd5d29f54c4df71a97c7d90ee" title="curfil::getParam2" alt="" coords="229,377,349,407"/>
+<area shape="rect" id="node31" href="$namespacecurfil.html#ac7821075578d1c05461355eb682ec09c" title="curfil::getType" alt="" coords="237,431,341,460"/>
+<area shape="rect" id="node35" href="$namespacecurfil.html#a20c54374ccc85298102d76acd941df2b" title="curfil::getChannels" alt="" coords="224,111,355,140"/>
+<area shape="rect" id="node39" href="$namespacecurfil.html#a41137785867be75e34b2a2eddd4881b5" title="curfil::calculateColorFeature" alt="" coords="197,484,381,513"/>
+<area shape="rect" id="node45" href="$namespacecurfil.html#a26b1e19270f79228aaa2535960e5c6c4" title="curfil::calculateDepthFeature" alt="" coords="195,57,384,87"/>
+<area shape="rect" id="node5" href="$namespacecurfil.html#a7f14bad832ec3448492c8e8de8b96614" title="curfil::getDepthValidValue" alt="" coords="669,59,843,88"/>
+<area shape="rect" id="node7" href="$namespacecurfil.html#a07c6f247a517553bf924e686ad2ef972" title="curfil::getDepthValue" alt="" coords="684,5,828,35"/>
+<area shape="rect" id="node11" href="$namespacecurfil.html#a3c685301853a45e6d9e2ec538bc77d05" title="curfil::getNodeOffset" alt="" coords="452,244,593,273"/>
+<area shape="rect" id="node13" href="$namespacecurfil.html#a3899c7a4d17efeb2ccd61b9998dad52d" title="curfil::getLayer" alt="" coords="469,297,576,327"/>
+<area shape="rect" id="node41" href="$namespacecurfil.html#a72d890839917371ed1cd7bbcd45bcd5e" title="curfil::averageRegionColor" alt="" coords="435,484,611,513"/>
+<area shape="rect" id="node43" href="$namespacecurfil.html#a7bc081643f117d964801be1ed5ff024b" title="curfil::getColorChannelValue" alt="" coords="663,484,849,513"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="test_pushpull_3d" name="test_pushpull_3d">
+<area shape="rect" id="node3" href="$namespacecuv.html#a5df83598869958c79291644fb9466d46" title="test whether two ndarrays have the same shape" alt="" coords="175,13,297,43"/>
+<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a928f3c4286c5436698504d029909f0cb" title="return the effective shape of the ndarray (as a vector for backward compatibility)" alt="" coords="347,5,499,51"/>
+</map>

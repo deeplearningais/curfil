@@ -1,0 +1,7 @@
+<map id="calculcateScoreKernel" name="calculcateScoreKernel">
+<area shape="rect" id="node3" href="$classcurfil_1_1NormalizedInformationGainScore.html#ab2187d46a1baf22b56a7463d8c9ac55d" title="curfil::NormalizedInformation\lGainScore::calculateScore" alt="" coords="205,74,395,121"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1NormalizedInformationGainScore.html#ad7568d8d570b1d85215faf6afdbf06a2" title="curfil::NormalizedInformation\lGainScore::splitEntropy" alt="" coords="455,5,644,51"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1NormalizedInformationGainScore.html#a46a349bbdc4b77fc8ff67547a3440a11" title="curfil::NormalizedInformation\lGainScore::classificationEntropy" alt="" coords="444,74,655,121"/>
+<area shape="rect" id="node12" href="$classcurfil_1_1InformationGainScore.html#ad9595146d362c6cdd148bdf778fb28cd" title="curfil::InformationGainScore\l::normalizeScore" alt="" coords="457,143,641,190"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1InformationGainScore.html#a5d13229a29278cc54003e9ae056b77db" title="curfil::InformationGainScore\l::entropy" alt="" coords="704,39,888,86"/>
+</map>

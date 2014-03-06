@@ -1,0 +1,17 @@
+<map id="cuv::memory::size" name="cuv::memory::size">
+<area shape="rect" id="node3" href="$classcuv_1_1memory.html#af135b9e1e85548eb152234fc06763926" title="cuv::memory\&lt; size_type,\l host_memory_space \&gt;:\l:memsize" alt="" coords="197,5,368,69"/>
+<area shape="rect" id="node5" href="$classcuv_1_1linear__memory.html#a0b51b6f55fd4cd635a69c752cd6433ef" title="sets the size (reallocates if necessary)" alt="" coords="195,93,371,157"/>
+<area shape="rect" id="node7" href="$classcuv_1_1linear__memory.html#aedc4f361ae69da264d259f538e45e080" title="Copy linear_memory." alt="" coords="195,181,371,245"/>
+<area shape="rect" id="node9" href="$classcuv_1_1linear__memory.html#a10b20154cba3a1e9c1227f66298cebbc" title="set strides for this memory" alt="" coords="195,269,371,333"/>
+<area shape="rect" id="node11" href="$classcuv_1_1linear__memory.html#a29b19a44a4a0870940555cb416bb1cb7" title="reverse the array (for transposing etc)" alt="" coords="195,357,371,421"/>
+<area shape="rect" id="node13" href="$classcuv_1_1linear__memory.html#a1ce62b01f537700be30573dceedfda0d" title="cuv::linear_memory\l\&lt; size_type, host_memory\l_space \&gt;::copy_from" alt="" coords="195,445,371,509"/>
+<area shape="rect" id="node15" href="$classcuv_1_1pitched__memory.html#a115916eb4b2b6f14a25e8d864e7e8496" title="set strides for this memory" alt="" coords="209,533,356,579"/>
+<area shape="rect" id="node19" href="$namespacecuv_1_1detail.html#a7637c3fc4aca1b2cab548321fe937ee2" title="true iff there are no &quot;holes&quot; in memory" alt="" coords="191,603,375,632"/>
+<area shape="rect" id="node21" href="$namespacecuv_1_1detail.html#a8839dc7119565c5040fe841b5dbd7c55" title="returns true iff memory can be copied using copy2d" alt="" coords="196,656,369,685"/>
+<area shape="rect" id="node23" href="$namespacecuv_1_1detail.html#a7026c94990f1edf3daf71ba8fbec1175" title="this is intended for copying pitched memory." alt="" coords="204,709,361,755"/>
+<area shape="rect" id="node28" href="$classcuv_1_1ndarray__info.html#a487f25a7155520ba3a54d0d5a35fccf8" title="cuv::ndarray_info\&lt;\l memory_space, row_major\l \&gt;::size" alt="" coords="192,779,373,843"/>
+<area shape="rect" id="node30" href="$namespacestd.html#a11a3635fbf2293e1e8a703737a003bc4" title="print a dev linear memory to a stream (copies first)" alt="" coords="228,867,337,896"/>
+<area shape="rect" id="node32" href="$ndarray__test_8cpp.html#abae9d4c899f9b1e59c5afbec7d7a0c3e" title="BOOST_AUTO_TEST_CASE" alt="" coords="184,920,381,949"/>
+<area shape="rect" id="node17" href="$classcuv_1_1ndarray.html#ad2ed9ed42304554bc1b9f2e009c55849" title="This is an overloaded member function, provided for convenience. It differs from the above function o..." alt="" coords="429,568,576,632"/>
+<area shape="rect" id="node26" href="$classcuv_1_1ndarray.html#a873c6bc731e9442bbfab9c9dd73d9892" title="tries to copy memory, succeeds if shapes match AND both ndarrays are c_contiguous or 2d&#45;copyable..." alt="" coords="429,700,576,764"/>
+</map>

@@ -1,0 +1,51 @@
+<map id="BOOST_AUTO_TEST_CASE" name="BOOST_AUTO_TEST_CASE">
+<area shape="rect" id="node3" href="$namespacecurfil.html#ac850a5de2095842f35df04e64930077c" title="curfil::loadImagePair" alt="" coords="507,359,648,388"/>
+<area shape="rect" id="node5" href="$random__tree__image__test_8cpp.html#a8c1b3d2f84c40cd99bc15d449f3f34f5" title="getFolderTraining" alt="" coords="516,412,639,441"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RandomForestImage.html#a53b186d4c6d6064cdd45f8b07254b46e" title="curfil::RandomForestImage\l::train" alt="" coords="252,899,431,946"/>
+<area shape="rect" id="node28" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="311,524,372,553"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1TrainingConfiguration.html#afa1beb860fb047af1efd0a4b7a9fab09" title="curfil::TrainingConfiguration\l::getNumThreads" alt="" coords="487,761,668,807"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1TrainingConfiguration.html#a344d790d0a6aec548a895e5df927d635" title="curfil::TrainingConfiguration\l::getRandomSeed" alt="" coords="487,830,668,877"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1TrainingConfiguration.html#a165891c8fb258287f3e125fe43298b8f" title="curfil::TrainingConfiguration\l::getMaxImages" alt="" coords="487,899,668,946"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1RandomSource.html#adc949b871ccd091784506f3f9c13ce74" title="curfil::RandomSource\l::uniformSampler" alt="" coords="504,969,651,1015"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1TrainingConfiguration.html#a8c6cd1d962be5da6871a28e78d25382d" title="curfil::TrainingConfiguration\l::getSamplesPerImage" alt="" coords="487,1038,668,1085"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1utils_1_1Timer.html#a22ad9041997ed544e7d003e55a5d1819" title="curfil::utils::Timer\l::format" alt="" coords="516,1107,639,1154"/>
+<area shape="rect" id="node21" href="$classcurfil_1_1utils_1_1Timer.html#a467c6dd9054362c9395e3e29b4867e46" title="curfil::utils::Timer\l::getSeconds" alt="" coords="752,1073,875,1119"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1utils_1_1Timer.html#a0c1383f9156b6c65c119462894701888" title="curfil::utils::Timer\l::getMilliseconds" alt="" coords="752,1142,875,1189"/>
+<area shape="rect" id="node23" href="$classcurfil_1_1utils_1_1Timer.html#a07f5a4d85543c956922e53388d4524b5" title="curfil::utils::Timer\l::stop" alt="" coords="996,1107,1119,1154"/>
+<area shape="rect" id="node32" href="$classcurfil_1_1RandomForestImage.html#ad03358106c3bda8ec8e9d7139cf7bda2" title="curfil::RandomForestImage\l::normalizeHistograms" alt="" coords="488,465,667,511"/>
+<area shape="rect" id="node38" href="$classcurfil_1_1RandomForestImage.html#a64b4d7656ed81b30034d80fce4cbde4a" title="curfil::RandomForestImage\l::predict" alt="" coords="724,362,903,409"/>
+<area shape="rect" id="node85" href="$random__tree__image__test_8cpp.html#a2996eba86a9156d95d02ab52f9e8c70b" title="folderOutput" alt="" coords="531,708,624,737"/>
+<area shape="rect" id="node87" href="$classcurfil_1_1LabelImage.html#a584c5210f4b4dfe96dfcf3f1681ffc61" title="curfil::LabelImage\l::save" alt="" coords="515,638,640,685"/>
+<area shape="rect" id="node95" href="$namespacecurfil.html#a80bfd404ade8c8a4b0d52c2d956fd1fd" title="Calculates the average pixel accuracy on &#39;prediction&#39; according to the ground truth." alt="" coords="480,585,675,615"/>
+<area shape="rect" id="node34" href="$classcurfil_1_1RandomForestImage.html#aa16ef53ee446dc91665ecbf6dbf170e3" title="curfil::RandomForestImage\l::getTree" alt="" coords="724,239,903,286"/>
+<area shape="rect" id="node36" href="$namespacecurfil.html#a61bedee7c55686b3a585249e576dc27d" title="curfil::convertTree" alt="" coords="751,309,876,339"/>
+<area shape="rect" id="node40" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="1213,5,1349,51"/>
+<area shape="rect" id="node42" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="1213,74,1349,121"/>
+<area shape="rect" id="node44" href="$classcurfil_1_1RandomForestImage.html#a803cbd0a85dbe033882ef42e51a6475e" title="curfil::RandomForestImage\l::getNumClasses" alt="" coords="968,423,1147,470"/>
+<area shape="rect" id="node46" href="$namespacecurfil.html#a2acf7858600981309f55a7c9635af540" title="curfil::classifyImage" alt="" coords="988,264,1127,293"/>
+<area shape="rect" id="node77" href="$namespacecurfil.html#accb00c0b345a8fd929f704691ea803d3" title="curfil::normalizeProbabilities" alt="" coords="965,317,1149,347"/>
+<area shape="rect" id="node81" href="$namespacecurfil.html#a3176ae8b5f20efcf95a340e2e025823b" title="curfil::determineMaxProbabilities" alt="" coords="952,371,1163,400"/>
+<area shape="rect" id="node48" href="$classcurfil_1_1ImageCache.html#ab19551774671dfa95e58de932bcfc919" title="curfil::ImageCache\l::copyImages" alt="" coords="1401,130,1532,177"/>
+<area shape="rect" id="node60" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="1213,387,1349,416"/>
+<area shape="rect" id="node64" href="$classcurfil_1_1TreeCache.html#a3253e080c2e5c467edf4b452a6269854" title="curfil::TreeCache:\l:copyTree" alt="" coords="1219,194,1344,241"/>
+<area shape="rect" id="node71" href="$classcurfil_1_1DeviceCache.html#a4c754b739c775aec53a8e426ad642f13" title="curfil::DeviceCache\l::getElementPos" alt="" coords="1213,263,1349,310"/>
+<area shape="rect" id="node73" href="$namespacecurfil.html#ac65131ce2ed99a7c8d385414c160b515" title="curfil::classifyKernel" alt="" coords="1212,333,1351,363"/>
+<area shape="rect" id="node75" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="1223,440,1340,469"/>
+<area shape="rect" id="node50" href="$classcurfil_1_1DeviceCache.html#ad7df2998d187c917c05392f9c03a9460" title="curfil::DeviceCache\l::clear" alt="" coords="1769,165,1905,211"/>
+<area shape="rect" id="node52" href="$classcurfil_1_1DeviceCache.html#aff497d3db4d2068afbd91bb1f550e9c4" title="curfil::DeviceCache\l::updateCacheSize" alt="" coords="1583,130,1719,177"/>
+<area shape="rect" id="node55" href="$classcurfil_1_1ImageCache.html#a6bc3d2570710d96ce3f14a15e2bb10c4" title="curfil::ImageCache\l::allocArray" alt="" coords="1585,61,1716,107"/>
+<area shape="rect" id="node57" href="$classcurfil_1_1DeviceCache.html#a8a0b0f0bf16e8237e866de52c77a99bb" title="curfil::DeviceCache\l::copyElements" alt="" coords="1583,199,1719,246"/>
+<area shape="rect" id="node66" href="$classcurfil_1_1TreeCache.html#a3c98a0bd4231de7ac2354dfdf0371b90" title="curfil::TreeCache:\l:copyTrees" alt="" coords="1404,199,1529,246"/>
+<area shape="rect" id="node89" href="$classcurfil_1_1LabelImage.html#afaa61e2c747b86e9403fa2b4cf7b9518" title="curfil::LabelImage\l::decodeLabel" alt="" coords="751,885,876,931"/>
+<area shape="rect" id="node91" href="$classcurfil_1_1LabelImage.html#a85030f5f7df8f73db6eb1b9f4d7be193" title="curfil::LabelImage\l::getLabel" alt="" coords="751,815,876,862"/>
+<area shape="rect" id="node93" href="$classcurfil_1_1LabelImage.html#a74f41854e245619297c168b41d199a42" title="curfil::LabelImage\l::isInImage" alt="" coords="995,815,1120,862"/>
+<area shape="rect" id="node97" href="$classcurfil_1_1LabelImage.html#a490240a17743d9ba5f7389616bc7315a" title="curfil::LabelImage\l::getHeight" alt="" coords="751,677,876,723"/>
+<area shape="rect" id="node99" href="$classcurfil_1_1LabelImage.html#a42fb403dc54f282dd9cc37f861275f2e" title="curfil::LabelImage\l::getWidth" alt="" coords="751,746,876,793"/>
+<area shape="rect" id="node102" href="$classcurfil_1_1ConfusionMatrix.html#a07c85e1630d04b867b683c293c67f79f" title="curfil::ConfusionMatrix\l::getNumClasses" alt="" coords="981,493,1133,539"/>
+<area shape="rect" id="node107" href="$classcurfil_1_1ConfusionMatrix.html#a370014b18e44a03a73cd3b0a1f3aeaaf" title="curfil::ConfusionMatrix\l::resize" alt="" coords="737,607,889,654"/>
+<area shape="rect" id="node111" href="$classcurfil_1_1ConfusionMatrix.html#abb7e73fdaa8d2304424bbf7e8ce9e2b1" title="curfil::ConfusionMatrix\l::reset" alt="" coords="981,562,1133,609"/>
+<area shape="rect" id="node117" href="$classcurfil_1_1ConfusionMatrix.html#ab2ac5ea664413794396211ccd47f1fa1" title="curfil::ConfusionMatrix\l::increment" alt="" coords="737,487,889,534"/>
+<area shape="rect" id="node104" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="1216,501,1347,531"/>
+<area shape="rect" id="node109" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="989,632,1125,661"/>
+<area shape="rect" id="node114" href="$classcuv_1_1ndarray.html#a9e453312f419eaac1aa5e6493d59aede" title="cuv::ndarray::size" alt="" coords="1219,571,1344,600"/>
+</map>

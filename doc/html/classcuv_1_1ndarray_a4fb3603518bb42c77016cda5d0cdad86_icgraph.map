@@ -1,0 +1,21 @@
+<map id="cuv::ndarray::resize" name="cuv::ndarray::resize">
+<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#aa81b0272064924670d710e907f1a6256" title="curfil::RGBDImage:\l:RGBDImage" alt="" coords="265,5,401,51"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#ab5263996637885f650550fdeaad4f041" title="curfil::RGBDImage:\l:loadDepthImage" alt="" coords="265,74,401,121"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1LabelImage.html#a3aa558e00c3d13a421a34ce36861f1fa" title="curfil::LabelImage\l::LabelImage" alt="" coords="271,143,396,190"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1ConfusionMatrix.html#a370014b18e44a03a73cd3b0a1f3aeaaf" title="curfil::ConfusionMatrix\l::resize" alt="" coords="257,213,409,259"/>
+<area shape="rect" id="node34" href="$classcurfil_1_1RandomTreeImage.html#a8825ccf6da78ff23912e02c8ebb28abb" title="curfil::RandomTreeImage\l::calculateLabelPriorDistribution" alt="" coords="231,282,436,329"/>
+<area shape="rect" id="node38" href="$classcurfil_1_1ImageFeatureEvaluation.html#a3f5829cfbd0406fdf29b22b8c92aaf22" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="192,351,475,398"/>
+<area shape="rect" id="node40" href="$classcuv_1_1ndarray.html#ab8cd6a284c888f061686a239aa902629" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="260,421,407,485"/>
+<area shape="rect" id="node42" href="$ndarray__test_8cpp.html#aa2dba31de4a0e1bed8b784f67ec35065" title="test_resize" alt="" coords="291,509,376,539"/>
+<area shape="rect" id="node11" href="$namespacecurfil.html#a80bfd404ade8c8a4b0d52c2d956fd1fd" title="Calculates the average pixel accuracy on &#39;prediction&#39; according to the ground truth." alt="" coords="523,221,717,251"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="767,151,911,198"/>
+<area shape="rect" id="node26" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="799,221,879,251"/>
+<area shape="rect" id="node30" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="808,275,869,304"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="987,151,1131,198"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1207,91,1351,138"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1400,100,1571,129"/>
+<area shape="rect" id="node23" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1619,100,1669,129"/>
+<area shape="rect" id="node28" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1033,221,1084,251"/>
+<area shape="rect" id="node32" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="960,275,1157,304"/>
+<area shape="rect" id="node36" href="$classcurfil_1_1RandomTreeImage.html#a13e0a675e31f91c356ae49b99f7a1e13" title="curfil::RandomTreeImage\l::train" alt="" coords="536,282,704,329"/>
+</map>

@@ -1,0 +1,23 @@
+<map id="BOOST_AUTO_TEST_CASE" name="BOOST_AUTO_TEST_CASE">
+<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="719,464,855,511"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="719,304,855,351"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RGBDImage.html#a1518c5b8e781093ed367a6a39dd61e84" title="curfil::RGBDImage:\l:setDepth" alt="" coords="273,192,409,239"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1Depth.html#ae9f49c116c79db11fb09cb8b1454592d" title="curfil::Depth::isValid" alt="" coords="495,87,633,117"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1Sampler.html#a1b863ff4d63f7b12c7de32c24d6dfa54" title="curfil::Sampler::getNext" alt="" coords="261,265,421,294"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1RGBDImage.html#a8ca0d98067a0da29d4ec8cbf56dc7f8f" title="curfil::RGBDImage:\l:setColor" alt="" coords="273,317,409,364"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1RGBDImage.html#a07bca2b7601ee439c6c29cd947836cec" title="curfil::RGBDImage:\l:calculateIntegral" alt="" coords="273,456,409,503"/>
+<area shape="rect" id="node32" href="$classcurfil_1_1RGBDImage.html#a7e52b234c64838e245493fb04ffbeece" title="curfil::RGBDImage:\l:saveColor" alt="" coords="496,745,632,792"/>
+<area shape="rect" id="node42" href="$classcurfil_1_1RGBDImage.html#a811474e2d6aa8d41dc1c78937f56363c" title="curfil::RGBDImage:\l:saveDepth" alt="" coords="496,676,632,723"/>
+<area shape="rect" id="node48" href="$classcurfil_1_1RGBDImage.html#aac6704d6dcf9dc8721d82184f415b926" title="curfil::RGBDImage:\l:calculateDerivative" alt="" coords="273,525,409,572"/>
+<area shape="rect" id="node53" href="$classcurfil_1_1RGBDImage.html#aa9823115c1c4662921f6e90c606ebe7b" title="curfil::RGBDImage:\l:getDepth" alt="" coords="273,645,409,692"/>
+<area shape="rect" id="node56" href="$classcurfil_1_1Depth.html#ae5a9f2df054b092a741e5cd4b4a23bcb" title="curfil::Depth::getFloatValue" alt="" coords="251,87,432,117"/>
+<area shape="rect" id="node59" href="$classcurfil_1_1RGBDImage.html#a68cafecdcc0d261c2a620881a9480c13" title="curfil::RGBDImage:\l:getColor" alt="" coords="273,387,409,433"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RGBDImage.html#a931fec2e484629b8203dd3a194198dac" title="curfil::RGBDImage:\l:inImage" alt="" coords="496,193,632,240"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1Depth.html#ae303ee350dfe7f41f3e56770dd6f1155" title="curfil::Depth::getIntValue" alt="" coords="481,141,647,170"/>
+<area shape="rect" id="node21" href="$classcuv_1_1ndarray.html#a611ed925703761f3a8cdf354fc88e051" title="cuv::ndarray::ptr" alt="" coords="505,466,623,495"/>
+<area shape="rect" id="node27" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="499,573,629,602"/>
+<area shape="rect" id="node29" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="496,519,632,549"/>
+<area shape="rect" id="node36" href="$classcuv_1_1ndarray.html#a2f7ffa390055f01963375736c75d108d" title="copy memory using given allocator tag (linear/pitched)" alt="" coords="721,746,852,775"/>
+<area shape="rect" id="node38" href="$classcurfil_1_1RGBDImage.html#aa86852f76e6b6554c77b3fb61ef6b9a6" title="curfil::RGBDImage:\l:calculateDerivative" alt="" coords="719,676,855,723"/>
+<area shape="rect" id="node40" href="$namespacecurfil.html#a7ce317150104928b2096a536ac32e79d" title="curfil::convertCIELab2RGB" alt="" coords="696,799,877,829"/>
+</map>

@@ -1,0 +1,7 @@
+var searchData=
+[
+  ['randomtreepointer',['RandomTreePointer',['../classcurfil_1_1RandomTreeTrain.html#aaa77d70e1f779522b6b4dc4116f6dfe0',1,'curfil::RandomTreeTrain']]],
+  ['reference_5ftype',['reference_type',['../classcuv_1_1memory.html#a2f7245e68a780c65a75bb895da30bfc6',1,'cuv::memory::reference_type()'],['../classcuv_1_1linear__memory.html#a3cdfd101725dbf7e0e38541ff94dc3db',1,'cuv::linear_memory::reference_type()'],['../classcuv_1_1pitched__memory.html#ae2abafa8219c2ad8dbf518a43159b314',1,'cuv::pitched_memory::reference_type()'],['../classcuv_1_1ndarray.html#a042ca140924172d5660a2d8e51580811',1,'cuv::ndarray::reference_type()']]],
+  ['region',['Region',['../namespacecurfil.html#a0ad46a965582be60e61fea548e2cc961',1,'curfil']]],
+  ['result',['Result',['../structcuv_1_1IsSame.html#a0ad3589bab9ec30c25618da38b0ad17b',1,'cuv::IsSame::Result()'],['../structcuv_1_1IsSame_3_01T_00_01T_01_4.html#a16f13ba1574c8c5308c46b05069994e4',1,'cuv::IsSame&lt; T, T &gt;::Result()'],['../structcuv_1_1IsDifferent.html#ad88112ef4d290097d1cdf0419b6b10f3',1,'cuv::IsDifferent::Result()'],['../structcuv_1_1IsDifferent_3_01T_00_01T_01_4.html#a291a7be4a94938c3fc3fb1922e4d15d8',1,'cuv::IsDifferent&lt; T, T &gt;::Result()'],['../structcuv_1_1If.html#a7e2df270e7792c716a00e256c3457359',1,'cuv::If::result()'],['../structcuv_1_1If_3_01false_00_01Then_00_01Else_01_4.html#a1d5bc07f03340483b164b101ccd22aab',1,'cuv::If&lt; false, Then, Else &gt;::result()']]]
+];

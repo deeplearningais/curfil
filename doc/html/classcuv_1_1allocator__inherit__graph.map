@@ -1,0 +1,5 @@
+<map id="cuv::allocator" name="cuv::allocator">
+<area shape="rect" id="node3" href="$classcuv_1_1default__allocator.html" title="Allocator allows allocation, deallocation and copying depending on memory_space_type." alt="" coords="5,477,152,667"/>
+<area shape="rect" id="node7" href="$classcuv_1_1pooled__cuda__allocator.html" title="allocator that naively pools device and host memory" alt="" coords="176,243,355,901"/>
+<area shape="rect" id="node5" href="$classcuv_1_1cuda__allocator.html" title="allocator that uses cudaMallocHost for allocations in host_memory_space" alt="" coords="12,949,145,1139"/>
+</map>

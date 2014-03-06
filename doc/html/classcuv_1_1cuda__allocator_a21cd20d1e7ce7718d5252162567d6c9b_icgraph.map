@@ -1,0 +1,6 @@
+<map id="cuv::cuda_allocator::alloc" name="cuv::cuda_allocator::alloc">
+<area shape="rect" id="node3" href="$classcuv_1_1cuda__allocator.html#aa848e8b7066d192ee7260cff78d4333e" title="cuv::cuda_allocator\l::alloc" alt="" coords="213,5,347,51"/>
+<area shape="rect" id="node5" href="$classcuv_1_1cuda__allocator.html#a274f970d676ab4b18b974de1eaff5c13" title="cuv::cuda_allocator\l::alloc2d" alt="" coords="213,74,347,121"/>
+<area shape="rect" id="node7" href="$classcuv_1_1pooled__cuda__allocator.html#a657fcefa9deacd25d9b1991c2d808b95" title="cuv::pooled_cuda_allocator\l::alloc_pooled" alt="" coords="191,143,369,190"/>
+<area shape="rect" id="node9" href="$classcuv_1_1pooled__cuda__allocator.html#aa10502ece1ac1edffd2e0d749ad89c06" title="cuv::pooled_cuda_allocator\l::alloc" alt="" coords="420,143,599,190"/>
+</map>

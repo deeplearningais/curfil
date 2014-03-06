@@ -1,0 +1,23 @@
+<map id="curfil::getLayer" name="curfil::getLayer">
+<area shape="rect" id="node3" href="$namespacecurfil.html#a7625d08953089dd97ba228764c057442" title="curfil::getLeftNodeOffset" alt="" coords="165,325,331,355"/>
+<area shape="rect" id="node36" href="$namespacecurfil.html#ac7821075578d1c05461355eb682ec09c" title="curfil::getType" alt="" coords="196,5,300,35"/>
+<area shape="rect" id="node40" href="$namespacecurfil.html#a7390ac153cdbfba0d989a9e1c7d33005" title="curfil::getParam1" alt="" coords="188,59,308,88"/>
+<area shape="rect" id="node44" href="$namespacecurfil.html#a87e4fcdcd5d29f54c4df71a97c7d90ee" title="curfil::getParam2" alt="" coords="188,112,308,141"/>
+<area shape="rect" id="node48" href="$namespacecurfil.html#a20c54374ccc85298102d76acd941df2b" title="curfil::getChannels" alt="" coords="183,165,313,195"/>
+<area shape="rect" id="node52" href="$namespacecurfil.html#a1e519f5034683daed1deb8f593a6c6bd" title="curfil::getThreshold" alt="" coords="181,219,315,248"/>
+<area shape="rect" id="node56" href="$namespacecurfil.html#adbe8361d843dabbe35c6c35bca4e0df8" title="curfil::getHistogramValue" alt="" coords="164,272,332,301"/>
+<area shape="rect" id="node5" href="$namespacecurfil.html#a33aaabf24379997dc49b9e8c67a77b3e" title="curfil::fetchTreeNodeData" alt="" coords="383,139,553,168"/>
+<area shape="rect" id="node7" href="$namespacecurfil.html#ac65131ce2ed99a7c8d385414c160b515" title="curfil::classifyKernel" alt="" coords="399,192,537,221"/>
+<area shape="rect" id="node9" href="$namespacecurfil.html#a2acf7858600981309f55a7c9635af540" title="curfil::classifyImage" alt="" coords="603,192,741,221"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1RandomForestImage.html#a64b4d7656ed81b30034d80fce4cbde4a" title="curfil::RandomForestImage\l::predict" alt="" coords="799,153,977,199"/>
+<area shape="rect" id="node34" href="$random__tree__image__gpu__test_8cu.html#a9bbf29b4cf0c16ddbd156141c227eaac" title="BOOST_AUTO_TEST_CASE" alt="" coords="789,223,987,252"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="1036,91,1180,138"/>
+<area shape="rect" id="node26" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="1068,161,1148,191"/>
+<area shape="rect" id="node30" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="1077,215,1139,244"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="1256,91,1400,138"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1476,31,1620,78"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1669,40,1840,69"/>
+<area shape="rect" id="node23" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1888,40,1939,69"/>
+<area shape="rect" id="node28" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1303,161,1353,191"/>
+<area shape="rect" id="node32" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="1229,215,1427,244"/>
+</map>

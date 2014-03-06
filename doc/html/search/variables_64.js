@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['data',['data',['../classcurfil_1_1ConfusionMatrix.html#a7fa7ecff82c91716e9ef314618e73675',1,'curfil::ConfusionMatrix::data()'],['../classcurfil_1_1Samples.html#a4321734cefeed25e19060a8c0c849160',1,'curfil::Samples::data()']]],
+  ['data_5fshape',['data_shape',['../classcuv_1_1ndarray__info.html#a5ac05556fe1c5e0f513d3086c5eaa4e3',1,'cuv::ndarray_info']]],
+  ['data_5fstride',['data_stride',['../classcuv_1_1ndarray__info.html#a504df0d12242ac54b787cd3b59104b28',1,'cuv::ndarray_info']]],
+  ['date',['date',['../classcurfil_1_1RandomTreeExport.html#a04cc807afe155e6bee5ca11a6cf8567e',1,'curfil::RandomTreeExport']]],
+  ['default_5falloc',['default_alloc',['../classcuv_1_1pooled__cuda__allocator.html#a8323611d4a225c33e3e9d652ea65fc23',1,'cuv::pooled_cuda_allocator']]],
+  ['depth',['depth',['../classcurfil_1_1PixelInstance.html#a5ec80590f2d2bd0e1ea2717f6e866ac9',1,'curfil::PixelInstance']]],
+  ['depth_5fchannels',['DEPTH_CHANNELS',['../classcurfil_1_1RGBDImage.html#a59d3af75535374fb204ae94f9f81c908',1,'curfil::RGBDImage']]],
+  ['depthchannel',['depthChannel',['../namespacecurfil.html#a82b3b14eca9004b1b1b4438df99e29f6',1,'curfil']]],
+  ['depthchannels',['depthChannels',['../namespacecurfil.html#a75fe4e0babe775610f95edaaa47a0f06',1,'curfil']]],
+  ['depthfilename',['depthFilename',['../classcurfil_1_1RGBDImage.html#a8de36ab4ef19b187e26ca047ff9895ef',1,'curfil::RGBDImage']]],
+  ['depthimage',['depthImage',['../classcurfil_1_1RGBDImage.html#a00738e6d034e557dda373ea93f3ae281',1,'curfil::RGBDImage']]],
+  ['depths',['depths',['../classcurfil_1_1Samples.html#aa9f84e0e430518d8fa59c4293e096ba2',1,'curfil::Samples']]],
+  ['depthtexture',['depthTexture',['../namespacecurfil.html#aba5f9a0dd2da0b6d6bb35f53dcb11c59',1,'curfil']]],
+  ['depthtexturedata',['depthTextureData',['../classcurfil_1_1ImageCache.html#affb2a4974c29abf6baa23321282831b9',1,'curfil::ImageCache']]],
+  ['depthvalidchannel',['depthValidChannel',['../namespacecurfil.html#a10e1dbb5a65d85cd94019ff809acc7f8',1,'curfil']]],
+  ['deviceids',['deviceIds',['../classcurfil_1_1HyperoptClient.html#ae5a55f9032b16549769eff38fe3d923c',1,'curfil::HyperoptClient::deviceIds()'],['../classcurfil_1_1TrainingConfiguration.html#a1e8d3dd615f7e27a765693d4ae548423',1,'curfil::TrainingConfiguration::deviceIds()']]],
+  ['distribution',['distribution',['../classcurfil_1_1Sampler.html#a5e03beaf8847f704ed672e9fb1c8bab3',1,'curfil::Sampler']]]
+];

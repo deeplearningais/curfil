@@ -1,0 +1,17 @@
+<map id="curfil::PixelInstance::averageRegionDepth" name="curfil::PixelInstance::averageRegionDepth">
+<area shape="rect" id="node3" href="$classcurfil_1_1XY.html#ab1ff1cfc703a6632d4aeddc017a088ea" title="curfil::XY::getX" alt="" coords="436,51,545,81"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1XY.html#a362ec6740f9dc14aec0c6c4256fe0a0a" title="curfil::XY::getY" alt="" coords="436,182,545,211"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RGBDImage.html#ac5721f2145622f4b07331749873dbd16" title="curfil::RGBDImage:\l:hasIntegratedDepth" alt="" coords="220,301,359,348"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1PixelInstance.html#a9456c01eacccbf173ddefedc750c23f8" title="curfil::PixelInstance\l::width" alt="" coords="423,409,559,456"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="609,409,745,456"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1PixelInstance.html#af2663572452c6f3764c3790857eb3133" title="curfil::PixelInstance\l::height" alt="" coords="423,599,559,645"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="609,539,745,585"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1PixelInstance.html#ad59a0ac20552686b666f16cef9ff59a6" title="curfil::PixelInstance\l::getX" alt="" coords="221,43,357,89"/>
+<area shape="rect" id="node20" href="$classcurfil_1_1PixelInstance.html#ae13033aec7e24f9b03148b85eb029b8e" title="curfil::PixelInstance\l::getY" alt="" coords="221,232,357,279"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1PixelInstance.html#ab770d702839038a26090b8d22638ec63" title="curfil::PixelInstance\l::inImage" alt="" coords="221,476,357,523"/>
+<area shape="rect" id="node31" href="$classcurfil_1_1PixelInstance.html#a9ac81e34f6c0f6c0e739a3ed98108837" title="curfil::PixelInstance\l::getDepthValid" alt="" coords="221,112,357,159"/>
+<area shape="rect" id="node37" href="$classcurfil_1_1PixelInstance.html#abce4302fd512a49b43981a03471a28ef" title="curfil::PixelInstance\l::getDepth" alt="" coords="221,649,357,696"/>
+<area shape="rect" id="node39" href="$classcurfil_1_1Depth.html#ae303ee350dfe7f41f3e56770dd6f1155" title="curfil::Depth::getIntValue" alt="" coords="207,719,372,749"/>
+<area shape="rect" id="node27" href="$classcurfil_1_1RGBDImage.html#a931fec2e484629b8203dd3a194198dac" title="curfil::RGBDImage:\l:inImage" alt="" coords="423,479,559,525"/>
+<area shape="rect" id="node33" href="$classcurfil_1_1RGBDImage.html#a6dd23a0806c893368d9fbc3b1306d3ee" title="curfil::RGBDImage:\l:getDepthValid" alt="" coords="423,112,559,159"/>
+</map>

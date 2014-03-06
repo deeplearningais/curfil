@@ -1,0 +1,9 @@
+<map id="cuv::pooled_cuda_allocator::garbage_collection" name="cuv::pooled_cuda_allocator::garbage_collection">
+<area shape="rect" id="node3" href="$classcuv_1_1pooled__cuda__allocator.html#a26d1a1f00c878979fa8ec330a619e53a" title="cuv::pooled_cuda_allocator\l::collect_garbage" alt="" coords="236,178,415,225"/>
+<area shape="rect" id="node5" href="$classcuv_1_1pooled__cuda__allocator.html#a8925ec08bf8e243c2cdda7eee7526d96" title="cuv::pooled_cuda_allocator\l::get_pool_mutex" alt="" coords="465,5,644,51"/>
+<area shape="rect" id="node7" href="$classcuv_1_1pooled__cuda__allocator.html#a4b6746e7336a9cef0171d19130705672" title="cuv::pooled_cuda_allocator\l::get_pool" alt="" coords="465,74,644,121"/>
+<area shape="rect" id="node9" href="$classcuv_1_1pooled__cuda__allocator.html#aff199fe056b5313b8d765bdd30f1a261" title="cuv::pooled_cuda_allocator\l::get_pool_sizes" alt="" coords="465,143,644,190"/>
+<area shape="rect" id="node11" href="$classcuv_1_1cuda__allocator.html#a7aabdfd9d4e01999870cd421a7b966df" title="cuv::cuda_allocator\l::dealloc" alt="" coords="488,213,621,259"/>
+<area shape="rect" id="node13" href="$classcuv_1_1pooled__cuda__allocator.html#af1057267d46e2a19e0f9299db1f0bda7" title="cuv::pooled_cuda_allocator\l::pool_free_count" alt="" coords="465,282,644,329"/>
+<area shape="rect" id="node15" href="$classcuv_1_1pooled__cuda__allocator.html#a8be0ad2f6549542c43ccdd8c801a2585" title="cuv::pooled_cuda_allocator\l::memtype" alt="" coords="465,351,644,398"/>
+</map>

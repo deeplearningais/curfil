@@ -1,0 +1,7 @@
+<map id="curfil::ImageFeaturesAndThresholds::channel1" name="curfil::ImageFeaturesAndThresholds::channel1">
+<area shape="rect" id="node3" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a7590a88275d864c24330927640c3c5f7" title="curfil::ImageFeaturesAnd\lThresholds\&lt; cuv::host\l_memory_space \&gt;::setFeatureFunction" alt="" coords="237,5,488,69"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#ac7594d3d547e4782152924c41a7d0897" title="curfil::ImageFeaturesAnd\lThresholds\&lt; cuv::host\l_memory_space \&gt;::getFeatureFunction" alt="" coords="237,93,488,157"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeatureEvaluation.html#ad1f096c97b80b953ca7044677f78aeab" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="264,181,461,227"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeatureEvaluation.html#a3f5829cfbd0406fdf29b22b8c92aaf22" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="221,250,504,297"/>
+<area shape="rect" id="node11" href="$random__tree__image__gpu__test_8cu.html#aff739963190d42fc24f714fed9a819e0" title="BOOST_AUTO_TEST_CASE" alt="" coords="264,320,461,349"/>
+</map>

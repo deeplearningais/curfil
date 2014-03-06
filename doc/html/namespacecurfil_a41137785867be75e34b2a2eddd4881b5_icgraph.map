@@ -1,0 +1,19 @@
+<map id="curfil::calculateColorFeature" name="curfil::calculateColorFeature">
+<area shape="rect" id="node3" href="$namespacecurfil.html#aad21447f232a40f4a65c4f242bd52c7e" title="curfil::generateRandomFeatures\lKernel" alt="" coords="240,95,448,142"/>
+<area shape="rect" id="node7" href="$namespacecurfil.html#ac65131ce2ed99a7c8d385414c160b515" title="curfil::classifyKernel" alt="" coords="275,165,413,195"/>
+<area shape="rect" id="node36" href="$namespacecurfil.html#af4dff2d066a52377f1f061cb4e89ebc2" title="curfil::featureResponseKernel" alt="" coords="247,223,441,252"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1ImageFeatureEvaluation.html#ad1f096c97b80b953ca7044677f78aeab" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="539,95,736,142"/>
+<area shape="rect" id="node9" href="$namespacecurfil.html#a2acf7858600981309f55a7c9635af540" title="curfil::classifyImage" alt="" coords="568,165,707,195"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1RandomForestImage.html#a64b4d7656ed81b30034d80fce4cbde4a" title="curfil::RandomForestImage\l::predict" alt="" coords="836,126,1015,173"/>
+<area shape="rect" id="node34" href="$random__tree__image__gpu__test_8cu.html#a9bbf29b4cf0c16ddbd156141c227eaac" title="BOOST_AUTO_TEST_CASE" alt="" coords="827,196,1024,225"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="1073,65,1217,111"/>
+<area shape="rect" id="node26" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="1105,135,1185,164"/>
+<area shape="rect" id="node30" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="1115,188,1176,217"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="1293,65,1437,111"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="1513,5,1657,51"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1707,13,1877,43"/>
+<area shape="rect" id="node23" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1925,13,1976,43"/>
+<area shape="rect" id="node28" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1340,135,1391,164"/>
+<area shape="rect" id="node32" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="1267,188,1464,217"/>
+<area shape="rect" id="node38" href="$classcurfil_1_1ImageFeatureEvaluation.html#a3f5829cfbd0406fdf29b22b8c92aaf22" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="496,218,779,265"/>
+</map>

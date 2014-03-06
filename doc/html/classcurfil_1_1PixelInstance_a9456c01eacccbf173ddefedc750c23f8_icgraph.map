@@ -1,0 +1,10 @@
+<map id="curfil::PixelInstance::width" name="curfil::PixelInstance::width">
+<area shape="rect" id="node3" href="$classcurfil_1_1PixelInstance.html#ac61b347a088db90f17319138b94a13f4" title="curfil::PixelInstance\l::averageRegionColor" alt="" coords="195,5,341,51"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1PixelInstance.html#ab996aebd925d273b6374b9754b8501f2" title="curfil::PixelInstance\l::averageRegionDepth" alt="" coords="192,74,344,121"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1ImageFeatureFunction.html#ae12a4daf8fda2a5fad5224f0a96b51b0" title="curfil::ImageFeatureFunction\l::calculateColorFeature" alt="" coords="393,5,580,51"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeatureFunction.html#ab58959d1ee6c8bfa6457d330f38f1112" title="curfil::ImageFeatureFunction\l::calculateFeatureResponse" alt="" coords="631,39,817,86"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeatureEvaluation.html#a648584672ee67c1ae9922668acfdc35b" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="868,39,1065,86"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1ImageFeatureEvaluation.html#a8eec18d7ce3d849b06b416414cbc8c4f" title="curfil::ImageFeatureEvaluation\l::evaluateBestSplits" alt="" coords="1116,9,1313,55"/>
+<area shape="rect" id="node13" href="$feature__generation__test_8cpp.html#a830e2bb62eee54ca3ce8956b026e7ccf" title="BOOST_AUTO_TEST_CASE" alt="" coords="1116,79,1313,108"/>
+<area shape="rect" id="node17" href="$classcurfil_1_1ImageFeatureFunction.html#ac8c6e526621cd7c6db839ff4cb034b4c" title="curfil::ImageFeatureFunction\l::calculateDepthFeature" alt="" coords="393,74,580,121"/>
+</map>

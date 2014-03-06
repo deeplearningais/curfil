@@ -1,0 +1,4 @@
+<map id="curfil::InformationGainScore" name="curfil::InformationGainScore">
+<area shape="rect" id="node3" href="$classcurfil_1_1NoOpScore.html" title="{curfil::NoOpScore\n||+ calculateScore()\l}" alt="" coords="5,200,133,285"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1NormalizedInformationGainScore.html" title="{curfil::NormalizedInformation\lGainScore\n||+ calculateScore()\l# splitEntropy()\l# classificationEntropy()\l}" alt="" coords="157,174,347,311"/>
+</map>

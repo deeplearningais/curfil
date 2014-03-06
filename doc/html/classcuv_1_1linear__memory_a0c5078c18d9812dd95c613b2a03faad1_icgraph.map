@@ -1,0 +1,5 @@
+<map id="cuv::linear_memory::alloc" name="cuv::linear_memory::alloc">
+<area shape="rect" id="node3" href="$classcuv_1_1linear__memory.html#a9e7761b1ee6b154d0d179e778de42704" title="constructor: reserves space for i elements" alt="" coords="191,5,367,69"/>
+<area shape="rect" id="node5" href="$classcuv_1_1linear__memory.html#a0b51b6f55fd4cd635a69c752cd6433ef" title="sets the size (reallocates if necessary)" alt="" coords="191,93,367,157"/>
+<area shape="rect" id="node7" href="$classcuv_1_1linear__memory.html#aedc4f361ae69da264d259f538e45e080" title="Copy linear_memory." alt="" coords="191,181,367,245"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="curfil::InformationGainScore::entropy" name="curfil::InformationGainScore::entropy">
+<area shape="rect" id="node3" href="$classcurfil_1_1NormalizedInformationGainScore.html#ad7568d8d570b1d85215faf6afdbf06a2" title="curfil::NormalizedInformation\lGainScore::splitEntropy" alt="" coords="249,101,439,147"/>
+<area shape="rect" id="node25" href="$classcurfil_1_1NormalizedInformationGainScore.html#a46a349bbdc4b77fc8ff67547a3440a11" title="curfil::NormalizedInformation\lGainScore::classificationEntropy" alt="" coords="239,170,449,217"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1NormalizedInformationGainScore.html#ab2187d46a1baf22b56a7463d8c9ac55d" title="curfil::NormalizedInformation\lGainScore::calculateScore" alt="" coords="499,135,688,182"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1RandomTreeTrain.html#a9e99f954be19f03d6628c6627696d556" title="curfil::RandomTreeTrain\l::compareHistograms" alt="" coords="755,5,917,51"/>
+<area shape="rect" id="node15" href="$classcurfil_1_1ImageFeatureEvaluation.html#a89fad55957992023a9cb6394783a8107" title="curfil::ImageFeatureEvaluation\l::calculateScores" alt="" coords="737,74,935,121"/>
+<area shape="rect" id="node17" href="$namespacecurfil.html#a37d39314c89e17e45b014d1e9d1afbac" title="curfil::scoreKernel" alt="" coords="773,144,899,173"/>
+<area shape="rect" id="node21" href="$random__tree__image__gpu__test_8cu.html#a4535e95a711a55713868f1d760ceb50a" title="calculcateScoreKernel" alt="" coords="760,197,912,227"/>
+<area shape="rect" id="node23" href="$random__tree__image__gpu__test_8cu.html#a7b8e7962308e5a47c2b692abeb0e0a26" title="BOOST_AUTO_TEST_CASE" alt="" coords="737,251,935,280"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1RandomTreeTrain.html#a451e51a1a78e549ca73a4642bff901e5" title="curfil::RandomTreeTrain\l::train" alt="" coords="1003,5,1165,51"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1RandomTreeImage.html#aa0d3864adb6f0fd054f9dff9860f12a4" title="curfil::RandomTreeImage\l::doTrain" alt="" coords="1233,5,1401,51"/>
+<area shape="rect" id="node13" href="$classcurfil_1_1RandomTreeImage.html#a13e0a675e31f91c356ae49b99f7a1e13" title="curfil::RandomTreeImage\l::train" alt="" coords="1452,5,1620,51"/>
+<area shape="rect" id="node19" href="$classcurfil_1_1ImageFeatureEvaluation.html#a74a83a25abd2d805b9c9415bf0023578" title="curfil::ImageFeatureEvaluation\l::calculateScores" alt="" coords="985,135,1183,182"/>
+</map>

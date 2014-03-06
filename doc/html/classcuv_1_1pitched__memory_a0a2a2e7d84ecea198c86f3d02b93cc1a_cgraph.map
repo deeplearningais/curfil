@@ -1,0 +1,7 @@
+<map id="cuv::pitched_memory::set_size" name="cuv::pitched_memory::set_size">
+<area shape="rect" id="node3" href="$classcuv_1_1memory.html#ad87007577fd352259b342b175ae1fb5f" title="dellocate space" alt="" coords="200,5,347,35"/>
+<area shape="rect" id="node5" href="$classcuv_1_1pitched__memory.html#a24cf39cd4bf3dde60c9b07e9be7e407a" title="cuv::pitched_memory\l::rows" alt="" coords="200,58,347,105"/>
+<area shape="rect" id="node7" href="$classcuv_1_1pitched__memory.html#a12394074251935e53501a14d5ecd6835" title="cuv::pitched_memory\l::cols" alt="" coords="200,127,347,174"/>
+<area shape="rect" id="node9" href="$classcuv_1_1pitched__memory.html#a1c2eca676b3320928e7d808ca0604d28" title="allocate space according to size()" alt="" coords="200,197,347,243"/>
+<area shape="rect" id="node11" href="$classcuv_1_1pitched__memory.html#a05981fc187ba6333af1cfce9a3bfcc4f" title="cuv::pitched_memory\l::pitch" alt="" coords="395,197,541,243"/>
+</map>

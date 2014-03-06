@@ -1,0 +1,12 @@
+<map id="curfil::ConfusionMatrix::increment" name="curfil::ConfusionMatrix::increment">
+<area shape="rect" id="node3" href="$namespacecurfil.html#a80bfd404ade8c8a4b0d52c2d956fd1fd" title="Calculates the average pixel accuracy on &#39;prediction&#39; according to the ground truth." alt="" coords="208,135,403,164"/>
+<area shape="rect" id="node5" href="$classcurfil_1_1HyperoptClient.html#a6e38e2480ba347bc40f9d14799224423" title="curfil::HyperoptClient\l::test" alt="" coords="452,65,596,111"/>
+<area shape="rect" id="node18" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="484,135,564,164"/>
+<area shape="rect" id="node22" href="$random__tree__image__test_8cpp.html#a451c8833819206adcf39d1fd9fbce9cc" title="predict" alt="" coords="493,188,555,217"/>
+<area shape="rect" id="node7" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="672,65,816,111"/>
+<area shape="rect" id="node9" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="892,5,1036,51"/>
+<area shape="rect" id="node11" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="1085,13,1256,43"/>
+<area shape="rect" id="node15" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1304,13,1355,43"/>
+<area shape="rect" id="node20" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="719,135,769,164"/>
+<area shape="rect" id="node24" href="$random__tree__image__test_8cpp.html#a12899ac6ec1910d4e4c3cfef802541cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="645,188,843,217"/>
+</map>
