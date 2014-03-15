@@ -681,7 +681,7 @@ public:
     size_t countNodes() const {
         return (isLeaf() ? 1 : (1 + left->countNodes() + right->countNodes()));
     }
-    unit_testing
+
     /**
      * @return number of leaf nodes
      */
