@@ -286,10 +286,10 @@ void generateRandomFeaturesKernel(int seed,
     	}
     	else
     	{
-    	channel1 = feat / (numFeatures) * 3;
+    	channel1 = feat / (numFeatures / 1.0 ) * 3;
         channel1 %= 3;
 
-        channel2 = feat / (numFeatures / 3) * 3;
+        channel2 = feat / (numFeatures / 1.0 / 3) * 3;
         channel2 %= 3;
     	}
 
