@@ -96,7 +96,7 @@ RandomForestImage train(std::vector<LabeledRGBDImage>& images, size_t trees,
                         const RGBDImage& trainingImage = imagePair.getRGBDImage();
                         const LabelImage& groundTruth = imagePair.getLabelImage();
                         LabelImage prediction(trainingImage.getWidth(), trainingImage.getHeight());
-                        prediction = randomForest.improveHistograms(trainingImage, groundTruth, onGPU, useDepthImages);
+                        prediction = randomForest.improveHistograms(trainingImage, groundTruth, true, useDepthImages);
                     }
         });
         randomForest.updateTreesHistograms();

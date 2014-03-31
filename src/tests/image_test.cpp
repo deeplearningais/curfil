@@ -282,7 +282,7 @@ BOOST_AUTO_TEST_CASE(testWriteReadRGBDImage) {
     image.saveDepth(temporaryDepthFile.native());
     BOOST_REQUIRE(fs::exists(temporaryDepthFile));
 
-    RGBDImage readImage(temporaryColorFile.native(), temporaryDepthFile.native(), false, false, false);
+    RGBDImage readImage(temporaryColorFile.native(), temporaryDepthFile.native(), true, false, false, false);
 
     for (int y = 0; y < image.getHeight(); y++) {
         for (int x = 0; x < image.getWidth(); x++) {
@@ -330,7 +330,7 @@ BOOST_AUTO_TEST_CASE(testWriteIntegratedRGBDImage) {
     image.saveDepth(temporaryDepthFile.native());
     BOOST_REQUIRE(fs::exists(temporaryDepthFile));
 
-    RGBDImage readImage(temporaryColorFile.native(), temporaryDepthFile.native(), false, false, false);
+    RGBDImage readImage(temporaryColorFile.native(), temporaryDepthFile.native(), true, false, false, false);
 
     image.calculateDerivative();
 

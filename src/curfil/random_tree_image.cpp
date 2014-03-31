@@ -828,7 +828,7 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataPixelUniform(
             }
 
             // Append to sample list
-            subsamples.push_back(PixelInstance(&(trainLabelImages[image_id].getRGBDImage()), label, x, y));
+            subsamples.push_back(PixelInstance(&(trainLabelImages[image_id].getRGBDImage()), label, x, y, configuration.doHorizontalFlipping()));
             break;
         } while (true);
     }
@@ -946,7 +946,7 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
                             continue;
                         }
 
-                        PixelInstance sample(&(trainLabelImages[imageNr].getRGBDImage()), label, x, y);
+                        PixelInstance sample(&(trainLabelImages[imageNr].getRGBDImage()), label, x, y, configuration.doHorizontalFlipping());
                         if (!sample.getDepth().isValid()) {
                             continue;
                         }

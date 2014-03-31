@@ -109,8 +109,8 @@ public:
      * @param x the x-coordinate of the pixel in the RGB-D image
      * @param y the y-coordinate of the pixel in the RGB-D image
      */
-    PixelInstance(const RGBDImage* image, const LabelType& label, uint16_t x, uint16_t y) :
-            image(image), label(label), point(x, y), depth(Depth::INVALID), useFlipping(false) {
+    PixelInstance(const RGBDImage* image, const LabelType& label, uint16_t x, uint16_t y, bool doHorizontalFlipping = false) :
+            image(image), label(label), point(x, y), depth(Depth::INVALID), useFlipping(doHorizontalFlipping) {
         assert(image != NULL);
         assert(image->inImage(x, y));
         if (!image->hasIntegratedDepth()) {
@@ -144,8 +144,8 @@ public:
      * @param y the y-coordinate of the pixel in the RGB-D image
      */
     PixelInstance(const RGBDImage* image, const LabelType& label, const Depth& depth,
-            uint16_t x, uint16_t y) :
-            image(image), label(label), point(x, y), depth(depth), useFlipping(false) {
+            uint16_t x, uint16_t y, bool doHorizontalFlipping = false) :
+            image(image), label(label), point(x, y), depth(depth), useFlipping(doHorizontalFlipping) {
         assert(image != NULL);
         assert(image->inImage(x, y));
         assert(depth.isValid());

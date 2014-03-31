@@ -111,7 +111,10 @@ BOOST_AUTO_TEST_CASE(testResultToBSON) {
 
 BOOST_AUTO_TEST_CASE(testResultGetLoss) {
 
-    ConfusionMatrix confusionMatrix(3);
+    std::vector<LabelType> ignoredLabels;
+    ignoredLabels.push_back(0);
+
+    ConfusionMatrix confusionMatrix(3, ignoredLabels);
     confusionMatrix(0, 0) = 1.0;
     confusionMatrix(0, 1) = 0.0;
     confusionMatrix(0, 2) = 0.0;

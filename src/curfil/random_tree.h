@@ -163,7 +163,8 @@ public:
                     deviceIds(),
                     subsamplingType(),
                     ignoredColors(),
-                    useDepthImages(0) {
+                    useDepthImages(0),
+                    horizontalFlipping(0) {
     }
 
     /**
@@ -192,7 +193,8 @@ public:
             const std::vector<int> deviceIds = std::vector<int>(1, 0),
             const std::string subsamplingType = "classUniform",
             const std::vector<std::string>& ignoredColors = std::vector<std::string>(),
-            bool useDepthImages = true) :
+            bool useDepthImages = true,
+            bool horizontalFlipping = false) :
             randomSeed(randomSeed),
                     samplesPerImage(samplesPerImage),
                     featureCount(featureCount),
@@ -211,7 +213,8 @@ public:
                     deviceIds(deviceIds),
                     subsamplingType(subsamplingType),
                     ignoredColors(ignoredColors),
-                    useDepthImages(useDepthImages)
+                    useDepthImages(useDepthImages),
+                    horizontalFlipping(horizontalFlipping)
     {
         for (size_t c = 0; c < ignoredColors.size(); c++) {
             if (ignoredColors[c].empty()) {
@@ -383,6 +386,13 @@ public:
     }
 
     /**
+     * @return whether data should be augmented with horizontally flipped images
+     */
+    bool doHorizontalFlipping() const {
+    	return horizontalFlipping;
+    }
+
+    /**
      * @return which colors should be ignored when sampling
      */
     const std::vector<std::string>& getIgnoredColors() const {
@@ -435,6 +445,7 @@ private:
     std::string subsamplingType;
     std::vector<std::string> ignoredColors;
     bool useDepthImages;
+    bool horizontalFlipping;
 };
 
 /**
@@ -1253,6 +1264,7 @@ public:
                 SplitBranch splitResult = bestSplit.split(*ptr, flippedSameSplit);
 
                 bool flipSetting = samples[sample]->getFlipping();
+
             	if (flipSetting && !flippedSameSplit)
             		ptr->setFlipping(false);
 

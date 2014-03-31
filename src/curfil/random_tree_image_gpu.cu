@@ -1507,7 +1507,8 @@ __global__ void featureResponseKernel(
     }
 
     featureResponses1[featureResponseOffset(sample, feature, numSamples, numFeatures)] = featureResponse1;
-    featureResponses2[featureResponseOffset(sample, feature, numSamples, numFeatures)] = featureResponse2;
+    if (useFlipping)
+    {featureResponses2[featureResponseOffset(sample, feature, numSamples, numFeatures)] = featureResponse2;}
 }
 
 // http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
@@ -1614,8 +1615,6 @@ __global__ void aggregateHistogramsKernel(
 
         FeatureResponseType featureResponse1 = *resultPtr1;
         resultPtr1 += blockDim.x; // need to change if featureResponseOffset calculation changes
-        FeatureResponseType featureResponse2 = *resultPtr2;
-        resultPtr2 += blockDim.x; // need to change if featureResponseOffset calculation changes
 
         uint8_t label = sampleLabel[sample];
         bool useFlipping = sampleFlipping[sample];
@@ -1629,7 +1628,9 @@ __global__ void aggregateHistogramsKernel(
         assert(counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value] < COUNTER_MAX);
         counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value]++;
 
-        if (useFlipping){
+       if (useFlipping){
+        FeatureResponseType featureResponse2 = *resultPtr2;
+    	resultPtr2 += blockDim.x; // need to change if featureResponseOffset calculation changes
         value =  static_cast<int>(!(featureResponse2 <= threshold));
         assert(value == 0 || value == 1);
         assert(counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value] < COUNTER_MAX);
@@ -1966,8 +1967,7 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
 
     cuv::ndarray<FeatureResponseType, cuv::dev_memory_space> featureResponsesDevice1(numFeatures,
             configuration.getMaxSamplesPerBatch(), featureResponsesAllocator);
-    cuv::ndarray<FeatureResponseType, cuv::dev_memory_space> featureResponsesDevice2(numFeatures,
-            configuration.getMaxSamplesPerBatch(), featureResponsesAllocator);
+    cuv::ndarray<FeatureResponseType, cuv::dev_memory_space> featureResponsesDevice2(featureResponsesAllocator);
 
     if (featureResponsesHost) {
         size_t totalSamples = 0;
@@ -1976,6 +1976,9 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
         }
         featureResponsesHost->resize(numFeatures, totalSamples);
     }
+
+    FeatureResponseType* featureResponses2ptr;
+    featureResponses2ptr = 0;
 
     size_t samplesProcessed = 0;
     {
@@ -1990,7 +1993,10 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
             Samples<cuv::dev_memory_space> sampleData = copySamplesToDevice(currentBatch, streams[0]);
 
             featureResponsesDevice1.resize(numFeatures, batchSize);
-            featureResponsesDevice2.resize(numFeatures, batchSize);
+            if (configuration.doHorizontalFlipping())
+            { featureResponsesDevice2.resize(numFeatures, batchSize);
+            featureResponses2ptr = featureResponsesDevice2.ptr();
+            }
 
             unsigned int featuresPerBlock = std::min(numFeatures, 32u);
             unsigned int samplesPerBlock = std::min(batchSize, 4u);
@@ -2012,7 +2018,7 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
                 utils::Profile profile("calculate feature responses");
                 featureResponseKernel<<<blockSize, threads, 0, streams[0]>>>(
                         featureResponsesDevice1.ptr(),
-                        featureResponsesDevice2.ptr(),
+                        featureResponses2ptr,
                         featuresAndThresholds.types().ptr(),
                         imageWidth, imageHeight,
                         featuresAndThresholds.offset1X().ptr(), featuresAndThresholds.offset1Y().ptr(),
@@ -2064,7 +2070,7 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
 
                 aggregateHistogramsKernel<<<blockSize, threads, sharedMemory, streams[1]>>>(
                         featureResponsesDevice1.ptr(),
-                        featureResponsesDevice2.ptr(),
+                        featureResponses2ptr,
                         counters.ptr(),
                         featuresAndThresholds.thresholds().ptr(),
                         sampleData.labels,
@@ -2087,7 +2093,9 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
                     aggregateHistogramsTimer);
 
             samplesProcessed += batchSize;
+
         }
+
     }
 
     return counters;

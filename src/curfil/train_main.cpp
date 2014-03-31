@@ -36,6 +36,7 @@ int main(int argc, char **argv) {
     bool verboseTree = false;
     int imageCacheSizeMB = 0;
     bool useDepthImages = true;
+    bool horizontalFlipping = false;
 
     // Declare the supported options.
     po::options_description options("options");
@@ -77,7 +78,9 @@ int main(int argc, char **argv) {
             po::value<bool>(&trainTreesInParallel)->implicit_value(true)->default_value(trainTreesInParallel),
             "whether to train multiple trees sequentially (default) or in parallel (experimental)")
     ("useDepthImages", po::value<bool>(&useDepthImages)->implicit_value(true)->default_value(useDepthImages),
-                       "whether to use depth images");
+                       "whether to use depth images")
+    ("horizontalFlipping", po::value<bool>(&horizontalFlipping)->implicit_value(false)->default_value(horizontalFlipping),
+                       "whether to augment data with horizontally flipped images");
     ;
 
     po::positional_options_description pod;
@@ -141,7 +144,7 @@ int main(int argc, char **argv) {
     TrainingConfiguration configuration(randomSeed, samplesPerImage, featureCount, minSampleCount,
             maxDepth, boxRadius, regionSize, numThresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
             TrainingConfiguration::parseAccelerationModeString(modeString), useCIELab, useDepthFilling, deviceIds,
-            subsamplingType, ignoredColors, useDepthImages);
+            subsamplingType, ignoredColors, useDepthImages, horizontalFlipping);
 
     RandomForestImage forest = train(images, trees, configuration, numLabels, trainTreesInParallel);
 
