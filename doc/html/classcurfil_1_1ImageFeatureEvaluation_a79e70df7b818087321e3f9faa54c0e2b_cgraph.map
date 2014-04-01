@@ -1,6 +1,0 @@
-<map id="curfil::ImageFeatureEvaluation::sampleFeature" name="curfil::ImageFeatureEvaluation::sampleFeature">
-<area shape="rect" id="node3" href="$classcurfil_1_1RandomSource.html#adc949b871ccd091784506f3f9c13ce74" title="curfil::RandomSource\l::uniformSampler" alt="" coords="271,5,417,51"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1TrainingConfiguration.html#a4c8f74c1772faa7bfa536aa2b8b1a26b" title="curfil::TrainingConfiguration\l::getBoxRadius" alt="" coords="253,74,435,121"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1TrainingConfiguration.html#aa6176b28f59f4890b1e8f8d212d028f4" title="curfil::TrainingConfiguration\l::getRegionSize" alt="" coords="253,143,435,190"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1Sampler.html#a1b863ff4d63f7b12c7de32c24d6dfa54" title="curfil::Sampler::getNext" alt="" coords="264,213,424,243"/>
-</map>

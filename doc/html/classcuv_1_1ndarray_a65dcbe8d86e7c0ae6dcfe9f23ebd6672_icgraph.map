@@ -1,3 +1,0 @@
-<map id="cuv::ndarray::is_2dcopyable" name="cuv::ndarray::is_2dcopyable">
-<area shape="rect" id="node4" href="$classcuv_1_1ndarray.html#a873c6bc731e9442bbfab9c9dd73d9892" title="tries to copy memory, succeeds if shapes match AND both ndarrays are c_contiguous or 2d&#45;copyable..." alt="" coords="240,12,387,76"/>
-</map>

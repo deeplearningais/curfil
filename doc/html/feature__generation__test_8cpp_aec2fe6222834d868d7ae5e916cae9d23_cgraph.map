@@ -1,6 +1,0 @@
-<map id="assertEqual" name="assertEqual">
-<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="169,5,300,35"/>
-<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="167,59,303,88"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1TrainingConfiguration.html#a1adf8914c836953d9bac15f430d90b15" title="curfil::TrainingConfiguration\l::getFeatureCount" alt="" coords="144,111,325,158"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeaturesAndThresholds.html#a749b9b065d5700140e89b8c1fd71d870" title="curfil::ImageFeaturesAnd\lThresholds::thresholds" alt="" coords="151,181,319,227"/>
-</map>

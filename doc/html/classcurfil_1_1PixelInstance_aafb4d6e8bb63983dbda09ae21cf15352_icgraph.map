@@ -1,7 +1,0 @@
-<map id="curfil::PixelInstance::getLabel" name="curfil::PixelInstance::getLabel">
-<area shape="rect" id="node3" href="$classcurfil_1_1FeatureEvaluationCPU.html#a2262214613f55c0af0cca2e4f3e459f8" title="curfil::FeatureEvaluation\lCPU::operator()" alt="" coords="211,5,373,51"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1RandomTreeImage.html#a13e0a675e31f91c356ae49b99f7a1e13" title="curfil::RandomTreeImage\l::train" alt="" coords="208,74,376,121"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeatureEvaluation.html#a5e7b086612d086b7f3a44e2e96e148cb" title="curfil::ImageFeatureEvaluation\l::copySamplesToDevice" alt="" coords="193,143,391,190"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeatureEvaluation.html#ad1f096c97b80b953ca7044677f78aeab" title="curfil::ImageFeatureEvaluation\l::generateRandomFeatures" alt="" coords="483,109,680,155"/>
-<area shape="rect" id="node11" href="$classcurfil_1_1ImageFeatureEvaluation.html#a3f5829cfbd0406fdf29b22b8c92aaf22" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="440,178,723,225"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="BOOST_AUTO_TEST_CASE" name="BOOST_AUTO_TEST_CASE">
-<area shape="rect" id="node3" href="$classcuv_1_1pitched__memory.html#af998531f76568566fcf4a0ed88b3facc" title="cuv::pitched_memory\l::size" alt="" coords="251,5,397,51"/>
-<area shape="rect" id="node5" href="$classcuv_1_1pitched__memory.html#a24cf39cd4bf3dde60c9b07e9be7e407a" title="cuv::pitched_memory\l::rows" alt="" coords="251,74,397,121"/>
-<area shape="rect" id="node7" href="$classcuv_1_1pitched__memory.html#a12394074251935e53501a14d5ecd6835" title="cuv::pitched_memory\l::cols" alt="" coords="251,143,397,190"/>
-<area shape="rect" id="node9" href="$classcuv_1_1pitched__memory.html#a05981fc187ba6333af1cfce9a3bfcc4f" title="cuv::pitched_memory\l::pitch" alt="" coords="251,213,397,259"/>
-<area shape="rect" id="node11" href="$classcuv_1_1memory.html#aa4c2fcb68bb29ddf6b17ae2f5eab1d32" title="cuv::memory::ptr" alt="" coords="264,283,384,312"/>
-<area shape="rect" id="node13" href="$classcuv_1_1memory.html#ad87007577fd352259b342b175ae1fb5f" title="dellocate space" alt="" coords="251,336,397,365"/>
-</map>

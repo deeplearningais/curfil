@@ -1,9 +1,0 @@
-<map id="curfil::ConfusionMatrix::averageClassAccuracy" name="curfil::ConfusionMatrix::averageClassAccuracy">
-<area shape="rect" id="node3" href="$classcurfil_1_1ConfusionMatrix.html#a404405813e07bb0645c93b677529265c" title="curfil::ConfusionMatrix\l::normalize" alt="" coords="220,5,372,51"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1ConfusionMatrix.html#a07c85e1630d04b867b683c293c67f79f" title="curfil::ConfusionMatrix\l::getNumClasses" alt="" coords="423,35,575,82"/>
-<area shape="rect" id="node11" href="$classcurfil_1_1ConfusionMatrix.html#a6d4ccb2363f412a4c6c3f31a31ce34bf" title="curfil::ConfusionMatrix\l::isNormalized" alt="" coords="220,125,372,171"/>
-<area shape="rect" id="node15" href="$classcurfil_1_1utils_1_1Average.html#a2a6821f2fad5ed0288aa2199f68220cc" title="curfil::utils::Average\l::addValue" alt="" coords="227,194,365,241"/>
-<area shape="rect" id="node17" href="$classcurfil_1_1utils_1_1Average.html#a07cfbded369ba44ae7fadd523e0a050a" title="curfil::utils::Average\l::getAverage" alt="" coords="227,263,365,310"/>
-<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="628,17,759,47"/>
-<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="625,71,761,100"/>
-</map>

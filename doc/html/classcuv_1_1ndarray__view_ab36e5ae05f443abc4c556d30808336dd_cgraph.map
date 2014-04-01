@@ -1,4 +1,0 @@
-<map id="cuv::ndarray_view::operator=" name="cuv::ndarray_view::operator=">
-<area shape="rect" id="node3" href="$classcuv_1_1ndarray__view.html#aea69216255582ac6c7c7f3f0e9c8e379" title="/always/ try to copy memory" alt="" coords="188,5,319,51"/>
-<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a873c6bc731e9442bbfab9c9dd73d9892" title="tries to copy memory, succeeds if shapes match AND both ndarrays are c_contiguous or 2d&#45;copyable..." alt="" coords="368,5,499,51"/>
-</map>

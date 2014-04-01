@@ -1,8 +1,0 @@
-<map id="cuv::pitched_memory::size" name="cuv::pitched_memory::size">
-<area shape="rect" id="node3" href="$classcuv_1_1pitched__memory.html#a80d72616754a963d13c17cf9729b1207" title="cuv::pitched_memory\l::memsize" alt="" coords="225,5,372,51"/>
-<area shape="rect" id="node5" href="$classcuv_1_1pitched__memory.html#a115916eb4b2b6f14a25e8d864e7e8496" title="set strides for this memory" alt="" coords="225,74,372,121"/>
-<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#ad2ed9ed42304554bc1b9f2e009c55849" title="This is an overloaded member function, provided for convenience. It differs from the above function o..." alt="" coords="445,87,592,151"/>
-<area shape="rect" id="node9" href="$classcuv_1_1pitched__memory.html#ab64aa2cf43f7f028dca3f62c62049a83" title="cuv::pitched_memory\l::copy_from" alt="" coords="225,194,372,241"/>
-<area shape="rect" id="node14" href="$ndarray__test_8cpp.html#ab4149e99e830e0bb7154740170a6f2cb" title="BOOST_AUTO_TEST_CASE" alt="" coords="200,264,397,293"/>
-<area shape="rect" id="node11" href="$classcuv_1_1pitched__memory.html#a8b2887376ab2d62dd926a2da37a36656" title="Copy pitched_memory." alt="" coords="445,194,592,241"/>
-</map>

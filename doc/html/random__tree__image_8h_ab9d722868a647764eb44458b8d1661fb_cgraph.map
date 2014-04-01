@@ -1,9 +1,0 @@
-<map id="operator&lt;&lt;" name="operator&lt;&lt;">
-<area shape="rect" id="node3" href="$classcurfil_1_1ImageFeatureFunction.html#a925caf12a1f4d1bccfa57ebf14a8ae1c" title="curfil::ImageFeatureFunction\l::getTypeString" alt="" coords="140,5,327,51"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1ImageFeatureFunction.html#a484f2e745684ca69a11841f73060c2c5" title="curfil::ImageFeatureFunction\l::getOffset1" alt="" coords="140,74,327,121"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeatureFunction.html#ac44be89a0240ea63712102bbe98d96ed" title="curfil::ImageFeatureFunction\l::getRegion1" alt="" coords="140,143,327,190"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeatureFunction.html#ac28199bb99a9d7a38242f6d756083d53" title="curfil::ImageFeatureFunction\l::getChannel1" alt="" coords="140,213,327,259"/>
-<area shape="rect" id="node11" href="$classcurfil_1_1ImageFeatureFunction.html#a8f6191dcfb0515ace06b9c857bef00c4" title="curfil::ImageFeatureFunction\l::getOffset2" alt="" coords="140,282,327,329"/>
-<area shape="rect" id="node13" href="$classcurfil_1_1ImageFeatureFunction.html#aad014a32f63b063db9637632d2e1c974" title="curfil::ImageFeatureFunction\l::getRegion2" alt="" coords="140,351,327,398"/>
-<area shape="rect" id="node15" href="$classcurfil_1_1ImageFeatureFunction.html#a897eec58e847ce410632a067c1306551" title="curfil::ImageFeatureFunction\l::getChannel2" alt="" coords="140,421,327,467"/>
-</map>

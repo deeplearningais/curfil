@@ -1,7 +1,0 @@
-<map id="curfil::RGBDImage::calculateDerivative" name="curfil::RGBDImage::calculateDerivative">
-<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a811474e2d6aa8d41dc1c78937f56363c" title="curfil::RGBDImage:\l:saveDepth" alt="" coords="193,5,329,51"/>
-<area shape="rect" id="node11" href="$classcurfil_1_1RGBDImage.html#a7e52b234c64838e245493fb04ffbeece" title="curfil::RGBDImage:\l:saveColor" alt="" coords="193,74,329,121"/>
-<area shape="rect" id="node5" href="$namespacecurfil.html#a2438ceebc2a9351840a9272ca88ccf25" title="curfil::test" alt="" coords="437,17,517,47"/>
-<area shape="rect" id="node9" href="$image__test_8cpp.html#a5ae77853f949271a2c77dea0042d9811" title="BOOST_AUTO_TEST_CASE" alt="" coords="379,75,576,104"/>
-<area shape="rect" id="node7" href="$predict__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="624,17,675,47"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="cuv::cuda_allocator::dealloc" name="cuv::cuda_allocator::dealloc">
-<area shape="rect" id="node3" href="$classcuv_1_1cuda__allocator.html#a9612211afdedd6bf2565ac7db6433c84" title="cuv::cuda_allocator\l::dealloc" alt="" coords="213,5,347,51"/>
-<area shape="rect" id="node5" href="$classcuv_1_1pooled__cuda__allocator.html#a26d1a1f00c878979fa8ec330a619e53a" title="cuv::pooled_cuda_allocator\l::collect_garbage" alt="" coords="191,74,369,121"/>
-<area shape="rect" id="node11" href="$classcuv_1_1pooled__cuda__allocator.html#ad4f73921d2dfd14311d427c1d9093f64" title="cuv::pooled_cuda_allocator\l::delete_pool" alt="" coords="191,143,369,190"/>
-<area shape="rect" id="node7" href="$classcuv_1_1pooled__cuda__allocator.html#ac6d40f8c4ede1b14f300e198bde7d871" title="cuv::pooled_cuda_allocator\l::garbage_collection" alt="" coords="420,74,599,121"/>
-<area shape="rect" id="node9" href="$allocators__test_8cpp.html#ad171845f5bcf561ee46374f690bcfa9b" title="test_pooled_allocator\l_garbage_collection" alt="" coords="649,74,793,121"/>
-<area shape="rect" id="node13" href="$classcuv_1_1pooled__cuda__allocator.html#adabf0c24b6af1ee3a2967931828e150b" title="cuv::pooled_cuda_allocator\l::~pooled_cuda_allocator" alt="" coords="420,143,599,190"/>
-</map>

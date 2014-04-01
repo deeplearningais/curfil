@@ -1,8 +1,0 @@
-<map id="curfil::Result::getRandomSeed" name="curfil::Result::getRandomSeed">
-<area shape="rect" id="node3" href="$classcurfil_1_1Result.html#a9512d8f8761efcba22c8bd203590f44a" title="curfil::Result::toBSON" alt="" coords="257,73,409,103"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="485,65,629,111"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="705,5,849,51"/>
-<area shape="rect" id="node16" href="$hyperopt__test_8cpp.html#af0e5921c4c47fb0e8f6adba88ae66ab9" title="BOOST_AUTO_TEST_CASE" alt="" coords="459,135,656,164"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="899,13,1069,43"/>
-<area shape="rect" id="node13" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1117,13,1168,43"/>
-</map>

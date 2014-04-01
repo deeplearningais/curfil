@@ -1,6 +1,0 @@
-<map id="curfil::NormalizedInformationGainScore::calculateScore" name="curfil::NormalizedInformationGainScore::calculateScore">
-<area shape="rect" id="node3" href="$classcurfil_1_1NormalizedInformationGainScore.html#ad7568d8d570b1d85215faf6afdbf06a2" title="curfil::NormalizedInformation\lGainScore::splitEntropy" alt="" coords="255,5,444,51"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1NormalizedInformationGainScore.html#a46a349bbdc4b77fc8ff67547a3440a11" title="curfil::NormalizedInformation\lGainScore::classificationEntropy" alt="" coords="244,74,455,121"/>
-<area shape="rect" id="node10" href="$classcurfil_1_1InformationGainScore.html#ad9595146d362c6cdd148bdf778fb28cd" title="curfil::InformationGainScore\l::normalizeScore" alt="" coords="257,143,441,190"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1InformationGainScore.html#a5d13229a29278cc54003e9ae056b77db" title="curfil::InformationGainScore\l::entropy" alt="" coords="504,39,688,86"/>
-</map>

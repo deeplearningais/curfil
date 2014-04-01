@@ -1,7 +1,0 @@
-<map id="curfil::RGBDImage::dumpDepth" name="curfil::RGBDImage::dumpDepth">
-<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a041cd5120ede9ac022454b8499019d28" title="curfil::RGBDImage:\l:getHeight" alt="" coords="215,5,351,51"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#a6c67d9c84121af5e768cf1fec25cadbf" title="curfil::RGBDImage:\l:getWidth" alt="" coords="215,74,351,121"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1RGBDImage.html#aa9823115c1c4662921f6e90c606ebe7b" title="curfil::RGBDImage:\l:getDepth" alt="" coords="215,143,351,190"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1Depth.html#ae9f49c116c79db11fb09cb8b1454592d" title="curfil::Depth::isValid" alt="" coords="423,239,561,268"/>
-<area shape="rect" id="node11" href="$classcurfil_1_1Depth.html#ae5a9f2df054b092a741e5cd4b4a23bcb" title="curfil::Depth::getFloatValue" alt="" coords="192,264,373,293"/>
-</map>

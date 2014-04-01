@@ -1,4 +1,0 @@
-<map id="cuv::linear_memory::reverse" name="cuv::linear_memory::reverse">
-<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#ab6ba5874d58defa190e7cfde05afa8d4" title="cuv::ndarray\&lt; int8\l_t, memory_space \&gt;:\l:ndarray" alt="" coords="189,5,336,69"/>
-<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a873c6bc731e9442bbfab9c9dd73d9892" title="tries to copy memory, succeeds if shapes match AND both ndarrays are c_contiguous or 2d&#45;copyable..." alt="" coords="189,93,336,157"/>
-</map>

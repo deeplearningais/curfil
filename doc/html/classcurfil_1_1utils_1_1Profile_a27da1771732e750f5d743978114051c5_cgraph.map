@@ -1,7 +1,0 @@
-<map id="curfil::utils::Profile::~Profile" name="curfil::utils::Profile::~Profile">
-<area shape="rect" id="node3" href="$classcurfil_1_1utils_1_1Profile.html#a5bcb8205afbbdfc20b35d8121e9cecb3" title="curfil::utils::Profile\l::isEnabled" alt="" coords="183,5,308,51"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1utils_1_1Timer.html#a07f5a4d85543c956922e53388d4524b5" title="curfil::utils::Timer\l::stop" alt="" coords="528,125,651,171"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1utils_1_1Timer.html#a22ad9041997ed544e7d003e55a5d1819" title="curfil::utils::Timer\l::format" alt="" coords="184,125,307,171"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1utils_1_1Timer.html#a467c6dd9054362c9395e3e29b4867e46" title="curfil::utils::Timer\l::getSeconds" alt="" coords="357,125,480,171"/>
-<area shape="rect" id="node12" href="$classcurfil_1_1utils_1_1Timer.html#a0c1383f9156b6c65c119462894701888" title="curfil::utils::Timer\l::getMilliseconds" alt="" coords="357,194,480,241"/>
-</map>

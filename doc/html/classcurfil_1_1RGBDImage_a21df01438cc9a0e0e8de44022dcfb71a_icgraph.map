@@ -1,5 +1,0 @@
-<map id="curfil::RGBDImage::fillDepthFromBottom" name="curfil::RGBDImage::fillDepthFromBottom">
-<area shape="rect" id="node3" href="$classcurfil_1_1RGBDImage.html#a094f0f093e1b416ad127bbe4b022a45f" title="simple depth filling depth values are replaced by right,left,top,bottom neighbors (in that order)..." alt="" coords="201,35,337,82"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1RGBDImage.html#aa81b0272064924670d710e907f1a6256" title="curfil::RGBDImage:\l:RGBDImage" alt="" coords="417,5,553,51"/>
-<area shape="rect" id="node7" href="$image__test_8cpp.html#a85bfc733366f13ccd2b18c421d689f8f" title="BOOST_AUTO_TEST_CASE" alt="" coords="387,75,584,104"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="cuv::pitched_memory::alloc" name="cuv::pitched_memory::alloc">
-<area shape="rect" id="node3" href="$classcuv_1_1pitched__memory.html#aaf3c11a757f33fee23016ec689ec5bfe" title="constructor: reserves space for at least i*j elements" alt="" coords="200,5,347,51"/>
-<area shape="rect" id="node5" href="$classcuv_1_1pitched__memory.html#a0a2a2e7d84ecea198c86f3d02b93cc1a" title="set the size (reallocating, if necessary)" alt="" coords="200,74,347,121"/>
-<area shape="rect" id="node7" href="$classcuv_1_1pitched__memory.html#a8b2887376ab2d62dd926a2da37a36656" title="Copy pitched_memory." alt="" coords="200,143,347,190"/>
-</map>

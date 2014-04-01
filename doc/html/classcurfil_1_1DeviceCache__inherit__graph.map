@@ -1,4 +1,0 @@
-<map id="curfil::DeviceCache" name="curfil::DeviceCache">
-<area shape="rect" id="node3" href="$classcurfil_1_1ImageCache.html" title="{curfil::ImageCache\n|&#45; width\l&#45; height\l&#45; colorTextureData\l&#45; depthTextureData\l|+ ImageCache()\l+ ~ImageCache()\l+ copyImages()\l+ copyImages()\l# bind()\l# unbind()\l# allocArray()\l# freeArray()\l# transferElement()\l# getElementName()\l# getElementsName()\l&#45; ImageCache()\l&#45; operator=()\l}" alt="" coords="5,574,155,919"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1TreeCache.html" title="{curfil::TreeCache\n|&#45; sizePerNode\l&#45; numLabels\l&#45; treeTextureData\l|+ TreeCache()\l+ ~TreeCache()\l+ copyTree()\l+ copyTrees()\l# transferElement()\l# getElementName()\l# getElementsName()\l# bind()\l# unbind()\l# freeArray()\l# allocArray()\l&#45; TreeCache()\l&#45; operator=()\l}" alt="" coords="179,583,328,911"/>
-</map>

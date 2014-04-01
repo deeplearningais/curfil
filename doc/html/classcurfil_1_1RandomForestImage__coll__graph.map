@@ -1,3 +1,0 @@
-<map id="curfil::RandomForestImage" name="curfil::RandomForestImage">
-<area shape="rect" id="node6" href="$classcurfil_1_1TrainingConfiguration.html" title="{curfil::TrainingConfiguration\n|&#45; randomSeed\l&#45; samplesPerImage\l&#45; featureCount\l&#45; minSampleCount\l&#45; maxDepth\l&#45; boxRadius\l&#45; regionSize\l&#45; thresholds\l&#45; numThreads\l&#45; maxImages\l&#45; imageCacheSize\l&#45; maxSamplesPerBatch\l&#45; useCIELab\l&#45; useDepthFilling\l|+ TrainingConfiguration()\l+ TrainingConfiguration()\l+ TrainingConfiguration()\l+ setRandomSeed()\l+ getRandomSeed()\l+ getSamplesPerImage()\l+ getFeatureCount()\l+ getMinSampleCount()\l+ getMaxDepth()\l+ getBoxRadius()\land 19 more...\l+ parseAccelerationModeString()\l}" alt="" coords="427,296,637,797"/>
-</map>

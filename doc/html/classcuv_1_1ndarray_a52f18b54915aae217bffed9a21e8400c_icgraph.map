@@ -1,3 +1,0 @@
-<map id="cuv::ndarray::reshape" name="cuv::ndarray::reshape">
-<area shape="rect" id="node4" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="203,12,349,76"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="BOOST_AUTO_TEST_CASE" name="BOOST_AUTO_TEST_CASE">
-<area shape="rect" id="node3" href="$classcurfil_1_1RandomSource.html#adc949b871ccd091784506f3f9c13ce74" title="curfil::RandomSource\l::uniformSampler" alt="" coords="259,5,405,51"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1ReservoirSampler.html#ae47efe70524aa82a8ba86cffa8083305" title="curfil::ReservoirSampler\l::sample" alt="" coords="251,74,413,121"/>
-<area shape="rect" id="node11" href="$classcurfil_1_1ReservoirSampler.html#ae103a4c518c9064b7d6867b01d0adeba" title="curfil::ReservoirSampler\l::getReservoir" alt="" coords="251,143,413,190"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1Sampler.html#a4d3140d55356f8a96b878d1e803bb22a" title="curfil::Sampler::getUpper" alt="" coords="463,56,628,85"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1Sampler.html#a1b863ff4d63f7b12c7de32c24d6dfa54" title="curfil::Sampler::getNext" alt="" coords="465,109,625,139"/>
-</map>

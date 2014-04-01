@@ -1,9 +1,0 @@
-<map id="cuv::ndarray::mem" name="cuv::ndarray::mem">
-<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#a29c58c4f232f4a881f0d67d002329cea" title="allocate linear memory (c&#45;contiguous version)" alt="" coords="200,5,347,69"/>
-<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a8a93035492c859c8e81de90e4ce77c30" title="assign from ndarray of same type" alt="" coords="200,93,347,157"/>
-<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#a28d88a2631bc5c539db47a36e555d139" title="assign from ndarray of different memory space type." alt="" coords="200,181,347,245"/>
-<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#a2f7ffa390055f01963375736c75d108d" title="copy memory using given allocator tag (linear/pitched)" alt="" coords="184,269,363,315"/>
-<area shape="rect" id="node11" href="$classcuv_1_1ndarray.html#a569963acbd4ecfbfd50fa80f58cd8c40" title="create a sub&#45;ndarray of the current ndarray" alt="" coords="200,339,347,403"/>
-<area shape="rect" id="node13" href="$classcuv_1_1ndarray.html#adb77a10a9c279aec5f99a4db426b7b96" title="copies between different memory spaces" alt="" coords="200,427,347,491"/>
-<area shape="rect" id="node15" href="$classcuv_1_1ndarray__view.html#aa771de46bbcee1e4ed5646a825bc99f9" title="construct ndarray_view" alt="" coords="208,514,339,561"/>
-</map>

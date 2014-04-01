@@ -1,3 +1,0 @@
-<map id="Client" name="Client">
-<area shape="rect" id="node3" href="$classcurfil_1_1HyperoptClient.html" title="{curfil::HyperoptClient\n|&#45; allRGBDImages\l&#45; allTestImages\l&#45; useCIELab\l&#45; useDepthFilling\l&#45; deviceIds\l&#45; maxImages\l&#45; imageCacheSizeMB\l&#45; randomSeed\l&#45; numThreads\l&#45; subsamplingType\l&#45; ignoredColors\l&#45; lossFunction\l&#45; ios\l|+ HyperoptClient()\l+ handle_task()\l+ run()\l&#45; train()\l&#45; randomSplit()\l&#45; measureTrueLoss()\l&#45; test()\l&#45; getParameterDouble()\l&#45; getAverageLossAndVariance()\l&#45; parseLossFunction()\l}" alt="" coords="5,139,211,589"/>
-</map>

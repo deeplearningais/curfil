@@ -1,6 +1,0 @@
-<map id="curfil::HyperoptClient::getParameterDouble" name="curfil::HyperoptClient::getParameterDouble">
-<area shape="rect" id="node3" href="$classcurfil_1_1HyperoptClient.html#ac7614481c34026cc73a220e75d44aac7" title="curfil::HyperoptClient\l::handle_task" alt="" coords="204,57,348,103"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1HyperoptClient.html#a78afdabb3621639c34d7e3fa77ee6158" title="curfil::HyperoptClient::run" alt="" coords="397,65,568,95"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1HyperoptClient.html#ac2014c75a8adf641546cb078afd742f2" title="curfil::HyperoptClient\l::measureTrueLoss" alt="" coords="617,5,761,51"/>
-<area shape="rect" id="node11" href="$hyperopt__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="664,75,715,104"/>
-</map>

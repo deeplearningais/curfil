@@ -1,6 +1,0 @@
-<map id="curfil::TrainingConfiguration::getMaxSamplesPerBatch" name="curfil::TrainingConfiguration::getMaxSamplesPerBatch">
-<area shape="rect" id="node3" href="$classcurfil_1_1RandomTreeExport.html#add6bf8a0a98a953965d5da42661b177b" title="curfil::RandomTreeExport\l::writeTree" alt="" coords="291,5,461,51"/>
-<area shape="rect" id="node5" href="$random__tree_8h.html#a55a9bc5b1cc4225550865afc392e3d62" title="operator\&lt;\&lt;" alt="" coords="333,75,419,104"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1ImageFeatureEvaluation.html#ac14e9e1960c449677fa745dd4a8a6f02" title="curfil::ImageFeatureEvaluation\l::prepare" alt="" coords="277,127,475,174"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1ImageFeatureEvaluation.html#a3f5829cfbd0406fdf29b22b8c92aaf22" title="curfil::ImageFeatureEvaluation\l::calculateFeatureResponsesAndHistograms" alt="" coords="235,197,517,243"/>
-</map>

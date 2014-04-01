@@ -1,8 +1,0 @@
-<map id="curfil::LabelImage::LabelImage" name="curfil::LabelImage::LabelImage">
-<area shape="rect" id="node3" href="$namespacecurfil.html#afe80b12f6030f5bab94d74164fa004f0" title="curfil::loadImage" alt="" coords="189,5,307,35"/>
-<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="180,59,316,88"/>
-<area shape="rect" id="node7" href="$classcurfil_1_1LabelImage.html#a193eab9d716db20e196bae2eb6602d7c" title="curfil::LabelImage\l::setLabel" alt="" coords="185,111,311,158"/>
-<area shape="rect" id="node11" href="$namespacecurfil.html#a38f9be12b8fd8d361f84258b2f45cb4e" title="curfil::encodeColor" alt="" coords="183,181,313,211"/>
-<area shape="rect" id="node9" href="$classcurfil_1_1LabelImage.html#a74f41854e245619297c168b41d199a42" title="curfil::LabelImage\l::isInImage" alt="" coords="365,111,491,158"/>
-<area shape="rect" id="node13" href="$namespacecurfil.html#a390080ffaea313f40f0f58b64c798498" title="curfil::addColorId" alt="" coords="368,181,488,211"/>
-</map>

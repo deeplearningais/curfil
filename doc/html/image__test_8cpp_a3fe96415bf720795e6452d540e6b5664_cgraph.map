@@ -1,9 +1,0 @@
-<map id="BOOST_AUTO_TEST_CASE" name="BOOST_AUTO_TEST_CASE">
-<area shape="rect" id="node3" href="$namespacecurfil.html#a390080ffaea313f40f0f58b64c798498" title="curfil::addColorId" alt="" coords="456,6,576,36"/>
-<area shape="rect" id="node5" href="$namespacecurfil.html#ad5295b6b929a3130de18a0ec92d05108" title="curfil::getOrAddColorId" alt="" coords="251,32,405,61"/>
-<area shape="rect" id="node8" href="$classcurfil_1_1LabelImage.html#a193eab9d716db20e196bae2eb6602d7c" title="curfil::LabelImage\l::setLabel" alt="" coords="265,84,391,131"/>
-<area shape="rect" id="node12" href="$classcurfil_1_1LabelImage.html#a85030f5f7df8f73db6eb1b9f4d7be193" title="curfil::LabelImage\l::getLabel" alt="" coords="453,144,579,191"/>
-<area shape="rect" id="node15" href="$classcurfil_1_1LabelImage.html#a584c5210f4b4dfe96dfcf3f1681ffc61" title="curfil::LabelImage\l::save" alt="" coords="265,204,391,251"/>
-<area shape="rect" id="node10" href="$classcurfil_1_1LabelImage.html#a74f41854e245619297c168b41d199a42" title="curfil::LabelImage\l::isInImage" alt="" coords="627,115,752,162"/>
-<area shape="rect" id="node17" href="$classcurfil_1_1LabelImage.html#afaa61e2c747b86e9403fa2b4cf7b9518" title="curfil::LabelImage\l::decodeLabel" alt="" coords="453,214,579,260"/>
-</map>

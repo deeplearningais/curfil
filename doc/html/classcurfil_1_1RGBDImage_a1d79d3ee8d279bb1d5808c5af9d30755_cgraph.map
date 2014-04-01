@@ -1,5 +1,0 @@
-<map id="curfil::RGBDImage::calculateIntegral" name="curfil::RGBDImage::calculateIntegral">
-<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="196,5,327,35"/>
-<area shape="rect" id="node5" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="193,59,329,88"/>
-<area shape="rect" id="node7" href="$namespacecurfil.html#abb92ddb9b9821ab1e2b179c5300d13ea" title="curfil::copy" alt="" coords="219,112,304,141"/>
-</map>

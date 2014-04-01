@@ -1,7 +1,0 @@
-<map id="checkCounters" name="checkCounters">
-<area shape="rect" id="node3" href="$classcurfil_1_1TrainingConfiguration.html#a1adf8914c836953d9bac15f430d90b15" title="curfil::TrainingConfiguration\l::getFeatureCount" alt="" coords="165,5,347,51"/>
-<area shape="rect" id="node5" href="$classcurfil_1_1TrainingConfiguration.html#ad80a998ead0d7149d36449a4f0dc6a89" title="curfil::TrainingConfiguration\l::getThresholds" alt="" coords="165,74,347,121"/>
-<area shape="rect" id="node7" href="$classcuv_1_1ndarray.html#adac34e6fdd466211800f1ea31f1642a8" title="return the number of dimensions" alt="" coords="191,144,321,173"/>
-<area shape="rect" id="node9" href="$classcuv_1_1ndarray.html#a4d2cad104ecaac8ebe76b9d94de28636" title="return the size of the i&#45;th dimension" alt="" coords="188,197,324,227"/>
-<area shape="rect" id="node11" href="$random__tree__image__gpu__test_8cu.html#a537243557dad6ff1c69f8f9606760115" title="updateHash" alt="" coords="211,251,301,280"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="cuv::ndarray::is_c_contiguous" name="cuv::ndarray::is_c_contiguous">
-<area shape="rect" id="node3" href="$classcuv_1_1ndarray.html#a6a1a6440210653477574e49d238ee739" title="determine size in bytes" alt="" coords="181,5,328,69"/>
-<area shape="rect" id="node6" href="$classcuv_1_1ndarray.html#ae449aec9aca79f23e3b91b732481bc4a" title="reshape the ndarray (in place)" alt="" coords="181,93,328,157"/>
-<area shape="rect" id="node8" href="$classcuv_1_1ndarray.html#a4fb3603518bb42c77016cda5d0cdad86" title="resize the ndarray (deallocates memory if product changes, otherwise equivalent to reshape)..." alt="" coords="181,181,328,245"/>
-<area shape="rect" id="node10" href="$classcuv_1_1ndarray.html#a873c6bc731e9442bbfab9c9dd73d9892" title="tries to copy memory, succeeds if shapes match AND both ndarrays are c_contiguous or 2d&#45;copyable..." alt="" coords="181,269,328,333"/>
-</map>
