@@ -130,7 +130,7 @@ Also see [documentation of hyperopt parameter search in the wiki](http://github.
 
 ### As a `C++` Library ###
 
-See [the example in the wiki](https://github.com/deeplearningais/curfil/wiki/Usage-as-a-Library).
+See [the example in the wiki](https://github.com/deeplearningais/curfil/wiki/Usage-as-a-Library) and the [API Documentation](http://deeplearningais.github.io/curfil/doc/index.html).
 
 Examples
 --------
