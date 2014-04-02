@@ -162,7 +162,7 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
  * @param writeProbabilityImages whether to store per-class probability images in the prediction folder
  */
 void test(RandomForestImage& randomForest, const std::string& folderTesting,
-        const std::string& folderPrediction, const bool useDepthImages, const bool useDepthFilling,
+        const std::string& folderPrediction, const bool useDepthFilling,
         const bool writeProbabilityImages);
 
 }

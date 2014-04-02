@@ -108,6 +108,7 @@ public:
      * @param label the ground-truth labeleing of this pixel.
      * @param x the x-coordinate of the pixel in the RGB-D image
      * @param y the y-coordinate of the pixel in the RGB-D image
+     * @param dohorizontalFlipping whether the feature should be horizontally flipped
      */
     PixelInstance(const RGBDImage* image, const LabelType& label, uint16_t x, uint16_t y, bool doHorizontalFlipping = false) :
             image(image), label(label), point(x, y), depth(Depth::INVALID), useFlipping(doHorizontalFlipping) {
@@ -142,6 +143,7 @@ public:
      * @param depth the depth of the pixel in the RGB-D image
      * @param x the x-coordinate of the pixel in the RGB-D image
      * @param y the y-coordinate of the pixel in the RGB-D image
+     * @param dohorizontalFlipping whether the feature should be horizontally flipped
      */
     PixelInstance(const RGBDImage* image, const LabelType& label, const Depth& depth,
             uint16_t x, uint16_t y, bool doHorizontalFlipping = false) :

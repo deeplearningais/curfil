@@ -445,40 +445,6 @@ void RGBDImage::resizeImage(int newWidth, int newHeight)
 
 	width = newWidth;
 	height = newHeight;
-
-	/*int* depths = depthImage.ptr();
-	int* depthValid = depthImage.ptr() + getWidth() * getHeight();
-
-	for (int y = 0; y < newHeight; y++) {
-		const size_t rowOffset = y * newWidth;
-		for (int x = 0; x < newWidth; x++) {
-		//	depths[rowOffset + x] = std::numeric_limits<int>::quiet_NaN();
-			depthValid[rowOffset + x] = static_cast<int>(depths[rowOffset + x] > 0);
-		}
-	}*/
-
-	//TODO This should be moved because for images that don't need resizing, it will not execute
-	//calculateIntegral();
-
-
-	/*
-	for (int y = originalHeight; y < newHeight; y++) {
-		const size_t rowOffset = y * newWidth;
-		for (int x = 0; x < newWidth; x++) {
-		//	depths[rowOffset + x] = std::numeric_limits<int>::quiet_NaN();
-			depthValid[rowOffset + x] = 0;
-		}
-	}
-
-	for (int y = 0; y < newHeight; y++) {
-		const size_t rowOffset = y * newWidth;
-		for (int x = originalWidth; x < newWidth; x++) {
-		//	depths[rowOffset + x] = std::numeric_limits<int>::quiet_NaN();
-			depthValid[rowOffset + x] = 0;
-		}
-	}*/
-
-	//TODO should add an assert that checks the size! - can check image.shape(1) and image.shape(2)
 }
 
 void RGBDImage::dump(std::ostream& out) const {
@@ -772,8 +738,6 @@ void LabelImage::resizeImage(int newWidth, int newHeight, LabelType paddingLabel
 	int originalWidth = getWidth();
 	int originalHeight = getHeight();
 
-	//TODO again should write an assert statement that checks the size - can check image.shape(0) and image.shape(1)
-
 	using namespace cuv;
 	ndarray<LabelType, host_memory_space>  Li(extents[newHeight][newWidth]);
 
@@ -870,7 +834,6 @@ LabelType getPaddingLabel(const std::vector<std::string>& ignoredColors) {
 	if (!ignoredColors.empty())
 		color = RGBColor(ignoredColors[0]);
 	else
-		//TODO: add assert that we shouldn't get here (unless all images have the same size) or maybe just display a warning
 		color = RGBColor(0,0,0);
 
 	return LabelImage::encodeColor(color);
@@ -911,7 +874,6 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
                             CURFIL_INFO("loaded " << numImages << "/" << images.size() << " images");
 							}
                         }
-                     //   totalSizeInMemory += images[i].getSizeInMemory();
                     }
 
                 }

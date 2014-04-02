@@ -77,7 +77,7 @@ RandomForestImage train(std::vector<LabeledRGBDImage>& images, size_t trees,
     CURFIL_INFO("training took " << trainTimer.format(2) <<
             " (" << std::setprecision(3) << trainTimer.getSeconds() / 60.0 << " min)");
 
-/*
+/*      // This feature is only experimental, it should be rewritten in a much faster way, and a CPU version should be added
         bool onGPU = randomForest.getConfiguration().getAccelerationMode() == GPU_ONLY;
         bool useDepthImages = randomForest.getConfiguration().isUseDepthImages();
 
@@ -86,7 +86,7 @@ RandomForestImage train(std::vector<LabeledRGBDImage>& images, size_t trees,
             grainSize = images.size();
         }
 
-        //TODO get the correct histogram bias
+        //should get the correct histogram bias
         randomForest.normalizeHistograms(0.0);
 
         tbb::parallel_for(tbb::blocked_range<size_t>(0, images.size(), grainSize),

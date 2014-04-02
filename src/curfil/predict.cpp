@@ -190,7 +190,7 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
 }
 
 void test(RandomForestImage& randomForest, const std::string& folderTesting,
-        const std::string& folderPrediction,const bool useDepthImages, const bool useDepthFilling,
+        const std::string& folderPrediction, const bool useDepthFilling,
         const bool writeProbabilityImages) {
 
     auto filenames = listImageFilenames(folderTesting);
@@ -216,6 +216,9 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
     const bool useCIELab = randomForest.getConfiguration().isUseCIELab();
     CURFIL_INFO("CIELab: " << useCIELab);
     CURFIL_INFO("DepthFilling: " << useDepthFilling);
+
+    const bool useDepthImages = randomForest.getConfiguration().isUseDepthImages();
+    CURFIL_INFO("useDepthImages: " << useDepthImages);
 
     bool onGPU = randomForest.getConfiguration().getAccelerationMode() == GPU_ONLY;
 

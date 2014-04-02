@@ -195,12 +195,12 @@ LabelImage RandomForestImage::improveHistograms(const RGBDImage& image, const La
             for (const boost::shared_ptr<const TreeNodes>& data : treeData) {
                 classifyImage(treeData.size(), deviceProbabilities, image, numClasses, data, useDepthImages);
                 bool found_tree = false;
-				//TODO should be change to parallel for and add lock
+				//should be change to parallel for and add lock
 				for (size_t treeNr = 0; treeNr < ensemble.size(); treeNr++) {
 					if (data->getTreeId() == ensemble[treeNr]->getId()) {
 						found_tree  =true;
 						const boost::shared_ptr<RandomTree<PixelInstance, ImageFeatureFunction> >& tree = ensemble[treeNr]->getTree();
-						//TODO: this should have been used and done before trying to classify the images, since it doesn't change
+						//this should have been used and done before trying to classify the images, since it doesn't change
 						//std::vector<size_t> leafSet;
 						//tree->collectLeafNodes(leafSet);
 						for (int y = 0; y < image.getHeight(); y++)
@@ -208,7 +208,7 @@ LabelImage RandomForestImage::improveHistograms(const RGBDImage& image, const La
 								LabelType label = labelImage.getLabel(x,y);
 									if (!shouldIgnoreLabel(label)) {
 										PixelInstance pixel(&image, label, x, y);
-										//TODO: This should be changed. When classifying the image, the nodeoffsets should be returned and those used directly
+										//This should be changed. When classifying the image, the nodeoffsets should be returned and those used directly
 										//instead of traversing again to the leaves. As a test, can check if the nodeoffset is the same as the one returned
 										//by travertoleaf
 										tree->setAllPixelsHistogram(pixel);
@@ -222,7 +222,7 @@ LabelImage RandomForestImage::improveHistograms(const RGBDImage& image, const La
         }
 
     }
-    //TODO: should also add the CPU code!
+    //should also add the CPU code!
     return prediction;
 }
 

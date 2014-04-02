@@ -370,7 +370,7 @@ public:
 
     /**
      * @param x the x position in the image where 0 <= x < width
-     * @param y the y position in the image where 0 <= y < heightunit_testing
+     * @param y the y position in the image where 0 <= y < height
      * @param channel the color channel where 0 <= channel < COLOR_CHANNELS
      * @return the color value at the given position and color channel
      */

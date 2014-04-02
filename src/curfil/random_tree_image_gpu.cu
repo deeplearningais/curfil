@@ -1646,7 +1646,7 @@ __global__ void aggregateHistogramsKernel(
     for (uint8_t label = 0; label < numLabels; label++) {
 
         // skip labels without samples
-        if (__syncthreads_or(labelFlags & (1 << label)) == 0) {  //TODO: this part sometimes causes problems but it's slower without it
+        if (__syncthreads_or(labelFlags & (1 << label)) == 0) {  //this part sometimes causes problems but it's slower without it
             if (threadIdx.x < 2) {
                 counterShared[2 * label + threadIdx.x] = 0;
             }
