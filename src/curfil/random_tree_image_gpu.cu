@@ -1629,12 +1629,12 @@ __global__ void aggregateHistogramsKernel(
         counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value]++;
 
        if (useFlipping){
-        FeatureResponseType featureResponse2 = *resultPtr2;
-    	resultPtr2 += blockDim.x; // need to change if featureResponseOffset calculation changes
+    	FeatureResponseType featureResponse2 = *resultPtr2;
         value =  static_cast<int>(!(featureResponse2 <= threshold));
         assert(value == 0 || value == 1);
         assert(counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value] < COUNTER_MAX);
         counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value]++;}
+    	resultPtr2 += blockDim.x; // need to change if featureResponseOffset calculation changes
         // no need to sync here because data is accessed only by the same thread in this loop
     }
 
