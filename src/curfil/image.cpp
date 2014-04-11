@@ -124,7 +124,7 @@ RGBDImage::RGBDImage(const std::string& filename, const std::string& depthFilena
             }
         }
 
-        inCIELab = true;
+        inCIELab = convertToCIELab;
 
 		if (useDepthImages) {
 			try {
@@ -608,18 +608,18 @@ void RGBDImage::saveColor(const std::string& filename) const {
         image = convertCIELab2RGB(image);
         vigra::exportImage(vigra::srcImageRange(image), vigra::ImageExportInfo(filename.c_str()));
     } else {
-        vigra::UInt16RGBImage uintImage(getWidth(), getHeight());
+        vigra::UInt8RGBImage uintImage(getWidth(), getHeight());
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
                 for (unsigned int c = 0; c < COLOR_CHANNELS; ++c) {
                     double value = image(x, y)[c];
-                    assert(value >= 0.0 && value <= 1.0);
-                    uintImage(x, y)[c] = 0xFFFFu * value;
+                    assert(value >= 0.0 && value <= 255.0);
+                    uintImage(x, y)[c] = value;
                 }
             }
         }
         vigra::exportImage(vigra::srcImageRange(uintImage),
-                vigra::ImageExportInfo(filename.c_str()).setPixelType("UINT16"));
+                vigra::ImageExportInfo(filename.c_str()).setPixelType("UINT8"));
     }
 
 }
