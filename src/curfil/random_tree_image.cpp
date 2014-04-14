@@ -75,13 +75,26 @@ public:
 
             const unsigned int labelOffset = label * labelStride;
 
-            bool flipSetting = sample->getFlipping();
+            HorizontalFlipSetting horFlipSetting = sample->getHorFlipSetting();
+            double value1;
+            double value2 = 0;
 
             for (size_t featureNr = 0; featureNr < numFeatures; ++featureNr) {
-                double value1 = featureFunctions[featureNr].calculateFeatureResponse(*sample, false);
-                double value2 = 0;
-                if (flipSetting)
-                	{value2 = featureFunctions[featureNr].calculateFeatureResponse(*sample, true);}
+            	switch (horFlipSetting)
+            	{
+            	case NoFlip:
+            		value1 = featureFunctions[featureNr].calculateFeatureResponse(*sample, false);
+            		break;
+            	case Flip:
+            	    value1 = featureFunctions[featureNr].calculateFeatureResponse(*sample, true);
+            	    break;
+            	case Both:
+            		value1 = featureFunctions[featureNr].calculateFeatureResponse(*sample, false);
+            		value2 = featureFunctions[featureNr].calculateFeatureResponse(*sample, true);
+            		break;
+            	default:
+            		value1 = featureFunctions[featureNr].calculateFeatureResponse(*sample, false);
+            	}
 
                 const std::vector<float>& thresholdsPerFeature = thresholds[featureNr];
 
@@ -102,7 +115,7 @@ public:
                     perClassHistogram.ptr()[idx] += weight;
                     assert(perClassHistogram(label, featureNr, threshNr, offset) == perClassHistogram.ptr()[idx]);
 
-					if (flipSetting) {
+					if (horFlipSetting == Both) {
 						offset = static_cast<int>(!(value2 <= threshold));
 						assert(offset == ((value2 <= threshold) ? 0 : 1));
 						idx = featureOffset + threshNr * thresholdsStride + offset;
@@ -804,6 +817,12 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataPixelUniform(
     // Random across imags type [0..(n-1)]
     auto rgen_image = randomSource.uniformSampler(trainLabelImages.size());
 
+    HorizontalFlipSetting horFlipSetting;
+    if (configuration.doHorizontalFlipping())
+    	horFlipSetting = Both;
+    else
+    	horFlipSetting = NoFlip;
+
     std::vector<PixelInstance> subsamples;
     for (size_t n = 0; n < subsampleCount * trainLabelImages.size(); ++n) {
         unsigned int image_id = rgen_image.getNext();
@@ -828,7 +847,7 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataPixelUniform(
             }
 
             // Append to sample list
-            subsamples.push_back(PixelInstance(&(trainLabelImages[image_id].getRGBDImage()), label, x, y, configuration.doHorizontalFlipping()));
+            subsamples.push_back(PixelInstance(&(trainLabelImages[image_id].getRGBDImage()), label, x, y, horFlipSetting));
             break;
         } while (true);
     }
@@ -915,6 +934,12 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
         labelsToIgnore.insert(label);
     }
 
+    HorizontalFlipSetting horFlipSetting;
+    if (configuration.doHorizontalFlipping())
+    	horFlipSetting = Both;
+    else
+        horFlipSetting = NoFlip;
+
     // Parallel Reservoir Sampling
     tbb::parallel_for(tbb::blocked_range<size_t>(0, trainLabelImages.size(), grainSize),
             [&](const tbb::blocked_range<size_t>& range) {
@@ -946,7 +971,7 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
                             continue;
                         }
 
-                        PixelInstance sample(&(trainLabelImages[imageNr].getRGBDImage()), label, x, y, configuration.doHorizontalFlipping());
+                        PixelInstance sample(&(trainLabelImages[imageNr].getRGBDImage()), label, x, y, horFlipSetting);
                         if (!sample.getDepth().isValid()) {
                             continue;
                         }

@@ -379,7 +379,7 @@ Samples<cuv::dev_memory_space> ImageFeatureEvaluation::copySamplesToDevice(
         samplesOnHost.sampleX[i] = sample->getX();
         samplesOnHost.sampleY[i] = sample->getY();
         samplesOnHost.labels[i] = sample->getLabel();
-        samplesOnHost.useFlipping[i] = sample->getFlipping();
+        samplesOnHost.horFlipSetting[i] = sample->getHorFlipSetting();
     }
 
     utils::Timer copySamplesAssignTimer;
@@ -1436,7 +1436,7 @@ __global__ void featureResponseKernel(
         const int8_t* regions2X, const int8_t* regions2Y,
         const int8_t* channels1, const int8_t* channels2,
         const int* samplesX, const int* samplesY, const float* depths,
-        const int* imageNumbers,  const bool* sampleFlipping, unsigned int numFeatures, unsigned int numSamples) {
+        const int* imageNumbers,  const HorizontalFlipSetting* sampleHorFlipSetting, unsigned int numFeatures, unsigned int numSamples) {
 
     unsigned int feature = blockIdx.x * blockDim.y + threadIdx.y;
     unsigned int sample = blockIdx.y * blockDim.x + threadIdx.x;
@@ -1462,7 +1462,13 @@ __global__ void featureResponseKernel(
     FeatureResponseType featureResponse1;
     FeatureResponseType featureResponse2 = 0;
 
-    bool useFlipping = sampleFlipping[sample];
+    HorizontalFlipSetting horFlipSetting = sampleHorFlipSetting[sample];
+
+    if (horFlipSetting == Flip)
+    {
+    	offset1X = -offset1X;
+    	offset2X = -offset2X;
+    }
 
     switch (type) {
         case COLOR:
@@ -1474,7 +1480,7 @@ __global__ void featureResponseKernel(
                     region2X, region2Y,
                     channels1[feature], channels2[feature],
                     samplesX[sample], samplesY[sample], depths[sample]);
-          if (useFlipping) {
+          if (horFlipSetting == Both) {
             featureResponse2 = calculateColorFeature(imageNr,
                      imageWidth, imageHeight,
                      -offset1X, offset1Y,
@@ -1492,7 +1498,7 @@ __global__ void featureResponseKernel(
                     region1X, region1Y,
                     region2X, region2Y,
                     samplesX[sample], samplesY[sample], depths[sample]);
-            if (useFlipping) {
+            if (horFlipSetting == Both) {
             featureResponse2 = calculateDepthFeature(imageNr,
                     imageWidth, imageHeight,
                     -offset1X, offset1Y,
@@ -1507,7 +1513,7 @@ __global__ void featureResponseKernel(
     }
 
     featureResponses1[featureResponseOffset(sample, feature, numSamples, numFeatures)] = featureResponse1;
-    if (useFlipping)
+    if (horFlipSetting == Both)
     {featureResponses2[featureResponseOffset(sample, feature, numSamples, numFeatures)] = featureResponse2;}
 }
 
@@ -1573,7 +1579,7 @@ __global__ void aggregateHistogramsKernel(
         WeightType* counters,
         const float* thresholds,
         const uint8_t* sampleLabel,
-        const bool* sampleFlipping,
+        const HorizontalFlipSetting* sampleHorFlipSetting,
         unsigned int numThresholds,
         unsigned int numLabels,
         unsigned int numFeatures,
@@ -1617,7 +1623,7 @@ __global__ void aggregateHistogramsKernel(
         resultPtr1 += blockDim.x; // need to change if featureResponseOffset calculation changes
 
         uint8_t label = sampleLabel[sample];
-        bool useFlipping = sampleFlipping[sample];
+        HorizontalFlipSetting horFlipSetting = sampleHorFlipSetting[sample];
         assert(label < numLabels);
 
         assert(label < 32);
@@ -1628,7 +1634,7 @@ __global__ void aggregateHistogramsKernel(
         assert(counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value] < COUNTER_MAX);
         counterShared[(2 * label) * blockDim.x + 2 * threadIdx.x + value]++;
 
-       if (useFlipping){
+       if (horFlipSetting == Both){
     	FeatureResponseType featureResponse2 = *resultPtr2;
         value =  static_cast<int>(!(featureResponse2 <= threshold));
         assert(value == 0 || value == 1);
@@ -2026,7 +2032,7 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
                         featuresAndThresholds.region1X().ptr(), featuresAndThresholds.region1Y().ptr(),
                         featuresAndThresholds.region2X().ptr(), featuresAndThresholds.region2Y().ptr(),
                         featuresAndThresholds.channel1().ptr(), featuresAndThresholds.channel2().ptr(),
-                        sampleData.sampleX, sampleData.sampleY, sampleData.depths, sampleData.imageNumbers, sampleData.useFlipping,
+                        sampleData.sampleX, sampleData.sampleY, sampleData.depths, sampleData.imageNumbers, sampleData.horFlipSetting,
                         numFeatures,
                         batchSize
                 );
@@ -2074,7 +2080,7 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
                         counters.ptr(),
                         featuresAndThresholds.thresholds().ptr(),
                         sampleData.labels,
-                        sampleData.useFlipping,
+                        sampleData.horFlipSetting,
                         numThresholds,
                         numLabels,
                         numFeatures,

@@ -108,10 +108,10 @@ public:
      * @param label the ground-truth labeleing of this pixel.
      * @param x the x-coordinate of the pixel in the RGB-D image
      * @param y the y-coordinate of the pixel in the RGB-D image
-     * @param doHorizontalFlipping whether the feature should be horizontally flipped
+     * @param setting horizontal flip setting, can be: NoFlip, Flip, Both
      */
-    PixelInstance(const RGBDImage* image, const LabelType& label, uint16_t x, uint16_t y, bool doHorizontalFlipping = false) :
-            image(image), label(label), point(x, y), depth(Depth::INVALID), useFlipping(doHorizontalFlipping) {
+    PixelInstance(const RGBDImage* image, const LabelType& label, uint16_t x, uint16_t y, HorizontalFlipSetting setting = NoFlip) :
+            image(image), label(label), point(x, y), depth(Depth::INVALID), horFlipSetting(setting) {
         assert(image != NULL);
         assert(image->inImage(x, y));
         if (!image->hasIntegratedDepth()) {
@@ -143,11 +143,11 @@ public:
      * @param depth the depth of the pixel in the RGB-D image
      * @param x the x-coordinate of the pixel in the RGB-D image
      * @param y the y-coordinate of the pixel in the RGB-D image
-     * @param doHorizontalFlipping whether the feature should be horizontally flipped
+     * @param setting horizontal flip setting, can be: NoFlip, Flip, Both
      */
     PixelInstance(const RGBDImage* image, const LabelType& label, const Depth& depth,
-            uint16_t x, uint16_t y, bool doHorizontalFlipping = false) :
-            image(image), label(label), point(x, y), depth(depth), useFlipping(doHorizontalFlipping) {
+            uint16_t x, uint16_t y, HorizontalFlipSetting setting = NoFlip) :
+            image(image), label(label), point(x, y), depth(depth), horFlipSetting(setting) {
         assert(image != NULL);
         assert(image->inImage(x, y));
         assert(depth.isValid());
@@ -310,19 +310,19 @@ public:
     }
 
     /**
-     * @return whether the flipping setting is true
+     * @return the horizontal flip setting
      */
-    bool getFlipping() const
+    HorizontalFlipSetting getHorFlipSetting() const
     {
-    	return useFlipping;
+    	return horFlipSetting;
     }
 
     /**
-     * use the new flipping setting
+     * use the new horizontal flip setting
      */
-    void setFlipping(bool setting)
+    void setHorFlipSetting(HorizontalFlipSetting setting)
     {
-    	useFlipping = setting;
+    	horFlipSetting = setting;
     }
 
 private:
@@ -330,7 +330,7 @@ private:
     LabelType label;
     Point point;
     Depth depth;
-    bool useFlipping;
+    HorizontalFlipSetting horFlipSetting;
 
     float getColor(const Point& pos, uint8_t channel) const {
         if (!inImage(pos)) {
@@ -903,7 +903,7 @@ public:
     int* sampleY; /**< y coordinate of the pixel */
     int* imageNumbers; /**< number of image that has the pixel */
     uint8_t* labels; /**< label of the pixel */
-    bool* useFlipping; /**< flipping setting of the pixel */
+    HorizontalFlipSetting* horFlipSetting; /**< flipping setting of the pixel */
 
     /**
      * does not copy data
@@ -915,7 +915,7 @@ public:
                     sampleY(reinterpret_cast<int*>(data[cuv::indices[2][cuv::index_range()]].ptr())),
                     imageNumbers(reinterpret_cast<int*>(data[cuv::indices[3][cuv::index_range()]].ptr())),
                     labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr())),
-                    useFlipping(reinterpret_cast<bool*>(data[cuv::indices[5][cuv::index_range()]].ptr())){
+                    horFlipSetting(reinterpret_cast<HorizontalFlipSetting*>(data[cuv::indices[5][cuv::index_range()]].ptr())){
     }
 
     /**
@@ -929,7 +929,7 @@ public:
                     sampleY(reinterpret_cast<int*>(data[cuv::indices[2][cuv::index_range()]].ptr())),
                     imageNumbers(reinterpret_cast<int*>(data[cuv::indices[3][cuv::index_range()]].ptr())),
                     labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr())),
-                    useFlipping(reinterpret_cast<bool*>(data[cuv::indices[5][cuv::index_range()]].ptr())){
+                    horFlipSetting(reinterpret_cast<HorizontalFlipSetting*>(data[cuv::indices[5][cuv::index_range()]].ptr())){
     }
 
     /**
@@ -942,7 +942,7 @@ public:
                     sampleY(reinterpret_cast<int*>(data[cuv::indices[2][cuv::index_range()]].ptr())),
                     imageNumbers(reinterpret_cast<int*>(data[cuv::indices[3][cuv::index_range()]].ptr())),
                     labels(reinterpret_cast<uint8_t*>(data[cuv::indices[4][cuv::index_range()]].ptr())),
-                    useFlipping(reinterpret_cast<bool*>(data[cuv::indices[5][cuv::index_range()]].ptr()))
+                    horFlipSetting(reinterpret_cast<HorizontalFlipSetting*>(data[cuv::indices[5][cuv::index_range()]].ptr()))
     {
         assert_equals(imageNumbers, data.ptr() + 3 * numSamples);
         assert_equals(labels, reinterpret_cast<uint8_t*>(data.ptr() + 4 * numSamples));
