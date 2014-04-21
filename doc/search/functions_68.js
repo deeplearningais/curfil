@@ -5,5 +5,5 @@ var searchData=
   ['hasintegrateddepth',['hasIntegratedDepth',['../classcurfil_1_1RGBDImage.html#ac5721f2145622f4b07331749873dbd16',1,'curfil::RGBDImage']]],
   ['haspurehistogram',['hasPureHistogram',['../classcurfil_1_1RandomTree.html#a5c80ce181590ce31f9101c50354c41a2',1,'curfil::RandomTree']]],
   ['height',['height',['../classcurfil_1_1PixelInstance.html#af2663572452c6f3764c3790857eb3133',1,'curfil::PixelInstance']]],
-  ['hyperoptclient',['HyperoptClient',['../classcurfil_1_1HyperoptClient.html#a7c11971de4d786f54e6a3a1d8351567e',1,'curfil::HyperoptClient']]]
+  ['hyperoptclient',['HyperoptClient',['../classcurfil_1_1HyperoptClient.html#a3864c17f921d05aa358d204d8dca200e',1,'curfil::HyperoptClient']]]
 ];

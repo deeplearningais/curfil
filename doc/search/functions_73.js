@@ -17,7 +17,7 @@ var searchData=
   ['setdeviceids',['setDeviceIds',['../classcurfil_1_1TrainingConfiguration.html#a12155c4fbe6b1b17b19052337ade35ca',1,'curfil::TrainingConfiguration']]],
   ['setenabled',['setEnabled',['../classcurfil_1_1utils_1_1Profile.html#a0b206ce3b703f3be9d01e25a12e1c429',1,'curfil::utils::Profile']]],
   ['setfeaturefunction',['setFeatureFunction',['../classcurfil_1_1ImageFeaturesAndThresholds.html#a7590a88275d864c24330927640c3c5f7',1,'curfil::ImageFeaturesAndThresholds']]],
-  ['setflipping',['setFlipping',['../classcurfil_1_1PixelInstance.html#a7dc36f048d64a0d559d2307f1cc9dab8',1,'curfil::PixelInstance']]],
+  ['sethorflipsetting',['setHorFlipSetting',['../classcurfil_1_1PixelInstance.html#aead4e9849d4726f62f93264b93581f01',1,'curfil::PixelInstance']]],
   ['setlabel',['setLabel',['../classcurfil_1_1LabelImage.html#a193eab9d716db20e196bae2eb6602d7c',1,'curfil::LabelImage']]],
   ['setlossfunctiontype',['setLossFunctionType',['../classcurfil_1_1Result.html#a5f2eecb68864bcb3219cbfab8a3a690d',1,'curfil::Result']]],
   ['setrandomseed',['setRandomSeed',['../classcurfil_1_1Result.html#a7fbb9a512ae564c5c525990328a57c30',1,'curfil::Result::setRandomSeed()'],['../classcurfil_1_1TrainingConfiguration.html#a93041a8e4c3d72de14f84cec3f7f0398',1,'curfil::TrainingConfiguration::setRandomSeed()']]],

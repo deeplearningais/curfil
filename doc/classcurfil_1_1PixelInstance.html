@@ -101,8 +101,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a15491cc260caf7e43ed65d304dea6cd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a15491cc260caf7e43ed65d304dea6cd7">PixelInstance</a> (const <a class="el" href="classcurfil_1_1RGBDImage.html">RGBDImage</a> *image, const LabelType &amp;label, uint16_t x, uint16_t y, bool doHorizontalFlipping=false)</td></tr>
-<tr class="memitem:a2f63c26e7fe24d25b3b1c9264e6e0992"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a2f63c26e7fe24d25b3b1c9264e6e0992">PixelInstance</a> (const <a class="el" href="classcurfil_1_1RGBDImage.html">RGBDImage</a> *image, const LabelType &amp;label, const <a class="el" href="classcurfil_1_1Depth.html">Depth</a> &amp;depth, uint16_t x, uint16_t y, bool doHorizontalFlipping=false)</td></tr>
+<tr class="memitem:a235c2d698cd361572cf0e32b14f3ba25"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a235c2d698cd361572cf0e32b14f3ba25">PixelInstance</a> (const <a class="el" href="classcurfil_1_1RGBDImage.html">RGBDImage</a> *image, const LabelType &amp;label, uint16_t x, uint16_t y, HorizontalFlipSetting setting=NoFlip)</td></tr>
+<tr class="memitem:a2ba73686aa8ba2c96ae08e01965cc8ab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a2ba73686aa8ba2c96ae08e01965cc8ab">PixelInstance</a> (const <a class="el" href="classcurfil_1_1RGBDImage.html">RGBDImage</a> *image, const LabelType &amp;label, const <a class="el" href="classcurfil_1_1Depth.html">Depth</a> &amp;depth, uint16_t x, uint16_t y, HorizontalFlipSetting setting=NoFlip)</td></tr>
 <tr class="memitem:a46054f6f40051a53e2a502d1c121b825"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcurfil_1_1RGBDImage.html">RGBDImage</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a46054f6f40051a53e2a502d1c121b825">getRGBDImage</a> () const </td></tr>
 <tr class="memitem:a9456c01eacccbf173ddefedc750c23f8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a9456c01eacccbf173ddefedc750c23f8">width</a> () const </td></tr>
 <tr class="memitem:af2663572452c6f3764c3790857eb3133"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#af2663572452c6f3764c3790857eb3133">height</a> () const </td></tr>
@@ -117,17 +117,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adcb3ef7ff3ed842ce28465e49f1401b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adcb3ef7ff3ed842ce28465e49f1401b3"></a>
 WeightType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#adcb3ef7ff3ed842ce28465e49f1401b3">getWeight</a> () const </td></tr>
 <tr class="memdesc:adcb3ef7ff3ed842ce28465e49f1401b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Currently not used and always returns 1. <br/></td></tr>
-<tr class="memitem:a1ad52cf00dbe0a1bcc3aac310d9f9f44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a1ad52cf00dbe0a1bcc3aac310d9f9f44">getFlipping</a> () const </td></tr>
-<tr class="memitem:a7dc36f048d64a0d559d2307f1cc9dab8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7dc36f048d64a0d559d2307f1cc9dab8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a7dc36f048d64a0d559d2307f1cc9dab8">setFlipping</a> (bool setting)</td></tr>
-<tr class="memdesc:a7dc36f048d64a0d559d2307f1cc9dab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">use the new flipping setting <br/></td></tr>
+<tr class="memitem:a5ec8caabb373108aeb2a2ff2fc9675e4"><td class="memItemLeft" align="right" valign="top">HorizontalFlipSetting&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#a5ec8caabb373108aeb2a2ff2fc9675e4">getHorFlipSetting</a> () const </td></tr>
+<tr class="memitem:aead4e9849d4726f62f93264b93581f01"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aead4e9849d4726f62f93264b93581f01"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcurfil_1_1PixelInstance.html#aead4e9849d4726f62f93264b93581f01">setHorFlipSetting</a> (HorizontalFlipSetting setting)</td></tr>
+<tr class="memdesc:aead4e9849d4726f62f93264b93581f01"><td class="mdescLeft">&#160;</td><td class="mdescRight">use the new horizontal flip setting <br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Represents a single-pixel sample in a RGB-D image. </p>
 
 <p>Definition at line <a class="el" href="random__tree__image_8h_source.html#l00102">102</a> of file <a class="el" href="random__tree__image_8h_source.html">random_tree_image.h</a>.</p>
 </div><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a15491cc260caf7e43ed65d304dea6cd7"></a>
+<a class="anchor" id="a235c2d698cd361572cf0e32b14f3ba25"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -161,8 +161,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>doHorizontalFlipping</em> = <code>false</code>&#160;</td>
+          <td class="paramtype">HorizontalFlipSetting&#160;</td>
+          <td class="paramname"><em>setting</em> = <code>NoFlip</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -182,7 +182,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
     <tr><td class="paramname">label</td><td>the ground-truth labeleing of this pixel. </td></tr>
     <tr><td class="paramname">x</td><td>the x-coordinate of the pixel in the RGB-D image </td></tr>
     <tr><td class="paramname">y</td><td>the y-coordinate of the pixel in the RGB-D image </td></tr>
-    <tr><td class="paramname">dohorizontalFlipping</td><td>whether the feature should be horizontally flipped </td></tr>
+    <tr><td class="paramname">setting</td><td>horizontal flip setting, can be: NoFlip, Flip, Both </td></tr>
   </table>
   </dd>
 </dl>
@@ -191,7 +191,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a2f63c26e7fe24d25b3b1c9264e6e0992"></a>
+<a class="anchor" id="a2ba73686aa8ba2c96ae08e01965cc8ab"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -231,8 +231,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>doHorizontalFlipping</em> = <code>false</code>&#160;</td>
+          <td class="paramtype">HorizontalFlipSetting&#160;</td>
+          <td class="paramname"><em>setting</em> = <code>NoFlip</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -253,7 +253,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
     <tr><td class="paramname">depth</td><td>the depth of the pixel in the RGB-D image </td></tr>
     <tr><td class="paramname">x</td><td>the x-coordinate of the pixel in the RGB-D image </td></tr>
     <tr><td class="paramname">y</td><td>the y-coordinate of the pixel in the RGB-D image </td></tr>
-    <tr><td class="paramname">dohorizontalFlipping</td><td>whether the feature should be horizontally flipped </td></tr>
+    <tr><td class="paramname">setting</td><td>horizontal flip setting, can be: NoFlip, Flip, Both </td></tr>
   </table>
   </dd>
 </dl>
@@ -373,7 +373,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a1ad52cf00dbe0a1bcc3aac310d9f9f44"></a>
+<a class="anchor" id="a5ec8caabb373108aeb2a2ff2fc9675e4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -381,7 +381,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool curfil::PixelInstance::getFlipping </td>
+          <td class="memname">HorizontalFlipSetting curfil::PixelInstance::getHorFlipSetting </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -393,7 +393,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>whether the flipping setting is true </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the horizontal flip setting </dd></dl>
 
 <p>Definition at line <a class="el" href="random__tree__image_8h_source.html#l00315">315</a> of file <a class="el" href="random__tree__image_8h_source.html">random_tree_image.h</a>.</p>
 
@@ -561,7 +561,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 31 2014 16:58:42 for curfil by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 21 2014 20:10:12 for curfil by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

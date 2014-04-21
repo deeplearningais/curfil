@@ -7,6 +7,5 @@ var searchData=
   ['unit_20testing',['Unit Testing',['../group__unit__testing.html',1,'']]],
   ['updatecachesize',['updateCacheSize',['../classcurfil_1_1DeviceCache.html#aff497d3db4d2068afbd91bb1f550e9c4',1,'curfil::DeviceCache']]],
   ['updatehistograms',['updateHistograms',['../classcurfil_1_1RandomTree.html#a1a557afab8281bb88b8ea71c675fd6aa',1,'curfil::RandomTree']]],
-  ['updatetreeshistograms',['updateTreesHistograms',['../classcurfil_1_1RandomForestImage.html#a9366d6599baaf41f61d66a7608a8226d',1,'curfil::RandomForestImage']]],
-  ['useflipping',['useFlipping',['../classcurfil_1_1Samples.html#a8c2c25079934cbda59932208bb26a4f1',1,'curfil::Samples']]]
+  ['updatetreeshistograms',['updateTreesHistograms',['../classcurfil_1_1RandomForestImage.html#a9366d6599baaf41f61d66a7608a8226d',1,'curfil::RandomForestImage']]]
 ];
