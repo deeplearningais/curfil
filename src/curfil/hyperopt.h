@@ -137,6 +137,7 @@ private:
     std::string subsamplingType;
     std::vector<std::string> ignoredColors;
     bool useDepthImages;
+    bool horizontalFlipping;
     size_t numLabels;
     LossFunctionType lossFunction;
 
@@ -180,6 +181,7 @@ public:
             const std::string& subsamplingType,
             const std::vector<std::string>& ignoredColors,
             bool useDepthImages,
+            bool horizontalFlipping,
             size_t numLabels,
             const std::string& lossFunction,
             const std::string& url, const std::string& db, const mongo::BSONObj& jobSelector) :
@@ -196,6 +198,7 @@ public:
                     subsamplingType(subsamplingType),
                     ignoredColors(ignoredColors),
                     useDepthImages(useDepthImages),
+                    horizontalFlipping(horizontalFlipping),
                     numLabels(numLabels),
                     lossFunction(parseLossFunction(lossFunction))
     {

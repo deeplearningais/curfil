@@ -368,7 +368,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
 
             TrainingConfiguration configuration(seedOfRun, samplesPerImage, featureCount, minSampleCount, maxDepth,
                     boxRadius, regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
-                    accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors, useDepthImages);
+                    accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors, useDepthImages, horizontalFlipping);
 
             mongo::BSONObj msg = BSON("run" << run
                     << "randomSeed" << seedOfRun
@@ -431,7 +431,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
 
         TrainingConfiguration configuration(randomSeed, samplesPerImage, featureCount, minSampleCount, maxDepth,
                 boxRadius, regionSize, thresholds, numThreads, maxImages, imageCacheSize, maxSamplesPerBatch,
-                accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors, useDepthImages);
+                accelerationMode, useCIELab, useDepthFilling, deviceIds, subsamplingType, ignoredColors, useDepthImages, horizontalFlipping);
 
         double trueLossVariance;
         double trueLoss = measureTrueLoss(numTrees, configuration, histogramBias, trueLossVariance);

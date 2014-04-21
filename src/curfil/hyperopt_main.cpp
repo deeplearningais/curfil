@@ -29,6 +29,7 @@ int main(int argc, char **argv) {
     bool profiling = false;
     bool useDepthImages = true;
     std::string lossFunction;
+    bool horizontalFlipping = false;
 
     // Declare the supported options.
     po::options_description options("options");
@@ -60,6 +61,8 @@ int main(int argc, char **argv) {
             "number of threads")
     ("useDepthImages", po::value<bool>(&useDepthImages)->implicit_value(true)->default_value(useDepthImages),
                     "whether to use depth images")
+    ("horizontalFlipping", po::value<bool>(&horizontalFlipping)->implicit_value(false)->default_value(horizontalFlipping),
+                    "whether to horizontally flip features")
             ;
 
     po::variables_map vm;
@@ -100,7 +103,7 @@ int main(int argc, char **argv) {
     std::vector<int> deviceIds(1, deviceId);
 
     HyperoptClient client(trainImages, testImages, useCIELab, useDepthFilling, deviceIds, maxImages, imageCacheSizeMB,
-            randomSeed, numThreads, subsamplingType, ignoredColors, useDepthImages, numLabels, lossFunction, url, db,
+            randomSeed, numThreads, subsamplingType, ignoredColors, useDepthImages, horizontalFlipping, numLabels, lossFunction, url, db,
             BSON("exp_key" << experiment));
     client.run();
 

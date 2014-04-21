@@ -402,7 +402,7 @@ public:
     }
 
     /**
-     * @return whether data should be augmented with horizontally flipped images
+     * @return whether features should be also horizontally flipped
      */
     bool doHorizontalFlipping() const {
     	return horizontalFlipping;

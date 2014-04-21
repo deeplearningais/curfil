@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
     ("useDepthImages", po::value<bool>(&useDepthImages)->implicit_value(true)->default_value(useDepthImages),
                        "whether to use depth images")
     ("horizontalFlipping", po::value<bool>(&horizontalFlipping)->implicit_value(false)->default_value(horizontalFlipping),
-                       "whether to augment data with horizontally flipped images");
+                       "whether to horizontally flip features");
     ;
 
     po::positional_options_description pod;
