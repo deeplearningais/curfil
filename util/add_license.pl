@@ -1,3 +1,5 @@
+#!/usr/bin/perl -w
+
 #######################################################################################
 # The MIT License
 
@@ -23,33 +25,69 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #######################################################################################
-cmake_minimum_required( VERSION 2.6 FATAL_ERROR )
 
-#
-# If the user specifies -DCMAKE_BUILD_TYPE on the command line, take their
-# definition # and dump it in the cache along with proper documentation,
-# otherwise set CMAKE_BUILD_TYPE # to Debug prior to calling PROJECT()
-#
-IF(DEFINED CMAKE_BUILD_TYPE)
-   SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel.")
-ELSE()
-    SET(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel.")
-ENDIF()
+use File::Find;
+use Carp::Assert;
+use Cwd;
 
-PROJECT(curfil CXX C)
-SET(CMAKE_MODULE_PATH  ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules )
 
-ENABLE_TESTING()
-add_subdirectory(src)
+sub get_license{
+    $is_python = shift;
+    open LIC, "<$basedir/LICENSE.txt" or die $!;
+    my @lines;
+    while(<LIC>){
+        next if $is_python and /^#if 0$/;
+        next if $is_python and /^#endif$/;
+        push @lines, $_;
+    }
+    return join "", @lines;
+}
 
-FIND_PACKAGE(Doxygen)
-IF(DOXYGEN_FOUND)
-	CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_BINARY_DIR}/docs/Doxyfile)
-	ADD_CUSTOM_COMMAND(
-		DEPENDS ${CMAKE_BINARY_DIR}/docs/Doxyfile
-		OUTPUT  ${CMAKE_BINARY_DIR}/docs/html/index.html
-		COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/docs/Doxyfile
-		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		)
-    ADD_CUSTOM_TARGET(doc DEPENDS ${CMAKE_BINARY_DIR}/docs/html/index.html ${CMAKE_BINARY_DIR}/docs/Doxyfile)
-ENDIF(DOXYGEN_FOUND)
+sub add_license{
+    $file = shift;
+    open FH, "<$file" or die $!;
+    open OUT, ">$file.new" or die $!;
+
+    $is_python = $file =~ /\.py$/;
+
+    $firstline = "";
+    if($is_python){
+        $firstline = <FH>;
+        if($firstline =~ /python/){
+            print OUT $firstline;
+            $firstline = "";
+        }
+    }
+    print OUT get_license($is_python);
+    print OUT $firstline;
+    while(<FH>){
+        print OUT $_;
+    }
+    close OUT;
+    close FH;
+    $ret = system("mv '$file.new' '$file'");
+    assert($ret == 0);
+}
+
+sub has_license{
+    $filename = shift;
+    return 0 == system("grep -q Copyright $filename");
+}
+
+sub wanted{
+    $filename = $_;
+    return if $filename !~ /\.(py|h|hpp|cuh|c|cpp|cu)$/;
+    #`git checkout $filename`;
+    return if has_license($filename);
+    $cwd = cwd();
+    print "Adding license to $filename ($cwd)\n";
+    add_license($filename);
+    `git add $filename`;
+}
+
+$basedir = cwd();
+sub main{
+    find(\&wanted, $basedir);
+}
+
+main()
