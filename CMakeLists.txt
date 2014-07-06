@@ -68,15 +68,16 @@ message(STATUS "GIT VERSION: `${VERSION_LONG}'")
 
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}-doc.tar.gz
-    COMMAND ln -sf docs curfil-${VERSION_LONG}-doc
-    COMMAND tar czvf curfil-${VERSION_LONG}-doc.tar.gz curfil-${VERSION_LONG}-doc
+    COMMAND ln -sTf doc curfil-${VERSION_LONG}-doc
+    COMMAND tar chzvf curfil-${VERSION_LONG}-doc.tar.gz curfil-${VERSION_LONG}-doc
     DEPENDS ${CMAKE_BINARY_DIR}/docs/html/index.html
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}.tar.gz
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/..
-    COMMAND tar czvf ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}.tar.gz --exclude-vcs --exclude curfil/build curfil
+    COMMAND ln -sTf ${CMAKE_SOURCE_DIR} curfil-${VERSION_LONG}
+    COMMAND tar chzvf ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}.tar.gz --exclude-vcs --exclude 'curfil-${VERSION_LONG}/build*' curfil-${VERSION_LONG}
     )
 ADD_CUSTOM_TARGET(dist 
     DEPENDS 
