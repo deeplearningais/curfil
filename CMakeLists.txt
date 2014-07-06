@@ -53,3 +53,33 @@ IF(DOXYGEN_FOUND)
 		)
     ADD_CUSTOM_TARGET(doc DEPENDS ${CMAKE_BINARY_DIR}/docs/html/index.html ${CMAKE_BINARY_DIR}/docs/Doxyfile)
 ENDIF(DOXYGEN_FOUND)
+
+include(GetGitRevisionDescription)
+git_describe(VERSION --tags --dirty --long)
+message(STATUS "GIT VERSION: " ${VERSION})
+string(REGEX REPLACE "^v([0-9]+)\\..*" "\\1" VERSION_MAJOR "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.[0-9]+-([0-9]+)-.*" "\\1" VERSION_PATCH "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.[0-9]+-[0-9]+-([a-z0-9]+).*" "\\1" VERSION_SHA "${VERSION}")
+string(REGEX MATCH "-dirty" VERSION_DIRTY "${VERSION}")
+set(VERSION_LONG "${VERSION_MAJOR}.${VERSION_MINOR}-${VERSION_PATCH}-${VERSION_SHA}${VERSION_DIRTY}")
+message(STATUS "GIT VERSION: `${VERSION_LONG}'")
+
+
+ADD_CUSTOM_COMMAND(
+    OUTPUT ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}-doc.tar.gz
+    COMMAND ln -sf docs curfil-${VERSION_LONG}-doc
+    COMMAND tar czvf curfil-${VERSION_LONG}-doc.tar.gz curfil-${VERSION_LONG}-doc
+    DEPENDS ${CMAKE_BINARY_DIR}/docs/html/index.html
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+ADD_CUSTOM_COMMAND(
+    OUTPUT ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}.tar.gz
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/..
+    COMMAND tar czvf ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}.tar.gz --exclude-vcs --exclude curfil/build curfil
+    )
+ADD_CUSTOM_TARGET(dist 
+    DEPENDS 
+    ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}-doc.tar.gz
+    ${CMAKE_BINARY_DIR}/curfil-${VERSION_LONG}.tar.gz
+    )
