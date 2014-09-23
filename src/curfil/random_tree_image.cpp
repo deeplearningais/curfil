@@ -729,8 +729,8 @@ void RandomTreeImage::doTrain(RandomSource& randomSource, size_t numClasses,
     treeTrain.train(featureEvaluation, randomSource, samplesPerNode, getId());
 }
 
-void RandomTreeImage::normalizeHistograms(const double histogramBias) {
-    tree->normalizeHistograms(classLabelPriorDistribution, histogramBias);
+void RandomTreeImage::normalizeHistograms(const double histogramBias, const bool useLabelsPrior) {
+    tree->normalizeHistograms(classLabelPriorDistribution, histogramBias, useLabelsPrior);
 }
 
 bool RandomTreeImage::shouldIgnoreLabel(const LabelType& label) const {

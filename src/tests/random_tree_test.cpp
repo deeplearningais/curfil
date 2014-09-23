@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(testNormalizeHistogramEqualPriorDistribution) {
     }
 
     ndarray<double, host_memory_space> normalizedHistogram = curfil::detail::normalizeHistogram(histogram,
-            priorDistribution, 0.0);
+            priorDistribution, 0.0, true);
 
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[0]), 0.850 / 3.0, 1e-15);
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[1]), 0.050 / 3.0, 1e-15);
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE(testNormalizeHistogramEqualHistogramUnequalPriorDistributio
     priorDistribution[2] = 10;
 
     ndarray<double, host_memory_space> normalizedHistogram = curfil::detail::normalizeHistogram(histogram,
-            priorDistribution, 0.0);
+            priorDistribution, 0.0, true);
 
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[0]), (1 / 3.0) * 0.8, 1e-15);
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[1]), (1 / 3.0) * 0.1, 1e-15);
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE(testNormalizeHistogramHighBias) {
     priorDistribution[2] = 10;
 
     ndarray<double, host_memory_space> normalizedHistogram = curfil::detail::normalizeHistogram(histogram,
-            priorDistribution, 0.5);
+            priorDistribution, 0.5, true);
 
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[0]), 0.0, 1e-15);
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[1]), 0.0, 1e-15);
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE(testNormalizeHistogramMediumBias) {
     priorDistribution[2] = 25;
 
     ndarray<double, host_memory_space> normalizedHistogram = curfil::detail::normalizeHistogram(histogram,
-            priorDistribution, 0.5);
+            priorDistribution, 0.5, true);
 
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[0]), 0.5, 1e-15);
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[1]), 0.0, 1e-15);
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE(testNormalizeHistogramLowBias) {
     priorDistribution[2] = 10;
 
     ndarray<double, host_memory_space> normalizedHistogram = curfil::detail::normalizeHistogram(histogram,
-            priorDistribution, 0.2);
+            priorDistribution, 0.2, true);
 
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[0]), 0.0, 1e-15);
     BOOST_CHECK_CLOSE(static_cast<double>(normalizedHistogram[1]), 0.5 * 0.25, 1e-15);

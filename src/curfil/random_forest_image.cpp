@@ -43,7 +43,8 @@ namespace curfil {
 RandomForestImage::RandomForestImage(const std::vector<std::string>& treeFiles,
                     const std::vector<int>& deviceIds,
                     const AccelerationMode accelerationMode,
-                    const double histogramBias)
+                    const double histogramBias,
+                    const bool useLabelsPrior)
  : configuration(), ensemble(treeFiles.size()),
    m_predictionAllocator(boost::make_shared<cuv::pooled_cuda_allocator>())
 {
@@ -103,7 +104,7 @@ RandomForestImage::RandomForestImage(const std::vector<std::string>& treeFiles,
     this->configuration.setDeviceIds(deviceIds);
     this->configuration.setAccelerationMode(accelerationMode);
 
-    normalizeHistograms(histogramBias);
+    normalizeHistograms(histogramBias, useLabelsPrior);
 }
 
 RandomForestImage::RandomForestImage(unsigned int treeCount, const TrainingConfiguration& configuration) :
@@ -362,14 +363,14 @@ LabelType RandomForestImage::getNumClasses() const {
     return numClasses;
 }
 
-void RandomForestImage::normalizeHistograms(const double histogramBias) {
+void RandomForestImage::normalizeHistograms(const double histogramBias, const bool useLabelsPrior) {
 
     treeData.clear();
 
     for (size_t treeNr = 0; treeNr < ensemble.size(); treeNr++) {
         CURFIL_INFO("normalizing histograms of tree " << treeNr <<
                 " with " << ensemble[treeNr]->getTree()->countLeafNodes() << " leaf nodes");
-        ensemble[treeNr]->normalizeHistograms(histogramBias);
+        ensemble[treeNr]->normalizeHistograms(histogramBias, useLabelsPrior);
         treeData.push_back(convertTree(ensemble[treeNr]));
     }
 }

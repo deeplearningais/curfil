@@ -68,6 +68,7 @@ int main(int argc, char **argv) {
     int deviceId = 0;
     bool useDepthFillingOption = false;
     bool writeProbabilityImages = false;
+    bool useLabelsPrior = true;
 
     // Declare the supported options.
     po::options_description options("options");
@@ -90,6 +91,8 @@ int main(int argc, char **argv) {
     ("writeProbabilityImages",
             po::value<bool>(&writeProbabilityImages)->implicit_value(true)->default_value(writeProbabilityImages),
             "whether to write probability PNGs of the prediction")
+    ("useLabelsPrior", po::value<bool>(&useLabelsPrior)->implicit_value(true)->default_value(useLabelsPrior),
+            "whether to mulitply the trees histograms by labels prior")
             ;
 
     po::positional_options_description pod;
@@ -129,7 +132,8 @@ int main(int argc, char **argv) {
 
     CURFIL_INFO("histogramBias: " << histogramBias);
     CURFIL_INFO("writeProbabilityImages: " << writeProbabilityImages);
-
+    CURFIL_INFO("useLabelsPrior: " << useLabelsPrior);
+    
     utils::Profile::setEnabled(profiling);
 
     tbb::task_scheduler_init init(numThreads);
@@ -139,7 +143,7 @@ int main(int argc, char **argv) {
     initDevice(deviceId);
 
     AccelerationMode mode = TrainingConfiguration::parseAccelerationModeString(modeString);
-    RandomForestImage randomForest(treeFiles, deviceIds, mode, histogramBias);
+    RandomForestImage randomForest(treeFiles, deviceIds, mode, histogramBias, useLabelsPrior);
 
     bool useDepthFilling = randomForest.getConfiguration().isUseDepthFilling();
     if (vm.count("useDepthFilling")) {

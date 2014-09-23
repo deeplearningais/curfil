@@ -167,6 +167,7 @@ private:
     bool horizontalFlipping;
     size_t numLabels;
     LossFunctionType lossFunction;
+    bool useLabelsPrior;
 
     boost::asio::io_service ios;
 
@@ -227,7 +228,8 @@ public:
                     useDepthImages(useDepthImages),
                     horizontalFlipping(horizontalFlipping),
                     numLabels(numLabels),
-                    lossFunction(parseLossFunction(lossFunction))
+                    lossFunction(parseLossFunction(lossFunction)),
+                    useLabelsPrior(useLabelsPrior)
     {
     }
 

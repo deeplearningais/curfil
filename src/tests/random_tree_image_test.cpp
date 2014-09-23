@@ -67,7 +67,7 @@ static double predict(RandomForestImage& randomForest) {
     const auto testing = loadImagePair(getFolderTraining() + "/testing1_colors.png", useCIELab, useDepthImages, useDepthFilling);
     const LabelImage& groundTruth = testing.getLabelImage();
 
-    randomForest.normalizeHistograms(0.0);
+    randomForest.normalizeHistograms(0.0, true);
 
     LabelImage prediction = randomForest.predict(testing.getRGBDImage());
 
@@ -80,8 +80,8 @@ static double predict(RandomForestImage& randomForest) {
     for (const std::string colorString : randomForest.getConfiguration().getIgnoredColors()) {
     	ignoredLabels.push_back(LabelImage::encodeColor(RGBColor(colorString)));
     }
-
-    ConfusionMatrix confusionMatrix;
+ 
+    ConfusionMatrix confusionMatrix(randomForest.getNumClasses());
     double accuracy = 100 * calculatePixelAccuracy(prediction, groundTruth, true, ignoredLabels);
     double accuracyWithoutVoid = 100 * calculatePixelAccuracy(prediction, groundTruth, false, ignoredLabels, &confusionMatrix);
 

@@ -1112,7 +1112,7 @@ BOOST_AUTO_TEST_CASE(testRecallOnGPU) {
     boost::shared_ptr<RandomTreeImage> randomTreeImage = boost::make_shared<RandomTreeImage>(n0, configuration,
             classLabelPriorDistribution);
 
-    randomTreeImage->normalizeHistograms(0.0);
+    randomTreeImage->normalizeHistograms(0.0, true);
 
     boost::shared_ptr<const TreeNodes> treeData = convertTree(randomTreeImage);
     BOOST_CHECK_EQUAL(n0->countNodes(), static_cast<size_t>(treeData->numNodes()));
@@ -1279,7 +1279,7 @@ BOOST_AUTO_TEST_CASE(testRecallLargeForest) {
         boost::shared_ptr<RandomTreeImage> randomTreeImage =
                 boost::make_shared<RandomTreeImage>(rootNode, configuration, classLabelPriorDistribution);
 
-        randomTreeImage->normalizeHistograms(0.0);
+        randomTreeImage->normalizeHistograms(0.0, true);
 
         boost::shared_ptr<const TreeNodes> treeData = convertTree(randomTreeImage);
         BOOST_CHECK_EQUAL(rootNode->countNodes(), static_cast<size_t>(treeData->numNodes()));

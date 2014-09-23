@@ -52,11 +52,13 @@ public:
      * @param deviceIds the GPU device IDs to use for prediction
      * @param accelerationMode the acceleration mode to use for prediction. CPU or GPU.
      * @param histogramBias if larger than 0.0, apply a histogram bias (see the Wiki) after loading the forest.
+     * @param useLabelsPrior whether to multiply histograms by the labels prior
      */
     explicit RandomForestImage(const std::vector<std::string>& treeFiles,
             const std::vector<int>& deviceIds = std::vector<int>(1, 0),
             const AccelerationMode accelerationMode = GPU_ONLY,
-            const double histogramBias = 0.0);
+            const double histogramBias = 0.0,
+            const bool useLabelsPrior = true);
 
     /**
      * Prepare a random forest with the given number of trees and the configuration.
@@ -97,15 +99,15 @@ public:
             const bool onGPU = true, bool useDepthImages = true) const;
 
 	
-	/**
-	* classifies all images at the end of training - used to improve leaf distributions
-	*/
-	LabelImage improveHistograms(const RGBDImage& trainingImage, const LabelImage& labelImage, const bool onGPU = true, bool useDepthImages  = true) const;
+    /**
+     * classifies all images at the end of training - used to improve leaf distributions
+     */
+    LabelImage improveHistograms(const RGBDImage& trainingImage, const LabelImage& labelImage, const bool onGPU = true, bool useDepthImages  = true) const;
 
-	/**
-	* uses the allPixelsHistograms to update the trees leaves histograms - used to improve leaf distributions 
-	*/
-	void updateTreesHistograms();
+    /**
+     * uses the allPixelsHistograms to update the trees leaves histograms - used to improve leaf distributions 
+     */
+    void updateTreesHistograms();
     /**
      * @return a recursive sum of per-feature type count
      */
@@ -154,7 +156,7 @@ public:
     /**
     * goes over all trees and normalizes the histograms
     */
-    void normalizeHistograms(const double histogramBias);
+    void normalizeHistograms(const double histogramBias, const bool useLabelsPrior);
 
 private:
 

@@ -289,7 +289,7 @@ double HyperoptClient::measureTrueLoss(unsigned int numTrees, TrainingConfigurat
         configuration.setRandomSeed(seedOfRun);
 
         RandomForestImage forest = train(numTrees, configuration, allRGBDImages);
-        forest.normalizeHistograms(histogramBias);
+        forest.normalizeHistograms(histogramBias, useLabelsPrior);
         Result result = test(forest, allTestImages);
 
         result.setRandomSeed(seedOfRun);
@@ -406,7 +406,7 @@ void HyperoptClient::handle_task(const mongo::BSONObj& task) {
             checkpoint();
 
             RandomForestImage forest = train(numTrees, configuration, trainImages);
-            forest.normalizeHistograms(histogramBias);
+            forest.normalizeHistograms(histogramBias, useLabelsPrior);
             Result result = test(forest, testImages);
             result.setRandomSeed(seedOfRun);
 

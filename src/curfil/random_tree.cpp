@@ -54,7 +54,8 @@ bool isScoreBetter(const ScoreType bestScore, const ScoreType score, const int f
 cuv::ndarray<double, cuv::host_memory_space> normalizeHistogram(
         const cuv::ndarray<WeightType, cuv::host_memory_space>& histogram,
         const cuv::ndarray<WeightType, cuv::host_memory_space>& priorDistribution,
-        const double histogramBias) {
+        const double histogramBias,
+        const bool useLabelsPrior) {
 
     const int numLabels = histogram.size();
 
@@ -92,8 +93,10 @@ cuv::ndarray<double, cuv::host_memory_space> normalizeHistogram(
 
     if (sum > 0) {
         for (int i = 0; i < numLabels; i++) {
-          //  normalizedHistogram[i] = normalizedHistogram[i] / sum * labelWeights[i];
-            normalizedHistogram[i] = normalizedHistogram[i] / sum ;
+            if (useLabelsPrior)
+                normalizedHistogram[i] = normalizedHistogram[i] / sum * labelWeights[i];
+            else
+                normalizedHistogram[i] = normalizedHistogram[i] / sum ;
         }
     }
 

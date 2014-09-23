@@ -1132,8 +1132,9 @@ public:
      * Normalize the leaf-node histograms in the tree
      *
      * @param histogramBias the histogram bias for the normalization
+     * @param useLabelsPrior whether to multiply histograms by the labels prior
      */
-    void normalizeHistograms(const double histogramBias);
+    void normalizeHistograms(const double histogramBias, const bool useLabelsPrior);
 
     /**
      * @return the underlying tree

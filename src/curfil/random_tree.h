@@ -66,7 +66,8 @@ bool isScoreBetter(const ScoreType bestScore, const ScoreType score, const int f
 cuv::ndarray<double, cuv::host_memory_space> normalizeHistogram(
         const cuv::ndarray<WeightType, cuv::host_memory_space>& histogram,
         const cuv::ndarray<WeightType, cuv::host_memory_space>& priorDistribution,
-        const double histogramBias);
+        const double histogramBias, 
+        const bool useLabelsPrior);
 
 }
 
@@ -819,9 +820,9 @@ public:
      * normalize the histograms of the tree and its branches
      */
     void normalizeHistograms(const cuv::ndarray<WeightType, cuv::host_memory_space>& priorDistribution,
-            const double histogramBias) {
+            const double histogramBias, const bool useLabelsPrior) {
 
-        normalizedHistogram = detail::normalizeHistogram(histogram, priorDistribution, histogramBias);
+        normalizedHistogram = detail::normalizeHistogram(histogram, priorDistribution, histogramBias, useLabelsPrior);
         assert(normalizedHistogram.shape() == histogram.shape());
 
         if (isLeaf()) {
@@ -833,8 +834,8 @@ public:
                 CURFIL_INFO("normalized histogram of node " << getNodeId() << ", level " << getLevel() << " has zero sum");
             }
         } else {
-            left->normalizeHistograms(priorDistribution, histogramBias);
-            right->normalizeHistograms(priorDistribution, histogramBias);
+            left->normalizeHistograms(priorDistribution, histogramBias, useLabelsPrior);
+            right->normalizeHistograms(priorDistribution, histogramBias, useLabelsPrior);
         }
 
         if (normalizedHistogram.shape() != histogram.shape()) {
