@@ -214,8 +214,8 @@ const Result HyperoptClient::test(const RandomForestImage& randomForest,
         tbb::mutex::scoped_lock lock(totalMutex);
 
         ConfusionMatrix confusionMatrix(numClasses);
-        double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, ignoredLabels);
-        double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false, ignoredLabels, &confusionMatrix);
+        double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, &ignoredLabels);
+        double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false, &ignoredLabels, &confusionMatrix);
 
         totalConfusionMatrix += confusionMatrix;
 

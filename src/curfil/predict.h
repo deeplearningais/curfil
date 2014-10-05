@@ -177,7 +177,7 @@ private:
  * The confusion matrix is stored to 'confusionMatrix' if not NULL.
  */
 double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& groundTruth,
-        const bool includeVoid = true, const std::vector<LabelType> ignoredLabels = NULL, ConfusionMatrix* confusionMatrix = 0);
+        const bool includeVoid = true, const std::vector<LabelType>* ignoredLabels= NULL, ConfusionMatrix* confusionMatrix = 0);
 
 /**
  * Helper method to run a prediction for all images in the given test folder for the given trained random forest.

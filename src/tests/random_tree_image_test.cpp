@@ -82,8 +82,8 @@ static double predict(RandomForestImage& randomForest) {
     }
  
     ConfusionMatrix confusionMatrix(randomForest.getNumClasses());
-    double accuracy = 100 * calculatePixelAccuracy(prediction, groundTruth, true, ignoredLabels);
-    double accuracyWithoutVoid = 100 * calculatePixelAccuracy(prediction, groundTruth, false, ignoredLabels, &confusionMatrix);
+    double accuracy = 100 * calculatePixelAccuracy(prediction, groundTruth, true, &ignoredLabels);
+    double accuracyWithoutVoid = 100 * calculatePixelAccuracy(prediction, groundTruth, false, &ignoredLabels, &confusionMatrix);
 
     CURFIL_INFO("accuracy (no void): " << accuracy << " (" << accuracyWithoutVoid << ")");
 

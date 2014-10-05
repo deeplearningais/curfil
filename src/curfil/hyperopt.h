@@ -212,6 +212,7 @@ public:
             bool horizontalFlipping,
             size_t numLabels,
             const std::string& lossFunction,
+            bool useLabelsPrior,
             const std::string& url, const std::string& db, const mongo::BSONObj& jobSelector) :
             Client(url, db, jobSelector),
                     allRGBDImages(allRGBDImages),

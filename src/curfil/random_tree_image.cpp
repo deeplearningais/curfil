@@ -736,7 +736,7 @@ void RandomTreeImage::normalizeHistograms(const double histogramBias, const bool
 bool RandomTreeImage::shouldIgnoreLabel(const LabelType& label) const {
     const RGBColor color = LabelImage::decodeLabel(label);
     for (const std::string colorString : configuration.getIgnoredColors()){  
-   if (color == RGBColor(colorString)) {
+    if (color == RGBColor(colorString)) {
             return true;
         }
     }
@@ -868,7 +868,7 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataPixelUniform(
             assert(y < image.getHeight());
 
             LabelType label = image.getLabel(x, y);
-
+      
             if (shouldIgnoreLabel(label)) {
                 continue;
             }

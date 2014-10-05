@@ -100,7 +100,7 @@ private:
     static boost::property_tree::ptree toPropertyTree(const std::vector<T>& input) {
         boost::property_tree::ptree propertyTree;
         for (const auto& v : input) {
-            propertyTree.push_back(std::make_pair("", boost::lexical_cast<std::string>(v)));
+            propertyTree.add("", boost::lexical_cast<std::string>(v)); 
         }
         return propertyTree;
     }

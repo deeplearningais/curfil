@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
     bool useDepthImages = true;
     std::string lossFunction;
     bool horizontalFlipping = false;
+    bool useLabelsPrior = true;
 
     // Declare the supported options.
     po::options_description options("options");
@@ -90,7 +91,9 @@ int main(int argc, char **argv) {
                     "whether to use depth images")
     ("horizontalFlipping", po::value<bool>(&horizontalFlipping)->implicit_value(false)->default_value(horizontalFlipping),
                     "whether to horizontally flip features")
-            ;
+    ("useLabelsPrior", po::value<bool>(&useLabelsPrior)->implicit_value(true)->default_value(useLabelsPrior),
+                    "whether to mutliply the trees histograms by labels prior")
+	;
 
     po::variables_map vm;
     po::store(po::command_line_parser(argc, argv).options(options).run(), vm);
@@ -130,7 +133,7 @@ int main(int argc, char **argv) {
     std::vector<int> deviceIds(1, deviceId);
 
     HyperoptClient client(trainImages, testImages, useCIELab, useDepthFilling, deviceIds, maxImages, imageCacheSizeMB,
-            randomSeed, numThreads, subsamplingType, ignoredColors, useDepthImages, horizontalFlipping, numLabels, lossFunction, url, db,
+            randomSeed, numThreads, subsamplingType, ignoredColors, useDepthImages, horizontalFlipping, numLabels, lossFunction, useLabelsPrior, url, db,
             BSON("exp_key" << experiment));
     client.run();
 

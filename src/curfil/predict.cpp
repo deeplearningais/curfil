@@ -85,9 +85,7 @@ double ConfusionMatrix::averageClassAccuracy(bool includeVoid) const {
     for (unsigned int label = 0; label < getNumClasses(); label++) {
         double classAccuracy = data(label, label);
         assertProbability(classAccuracy);
-       /* if (includeVoid || label > 0) {
-            averageClassAccuracy.addValue(classAccuracy);
-        }*/
+ 
         bool ignore = false;
         if (!includeVoid && !ignoredLabels.empty())
         	for (LabelType ID: ignoredLabels)
@@ -148,7 +146,7 @@ void ConfusionMatrix::normalize() {
 }
 
 double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& groundTruth,
-        const bool includeVoid, const std::vector<LabelType> ignoredLabels,  ConfusionMatrix* confusionMatrix) {
+        const bool includeVoid, const std::vector<LabelType>* ignoredLabels,  ConfusionMatrix* confusionMatrix) {
 
     size_t correct = 0;
     size_t wrong = 0;
@@ -171,18 +169,10 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
         for (int x = 0; x < prediction.getWidth(); ++x) {
             const LabelType label = groundTruth.getLabel(x, y);
 
-          /*  if (!includeVoid && label == 0) {
-                // skip void
-                continue;
-            }*/
-
-           /* if (!includeVoid && randomForest.shouldIgnoreLabel(label)) {
-                continue;
-            }*/
-
             bool ignore = false;
-            if (!includeVoid && !ignoredLabels.empty())
-            	for (LabelType ID: ignoredLabels)
+	    assert(!includeVoid && ignoredLabels);
+            if (!includeVoid && !ignoredLabels->empty())
+            	for (LabelType ID: *ignoredLabels)
             		if (ID == label)
            			{
            				ignore = true;
@@ -267,7 +257,7 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
 
     const LabelType numClasses = randomForest.getNumClasses();
     ConfusionMatrix totalConfusionMatrix(numClasses, ignoredLabels);
-
+    double totalPredictionTime = 0;
     tbb::parallel_for(tbb::blocked_range<size_t>(0, filenames.size(), grainSize),
             [&](const tbb::blocked_range<size_t>& range) {
                 for(size_t fileNr = range.begin(); fileNr != range.end(); fileNr++) {
@@ -299,8 +289,9 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
                     const std::string basepath = folderPrediction + "/" + boost::filesystem::basename(fn);
 
                     cuv::ndarray<float, cuv::host_memory_space> probabilities;
-
+                    utils::Timer timer2;
                     prediction = randomForest.predict(testImage, &probabilities, onGPU, useDepthImages);
+                    totalPredictionTime += timer2.getMilliseconds();
 
 #ifndef NDEBUG
             for(LabelType label = 0; label < randomForest.getNumClasses(); label++) {
@@ -357,8 +348,8 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
             }
 
             ConfusionMatrix confusionMatrix(numClasses);
-            double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, ignoredLabels);
-            double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false,  ignoredLabels, &confusionMatrix);
+            double accuracy = calculatePixelAccuracy(prediction, groundTruth, true, &ignoredLabels);
+            double accuracyWithoutVoid = calculatePixelAccuracy(prediction, groundTruth, false,  &ignoredLabels, &confusionMatrix);
 
             tbb::mutex::scoped_lock lock(totalMutex);
 
@@ -373,12 +364,11 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
         }
 
     });
+    CURFIL_INFO(totalPredictionTime / filenames.size()<<" ms/image");
 
     tbb::mutex::scoped_lock lock(totalMutex);
     double accuracy = averageAccuracy.getAverage();
     double accuracyWithoutVoid = averageAccuracyWithoutVoid.getAverage();
-
-  //  totalConfusionMatrix.normalize();
 
     CURFIL_INFO(totalConfusionMatrix);
 
