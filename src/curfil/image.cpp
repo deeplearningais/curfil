@@ -118,12 +118,11 @@ static void loadImage(const std::string& filename, T& image) {
     vigra::importImage(info, vigra::destImage(image));
 }
 
-RGBDImage::RGBDImage(const std::string& filename, const std::string& depthFilename, bool useDepthImages, bool convertToCIELab,
-        bool useDepthFilling, bool calculateIntegralImage) :
-        filename(filename), depthFilename(depthFilename),
+RGBImage::RGBImage(const std::string& filename, bool convertToCIELab,
+        bool calculateIntegralImage) :
+        filename(filename),
                 colorImage(boost::make_shared<cuv::cuda_allocator>()),
-                depthImage(boost::make_shared<cuv::cuda_allocator>()),
-                inCIELab(false), integratedColor(false), integratedDepth(false) {
+                inCIELab(false), integratedColor(false) {
 
     {
         utils::Profile profile("loadImage");
@@ -152,19 +151,34 @@ RGBDImage::RGBDImage(const std::string& filename, const std::string& depthFilena
         }
 
         inCIELab = convertToCIELab;
-
-		if (useDepthImages) {
-			try {
-				loadDepthImage(depthFilename);
-			} catch (const std::exception& e) {
-				throw std::runtime_error(
-						std::string("failed to load depth image '")
-								+ depthFilename + "': " + e.what());
-			}
-		} else
-			loadDummyDepthValues();
-
     }
+
+    if (calculateIntegralImage) {
+        calculateIntegral();
+    }
+}
+
+RGBDImage::RGBDImage(const std::string& filename, const std::string& depthFilename,
+                     bool useDepthImages, bool convertToCIELab,
+                     bool useDepthFilling, bool calculateIntegralImage) :
+  RGBImage(filename, convertToCIELab, calculateIntegralImage),
+  depthFilename(depthFilename),
+  depthImage(boost::make_shared<cuv::cuda_allocator>()),
+  integratedDepth(false) {
+  {
+    utils::Profile profile("loadDepth");
+
+    if (useDepthImages) {
+      try {
+        loadDepthImage(depthFilename);
+      } catch (const std::exception& e) {
+        throw std::runtime_error(
+                                 std::string("failed to load depth image '")
+                                 + depthFilename + "': " + e.what());
+      }
+    } else
+      loadDummyDepthValues();
+  }
 
     if (useDepthFilling) {
         fillDepth();
@@ -175,12 +189,48 @@ RGBDImage::RGBDImage(const std::string& filename, const std::string& depthFilena
     }
 }
 
+RGBDXImage::RGBDXImage(const std::string& filename,
+                       const std::string& depthFilename,
+                       const std::string& heightFilename,
+                       bool useDepthImages, bool useHeightImages,
+                       bool convertToCIELab,
+                       bool useDepthFilling, bool calculateIntegralImage) :
+  RGBDImage(filename, depthFilename, useDepthImages,
+            convertToCIELab, useDepthFilling, calculateIntegralImage),
+  xFilename(heightFilename),
+  xImage(boost::make_shared<cuv::cuda_allocator>()),
+  integratedX(false)
+{
+
+  if(useHeightImages){
+    utils::Profile profile("loadHeight");
+
+    try {
+      loadHeightImage(heightFilename);
+    } catch (const std::exception& e) {
+      throw std::runtime_error(
+                               std::string("failed to load depth image '")
+                               + heightFilename + "': " + e.what());
+    }
+  } else
+      loadDummyDepthValues();
+
+  if (calculateIntegralImage) {
+    calculateIntegral();
+  }
+}
+
+RGBImage::RGBImage(const RGBImage& other) :
+  filename(other.filename),
+  width(other.width), height(other.height),
+  colorImage(other.colorImage.copy()),
+  inCIELab(other.inCIELab), integratedColor(other.integratedColor) {
+}
+
 RGBDImage::RGBDImage(const RGBDImage& other) :
-        filename(other.filename), depthFilename(other.depthFilename),
-                width(other.width), height(other.height),
-                colorImage(other.colorImage.copy()),
+  RGBImage(other), depthFilename(other.depthFilename),
                 depthImage(other.depthImage.copy()),
-                inCIELab(other.inCIELab), integratedColor(other.integratedColor), integratedDepth(other.integratedDepth) {
+                integratedDepth(other.integratedDepth) {
 }
 
 template<class A, class B>
@@ -198,7 +248,7 @@ static void copy(cuv::ndarray<A, cuv::host_memory_space>& dst, const cuv::ndarra
 }
 
 // derives image in double precision
-void RGBDImage::calculateDerivative(cuv::ndarray_view<float, cuv::host_memory_space>& data) {
+void RGBImage::calculateDerivative(cuv::ndarray_view<float, cuv::host_memory_space>& data) {
 
     assert(data.ndim() == 2);
 
@@ -214,7 +264,7 @@ void RGBDImage::calculateDerivative(cuv::ndarray_view<float, cuv::host_memory_sp
 }
 
 template<class T>
-void RGBDImage::calculateDerivative(cuv::ndarray_view<T, cuv::host_memory_space>& view) {
+void RGBImage::calculateDerivative(cuv::ndarray_view<T, cuv::host_memory_space>& view) {
     assert(view.ndim() == 2);
     const int height = view.shape(0);
     const int width = view.shape(1);
@@ -233,7 +283,7 @@ void RGBDImage::calculateDerivative(cuv::ndarray_view<T, cuv::host_memory_space>
 }
 
 // integrates channel in double precision
-void RGBDImage::calculateIntegral(cuv::ndarray_view<float, cuv::host_memory_space>& data) {
+void RGBImage::calculateIntegral(cuv::ndarray_view<float, cuv::host_memory_space>& data) {
 
     assert(data.ndim() == 2);
 
@@ -248,7 +298,7 @@ void RGBDImage::calculateIntegral(cuv::ndarray_view<float, cuv::host_memory_spac
 }
 
 template<class T>
-void RGBDImage::calculateIntegral(cuv::ndarray_view<T, cuv::host_memory_space>& view) {
+void RGBImage::calculateIntegral(cuv::ndarray_view<T, cuv::host_memory_space>& view) {
 
     assert(view.ndim() == 2);
     const int height = view.shape(0);
@@ -447,22 +497,88 @@ void RGBDImage::loadDepthImage(const std::string& depthFilename) {
     }
 }
 
-void RGBDImage::resizeImage(int newWidth, int newHeight)
-{
+void RGBDXImage::loadHeightImage(const std::string& heightFilename) {
+
+    vigra::ImageImportInfo info(heightFilename.c_str());
+
+    if (!info.isGrayscale() || info.isColor() || info.numBands() != 1) {
+        throw std::runtime_error("invalid height image format");
+    }
+
+    vigra::Size2D size = info.size();
+
+    if (size.width() != getWidth()) {
+        throw std::runtime_error(
+                (boost::format("width of color and height image differ: %d vs. %d") % getWidth() % size.width()).str());
+    }
+    if (size.height() != getHeight()) {
+        throw std::runtime_error(
+                (boost::format("height of color and height image differ: %d vs. %d") % getHeight() % size.height()).str());
+    }
+
+    vigra::UInt16Image image(size.width(), size.height());
+
+    vigra::importImage(info, vigra::destImage(image));
+
+    xImage.resize(cuv::extents[X_CHANNELS][getHeight()][getWidth()]);
+
+    utils::Average heightAverage;
+
+    int* heights = xImage.ptr();
+    int* heightValid = xImage.ptr() + getWidth() * getHeight();
+
+    for (int y = 0; y < getHeight(); y++) {
+        const size_t rowOffset = y * getWidth();
+        for (int x = 0; x < getWidth(); x++) {
+            const int height = image(x, y);
+            if (height < 0 || height > 50000) {
+                throw std::runtime_error((boost::format("illegal height value in image %s @%d,%d: %d")
+                        % heightFilename % x % y % height).str());
+            }
+
+            if (height > 0) {
+                heightAverage.addValue(height / 1000.0);
+            }
+
+            heights[rowOffset + x] = height;
+            heightValid[rowOffset + x] = static_cast<int>(height > 0);
+        }
+    }
+
+    double heightAvg = heightAverage.getAverage();
+    if (heightAvg < 0.01 || heightAvg > 10.0) {
+        throw std::runtime_error((boost::format("illegal average height of '%s': %e") % heightFilename % heightAvg).str());
+    }
+}
+
+  void RGBImage::resizeImage(int newWidth, int newHeight)
+  {
 	int originalWidth = getWidth();
 	int originalHeight = getHeight();
 	using namespace cuv;
 	ndarray<float, host_memory_space>  ci(extents[COLOR_CHANNELS][newHeight][newWidth]);
-	ndarray<int, host_memory_space>  di(extents[DEPTH_CHANNELS][newHeight][newWidth]);
 
 	ci = std::numeric_limits<float>::quiet_NaN();
 
 	for (unsigned int c = 0; c < COLOR_CHANNELS; ++c) {
-		ci[indices[c][index_range(0, originalHeight)][index_range(0, originalWidth)]]  = colorImage[indices[c][index_range()][index_range()]];
+      ci[indices[c][index_range(0, originalHeight)][index_range(0, originalWidth)]]  = colorImage[indices[c][index_range()][index_range()]];
 	}
 	colorImage = ci;
 
-	//di = std::numeric_limits<int>::quiet_NaN();
+	width = newWidth;
+	height = newHeight;
+  }
+
+void RGBDImage::resizeImage(int newWidth, int newHeight)
+{
+	int originalWidth = getWidth();
+	int originalHeight = getHeight();
+
+	using namespace cuv;
+	ndarray<int, host_memory_space>  di(extents[DEPTH_CHANNELS][newHeight][newWidth]);
+
+    RGBImage::resizeImage(newWidth, newHeight);
+
 	di = 0;
 
 	for (unsigned int d = 0; d < DEPTH_CHANNELS; ++d) {
@@ -474,7 +590,7 @@ void RGBDImage::resizeImage(int newWidth, int newHeight)
 	height = newHeight;
 }
 
-void RGBDImage::dump(std::ostream& out) const {
+void RGBImage::dump(std::ostream& out) const {
 
     double max[3] = { 0, 0, 0 };
     for (unsigned int c = 0; c < COLOR_CHANNELS; ++c) {
@@ -521,61 +637,94 @@ void RGBDImage::dumpDepthValid(std::ostream& out) const {
     }
 }
 
-void RGBDImage::reset() {
-    depthImage = 0;
+  void RGBImage::reset() {
     colorImage = 0.0f;
     integratedColor = false;
+  }
+  void RGBDImage::reset() {
+    RGBImage::reset();
+    depthImage = 0;
     integratedDepth = false;
-}
+  }
+  void RGBDXImage::reset() {
+    RGBDImage::reset();
+    xImage = 0;
+    integratedX = false;
+  }
 
-void RGBDImage::calculateIntegral() {
+void RGBImage::calculateIntegral() {
 
     utils::Profile profile("calculateImageIntegral");
 
-    if (integratedColor || integratedDepth) {
+    if (integratedColor) {
         throw std::runtime_error("image already integrated");
     }
 
-    tbb::parallel_for(tbb::blocked_range<size_t>(0, COLOR_CHANNELS + DEPTH_CHANNELS, 1),
+    tbb::parallel_for(tbb::blocked_range<size_t>(0, COLOR_CHANNELS, 1),
             [&](const tbb::blocked_range<size_t>& range) {
                 for(unsigned int channelNr = range.begin(); channelNr != range.end(); channelNr++) {
-                    if (channelNr >= COLOR_CHANNELS) {
-                        unsigned int depthChannelNr = channelNr - COLOR_CHANNELS;
-                        assert(depthChannelNr < DEPTH_CHANNELS);
-                        cuv::ndarray_view<int, cuv::host_memory_space> channelView = depthImage[cuv::indices[depthChannelNr][cuv::index_range()][cuv::index_range()]];
-                        calculateIntegral(channelView);
-                    } else {
-                        cuv::ndarray_view<float, cuv::host_memory_space> channelView = colorImage[cuv::indices[channelNr][cuv::index_range()][cuv::index_range()]];
-                        calculateIntegral(channelView);
-                    }
+                  cuv::ndarray_view<float, cuv::host_memory_space> channelView = colorImage[cuv::indices[channelNr][cuv::index_range()][cuv::index_range()]];
+                  calculateIntegral(channelView);
                 }
             });
 
     integratedColor = true;
+}
+void RGBDImage::calculateIntegral() {
+
+  RGBImage::calculateIntegral();
+
+    utils::Profile profile("calculateImageIntegral");
+
+    if (integratedDepth) {
+        throw std::runtime_error("image already integrated");
+    }
+
+    tbb::parallel_for(tbb::blocked_range<size_t>(0, DEPTH_CHANNELS, 1),
+                      [&,this](const tbb::blocked_range<size_t>& range) {
+                for(unsigned int channelNr = range.begin(); channelNr != range.end(); channelNr++) {
+                  unsigned int depthChannelNr = channelNr;
+                  assert(depthChannelNr < DEPTH_CHANNELS);
+                  cuv::ndarray_view<int, cuv::host_memory_space> channelView = depthImage[cuv::indices[depthChannelNr][cuv::index_range()][cuv::index_range()]];
+                  ((RGBImage*)this)->calculateIntegral(channelView);
+                }
+            });
     integratedDepth = true;
 }
 
-void RGBDImage::calculateDerivative() {
-    if (!integratedColor || !integratedDepth) {
+void RGBImage::calculateDerivative() {
+    if (!integratedColor) {
         throw std::runtime_error("image not integrated");
     }
 
-    tbb::parallel_for(tbb::blocked_range<size_t>(0, COLOR_CHANNELS + DEPTH_CHANNELS, 1),
+    tbb::parallel_for(tbb::blocked_range<size_t>(0, COLOR_CHANNELS, 1),
             [&](const tbb::blocked_range<size_t>& range) {
                 for(unsigned int channelNr = range.begin(); channelNr != range.end(); channelNr++) {
-                    if (channelNr >= COLOR_CHANNELS) {
-                        unsigned int depthChannelNr = channelNr - COLOR_CHANNELS;
-                        assert(depthChannelNr < DEPTH_CHANNELS);
-                        cuv::ndarray_view<int, cuv::host_memory_space> channelView = depthImage[cuv::indices[depthChannelNr][cuv::index_range()][cuv::index_range()]];
-                        calculateDerivative(channelView);
-                    } else {
-                        cuv::ndarray_view<float, cuv::host_memory_space> channelView = colorImage[cuv::indices[channelNr][cuv::index_range()][cuv::index_range()]];
-                        calculateDerivative(channelView);
-                    }
+                  cuv::ndarray_view<float, cuv::host_memory_space> channelView = colorImage[cuv::indices[channelNr][cuv::index_range()][cuv::index_range()]];
+                  calculateDerivative(channelView);
                 }
             });
 
     integratedColor = false;
+}
+
+void RGBDImage::calculateDerivative() {
+  RGBDImage::calculateDerivative();
+
+    if (!integratedDepth) {
+        throw std::runtime_error("image not integrated");
+    }
+
+    tbb::parallel_for(tbb::blocked_range<size_t>(0, DEPTH_CHANNELS, 1),
+            [&](const tbb::blocked_range<size_t>& range) {
+                for(unsigned int channelNr = range.begin(); channelNr != range.end(); channelNr++) {
+                  unsigned int depthChannelNr = channelNr;
+                  assert(depthChannelNr < DEPTH_CHANNELS);
+                  cuv::ndarray_view<int, cuv::host_memory_space> channelView = depthImage[cuv::indices[depthChannelNr][cuv::index_range()][cuv::index_range()]];
+                  RGBImage::calculateDerivative(channelView);
+                }
+            });
+
     integratedDepth = false;
 }
 
@@ -588,7 +737,7 @@ void RGBDImage::saveDepth(const std::string& filename) const {
         for (unsigned int c = 0; c < DEPTH_CHANNELS; c++) {
             cuv::ndarray_view<int, cuv::host_memory_space> channelView =
                     tempDepthData[cuv::indices[c][cuv::index_range()][cuv::index_range()]];
-            calculateDerivative(channelView);
+            RGBImage::calculateDerivative(channelView);
         }
     }
 
@@ -609,7 +758,7 @@ void RGBDImage::saveDepth(const std::string& filename) const {
             vigra::ImageExportInfo(filename.c_str()).setPixelType("UINT16"));
 }
 
-void RGBDImage::saveColor(const std::string& filename) const {
+void RGBImage::saveColor(const std::string& filename) const {
 
     vigra::DVector3Image image(getWidth(), getHeight());
 
@@ -779,54 +928,87 @@ void LabelImage::resizeImage(int newWidth, int newHeight, LabelType paddingLabel
 
 }
 
-LabeledRGBDImage::LabeledRGBDImage(const boost::shared_ptr<RGBDImage>& rgbdImage,
-        const boost::shared_ptr<LabelImage>& labelImage) :
-        rgbdImage(rgbdImage), labelImage(labelImage) {
-    if (rgbdImage->getWidth() != labelImage->getWidth() || rgbdImage->getHeight() != labelImage->getHeight()) {
-        std::ostringstream o;
-        o << "RGB-D image '" << rgbdImage->getFilename();
-        o << "' and label image '" << labelImage->getFilename();
-        o << "' have different sizes: ";
-        o << rgbdImage->getWidth() << "x" << rgbdImage->getHeight();
-        o << " and " << labelImage->getWidth() << "x" << labelImage->getHeight();
-        throw std::runtime_error(o.str());
-    }
-}
 
-void LabeledRGBDImage::resizeImage(int newWidth, int newHeight, LabelType paddingLabel) const
-{
-	rgbdImage->resizeImage(newWidth, newHeight);
-	labelImage->resizeImage(newWidth, newHeight, paddingLabel);
-}
-
-void LabeledRGBDImage::calculateIntegral() const
-{
-	rgbdImage->calculateIntegral();
-}
-
-LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab,bool useDepthImages, bool useDepthFilling,
+  LabeledRGBImage
+  loadRGBImagePair(const std::string& filename, bool useCIELab,
         bool calculateIntegralImages) {
-    auto pos = filename.find("_colors.png");
+    auto pos = filename.find("-img.png");
     std::string labelFilename = filename;
     std::string depthFilename = filename;
     try {
-        labelFilename.replace(pos, labelFilename.length(), "_ground_truth.png");
+        labelFilename.replace(pos, labelFilename.length(), "-msk.png");
+    } catch (const std::exception& e) {
+        throw std::runtime_error(std::string("illegal label image filename: ") + labelFilename);
+    }
+    const auto rgbImage = boost::make_shared<RGBImage>(filename, useCIELab, calculateIntegralImages);
+    const auto labelImage = boost::make_shared<LabelImage>(labelFilename);
+    return LabeledRGBImage(rgbImage, labelImage);
+}
+  LabeledRGBDImage
+  loadRGBDImagePair(const std::string& filename, bool useCIELab,bool useDepthImages, bool useDepthFilling,
+        bool calculateIntegralImages) {
+    auto pos = filename.find("-img.png");
+    std::string labelFilename = filename;
+    std::string depthFilename = filename;
+    try {
+        labelFilename.replace(pos, labelFilename.length(), "-msk.png");
     } catch (const std::exception& e) {
         throw std::runtime_error(std::string("illegal label image filename: ") + labelFilename);
     }
 
 	if (useDepthImages) {
-		try {
-			depthFilename.replace(pos, depthFilename.length(), "_depth.png");
-		} catch (const std::exception& e) {
-			throw std::runtime_error(std::string("illegal depth image filename: ") + depthFilename);
-		}
+      try {
+        depthFilename.replace(pos, depthFilename.length(), "_depth.png");
+      } catch (const std::exception& e) {
+        throw std::runtime_error(std::string("illegal depth image filename: ") + depthFilename);
+      }
 	}
 
     const auto rgbdImage = boost::make_shared<RGBDImage>(filename, depthFilename, useDepthImages, useCIELab, useDepthFilling,
             calculateIntegralImages);
     const auto labelImage = boost::make_shared<LabelImage>(labelFilename);
     return LabeledRGBDImage(rgbdImage, labelImage);
+}
+
+  LabeledRGBDXImage
+  loadRGBDXImagePair(const std::string& filename, bool useCIELab,
+                     bool useDepthImages, bool useHeightImages,
+                     bool useDepthFilling,
+                bool calculateIntegralImages) {
+    auto pos = filename.find("-img.png");
+    std::string labelFilename = filename;
+    std::string depthFilename = filename;
+    std::string heightFilename = filename;
+    try {
+        labelFilename.replace(pos, labelFilename.length(), "-msk.png");
+    } catch (const std::exception& e) {
+        throw std::runtime_error(std::string("illegal label image filename: ") + labelFilename);
+    }
+
+	if (useDepthImages) {
+      try {
+        depthFilename.replace(pos, depthFilename.length(), "_depth.png");
+      } catch (const std::exception& e) {
+        throw std::runtime_error(std::string("illegal depth image filename: ") + depthFilename);
+      }
+	}
+
+	if (useHeightImages) {
+        try {
+			heightFilename.replace(pos, heightFilename.length(), "_height.png");
+		} catch (const std::exception& e) {
+			throw std::runtime_error(std::string("illegal depth image filename: ") + heightFilename);
+		}
+	}
+
+    const auto rgbdxImage = boost::make_shared<RGBDXImage>(filename, depthFilename,
+                                                           heightFilename,
+                                                           useDepthImages, useHeightImages,
+                                                           useCIELab,
+                                                         useDepthFilling,
+                                                         calculateIntegralImages);
+    const auto labelImage = boost::make_shared<LabelImage>(labelFilename);
+    return LabeledRGBDXImage(rgbdxImage, labelImage);
 }
 
 std::vector<std::string> listImageFilenames(const std::string& path) {
@@ -889,7 +1071,7 @@ std::vector<LabeledRGBDImage> loadImages(const std::string& folder, bool useCIEL
                 for(size_t i = range.begin(); i != range.end(); i++) {
 
                     const auto& filename = filenames[i];
-                    images[i] = loadImagePair(filename, useCIELab, useDepthImages, useDepthFilling);
+                    images[i] = loadRGBDImagePair(filename, useCIELab, useDepthImages, useDepthFilling);
                     {
                         tbb::mutex::scoped_lock lock(imageCounterMutex);
                         {

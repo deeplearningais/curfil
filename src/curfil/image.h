@@ -188,7 +188,7 @@ private:
 };
 
 /**
- * An RGB-D image that contains four channels for the RGB color and the depth.
+ * An RGB image that contains three channels for the RGB color.
  * @ingroup image_related
  *
  * The class provides convenience methods to convert the image between RGB and CIELab color space
@@ -198,8 +198,7 @@ private:
  *
  * The image is stored as compact matrix in row-major order using cuv::ndarray.
  */
-class RGBDImage {
-
+class RGBImage {
 
 public:
 
@@ -208,20 +207,18 @@ public:
 	 * See the README file for the required file format.
 	 */
 
-    explicit RGBDImage(const std::string& filename, const std::string& depthFilename, bool useDepthImages,
+    explicit RGBImage(const std::string& filename,
             bool convertToCIELab = true,
-            bool useDepthFilling = false,
             bool calculateIntegralImage = true);
 
     /**
      * For the test case
      */
-    explicit RGBDImage(int width, int height) :
-            filename(""), depthFilename(""),
+    explicit RGBImage(int width, int height) :
+            filename(""),
                     width(width), height(height),
                     colorImage(cuv::extents[COLOR_CHANNELS][height][width], boost::make_shared<cuv::cuda_allocator>()),
-                    depthImage(cuv::extents[DEPTH_CHANNELS][height][width], boost::make_shared<cuv::cuda_allocator>()),
-                    inCIELab(false), integratedColor(false), integratedDepth(false) {
+                    inCIELab(false), integratedColor(false) {
         assert(width >= 0 && height >= 0);
         reset();
     }
@@ -229,21 +226,14 @@ public:
     /**
      * uses the attributes of another object to set its attributes
      */
-    RGBDImage(const RGBDImage& other);
+    RGBImage(const RGBImage& other);
 
     /**
      * @return total size in memory in bytes
      */
     size_t getSizeInMemory() const {
-        return colorImage.size() * sizeof(float) + depthImage.size() * sizeof(int);
+      return colorImage.size() * sizeof(float);
     }
-
-    /**
-     * Simple depth filling
-     *
-     * Depth values are replaced by right,left,top,bottom neighbors (in that order)
-     */
-    void fillDepth();
 
     /**
      * resets all values to zero
@@ -255,13 +245,6 @@ public:
      */
     const cuv::ndarray<float, cuv::host_memory_space>& getColorImage() const {
         return colorImage;
-    }
-
-    /**
-     * @return a constant reference on the underlying depth matrix
-     */
-    const cuv::ndarray<int, cuv::host_memory_space>& getDepthImage() const {
-        return depthImage;
     }
 
     /**
@@ -286,28 +269,9 @@ public:
     void dump(std::ostream& out) const;
 
     /**
-     * Print the image depth channel in a human-readable format to the output stream.
-     *
-     * Used for debugging purposes and the test case.
-     */
-    void dumpDepth(std::ostream& out) const;
-
-    /**
-     * Print the image depth valid channel in a human-readable format to the output stream.
-     *
-     * Used for debugging purposes and the test case.
-     */
-    void dumpDepthValid(std::ostream& out) const;
-
-    /**
      * save (export) the image color channels to a file
      */
     void saveColor(const std::string& filename) const;
-
-    /**
-     * save (export) the image depth channels to a file
-     */
-    void saveDepth(const std::string& filename) const;
 
     /**
      * @return the name of the file this image was loaded from
@@ -331,13 +295,6 @@ public:
     }
 
     /**
-     * @return true if and only if the image depth channel was integrated
-     */
-    bool hasIntegratedDepth() const {
-        return integratedDepth;
-    }
-
-    /**
      * @return true if and only if the image color channel was integrated
      */
     bool hasIntegratedColor() const {
@@ -355,31 +312,6 @@ public:
             return false;
         }
         return true;
-    }
-
-    /**
-     * Sets a new depth at the given position. Be careful when the image is already integrated!
-     */
-    void setDepth(int x, int y, const Depth& depth) {
-        assert(inImage(x, y));
-
-        // invalid depth is set to zero which is necessary for integrating
-        depthImage(0, y, x) = depth.isValid() ? depth.getIntValue() : 0;
-        depthImage(1, y, x) = depth.isValid();
-    }
-
-    /**
-     * @return the depth value at the given position. Note: Can be an integrated value!
-     */
-    Depth getDepth(int x, int y) const {
-        return Depth(static_cast<int>(depthImage(0, y, x)));
-    }
-
-    /**
-     * @return the depth validity information. 0 or 1 if the image is not integrated.
-     */
-    int getDepthValid(int x, int y) const {
-        return depthImage(1, y, x);
     }
 
     /**
@@ -411,20 +343,178 @@ public:
      */
     void resizeImage(int newWidth, int newHeight);
 
-private:
+protected:
 
     std::string filename;
-    std::string depthFilename;
     int width;
     int height;
     cuv::ndarray<float, cuv::host_memory_space> colorImage;
-    cuv::ndarray<int, cuv::host_memory_space> depthImage;
 
     bool inCIELab;
     bool integratedColor;
-    bool integratedDepth;
 
     static const unsigned int COLOR_CHANNELS = 3;
+
+    void loadDummyDepthValues();
+
+    static void calculateIntegral(cuv::ndarray_view<float, cuv::host_memory_space>& data);
+    static void calculateDerivative(cuv::ndarray_view<float, cuv::host_memory_space>& data);
+
+
+ public:
+    // due to a bug in gcc, these cannot be called from lambdas when protected :/
+
+    template<class T>
+      static void calculateDerivative(cuv::ndarray_view<T, cuv::host_memory_space>& data);
+
+    template<class T>
+      static void calculateIntegral(cuv::ndarray_view<T, cuv::host_memory_space>& data);
+};
+
+/**
+ * An RGB-D image that contains four channels for the RGB color and the depth.
+ * @ingroup image_related
+ *
+ * The class provides convenience methods to convert the image between RGB and CIELab color space
+ * and to calculate image integrals.
+ *
+ * Image loading and saving is implemented using the vigraimpex library.
+ *
+ * The image is stored as compact matrix in row-major order using cuv::ndarray.
+ */
+class RGBDImage : public RGBImage {
+ public:
+
+	/**
+	 * Load the RGB color image and the according depth from two files on disk.
+	 * See the README file for the required file format.
+	 */
+
+    explicit RGBDImage(const std::string& filename, const std::string& depthFilename,
+                       bool useDepthImages,
+                       bool convertToCIELab = true,
+                       bool useDepthFilling = false,
+                       bool calculateIntegralImage = true);
+
+    /**
+     * For the test case
+     */
+    explicit RGBDImage(int width, int height)
+      : RGBImage(width, height), depthFilename(""),
+                    depthImage(cuv::extents[DEPTH_CHANNELS][height][width], boost::make_shared<cuv::cuda_allocator>()),
+                    integratedDepth(false) {
+        reset();
+    }
+
+    /**
+     * uses the attributes of another object to set its attributes
+     */
+    RGBDImage(const RGBDImage& other);
+
+    /**
+     * @return total size in memory in bytes
+     */
+    size_t getSizeInMemory() const {
+      return RGBImage::getSizeInMemory() + depthImage.size() * sizeof(int);
+    }
+
+    /**
+     * Simple depth filling
+     *
+     * Depth values are replaced by right,left,top,bottom neighbors (in that order)
+     */
+    void fillDepth();
+
+    /**
+     * resets all values to zero
+     */
+    void reset();
+
+    /**
+     * @return a constant reference on the underlying depth matrix
+     */
+    const cuv::ndarray<int, cuv::host_memory_space>& getDepthImage() const {
+        return depthImage;
+    }
+
+    /**
+     * Calculate the image derivative
+     *
+     * This method is only allowed if the image is already integrated.
+     */
+    void calculateDerivative();
+
+    /**
+     * Calculate the image integral
+     *
+     * This method is only allowed if the image is not already integrated.
+     */
+    void calculateIntegral();
+
+
+    /**
+     * Print the image depth channel in a human-readable format to the output stream.
+     *
+     * Used for debugging purposes and the test case.
+     */
+    void dumpDepth(std::ostream& out) const;
+
+    /**
+     * Print the image depth valid channel in a human-readable format to the output stream.
+     *
+     * Used for debugging purposes and the test case.
+     */
+    void dumpDepthValid(std::ostream& out) const;
+
+    /**
+     * save (export) the image depth channels to a file
+     */
+    void saveDepth(const std::string& filename) const;
+
+    /**
+     * @return true if and only if the image depth channel was integrated
+     */
+    bool hasIntegratedDepth() const {
+        return integratedDepth;
+    }
+
+    /**
+     * Sets a new depth at the given position. Be careful when the image is already integrated!
+     */
+    void setDepth(int x, int y, const Depth& depth) {
+        assert(inImage(x, y));
+
+        // invalid depth is set to zero which is necessary for integrating
+        depthImage(0, y, x) = depth.isValid() ? depth.getIntValue() : 0;
+        depthImage(1, y, x) = depth.isValid();
+    }
+
+    /**
+     * @return the depth value at the given position. Note: Can be an integrated value!
+     */
+    Depth getDepth(int x, int y) const {
+        return Depth(static_cast<int>(depthImage(0, y, x)));
+    }
+
+    /**
+     * @return the depth validity information. 0 or 1 if the image is not integrated.
+     */
+    int getDepthValid(int x, int y) const {
+        return depthImage(1, y, x);
+    }
+
+    /**
+     * resize an image to a new depth and height
+     */
+    void resizeImage(int newWidth, int newHeight);
+
+protected:
+
+    std::string depthFilename;
+    cuv::ndarray<int, cuv::host_memory_space> depthImage;
+
+    bool integratedDepth;
+
     static const unsigned int DEPTH_CHANNELS = 2;
 
     void loadDepthImage(const std::string& depthFilename);
@@ -433,17 +523,50 @@ private:
     void fillDepthFromLeft();
     void fillDepthFromBottom();
     void fillDepthFromTop();
-
-    template<class T>
-    static void calculateDerivative(cuv::ndarray_view<T, cuv::host_memory_space>& data);
-
-    template<class T>
-    static void calculateIntegral(cuv::ndarray_view<T, cuv::host_memory_space>& data);
-
-    static void calculateIntegral(cuv::ndarray_view<float, cuv::host_memory_space>& data);
-    static void calculateDerivative(cuv::ndarray_view<float, cuv::host_memory_space>& data);
-
 };
+
+/**
+ * An RGBD image with an additional input channel (e.g., height above ground)
+ */
+ class RGBDXImage : public RGBDImage {
+ public:
+
+   /**
+    * Load the RGB color image and the according depth from two files on disk.
+    * See the README file for the required file format.
+    */
+
+   explicit RGBDXImage(const std::string& filename,
+                      const std::string& depthFilename,
+                      const std::string& heightFilename,
+                      bool useDepthImages,
+                      bool useHeightImages,
+                      bool convertToCIELab = true,
+                      bool useDepthFilling = false,
+                      bool calculateIntegralImage = true);
+
+   /**
+    * For the test case
+    */
+   explicit RGBDXImage(int width, int height)
+     : RGBDImage(width, height),
+     xImage(cuv::extents[COLOR_CHANNELS][height][width], boost::make_shared<cuv::cuda_allocator>()),
+     integratedX(false) {
+     reset();
+   }
+ protected:
+
+   std::string xFilename;
+   cuv::ndarray<int, cuv::host_memory_space> xImage;
+   void loadHeightImage(const std::string& heightFilename);
+
+   bool integratedX;
+
+   static const unsigned int X_CHANNELS = 2;
+   void reset();
+ };
+
+
 
 /**
  * A labelling that usually belongs to a RGBImage.
@@ -562,32 +685,56 @@ public:
 ;
 
 /**
- * A tuple of a RGBD image and an according labeling.
- * @ingroup image_related
+ * Base class for labeled images
  */
-class LabeledRGBDImage {
+ template<class ImageType>
+   class LabeledImageBase {
+ public:
+   /**
+    * the RGBD component
+    */
+   boost::shared_ptr<ImageType> rgbdImage;
 
-public:
-	/**
-	 * the RGBD component
-	 */
-    boost::shared_ptr<RGBDImage> rgbdImage;
-    /**
-     * the label iamge component
-     */
-    boost::shared_ptr<LabelImage> labelImage;
+   /**
+    * the label image component
+    */
+   boost::shared_ptr<LabelImage> labelImage;
 
-public:
+ public:
+   /**
+    * creates a LabeledImageBase object out of an rgbd and label images
+    */
+ LabeledImageBase(const boost::shared_ptr<ImageType>& rgbdImage,
+                  const boost::shared_ptr<LabelImage>& labelImage):
+   rgbdImage(rgbdImage), labelImage(labelImage) {
+     if (rgbdImage->getWidth() != labelImage->getWidth() || rgbdImage->getHeight() != labelImage->getHeight()) {
+       std::ostringstream o;
+       o << "RGB-D image '" << rgbdImage->getFilename();
+       o << "' and label image '" << labelImage->getFilename();
+       o << "' have different sizes: ";
+       o << rgbdImage->getWidth() << "x" << rgbdImage->getHeight();
+       o << " and " << labelImage->getWidth() << "x" << labelImage->getHeight();
+       throw std::runtime_error(o.str());
+     }
+   }
 
-    LabeledRGBDImage() :
-            rgbdImage(), labelImage() {
-    }
+ LabeledImageBase() : rgbdImage(), labelImage() {}
 
-    /**
-     * creates a LabeledRGBDImage object out of an rgbd and label images
-     */
-    LabeledRGBDImage(const boost::shared_ptr<RGBDImage>& rgbdImage,
-            const boost::shared_ptr<LabelImage>& labelImage);
+
+   /**
+    * resize input and label image
+    */
+   void resizeImage(int newWidth, int newHeight, LabelType paddingLabel) const {
+     rgbdImage->resizeImage(newWidth, newHeight);
+     labelImage->resizeImage(newWidth, newHeight, paddingLabel);
+   }
+
+   /**
+    * calculate the image integral
+    */
+   void calculateIntegral() const {
+     rgbdImage->calculateIntegral();
+   }
 
     /**
      * @return the total memory usage of the RGBD image as well as the according label image
@@ -623,25 +770,48 @@ public:
     int getHeight() const {
         return rgbdImage->getHeight();
     }
+ };
 
-    /**
-     * resize the image to new depth and height and uses the provided label for padding
-     */
-    void resizeImage(int newWidth, int newHeight, LabelType paddingLabel) const;
+ 
+ /**
+  * A tuple of a RGB image and an according labeling.
+  * @ingroup image_related
+  */
+ typedef LabeledImageBase<RGBImage> LabeledRGBImage;
+/**
+ * A tuple of a RGBD image and an according labeling.
+ * @ingroup image_related
+ */
+ typedef LabeledImageBase<RGBDImage> LabeledRGBDImage;
 
-    /**
-     * calculate the image integral
-     */
-    void calculateIntegral() const;
+ /**
+  * A tuple of a RGBDX image and an according labeling.
+  * @ingroup image_related
+  */
+ typedef LabeledImageBase<RGBDXImage> LabeledRGBDXImage;
 
-};
-
+ /**
+  * Convenience function to load and convert an RGBD image and the according label image
+  */
+ LabeledRGBImage loadRGBImagePair(const std::string& filename, bool useCIELab, bool calculateIntegralImages = true);
 
 /**
- * Convenience function to load and convert a RGBD image and the according label image
+ * Convenience function to load and convert an RGBD image and the according label image
  */
-LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab, bool useDepthImages,  bool useDepthFilling,
-        bool calculateIntegralImages = true);
+ LabeledRGBDImage loadRGBDImagePair(const std::string& filename, bool useCIELab,
+                                    bool useDepthImages,
+                                    bool useDepthFilling,
+                                    bool calculateIntegralImages = true);
+
+/**
+ * Convenience function to load and convert an RGBDX image and the according label image
+ */
+ LabeledRGBDXImage loadRGBDXImagePair(const std::string& filename,
+                                      bool useCIELab,
+                                      bool useDepthImages,
+                                      bool useHeightImages,
+                                      bool useDepthFilling,
+                                bool calculateIntegralImages = true);
 
 /**
  * Convenience function to find all files in the given folder that match the required filename schema.

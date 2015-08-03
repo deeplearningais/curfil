@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE(testExportImport) {
     }
     const std::string folderTraining(boost::unit_test::framework::master_test_suite().argv[1]);
 
-    trainImages.push_back(loadImagePair(folderTraining + "/training1_colors.png", useCIELab, useDepthImages,useDepthFilling));
+    trainImages.push_back(loadRGBDImagePair(folderTraining + "/training1_colors.png", useCIELab, useDepthImages,useDepthFilling));
 
     // Train
 
