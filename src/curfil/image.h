@@ -329,7 +329,7 @@ public:
     int getHeight() const {
         return height;
     }
-
+      
     /**
      * @return true if and only if the image depth channel was integrated
      */
@@ -383,6 +383,13 @@ public:
     }
 
     /**
+     * @return the height information. Note: can be integrated value.
+     */
+    Depth getHeight(int x, int y) const {
+      return Depth(static_cast<int>(depthImage(2, y, x)));
+    }
+
+    /**
      * sets a new color value at the given position and color channel
      *
      * @param x the x position in the image where 0 <= x < width
@@ -425,7 +432,7 @@ private:
     bool integratedDepth;
 
     static const unsigned int COLOR_CHANNELS = 3;
-    static const unsigned int DEPTH_CHANNELS = 2;
+    static const unsigned int DEPTH_CHANNELS = 3;
 
     void loadDepthImage(const std::string& depthFilename);
     void loadDummyDepthValues();

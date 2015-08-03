@@ -265,7 +265,7 @@ public:
      * Calculate the average depth for the given region at the offset, on CPU.
      * See https://github.com/deeplearningais/curfil/wiki/Visual-Features for details.
      */
-    FeatureResponseType averageRegionDepth(const Offset& offset, const Region& region) const {
+    FeatureResponseType averageRegionDepth(const Offset& offset, const Region& region, int channel) const {
         assert(region.getX() >= 0);
         assert(region.getY() >= 0);
 
@@ -305,10 +305,17 @@ public:
             return std::numeric_limits<double>::quiet_NaN();
         }
 
-        const int lowerRightDepth = getDepth(lowerRight).getIntValue();
-        const int lowerLeftDepth = getDepth(lowerLeft).getIntValue();
-        const int upperRightDepth = getDepth(upperRight).getIntValue();
-        const int upperLeftDepth = getDepth(upperLeft).getIntValue();
+        typedef Depth (PixelInstance::*Func)(const Point&) const;
+
+        Func func =
+          channel == 0
+          ? static_cast<Func>(&PixelInstance::getDepth)
+          : static_cast<Func>(&PixelInstance::getHeight);
+
+        const int lowerRightDepth = (this->*func)(lowerRight).getIntValue();
+        const int lowerLeftDepth = (this->*func)(lowerLeft).getIntValue();
+        const int upperRightDepth = (this->*func)(upperRight).getIntValue();
+        const int upperLeftDepth = (this->*func)(upperLeft).getIntValue();
 
         int sum = (lowerRightDepth - upperRightDepth) + (upperLeftDepth - lowerLeftDepth);
         FeatureResponseType feat = sum / static_cast<FeatureResponseType>(1000);
@@ -376,6 +383,17 @@ private:
         // include zero as it is an integral
         assert(depth.getIntValue() >= 0);
         return depth;
+    }
+
+    Depth getHeight(const Point& pos) const {
+      if (!inImage(pos)) {
+        return Depth::INVALID;
+      }
+      assert(image->hasIntegratedDepth());
+      const Depth height = image->getHeight(pos.getX(), pos.getY());
+      // include zero as it is an integral
+      assert(height.getIntValue() >= 0);
+      return height;
     }
 
     int getDepthValid(const Point& pos) const {
@@ -600,18 +618,18 @@ private:
 
         FeatureResponseType a;
         if (flipRegion)
-        	a = instance.averageRegionDepth(Offset(-offset1.getX(),offset1.getY()).normalize(depth), region1.normalize(depth));
+          a = instance.averageRegionDepth(Offset(-offset1.getX(),offset1.getY()).normalize(depth), region1.normalize(depth), channel1);
         else
-        	a = instance.averageRegionDepth(offset1.normalize(depth), region1.normalize(depth));
+          a = instance.averageRegionDepth(offset1.normalize(depth), region1.normalize(depth), channel1);
         if (isnan(a)) {
             return a;
         }
 
         FeatureResponseType b;
         if (flipRegion)
-        	b = instance.averageRegionDepth(Offset(-offset2.getX(),offset2.getY()).normalize(depth), region2.normalize(depth));
+          b = instance.averageRegionDepth(Offset(-offset2.getX(),offset2.getY()).normalize(depth), region2.normalize(depth), channel2);
         else
-        	b = instance.averageRegionDepth(offset2.normalize(depth), region2.normalize(depth));
+          b = instance.averageRegionDepth(offset2.normalize(depth), region2.normalize(depth), channel2);
         if (isnan(b)) {
             return b;
         }

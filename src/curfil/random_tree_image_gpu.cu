@@ -64,8 +64,8 @@ float getColorChannelValue(int x, int y, int imageNr, int channel) {
 }
 
 __device__
-int getDepthValue(int x, int y, int imageNr) {
-    return tex2DLayered(depthTexture, x, y, imageNr * depthChannels + depthChannel);
+int getDepthValue(int x, int y, int imageNr, int channel) {
+    return tex2DLayered(depthTexture, x, y, imageNr * depthChannels + channel);
 }
 
 __device__
@@ -75,7 +75,7 @@ int getDepthValidValue(int x, int y, int imageNr) {
 
 __device__
 FeatureResponseType averageRegionDepth(int imageNr,
-        const int16_t imageWidth, const int16_t imageHeight,
+        const int16_t imageWidth, const int16_t imageHeight, const int8_t channel,
         int leftX, int rightX, int upperY, int lowerY) {
 
     if (leftX < 0 || rightX >= imageWidth || upperY < 0 || lowerY >= imageHeight) {
@@ -94,10 +94,10 @@ FeatureResponseType averageRegionDepth(int imageNr,
         return nan("");
     }
 
-    int upperLeftDepth = getDepthValue(leftX, upperY, imageNr);
-    int upperRightDepth = getDepthValue(rightX, upperY, imageNr);
-    int lowerRightDepth = getDepthValue(rightX, lowerY, imageNr);
-    int lowerLeftDepth = getDepthValue(leftX, lowerY, imageNr);
+    int upperLeftDepth = getDepthValue(leftX, upperY, imageNr, channel);
+    int upperRightDepth = getDepthValue(rightX, upperY, imageNr, channel);
+    int lowerRightDepth = getDepthValue(rightX, lowerY, imageNr, channel);
+    int lowerLeftDepth = getDepthValue(leftX, lowerY, imageNr, channel);
 
     int sum = (lowerRightDepth - upperRightDepth) + (upperLeftDepth - lowerLeftDepth);
     FeatureResponseType feat = sum / static_cast<FeatureResponseType>(1000);
@@ -107,6 +107,7 @@ FeatureResponseType averageRegionDepth(int imageNr,
 __device__
 FeatureResponseType averageRegionDepth(int imageNr,
         const int16_t imageWidth, const int16_t imageHeight,
+        const int8_t channel,
         float depth,
         int sampleX, int sampleY,
         int offsetX, int offsetY,
@@ -122,7 +123,7 @@ FeatureResponseType averageRegionDepth(int imageNr,
     int upperY = y - height;
     int lowerY = y + height;
 
-    return averageRegionDepth(imageNr, imageWidth, imageHeight, leftX, rightX, upperY, lowerY);
+    return averageRegionDepth(imageNr, imageWidth, imageHeight, channel, leftX, rightX, upperY, lowerY);
 }
 
 __device__
@@ -167,15 +168,16 @@ FeatureResponseType calculateDepthFeature(int imageNr,
         int8_t offset2X, int8_t offset2Y,
         int8_t region1X, int8_t region1Y,
         int8_t region2X, int8_t region2Y,
+        int8_t channel1, int8_t channel2,
         int sampleX, int sampleY, float depth) {
 
-    FeatureResponseType a = averageRegionDepth(imageNr, imageWidth, imageHeight, depth, sampleX, sampleY, offset1X,
+    FeatureResponseType a = averageRegionDepth(imageNr, imageWidth, imageHeight, channel1, depth, sampleX, sampleY, offset1X,
             offset1Y, region1X, region1Y);
 
     if (isnan(a))
         return a;
 
-    FeatureResponseType b = averageRegionDepth(imageNr, imageWidth, imageHeight, depth, sampleX, sampleY, offset2X,
+    FeatureResponseType b = averageRegionDepth(imageNr, imageWidth, imageHeight, channel2, depth, sampleX, sampleY, offset2X,
             offset2Y, region2X, region2Y);
 
     if (isnan(b))
@@ -323,8 +325,10 @@ void generateRandomFeaturesKernel(int seed,
         // channel1 = curand_uniform(&localState) * 3;
         // channel2 = curand_uniform(&localState) * 3;
     } else {
-        channel1 = 0;
-        channel2 = 0;
+        // depth: 0, height: 2
+        int c = (feat % 2)  ? 0 : 2;
+        channel1 = c;
+        channel2 = c;
     }
 
     for (unsigned int thresh = 0; thresh < numThresholds; thresh++) {
@@ -349,6 +353,7 @@ void generateRandomFeaturesKernel(int seed,
                         offset2X, offset2Y,
                         region1X, region1Y,
                         region2X, region2Y,
+                        channel1, channel2,
                         sampleX[numSample], sampleY[numSample], depths[numSample]);
                 break;
             default:
@@ -1253,7 +1258,7 @@ __global__ void classifyKernel(
 
     // depth might be nan here
     if (useDepthImages)
-    	depth = averageRegionDepth(0, imageWidth, imageHeight, x, x + 1, y, y + 1);
+    	depth = averageRegionDepth(0, imageWidth, imageHeight, 0, x, x + 1, y, y + 1);
     else
     	depth = 1;
 
@@ -1300,13 +1305,14 @@ __global__ void classifyKernel(
             }
                 break;
             case DEPTH:
-            	// assert(false);
+                ushort2 channels = getChannels(currentNodeOffset, tree);
                 featureResponse = calculateDepthFeature(0,
                         imageWidth, imageHeight,
                         offset1X, offset1Y,
                         offset2X, offset2Y,
                         region1X, region1Y,
                         region2X, region2Y,
+                        channels.x, channels.y,
                         x, y, depth);
                 break;
         }
@@ -1524,6 +1530,7 @@ __global__ void featureResponseKernel(
                     offset2X, offset2Y,
                     region1X, region1Y,
                     region2X, region2Y,
+                    channels1[feature], channels2[feature],
                     samplesX[sample], samplesY[sample], depths[sample]);
             if (horFlipSetting == Both) {
             featureResponse2 = calculateDepthFeature(imageNr,
@@ -1532,6 +1539,7 @@ __global__ void featureResponseKernel(
                     -offset2X, offset2Y,
                     region1X, region1Y,
                     region2X, region2Y,
+                    channels1[feature], channels2[feature],
                     samplesX[sample], samplesY[sample], depths[sample]);}}
             break;
         default:
@@ -2049,7 +2057,7 @@ cuv::ndarray<WeightType, cuv::dev_memory_space> ImageFeatureEvaluation::calculat
             {
                 cudaSafeCall(cudaFuncSetCacheConfig(featureResponseKernel, cudaFuncCachePreferL1));
                 utils::Profile profile("calculate feature responses");
-                featureResponseKernel<<<blockSize, threads, 0, streams[0]>>>(
+                featureResponseKernel <<<blockSize, threads, 0, streams[0]>>>(
                         featureResponsesDevice1.ptr(),
                         featureResponses2ptr,
                         featuresAndThresholds.types().ptr(),

@@ -41,7 +41,7 @@
 namespace curfil {
 
 static const int colorChannels = 3;
-static const int depthChannels = 2;
+static const int depthChannels = 3;
 
 static const int depthChannel = 0;
 static const int depthValidChannel = 1;

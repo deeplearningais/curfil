@@ -663,6 +663,9 @@ const ImageFeatureFunction ImageFeatureEvaluation::sampleFeature(RandomSource& r
     // Color channel [0-2]
     Sampler rgen_cc = randomSource.uniformSampler(3);
 
+    // Depth/height channel (0/2)
+    Sampler rgen_dh = randomSource.uniformSampler(2);
+
     // Generate a feature that is non-constant
     Offset offset1(rgen_xy.getNext(), rgen_xy.getNext());
 
@@ -680,11 +683,14 @@ const ImageFeatureFunction ImageFeatureEvaluation::sampleFeature(RandomSource& r
     assert(region2.getX() >= 0);
     assert(region2.getY() >= 0);
 
+    int depth_off = 0;
+
 	if (useDepthImages) {
 		switch (rgen_ft.getNext()) {
 		case 0:
-			return ImageFeatureFunction(DEPTH, offset1, region1, 0, offset2,
-					region2, 0);
+          depth_off = rgen_dh.getNext() ? 2 : 1; // compare only within depth or within height
+			return ImageFeatureFunction(DEPTH, offset1, region1, depth_off, offset2,
+					region2, depth_off);
 		case 1:
 			return ImageFeatureFunction(COLOR, offset1, region1,
 					rgen_cc.getNext(), offset2, region2, rgen_cc.getNext());

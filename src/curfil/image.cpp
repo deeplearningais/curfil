@@ -413,23 +413,40 @@ void RGBDImage::loadDepthImage(const std::string& depthFilename) {
     }
 
     vigra::UInt16Image image(size.width(), size.height());
+    vigra::UInt16Image image2(size.width(), size.height()); // zero-initialized by default.
 
+    size_t idx = depthFilename.find("_depth");
+    if(idx != std::string::npos){
+      std::string heightFilename = depthFilename;
+      heightFilename.replace(idx, 6, "_height");
+      vigra::ImageImportInfo info2(heightFilename.c_str());
+      vigra::importImage(info2, vigra::destImage(image2));
+      std::cout << "using height from " << heightFilename <<std::endl;
+    }
+    else
+      std::cout << "not using height for " << depthFilename <<std::endl;
     vigra::importImage(info, vigra::destImage(image));
 
     depthImage.resize(cuv::extents[DEPTH_CHANNELS][getHeight()][getWidth()]);
 
     utils::Average depthAverage;
 
-    int* depths = depthImage.ptr();
+    int* depths     = depthImage.ptr();
     int* depthValid = depthImage.ptr() + getWidth() * getHeight();
+    int* heights    = depthValid + getWidth() * getHeight();
 
     for (int y = 0; y < getHeight(); y++) {
         const size_t rowOffset = y * getWidth();
         for (int x = 0; x < getWidth(); x++) {
             const int depth = image(x, y);
+            const int height = image(x, y);
             if (depth < 0 || depth > 50000) {
                 throw std::runtime_error((boost::format("illegal depth value in image %s @%d,%d: %d")
                         % depthFilename % x % y % depth).str());
+            }
+            if (height < 0 || height > 50000) {
+              throw std::runtime_error((boost::format("illegal height value in image %s @%d,%d: %d")
+                                        % depthFilename % x % y % depth).str());
             }
 
             if (depth > 0) {
@@ -437,6 +454,7 @@ void RGBDImage::loadDepthImage(const std::string& depthFilename) {
             }
 
             depths[rowOffset + x] = depth;
+            heights[rowOffset + x] = height;
             depthValid[rowOffset + x] = static_cast<int>(depth > 0);
         }
     }
