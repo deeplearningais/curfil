@@ -746,7 +746,7 @@ public:
     /**
      * @return the RGBD image component
      */
-    const RGBDImage& getRGBDImage() const {
+    const ImageType& getRGBDImage() const {
         return *(rgbdImage.get());
     }
 

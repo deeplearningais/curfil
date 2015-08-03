@@ -64,7 +64,8 @@ static double predict(RandomForestImage& randomForest) {
     const bool useCIELab = true;
     const bool useDepthFilling = false;
     const bool useDepthImages = true;
-    const auto testing = loadRGBDImagePair(getFolderTraining() + "/testing1_colors.png", useCIELab, useDepthImages, useDepthFilling);
+    const auto testing = loadRGBDXImagePair(getFolderTraining() + "/testing1_colors.png",
+                                            useCIELab, useDepthImages, true, useDepthFilling);
     const LabelImage& groundTruth = testing.getLabelImage();
 
     randomForest.normalizeHistograms(0.0, true);
@@ -94,11 +95,12 @@ BOOST_AUTO_TEST_CASE(trainTest) {
     const bool useCIELab = true;
     const bool useDepthFilling = false;
     const bool useDepthImages = true;
+    const bool useHeightImages = true;
 
-    std::vector<LabeledRGBDImage> trainImages;
-    trainImages.push_back(loadRGBDImagePair(getFolderTraining() + "/training1_colors.png", useCIELab, useDepthImages, useDepthFilling));
-    trainImages.push_back(loadRGBDImagePair(getFolderTraining() + "/training2_colors.png", useCIELab, useDepthImages, useDepthFilling));
-    trainImages.push_back(loadRGBDImagePair(getFolderTraining() + "/training3_colors.png", useCIELab, useDepthImages, useDepthFilling));
+    std::vector<LabeledRGBDXImage> trainImages;
+    trainImages.push_back(loadRGBDXImagePair(getFolderTraining() + "/training1_colors.png", useCIELab, useDepthImages, useHeightImages, useDepthFilling));
+    trainImages.push_back(loadRGBDXImagePair(getFolderTraining() + "/training2_colors.png", useCIELab, useDepthImages, useHeightImages, useDepthFilling));
+    trainImages.push_back(loadRGBDXImagePair(getFolderTraining() + "/training3_colors.png", useCIELab, useDepthImages, useHeightImages, useDepthFilling));
 
     tbb::task_scheduler_init init(NUM_THREADS);
 

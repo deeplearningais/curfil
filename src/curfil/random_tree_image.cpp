@@ -743,7 +743,8 @@ bool RandomTreeImage::shouldIgnoreLabel(const LabelType& label) const {
     return false;
 }
 
-void RandomTreeImage::train(const std::vector<LabeledRGBDImage>& trainLabelImages,
+  template<class LabeledImageType>
+  void RandomTreeImage::train(const std::vector<LabeledImageType>& trainLabelImages,
         RandomSource& randomSource, size_t subsampleCount, size_t numLabels) {
 
     assert(subsampleCount > 0);
@@ -822,6 +823,12 @@ void RandomTreeImage::train(const std::vector<LabeledRGBDImage>& trainLabelImage
 
     CURFIL_INFO("trained tree " << getId() << " in " << trainTimer.format(2));
 }
+  template void
+  RandomTreeImage::train<LabeledRGBDImage>(const std::vector<LabeledRGBDImage>& trainLabelImages,
+                                           RandomSource& randomSource, size_t subsampleCount, size_t numLabels);
+  template void
+  RandomTreeImage::train<LabeledRGBDXImage>(const std::vector<LabeledRGBDXImage>& trainLabelImages,
+                                           RandomSource& randomSource, size_t subsampleCount, size_t numLabels);
 
 void RandomTreeImage::test(const RGBDImage* image, LabelImage& prediction) const {
     assert(finishedTraining);
@@ -837,8 +844,9 @@ void RandomTreeImage::test(const RGBDImage* image, LabelImage& prediction) const
     }
 }
 
+  template<class LabeledImageType>
 std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataPixelUniform(
-        const std::vector<LabeledRGBDImage>& trainLabelImages,
+        const std::vector<LabeledImageType>& trainLabelImages,
         RandomSource& randomSource,
         size_t subsampleCount) const {
     // Random across imags type [0..(n-1)]
@@ -881,8 +889,19 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataPixelUniform(
 
     return subsamples;
 }
+  template std::vector<PixelInstance>
+  RandomTreeImage::subsampleTrainingDataPixelUniform(
+                                                     const std::vector<LabeledRGBImage>& trainLabelImages,
+                                                     RandomSource& randomSource,
+                                                     size_t subsampleCount) const;
+  template std::vector<PixelInstance>
+  RandomTreeImage::subsampleTrainingDataPixelUniform(
+                                                     const std::vector<LabeledRGBDImage>& trainLabelImages,
+                                                     RandomSource& randomSource,
+                                                     size_t subsampleCount) const;
 
-void RandomTreeImage::calculateLabelPriorDistribution(const std::vector<LabeledRGBDImage>& trainLabelImages) {
+  template<class LabeledImageType>
+void RandomTreeImage::calculateLabelPriorDistribution(const std::vector<LabeledImageType>& trainLabelImages) {
 
     std::map<LabelType, size_t> priorDistribution;
     for (const auto& trainLabelImage : trainLabelImages) {
@@ -907,9 +926,14 @@ void RandomTreeImage::calculateLabelPriorDistribution(const std::vector<LabeledR
     }
 
 }
+  template void
+  RandomTreeImage::calculateLabelPriorDistribution<LabeledRGBDImage>(const std::vector<LabeledRGBDImage>& trainLabelImages);
+  template void
+  RandomTreeImage::calculateLabelPriorDistribution<LabeledRGBDXImage>(const std::vector<LabeledRGBDXImage>& trainLabelImages);
 
+  template<class LabeledImageType>
 std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
-        const std::vector<LabeledRGBDImage>& trainLabelImages,
+        const std::vector<LabeledImageType>& trainLabelImages,
         RandomSource& randomSource,
         size_t subsampleCount) const {
 
@@ -1056,7 +1080,19 @@ std::vector<PixelInstance> RandomTreeImage::subsampleTrainingDataClassUniform(
         throw std::runtime_error("failed to sample enough pixels");
     }
     return allSubsamples;
-}
+  }
+  template
+  std::vector<PixelInstance>
+  RandomTreeImage::subsampleTrainingDataClassUniform(
+                                                     const std::vector<LabeledRGBDImage>& trainLabelImages,
+                                                     RandomSource& randomSource,
+                                                     size_t subsampleCount) const;
+  template
+  std::vector<PixelInstance>
+  RandomTreeImage::subsampleTrainingDataClassUniform(
+                                                     const std::vector<LabeledRGBDXImage>& trainLabelImages,
+                                                     RandomSource& randomSource,
+                                                     size_t subsampleCount) const;
 
 }
 

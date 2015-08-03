@@ -126,6 +126,7 @@ typedef XY Point;
  * Represents a single-pixel sample in a RGB-D image.
  * @ingroup forest_hierarchy
  */
+template<class ImageType>
 class PixelInstance {
 
 public:
@@ -137,7 +138,7 @@ public:
      * @param y the y-coordinate of the pixel in the RGB-D image
      * @param setting horizontal flip setting, can be: NoFlip, Flip, Both
      */
-    PixelInstance(const RGBDImage* image, const LabelType& label, uint16_t x, uint16_t y, HorizontalFlipSetting setting = NoFlip) :
+    PixelInstance(const ImageType* image, const LabelType& label, uint16_t x, uint16_t y, HorizontalFlipSetting setting = NoFlip) :
             image(image), label(label), point(x, y), depth(Depth::INVALID), horFlipSetting(setting) {
         assert(image != NULL);
         assert(image->inImage(x, y));
@@ -172,7 +173,7 @@ public:
      * @param y the y-coordinate of the pixel in the RGB-D image
      * @param setting horizontal flip setting, can be: NoFlip, Flip, Both
      */
-    PixelInstance(const RGBDImage* image, const LabelType& label, const Depth& depth,
+    PixelInstance(const ImageType* image, const LabelType& label, const Depth& depth,
             uint16_t x, uint16_t y, HorizontalFlipSetting setting = NoFlip) :
             image(image), label(label), point(x, y), depth(depth), horFlipSetting(setting) {
         assert(image != NULL);
@@ -183,7 +184,7 @@ public:
     /**
      * @return pointer to the RGB-D image which contains this pixel
      */
-    const RGBDImage* getRGBDImage() const {
+    const ImageType* getRGBDImage() const {
         return image;
     }
 
@@ -353,7 +354,7 @@ public:
     }
 
 private:
-    const RGBDImage* image;
+    const ImageType* image;
     LabelType label;
     Point point;
     Depth depth;
@@ -390,9 +391,13 @@ private:
         return inImage(pos.getX(), pos.getY());
     }
 };
+ template<class T>
+   PixelInstance<T> make_pixel_instance(const T* image, const LabelType& label, uint16_t x, uint16_t y, HorizontalFlipSetting setting = NoFlip){
+   return PixelInstance<T>(image, label, x, y, setting);
+ }
 
 enum FeatureType {
-    DEPTH = 0, COLOR = 1
+  DEPTH = 0, COLOR = 1, HEIGHT = 2
 };
 
 /**
@@ -482,7 +487,8 @@ public:
     /**
      * @return the feature response as documented on https://github.com/deeplearningais/curfil/wiki/Visual-Features.
      */
-    FeatureResponseType calculateFeatureResponse(const PixelInstance& instance, bool flipRegion = false) const {
+    template<class T>
+    FeatureResponseType calculateFeatureResponse(const PixelInstance<T>& instance, bool flipRegion = false) const {
         assert(isValid());
         switch (featureType) {
             case DEPTH:
@@ -561,7 +567,8 @@ private:
     Region region2;
     uint8_t channel2;
 
-    FeatureResponseType calculateColorFeature(const PixelInstance& instance, bool flipRegion) const {
+    template<class T>
+    FeatureResponseType calculateColorFeature(const PixelInstance<T>& instance, bool flipRegion) const {
 
         const Depth depth = instance.getDepth();
         if (!depth.isValid()) {
@@ -591,7 +598,8 @@ private:
         return (a - b);
     }
 
-    FeatureResponseType calculateDepthFeature(const PixelInstance& instance, bool flipRegion) const {
+    template<class T>
+    FeatureResponseType calculateDepthFeature(const PixelInstance<T>& instance, bool flipRegion) const {
 
         const Depth depth = instance.getDepth();
         if (!depth.isValid()) {
@@ -1120,7 +1128,8 @@ public:
     /**
      * Trains the tree from the given training images
      */
-    void train(const std::vector<LabeledRGBDImage>& trainLabelImages,
+    template<class LabeledImageType>
+    void train(const std::vector<LabeledImageType>& trainLabelImages,
             RandomSource& randomSource, size_t subsampleCount, size_t numLabels);
 
     /**
@@ -1176,14 +1185,17 @@ private:
 
     cuv::ndarray<WeightType, cuv::host_memory_space> classLabelPriorDistribution;
 
-    void calculateLabelPriorDistribution(const std::vector<LabeledRGBDImage>& trainLabelImages);
+    template<class LabeledImageType>
+    void calculateLabelPriorDistribution(const std::vector<LabeledImageType>& trainLabelImages);
 
+    template<class LabeledImageType>
     std::vector<PixelInstance> subsampleTrainingDataPixelUniform(
-            const std::vector<LabeledRGBDImage>& trainLabelImages,
+            const std::vector<LabeledImageType>& trainLabelImages,
             RandomSource& randomSource, size_t subsampleCount) const;
 
+    template<class LabeledImageType>
     std::vector<PixelInstance> subsampleTrainingDataClassUniform(
-            const std::vector<LabeledRGBDImage>& trainLabelImages,
+            const std::vector<LabeledImageType>& trainLabelImages,
             RandomSource& randomSource, size_t subsampleCount) const;
 
 };

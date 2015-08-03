@@ -129,7 +129,8 @@ RandomForestImage::RandomForestImage(const std::vector<boost::shared_ptr<RandomT
 }
 
 // Usage identical to RandomTreeImage class
-void RandomForestImage::train(const std::vector<LabeledRGBDImage>& trainLabelImages, size_t numLabels,
+template<class LabeledImageType>
+void RandomForestImage::train(const std::vector<LabeledImageType>& trainLabelImages, size_t numLabels,
         bool trainTreesSequentially) {
 
     if (trainLabelImages.empty()) {
@@ -156,10 +157,10 @@ void RandomForestImage::train(const std::vector<LabeledRGBDImage>& trainLabelIma
                 auto seed = SEED + tree->getId();
                 RandomSource randomSource(seed);
 
-                std::vector<LabeledRGBDImage> sampledTrainLabelImages = trainLabelImages;
+                std::vector<LabeledImageType> sampledTrainLabelImages = trainLabelImages;
 
                 if (configuration.getMaxImages() > 0 && static_cast<int>(trainLabelImages.size()) > configuration.getMaxImages()) {
-                    ReservoirSampler<LabeledRGBDImage> reservoirSampler(configuration.getMaxImages());
+                    ReservoirSampler<LabeledImageType> reservoirSampler(configuration.getMaxImages());
                     Sampler sampler = randomSource.uniformSampler(0, 10 * trainLabelImages.size());
                     for (auto& image : trainLabelImages) {
                         reservoirSampler.sample(sampler, image);
@@ -180,6 +181,13 @@ void RandomForestImage::train(const std::vector<LabeledRGBDImage>& trainLabelIma
         std::for_each(ensemble.begin(), ensemble.end(), train);
     }
 }
+  template void
+  RandomForestImage::train<LabeledRGBDXImage>(const std::vector<LabeledRGBDXImage>& trainLabelImages, size_t numLabels,
+                                              bool trainTreesSequentially);
+  template void
+  RandomForestImage::train<LabeledRGBDImage>(const std::vector<LabeledRGBDImage>& trainLabelImages, size_t numLabels,
+                                              bool trainTreesSequentially);
+
 
 void RandomForestImage::updateTreesHistograms()
 {

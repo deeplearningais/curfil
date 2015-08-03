@@ -85,7 +85,8 @@ public:
      * @param trainTreesSequentially whether to train the trees in the random forest in parallel or sequentially.
      * @param numLabels number of classes in the images
      */
-    void train(const std::vector<LabeledRGBDImage>& trainLabelImages, size_t numLabels = 0, bool trainTreesSequentially = false);
+    template<class LabeledImageType>
+    void train(const std::vector<LabeledImageType>& trainLabelImages, size_t numLabels = 0, bool trainTreesSequentially = false);
 
     /**
      * @param image the image which should be classified
