@@ -1300,7 +1300,7 @@ __global__ void classifyKernel(
             }
                 break;
             case DEPTH:
-            	assert(false);
+            	// assert(false);
                 featureResponse = calculateDepthFeature(0,
                         imageWidth, imageHeight,
                         offset1X, offset1Y,

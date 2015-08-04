@@ -170,7 +170,7 @@ double calculatePixelAccuracy(const LabelImage& prediction, const LabelImage& gr
             const LabelType label = groundTruth.getLabel(x, y);
 
             bool ignore = false;
-	    assert(!includeVoid && ignoredLabels);
+	    // assert(!includeVoid && ignoredLabels);
             if (!includeVoid && !ignoredLabels->empty())
             	for (LabelType ID: *ignoredLabels)
             		if (ID == label)
