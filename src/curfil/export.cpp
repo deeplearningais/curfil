@@ -57,8 +57,11 @@ void RandomTreeExport::writeXY(boost::property_tree::ptree& pt, const std::strin
     // http://stackoverflow.com/questions/3751357/c-how-to-create-an-array-using-boostproperty-tree/3751677#3751677
     boost::property_tree::ptree array;
 
-    array.add("", boost::lexical_cast<std::string>(xy.getX()));
-    array.add("", boost::lexical_cast<std::string>(xy.getY()));
+    boost::property_tree::ptree c1, c2;
+    c1.put("", boost::lexical_cast<std::string>(xy.getX()));
+    c2.put("", boost::lexical_cast<std::string>(xy.getY()));
+    array.push_back(std::make_pair("", c1));
+    array.push_back(std::make_pair("", c2));
     pt.put_child(name, array);
 }
 
@@ -167,7 +170,9 @@ boost::property_tree::ptree RandomTreeExport::getProcessorModelNames() {
 
     boost::property_tree::ptree processorModels;
     for (const auto& modelName : modelNames) {
-        processorModels.add("", modelName);
+      boost::property_tree::ptree mn;
+      mn.put("", modelName);
+      processorModels.push_back(std::make_pair("", mn));
     }
     return processorModels;
 }
