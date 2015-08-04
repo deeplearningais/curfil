@@ -688,7 +688,7 @@ const ImageFeatureFunction ImageFeatureEvaluation::sampleFeature(RandomSource& r
 	if (useDepthImages) {
 		switch (rgen_ft.getNext()) {
 		case 0:
-          depth_off = rgen_dh.getNext() ? 2 : 1; // compare only within depth or within height
+          depth_off = rgen_dh.getNext() ? 2 : 0; // compare only within depth or within height
 			return ImageFeatureFunction(DEPTH, offset1, region1, depth_off, offset2,
 					region2, depth_off);
 		case 1:
