@@ -441,7 +441,7 @@ void RGBDImage::loadDepthImage(const std::string& depthFilename) {
         const size_t rowOffset = y * getWidth();
         for (int x = 0; x < getWidth(); x++) {
             const int depth = image(x, y);
-            const int height = image(x, y);
+            const int height = image2(x, y);
             if (depth < 0 || depth > 50000) {
                 throw std::runtime_error((boost::format("illegal depth value in image %s @%d,%d: %d")
                         % depthFilename % x % y % depth).str());
