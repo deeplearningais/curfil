@@ -82,7 +82,7 @@ SplitFunction<PixelInstance, ImageFeatureFunction> RandomTreeImport::parseSplit(
     uint8_t channel1 = 0;
     uint8_t channel2 = 0;
 
-    if (featureType == FeatureType::COLOR) {
+    if (featureType == FeatureType::COLOR || featureTypeName == "depth") {
         channel1 = featureTree.get<uint8_t>("channel1");
         channel2 = featureTree.get<uint8_t>("channel2");
     }

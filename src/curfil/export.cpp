@@ -71,7 +71,7 @@ void RandomTreeExport::writeFeatureDetails(boost::property_tree::ptree& pt, cons
 
     switch (feature.getType()) {
         case FeatureType::DEPTH:
-            break;
+            // break;
         case FeatureType::COLOR:
             pt.put<int>("channel1", feature.getChannel1());
             pt.put<int>("channel2", feature.getChannel2());
