@@ -419,9 +419,11 @@ void RGBDImage::loadDepthImage(const std::string& depthFilename) {
     if(idx != std::string::npos){
       std::string heightFilename = depthFilename;
       heightFilename.replace(idx, 6, "_height");
-      vigra::ImageImportInfo info2(heightFilename.c_str());
-      vigra::importImage(info2, vigra::destImage(image2));
-      std::cout << "using height from " << heightFilename <<std::endl;
+      if(fs::exists(heightFilename)){
+        vigra::ImageImportInfo info2(heightFilename.c_str());
+        vigra::importImage(info2, vigra::destImage(image2));
+        std::cout << "using height from " << heightFilename <<std::endl;
+      }
     }
     else
       std::cout << "not using height for " << depthFilename <<std::endl;
