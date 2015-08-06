@@ -49,6 +49,7 @@ ctest                 # run tests to see if it went well
 sudo make install
 ```
 Refer to your local Unix expert if you do not know what to do with this instruction.
+Pay special attention to the `CUDA_ARCHITECTURE` variable in ccmake. If you have a very recent GPU (eg TITAN), you probably want to enable support for device capability 5.2 by adding/replacing with `;-gencode;arch=compute_52,code=sm_52`.
 
 Dataset Format
 --------------
