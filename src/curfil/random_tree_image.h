@@ -641,6 +641,10 @@ private:
           assert(b > 0);
         }
 
+        if(channel1 == 2)
+          // return absolute height
+          return a;
+
         return (a - b);
     }
 

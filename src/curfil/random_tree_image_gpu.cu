@@ -183,6 +183,10 @@ FeatureResponseType calculateDepthFeature(int imageNr,
     if (isnan(b))
         return b;
 
+    if(channel1 == 2 /* && channel2 == 2 */){
+        // return absolute height.
+        return a;
+    }
     return (a - b);
 }
 
@@ -326,7 +330,7 @@ void generateRandomFeaturesKernel(int seed,
         // channel2 = curand_uniform(&localState) * 3;
     } else {
         // depth: 0, height: 2
-        int c = (feat % 2)  ? 0 : 2;
+        int c = (feat % 3)  ? 0 : 2;
         channel1 = c;
         channel2 = c;
     }
