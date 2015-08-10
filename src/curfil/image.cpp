@@ -830,7 +830,7 @@ LabeledRGBDImage loadImagePair(const std::string& filename, bool useCIELab,bool 
     std::string labelFilename = filename;
     std::string depthFilename = filename;
     try {
-        labelFilename.replace(pos, labelFilename.length(), "_ground_truth.png");
+        labelFilename.replace(pos, labelFilename.length(), "_ground_truth13.png");
     } catch (const std::exception& e) {
         throw std::runtime_error(std::string("illegal label image filename: ") + labelFilename);
     }
