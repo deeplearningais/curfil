@@ -321,13 +321,11 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
                     for(int y = 0; y < probabilityImage.getHeight(); y++) {
                         for(int x = 0; x < probabilityImage.getWidth(); x++) {
                             const float& probability = probabilities(label, y, x);
-                            for(int c=0; c<3; c++) {
-                                probabilityImage.setColor(x, y, c, probability);
-                            }
+                            probabilityImage.setDepth(x, y, Depth(probability * std::numeric_limits<int>::max(char16_t)));
                         }
                     }
                     const std::string filename = (boost::format("%s_label_%d.png") % basepath % static_cast<int>(label)).str();
-                    probabilityImage.saveColor(filename);
+                    probabilityImage.saveDepth(filename);
                 }
             }
 
