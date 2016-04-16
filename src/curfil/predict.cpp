@@ -321,7 +321,7 @@ void test(RandomForestImage& randomForest, const std::string& folderTesting,
                     for(int y = 0; y < probabilityImage.getHeight(); y++) {
                         for(int x = 0; x < probabilityImage.getWidth(); x++) {
                             const float& probability = probabilities(label, y, x);
-                            probabilityImage.setDepth(x, y, Depth(probability * std::numeric_limits<int>::max(char16_t)));
+                            probabilityImage.setDepth(x, y, Depth(probability * std::numeric_limits<int>::max()));
                         }
                     }
                     const std::string filename = (boost::format("%s_label_%d.png") % basepath % static_cast<int>(label)).str();
