@@ -145,7 +145,7 @@ if __name__ == "__main__":
     if len(sys.argv) >= 6:
         num_threads = int(sys.argv[5])
     else:
-        num_threads = 1
+        num_threads = -1
 
     test_images = set([int(x) for x in train_test["testNdxs"]])
     train_images = set([int(x) for x in train_test["trainNdxs"]])
