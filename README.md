@@ -147,5 +147,5 @@ Examples
 [thrust]: http://code.google.com/p/thrust/
 [mdbq]: https://github.com/temporaer/MDBQ
 [hyperopt]: https://github.com/jaberg/hyperopt
-[vigra]: http://hci.iwr.uni-heidelberg.de/vigra/
+[vigra]: https://ukoethe.github.io/vigra/
 [matlab-imread]: http://www.mathworks.de/de/help/matlab/ref/imread.html
