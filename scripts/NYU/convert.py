@@ -107,7 +107,7 @@ def convert_image(i, scene, img_depth, image, label):
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    img_depth *= 1000.0
+    img_depth = img_depth * 1000.0
 
     png.from_array(img_depth, 'L;16').save("%s/%05d_depth.png" % (folder, i))
 
