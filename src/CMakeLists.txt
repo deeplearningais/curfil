@@ -23,32 +23,34 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #######################################################################################
-cmake_minimum_required( VERSION 2.6 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.1 FATAL_ERROR )
 
 FIND_PACKAGE(CUDA     REQUIRED)
 FIND_PACKAGE(TBB      REQUIRED)
 FIND_PACKAGE(VIGRA    REQUIRED)
 FIND_PACKAGE(MDBQ)
 
-SET(CMAKE_CXX_COMPILER g++-4.6)
+SET(CMAKE_CXX_COMPILER g++-5)
 
+# need c++11 for isnan
+SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wformat=2")
 
+SET(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -std=c++11 -ccbin gcc-5")
 SET(CUDA_NVCC_FLAGS_DEBUG "${CUDA_NVCC_FLAGS_DEBUG} -O0 -G")
-
-ADD_DEFINITIONS("-std=c++0x")
 
 # http://stackoverflow.com/questions/8450030/can-modern-c-compilers-inline-functions-that-are-defined-in-a-cpp-file
 ADD_DEFINITIONS("-flto")
 
 # ---------- Find Boost Headers/Libraries -----------------------
-SET (Boost_FIND_REQUIRED TRUE)
-SET (Boost_FIND_QUIETLY FALSE)
-SET (Boost_USE_MULTITHREADED TRUE)
-SET (Boost_USE_STATIC_LIBS FALSE)
+SET (Boost_FIND_REQUIRED ON)
+SET (Boost_FIND_QUIETLY OFF)
+SET (Boost_USE_MULTITHREADED ON)
+SET (Boost_USE_STATIC_LIBS OFF)
 FIND_PACKAGE(Boost 1.46 COMPONENTS system filesystem iostreams program_options date_time REQUIRED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
+add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
 
 FIND_PATH(THRUST_PATH thrust/device_vector.h /usr/include /usr/local/include ${CUDA_INCLUDE_DIRS} "$ENV{THRUST_ROOT}")
 IF(NOT THRUST_PATH)
@@ -56,10 +58,10 @@ IF(NOT THRUST_PATH)
 ENDIF(NOT THRUST_PATH)
 
 if ( NOT CUDA_ARCHITECTURE )
-	SET( CUDA_ARCHITECTURE -gencode;arch=compute_20,code=sm_20;-gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35 )
+	SET( CUDA_ARCHITECTURE -gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35 )
 endif()
 
-SET(CUDA_ARCHITECTURE ${CUDA_ARCHITECTURE} CACHE STRING "The CUDA architecture to compile for, i.e. -gencode;arch=compute_2,code=sm_20")
+SET(CUDA_ARCHITECTURE ${CUDA_ARCHITECTURE} CACHE STRING "The CUDA architecture to compile for, i.e. -gencode;arch=compute_2")
 SET(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS};${CUDA_ARCHITECTURE}")
 MESSAGE(STATUS "CUDA_NVCC_FLAGS: ${CUDA_NVCC_FLAGS}")
 

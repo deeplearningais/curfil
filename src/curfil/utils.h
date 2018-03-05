@@ -33,6 +33,14 @@
 #include <sstream>
 #include <string>
 
+#ifdef __CUDACC__
+// results in a warning, though thrust seems to have gone that route in 
+// https://github.com/jaredhoberock/thrust/commit/e13dbc444566ea8589d1c02e6df1c5a5533efb79
+// using ::isnan;
+#else
+using std::isnan;
+#endif
+
 namespace curfil {
 
 void logVersionInfo();
