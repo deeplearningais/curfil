@@ -177,6 +177,6 @@ if __name__ == "__main__":
             print("image", i + 1, "/", len(images))
             convert_image(i, scenes[i], depth[i, :, :].T, image.T, labels[i, :, :].T)
     else:
-        Parallel(num_threads, 5)(delayed(convert_image)(i, scenes[i], depth[i, :, :].T, images[i, :, :].T, labels[i, :, :].T) for i in range(len(images)))
+        Parallel(num_threads)(delayed(convert_image)(i, scenes[i], depth[i, :, :].T, images[i, :, :].T, labels[i, :, :].T) for i in range(len(images)))
 
     print("finished")
