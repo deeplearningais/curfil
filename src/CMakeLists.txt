@@ -43,13 +43,14 @@ SET(CUDA_NVCC_FLAGS_DEBUG "${CUDA_NVCC_FLAGS_DEBUG} -O0 -G")
 ADD_DEFINITIONS("-flto")
 
 # ---------- Find Boost Headers/Libraries -----------------------
-SET (Boost_FIND_REQUIRED TRUE)
-SET (Boost_FIND_QUIETLY FALSE)
-SET (Boost_USE_MULTITHREADED TRUE)
-SET (Boost_USE_STATIC_LIBS FALSE)
+SET (Boost_FIND_REQUIRED ON)
+SET (Boost_FIND_QUIETLY OFF)
+SET (Boost_USE_MULTITHREADED ON)
+SET (Boost_USE_STATIC_LIBS OFF)
 FIND_PACKAGE(Boost 1.46 COMPONENTS system filesystem iostreams program_options date_time REQUIRED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
+add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
 
 FIND_PATH(THRUST_PATH thrust/device_vector.h /usr/include /usr/local/include ${CUDA_INCLUDE_DIRS} "$ENV{THRUST_ROOT}")
 IF(NOT THRUST_PATH)
