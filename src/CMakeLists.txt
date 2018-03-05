@@ -23,20 +23,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #######################################################################################
-cmake_minimum_required( VERSION 2.6 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.1 FATAL_ERROR )
 
 FIND_PACKAGE(CUDA     REQUIRED)
 FIND_PACKAGE(TBB      REQUIRED)
 FIND_PACKAGE(VIGRA    REQUIRED)
 FIND_PACKAGE(MDBQ)
 
-SET(CMAKE_CXX_COMPILER g++)
+SET(CMAKE_CXX_COMPILER g++-5)
 
+# need c++11 for isnan
+SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wformat=2")
 
+SET(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -std=c++11 -ccbin gcc-5")
 SET(CUDA_NVCC_FLAGS_DEBUG "${CUDA_NVCC_FLAGS_DEBUG} -O0 -G")
-
-ADD_DEFINITIONS("-std=c++0x")
 
 # http://stackoverflow.com/questions/8450030/can-modern-c-compilers-inline-functions-that-are-defined-in-a-cpp-file
 ADD_DEFINITIONS("-flto")
