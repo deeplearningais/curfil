@@ -109,7 +109,9 @@ def convert_image(i, scene, img_depth, image, label):
 
     img_depth = img_depth * 1000.0
 
-    png.from_array(img_depth, 'L;16').save("%s/%05d_depth.png" % (folder, i))
+    #png.from_array(img_depth, 'L;16').save("%s/%05d_depth.png" % (folder, i))
+    #png.from_array(...).save(...) expects np.uint8, resulting in `struct.error: required argument is not an integer`
+    imsave("%s/%05d_depth.png" % (folder, i), img_depth, plugin ="tifffile")
 
     depth_visualization = visualize_depth_image(img_depth)
 
